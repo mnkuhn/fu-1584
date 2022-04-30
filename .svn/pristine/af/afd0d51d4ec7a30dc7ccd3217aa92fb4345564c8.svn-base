@@ -1,0 +1,190 @@
+package propra22.q8493367.Draw;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+import propra22.q8493367.ContourPolygon.ContourPolygonCalculator;
+import propra22.q8493367.ContourPolygon.SectionType;
+import propra22.q8493367.ConvexHull.ConvexHullCalculator;
+import propra22.q8493367.Metric.IMetric;
+import propra22.q8493367.Metric.ManhattanDistance;
+import propra22.q8493367.Point.IPoint;
+import propra22.q8493367.Point.Point;
+import propra22.q8493367.Point.PointEvent;
+
+
+public class DrawPanelController implements IDrawPanelListener {
+	
+	private DrawPanel view;
+	private DrawPanelModel model;
+	private int radius = 5;
+	private int previousMouseX;
+	private int previousMouseY;
+	private Point forDragSelected = null;
+	
+	private ContourPolygonCalculator contourPolygonCalculator;
+	private ConvexHullCalculator convexHullCalculator;
+	
+	public DrawPanelController(DrawPanel drawPanel, DrawPanelModel drawPanelModel) {
+		this.view = drawPanel;
+		this.model = drawPanelModel;
+		contourPolygonCalculator = new ContourPolygonCalculator(drawPanelModel);
+		convexHullCalculator = new ConvexHullCalculator(drawPanelModel);
+	}
+	
+	@Override
+	public void pointInsertionEventOccured(PointEvent e) {
+		System.out.println("in pointInsertionEventOccured:" + Thread.currentThread());
+		model.addPoint(e.getX(), e.getY());
+		model.lexSort();
+		contourPolygonCalculator.updateModel();
+		convexHullCalculator.updateModel();
+
+		view.update();	
+	}
+
+	@Override
+	public void paintEventOccured(Graphics g) {
+		if(!model.isEmpty()) {
+			drawPoints(g);
+			//drawContourPolygon(g);
+			drawConvexHull(g);
+		}
+	}
+    
+	 
+	
+	private void drawConvexHull(Graphics g) {
+		g.setColor(Color.RED);
+		
+		  for(SectionType sectionType : SectionType.values()) { 
+			  int sectionSize = model.getSizeOfSection(sectionType);
+			  if(sectionSize > 1) { 
+				  for(int i = 0; i < sectionSize - 1; i++) { 
+					  IPoint first = model.getSectionPointAt(i, sectionType); 
+					  IPoint second = model.getSectionPointAt(i + 1, sectionType);
+					  g.drawLine(first.getX(), first.getY(), second.getX(), second.getY()); 
+				  }
+			  }
+			  sectionSize = model.getSizeOfSection(SectionType.LOWERLEFT);  
+			  IPoint lastLeft = model.getSectionPointAt(sectionSize - 1, SectionType.LOWERLEFT);
+			  sectionSize = model.getSizeOfSection(SectionType.LOWERRIGHT);
+			  IPoint lastRight = model.getSectionPointAt(sectionSize - 1, SectionType.LOWERRIGHT);
+			  g.drawLine(lastLeft.getX(), lastLeft.getY(), lastRight.getX(), lastRight.getY());
+			  
+			  
+			  sectionSize = model.getSizeOfSection(SectionType.UPPERLEFT);
+			  lastLeft = model.getSectionPointAt(sectionSize - 1, SectionType.UPPERLEFT);
+			  sectionSize = model.getSizeOfSection(SectionType.UPPERRIGHT);
+			  lastRight = model.getSectionPointAt(sectionSize - 1, SectionType.UPPERRIGHT);
+			  g.drawLine(lastLeft.getX(), lastLeft.getY(), lastRight.getX(), lastRight.getY());
+		    
+			  }	  
+		
+		  g.setColor(Color.BLACK);
+	}
+    
+	/*
+	private void drawContourPolygon(Graphics g) {
+		g.setColor(Color.GREEN); 
+		if(!model.CPisEmpty()){
+			 if(!(model.sizeOfCP() == 1)) {
+				 Point first;
+				 Point second;
+				 for(int i = 0; i < model.sizeOfCP() - 1; i++) {
+					 first = model.CPgetPointAt(i + 1);
+					 second = model.CPgetPointAt(i);
+					 g.drawLine(second.getX(), second.getY(), first.getX(), first.getY());
+				 }
+			 }
+		 }
+		g.setColor(Color.BLACK);
+	}
+	*/
+
+	
+    
+	private void drawPoints(Graphics g) {
+		for(int i = 0; i < model.getNumberOfPoints(); i++) {
+			 Point p = model.getPointAt(i);
+			 g.fillOval(p.getX() -  radius, p.getY() - radius , 2 * radius, 2 * radius);
+		}	
+	}
+
+	@Override
+	public void pointDeletionEventOccured(PointEvent e) {
+		Point closest =  getClosestPointToMouse(e.getX(), e.getY(), new ManhattanDistance());
+		if(closest != null) {
+			if(pointIsWithinMouseRadius(closest, e.getX(), e.getY(), new ManhattanDistance(), radius)) {
+				 model.removePoint(closest);
+				 model.lexSort(); 
+				 contourPolygonCalculator.updateModel();
+				 convexHullCalculator.updateModel();
+				 view.update();
+			}
+		}	
+	}
+    
+	private boolean pointIsWithinMouseRadius(Point point, int mouseX, int mouseY, IMetric norm, int radius) {
+		 return norm.distance(point.getX(), point.getY(), mouseX, mouseY) <= radius;
+	}
+
+	//returns null if there is no point on the drawPlane
+	
+	private Point getClosestPointToMouse(int mouseX, int mouseY, IMetric norm) {
+		if(model.isEmpty()) {
+			return null;
+		}
+		else {
+			Point closest = model.getPointAt(0);
+			for(int i = 1; i < model.getNumberOfPoints(); i++) {
+				Point other = model.getPointAt(i);
+				if(norm.distance(mouseX, mouseY, other.getX(), other.getY()) < norm.distance(mouseX, mouseY, closest.getX(), closest.getY()) ) {
+					closest = other;
+				}
+			}
+			return closest;
+		}
+	}
+
+	@Override
+	public void dragInitializedEventOccured(PointEvent e) {
+		
+		Point closest =  getClosestPointToMouse(e.getX(), e.getY(), new ManhattanDistance());
+	
+		if(closest != null) {
+			if(pointIsWithinMouseRadius(closest, e.getX(), e.getY(), new ManhattanDistance(), radius)) {
+				previousMouseX = e.getX();
+				previousMouseY = e.getY();
+				forDragSelected = closest;	
+			}
+		}			
+	}
+
+	@Override
+	public void dragEventOccured(PointEvent e) {
+		if(forDragSelected != null) {
+			int dx = e.getX() - previousMouseX;
+			int dy = e.getY() - previousMouseY;
+			forDragSelected.translate(dx, dy);
+		
+			model.lexSort();
+			
+			previousMouseX = e.getX();
+			previousMouseY = e.getY();
+			System.out.println(model.toString());
+			contourPolygonCalculator.updateModel();
+			convexHullCalculator.updateModel();
+			view.update();		
+		}
+	}
+
+	@Override
+	public void dragEventEnded(PointEvent dragEvent) {
+		forDragSelected = null;	
+	}
+
+	
+}

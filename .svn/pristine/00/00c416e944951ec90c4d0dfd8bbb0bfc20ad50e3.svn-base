@@ -1,0 +1,16 @@
+package propra22.q8493367.ConvexHull;
+
+import propra22.q8493367.ContourPolygon.SectionType;
+
+/**
+ * 
+ * 
+ *
+ */
+public interface IConvexHullCalculator {
+
+	void calculateSection(SectionType sectionType);
+
+	void updateModel();
+
+}

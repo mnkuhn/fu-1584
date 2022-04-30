@@ -1,0 +1,30 @@
+package propra22.q8493367.Main;
+import javax.swing.SwingUtilities;
+
+import propra22.q8493367.Draw.DrawPanel;
+import propra22.q8493367.Draw.DrawPanelController;
+import propra22.q8493367.Draw.DrawPanelModel;
+
+
+public class Main {
+	
+	private static void createAndShowGUI() {
+		DrawPanel drawPanel = new DrawPanel();
+		DrawPanelModel drawPanelModel = new DrawPanelModel();
+		
+		DrawPanelController drawPanelController = new DrawPanelController(drawPanel, drawPanelModel);
+		drawPanel.setDrawPanelListener(drawPanelController);
+		
+		MainWindow mainWindow = new MainWindow(drawPanel);
+		mainWindow.setVisible(true);
+	}
+	
+	public static  void main(String[] args) {
+
+		SwingUtilities.invokeLater(new Runnable() {
+		      public void run() {
+		        createAndShowGUI();
+		      }
+		    }); 
+	}
+}

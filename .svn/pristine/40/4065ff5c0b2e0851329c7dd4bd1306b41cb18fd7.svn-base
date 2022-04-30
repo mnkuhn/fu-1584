@@ -1,0 +1,73 @@
+package propra22.q8493367.ConvexHull;
+
+import propra22.q8493367.ContourPolygon.SectionType;
+import propra22.q8493367.Draw.IDrawPanelModel;
+import propra22.q8493367.Point.IPoint;
+
+
+public class ConvexHullCalculator implements IConvexHullCalculator {
+	
+	private IDrawPanelModel model;
+	
+	public ConvexHullCalculator(IDrawPanelModel model) {
+		this.model = model;
+	}
+	
+	@Override
+	public void calculateSection(SectionType sectionType) {
+		if(!model.sectionIsEmpty(sectionType)) {
+			int size = model.getSizeOfSection(sectionType);
+			System.out.println("ConvecHullCalculator calculateSection size of section: "+ sectionType.toString() + " " + size) ;
+			if(size >= 3) {
+				int next = 2;
+				int leadingBase = 1;
+				int followingBase = 0;
+				
+				while(next < size) {
+					// C is on the right side of the line through a and b
+					IPoint a = model.getPointFromSection(followingBase, sectionType);
+					IPoint b = model.getPointFromSection(leadingBase, sectionType);
+					IPoint c = model.getPointFromSection(next, sectionType);
+					if( DFV(a, b, c, sectionType)  < 0){
+						followingBase++;
+						leadingBase++;
+						next++;
+					}
+					// c is on the left side of the line through a and b or on the line through a and b
+					else {
+						model.removeSectionPoint(leadingBase, sectionType);
+		                size--;
+						if(followingBase > 0) {
+							next--;
+							leadingBase--;
+							followingBase--;
+							while(followingBase > 0 && DFV(model.getPointFromSection(followingBase, sectionType), model.getPointFromSection(leadingBase, sectionType), model.getPointFromSection(size, sectionType), sectionType) > 0){
+								model.removeSectionPoint(leadingBase, sectionType);
+								size--;
+								followingBase--;
+								leadingBase--;
+							}	
+						}			
+					}	
+				}
+			}
+		}
+	}
+		
+	
+	
+	private  long DFV(IPoint A, IPoint B, IPoint C, SectionType sectionType) {
+		long summand1 = A.getX()*(B.getY() - C.getY());
+		long summand2 = B.getX()*(C.getY() - A.getY());
+		long summand3 = C.getX()*(A.getY() - B.getY());
+		
+		return sectionType.getSign() * (summand1 + summand2 + summand3);
+	}
+	
+	@Override
+	public void updateModel() {
+		for(SectionType sectionType : SectionType.values()) {
+			calculateSection(sectionType);
+		}
+	}
+}
