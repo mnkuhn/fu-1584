@@ -11,7 +11,7 @@ public class Main {
 	private static void createAndShowGUI() {
 		DrawPanel drawPanel = new DrawPanel();
 		DrawPanelModel drawPanelModel = new DrawPanelModel();
-		DrawPanelController drawPanelController = new DrawPanelController(drawPanel, drawPanelModel);
+		DrawPanelController drawPanelController = new DrawPanelController(drawPanelModel, drawPanel);
 		drawPanel.setDrawPanelListener(drawPanelController);
 		
 		MainWindow mainWindow = new MainWindow(drawPanel);

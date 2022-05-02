@@ -1,22 +1,41 @@
 package propra22.q8493367.convex;
 
+import propra22.q8493367.contour.HullCalculator;
 import propra22.q8493367.contour.SectionType;
 import propra22.q8493367.draw.model.IDrawPanelModel;
+import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.point.IPoint;
 
 
-public class ConvexHullCalculator implements IConvexHullCalculator {
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ConvexHullCalculator is considered to be part of the controller of
+ * the draw panel. It calcultes the convex hull outgoing from the points of 
+ * the contour polygon.
+ */
+public class ConvexHullCalculator implements HullCalculator {
 	
-	private IDrawPanelModel model;
+	/** The model. */
+	private IHull hull;
 	
-	public ConvexHullCalculator(IDrawPanelModel model) {
-		this.model = model;
+	/**
+	 * Instantiates a new convex hull calculator.
+	 *
+	 * @param model - the draw panel model.
+	 */
+	public ConvexHullCalculator(IHull hull) {
+		this.hull = hull;
 	}
 	
+	/**
+	 * Calculates one of the four sections.
+	 *
+	 * @param sectionType the section type
+	 */
 	@Override
 	public void calculateSection(SectionType sectionType) {
-		if(!model.sectionIsEmpty(sectionType)) {
-			int size = model.getSizeOfSection(sectionType);
+		if(!hull.sectionIsEmpty(sectionType)) {
+			int size = hull.getSizeOfSection(sectionType);
 			System.out.println("ConveXHullCalculator calculateSection size of section: "+ sectionType.toString() + " " + size) ;
 			if(size >= 3) {
 				int next = 2;
@@ -24,9 +43,9 @@ public class ConvexHullCalculator implements IConvexHullCalculator {
 				int followingBase = 0;
 				
 				while(next < size) {
-					IPoint a = model.getPointFromSection(followingBase, sectionType);
-					IPoint b = model.getPointFromSection(leadingBase, sectionType);
-					IPoint c = model.getPointFromSection(next, sectionType);
+					IPoint a = hull.getPointFromSection(followingBase, sectionType);
+					IPoint b = hull.getPointFromSection(leadingBase, sectionType);
+					IPoint c = hull.getPointFromSection(next, sectionType);
 					
 					
 					if( DFV(a, b, c, sectionType)  < 0){
@@ -36,15 +55,15 @@ public class ConvexHullCalculator implements IConvexHullCalculator {
 					}
 					
 					else {
-						model.removeSectionPoint(leadingBase, sectionType);
+						hull.removePointFromSection(leadingBase, sectionType);
 		                size--;
 						if(followingBase > 0) {
 							next--;
 							leadingBase--;
 							followingBase--;
-							while(followingBase > 0 && DFV(model.getPointFromSection(followingBase, sectionType), model.getPointFromSection(leadingBase, sectionType), 
-									model.getPointFromSection(next, sectionType), sectionType) > 0){
-								model.removeSectionPoint(leadingBase, sectionType);
+							while(followingBase > 0 && DFV(hull.getPointFromSection(followingBase, sectionType), hull.getPointFromSection(leadingBase, sectionType), 
+								hull.getPointFromSection(next, sectionType), sectionType) > 0){
+								hull.removePointFromSection(leadingBase, sectionType);
 								size--;
 								followingBase--;
 								leadingBase--;
@@ -61,6 +80,17 @@ public class ConvexHullCalculator implements IConvexHullCalculator {
 		
 	
 	
+	/**
+	 * This is the DFV function which calculates the signed area of a triangle. Depending
+	 * of the calculates section, area is positive or negative, if the tip of the triangle is
+	 * above or below line which goes through the baseline of the triangle. 
+	 *
+	 * @param a - base point of the triangle
+	 * @param b - base point of the triangle
+	 * @param c - tip of the triangle
+	 * @param sectionType - the section type which determines the sign for the calculated area
+	 * @return signed area of the triangle
+	 */
 	private  long DFV(IPoint a, IPoint b, IPoint c, SectionType sectionType) {
 		long summand1 = (long)a.getX()*(long)(b.getY() - (long)c.getY());
 		long summand2 = (long)b.getX()*(long)(c.getY() - (long)a.getY());
@@ -69,8 +99,11 @@ public class ConvexHullCalculator implements IConvexHullCalculator {
 		return sectionType.getSign() * (summand1 + summand2 + summand3);
 	}
 	
-	@Override
-	public void updateModel() {
+	/**
+	 * updates all four sections of the draw panel model.
+	 */
+	
+	public void calculateConvexHull() {
 		for(SectionType sectionType : SectionType.values()) {
 			calculateSection(sectionType);
 		}

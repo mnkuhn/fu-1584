@@ -13,6 +13,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JPanel;
+
 import propra22.q8493367.command.DragPointCommand;
 import propra22.q8493367.command.ICommand;
 import propra22.q8493367.command.InsertPointCommand;
@@ -21,7 +23,11 @@ import propra22.q8493367.command.RemovePointCommand;
 import propra22.q8493367.contour.ContourPolygonCalculator;
 import propra22.q8493367.contour.SectionType;
 import propra22.q8493367.convex.ConvexHullCalculator;
+import propra22.q8493367.draw.model.Hull;
+import propra22.q8493367.draw.model.ContourPolygon;
+import propra22.q8493367.draw.model.ConvexHull;
 import propra22.q8493367.draw.model.DrawPanelModel;
+import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IDrawPanelModel;
 import propra22.q8493367.draw.view.DrawPanel;
 import propra22.q8493367.draw.view.IDrawPanel;
@@ -34,38 +40,52 @@ import propra22.q8493367.point.PointEvent;
 import propra22.q8493367.settings.Settings;
 
 
+
+// TODO: Auto-generated Javadoc
+/**
+ * The controller of the draw panel. It also listens to all events on the draw panel.
+ */
 public class DrawPanelController implements IDrawPanelListener, IDrawPanelController {
 	
-	private IDrawPanel view;
-	private IDrawPanelModel model;
-	
-	private IPoint forDragSelected = null;
+	// model and view
+	private DrawPanel view;
+	private IDrawPanelModel drawPanelModel;
 	
 	private  int drawPanelReferenceWidth;
 	private  int drawPanelReferenceHeight;
 	
+	// Dragging
+	private IPoint forDragSelected = null;
 	private int previousMouseX;
 	private int previousMouseY;
-	
 	private int startMouseX;
 	private int startMouseY;
 	
-	private boolean pointDataHasChanged = false;
-	
+	// List of the executed commands
 	private List<ICommand> commandList = new ArrayList<>();
 	private int commandIndex =  -1;
 	
-
+	private IHull hull = new Hull();
 	private ContourPolygonCalculator contourPolygonCalculator;
 	private ConvexHullCalculator convexHullCalculator;
 	
+	// Parsing a file
 	private Parser parser = new Parser();
 	
-	public DrawPanelController(DrawPanel drawPanel, DrawPanelModel drawPanelModel) {
+	// Saving to file
+	private boolean pointDataHasChanged = false;
+	
+	/**
+	 * Instantiates a new draw panel controller.
+	 *
+	 * @param drawPanelModell - the draw panel
+	 * @param view - the model of the draw panel.
+	 */
+	public DrawPanelController(IDrawPanelModel drawPanelModel, DrawPanel drawPanel) {
 		this.view = drawPanel;
-		this.model = drawPanelModel;
-		contourPolygonCalculator = new ContourPolygonCalculator(drawPanelModel);
-		convexHullCalculator = new ConvexHullCalculator(drawPanelModel);
+		this.drawPanelModel = drawPanelModel;
+		contourPolygonCalculator = new ContourPolygonCalculator(drawPanelModel, hull);
+		convexHullCalculator = new ConvexHullCalculator(hull);
 		drawPanelReferenceWidth = drawPanel.getPreferredSize().width;
 		drawPanelReferenceHeight = drawPanel.getPreferredSize().height;
 		
@@ -74,13 +94,19 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	
 	//Points
 	
+	/**
+	 * This method is called when the user wants to insert a point 
+	 * on the draw panel.
+	 *
+	 * @param e - the point event which contains information about the point.
+	 */
 	@Override
 	public void pointInsertionEventOccured(PointEvent e) {
 		
 		if(commandIndex != commandList.size() - 1) {
 			removeAllComandsAfterCommandIndex();
 		}
-		ICommand insertPointCommand = new InsertPointCommand(e.getX(), e.getY(), model);
+		ICommand insertPointCommand = new InsertPointCommand(e.getX(), e.getY(), drawPanelModel);
 		insertPointCommand.execute();
 		addCommandToCommandList(insertPointCommand);
 		
@@ -90,6 +116,12 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 		pointDataHasChanged = true;
 	}
 	
+	/**
+	 * This method is called when the user wants to delete a point
+	 * from the draw panel.
+	 *
+	 * @param e - the point event which contains information about the point.
+	 */
 	//PointEvent ist nicht so eine gute Bezeichnung
 	@Override
 	public void pointDeletionEventOccured(PointEvent e) {
@@ -100,7 +132,7 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 				if(commandIndex != commandList.size() - 1) {
 					removeAllComandsAfterCommandIndex();
 				}
-				ICommand removePointCommand = new RemovePointCommand(closest, model);
+				ICommand removePointCommand = new RemovePointCommand(closest, drawPanelModel);
 	            removePointCommand.execute();
 	            
 	            addCommandToCommandList(removePointCommand);
@@ -113,6 +145,12 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 		}	
 	}
 	
+	/**
+	 * This method is called when the user starts to drag a point
+	 * over the draw panel.
+	 *
+	 * @param e - point event which contains information about the point
+	 */
 	@Override
 	public void dragInitializedEventOccured(PointEvent e) {
 		
@@ -123,7 +161,6 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 				
 				startMouseX = e.getX();
 				startMouseY = e.getY();
-				
 				previousMouseX = e.getX();
 				previousMouseY = e.getY();
 				forDragSelected = closest;	
@@ -131,6 +168,12 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 		}			
 	}
 
+	/**
+	 * This method is called when the user is dragging a point over the 
+	 * draw panel.
+	 *
+	 * @param e - point event which contains information about the point
+	 */
 	@Override
 	public void dragEventOccured(PointEvent e) {
 		if(forDragSelected != null) {
@@ -138,17 +181,23 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 			int dy = e.getY() - previousMouseY;
 	
 			forDragSelected.translate(dx, dy);
-			model.lexSort();
+			drawPanelModel.lexSort();
 			
 			previousMouseX = e.getX();
 			previousMouseY = e.getY();
-			System.out.println(model.toString());
-			contourPolygonCalculator.updateModel();
-			convexHullCalculator.updateModel();
+			System.out.println(drawPanelModel.toString());
+			contourPolygonCalculator.calculateContourPolygon();
+			convexHullCalculator.calculateConvexHull();
 			updateView();		
 		}
 	}
 
+	/**
+	 * This method is called when the user has stopped dragging a 
+	 * point over the draw panel.
+	 *
+	 * @param dragEvent the drag event
+	 */
 	@Override
 	public void dragEventEnded(PointEvent dragEvent) {
 		pointDataHasChanged = true;
@@ -169,19 +218,38 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 		pointDataHasChanged = true;		
 	}
 
+	/**
+	 * Determines, if a point is within a certain radius to the mouse
+	 * pointer.
+	 *
+	 * @param point - the point
+	 * @param mouseX - the x coodinate of the mouse pointer
+	 * @param mouseY - the y coordinate of the mouse pointer
+	 * @param norm - the norm, which is used to determine the distance
+	 * @param radius - the radius
+	 * @return true, if successful
+	 */
 	private boolean pointIsWithinMouseRadius(IPoint point, int mouseX, int mouseY, IMetric norm, int radius) {
 		 return norm.distance(point.getX(), point.getY(), mouseX, mouseY) <= radius;
 	}
 
-	//returns null if there is no point on the drawPlane
+	/**
+	 * Gets the closest point to mouse pointer. Returns null if there is
+	 * no point on the draw panel.
+	 *
+	 * @param mouseX - the x coordinate of the mouse pointer
+	 * @param mouseY - the y coordinate of the mouse pointer
+	 * @param metric - the metric which is used to determine the distance
+	 * @return the closest point to mouse pointer
+	 */
 	private IPoint getClosestPointToMouse(int mouseX, int mouseY, IMetric metric) {
-		if(model.isEmpty()) {
+		if(drawPanelModel.isEmpty()) {
 			return null;
 		}
 		else {
-			IPoint closest = model.getPointAt(0);
-			for(int i = 1; i < model.getNumberOfPoints(); i++) {
-				IPoint other = model.getPointAt(i);
+			IPoint closest = drawPanelModel.getPointAt(0);
+			for(int i = 1; i < drawPanelModel.getNumberOfPoints(); i++) {
+				IPoint other = drawPanelModel.getPointAt(i);
 				if(metric.distance(mouseX, mouseY, other.getX(), other.getY()) < metric.distance(mouseX, mouseY, closest.getX(), closest.getY()) ) {
 					closest = other;
 				}
@@ -191,63 +259,85 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	}
 	
 	
+	/**
+	 * Updates the view i.e the draw panel.
+	 */
 	public void updateView() {
 		view.update();
 	}
 
+	/**
+	 * Update model i.e. the draw panel model.
+	 */
 	public void updateModel() {
-		model.lexSort(); 
-		contourPolygonCalculator.updateModel();
-		convexHullCalculator.updateModel();
+		drawPanelModel.lexSort();
+		contourPolygonCalculator.calculateContourPolygon();
+		convexHullCalculator.calculateConvexHull();
 	}
 
+	/**
+	 * This method is called, if the view needs to be updated
+	 * 
+	 *
+	 * @param g - the graphics object of the draw panel.
+	 */
 	@Override
 	public void paintEventOccured(Graphics g) {
-		if(!model.isEmpty()) {
+		if(!drawPanelModel.isEmpty()) {
 			Graphics2D g2 = (Graphics2D)g;
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			drawPoints(g2);
-			//drawContourPolygon(g);
-			drawConvexHull(g2);
+			drawHull(g2, Settings.convexHullColor);
 		}
 	}
     
 	
 	
-	//Drawing
+	/**
+	 * Draws all points which are part of the draw panel model.
+	 *
+	 * @param g2 - the graphics object of the draw panel which has
+	 * been casted to Graphics2D.
+	 */
 	private void drawPoints(Graphics2D g2) {
 		
-		for(int i = 0; i < model.getNumberOfPoints(); i++) {
-			 IPoint p = model.getPointAt(i);
+		for(int i = 0; i < drawPanelModel.getNumberOfPoints(); i++) {
+			 IPoint p = drawPanelModel.getPointAt(i);
 			 g2.fillOval(p.getX() -  Settings.radius, p.getY() - Settings.radius , 2 * Settings.radius, 2 * Settings.radius);
 		}	
 	}
 	
 	
 	
-	private void drawConvexHull(Graphics2D g2) {
-		g2.setColor(Settings.convexHullColor);
+	/**
+	 * Draws the convex hull.
+	 *
+	 * @param g2 the g 2
+	 */
+	private void drawHull(Graphics2D g2, Color color) {
+		g2.setColor(color);
 		
 		  for(SectionType sectionType : SectionType.values()) { 
-			  int sectionSize = model.getSizeOfSection(sectionType);
+			  int sectionSize = hull.getSizeOfSection(sectionType);
 			  if(sectionSize > 1) { 
 				  for(int i = 0; i < sectionSize - 1; i++) { 
-					  IPoint first = model.getSectionPointAt(i, sectionType); 
-					  IPoint second = model.getSectionPointAt(i + 1, sectionType);
+		
+					  IPoint first = hull.getPointFromSection(i, sectionType); 
+					  IPoint second = hull.getPointFromSection(i + 1, sectionType);
 					  g2.drawLine(first.getX(), first.getY(), second.getX(), second.getY()); 
 				  }
 			  }
-			  sectionSize = model.getSizeOfSection(SectionType.LOWERLEFT);  
-			  IPoint lastLeft = model.getSectionPointAt(sectionSize - 1, SectionType.LOWERLEFT);
-			  sectionSize = model.getSizeOfSection(SectionType.LOWERRIGHT);
-			  IPoint lastRight = model.getSectionPointAt(sectionSize - 1, SectionType.LOWERRIGHT);
+			  sectionSize = hull.getSizeOfSection(SectionType.LOWERLEFT);  
+			  IPoint lastLeft = hull.getPointFromSection(sectionSize - 1, SectionType.LOWERLEFT);
+			  sectionSize = hull.getSizeOfSection(SectionType.LOWERRIGHT);
+			  IPoint lastRight = hull.getPointFromSection(sectionSize - 1, SectionType.LOWERRIGHT);
 			  g2.drawLine(lastLeft.getX(), lastLeft.getY(), lastRight.getX(), lastRight.getY());
 			  
 			  
-			  sectionSize = model.getSizeOfSection(SectionType.UPPERLEFT);
-			  lastLeft = model.getSectionPointAt(sectionSize - 1, SectionType.UPPERLEFT);
-			  sectionSize = model.getSizeOfSection(SectionType.UPPERRIGHT);
-			  lastRight = model.getSectionPointAt(sectionSize - 1, SectionType.UPPERRIGHT);
+			  sectionSize = hull.getSizeOfSection(SectionType.UPPERLEFT);
+			  lastLeft = hull.getPointFromSection(sectionSize - 1, SectionType.UPPERLEFT);
+			  sectionSize = hull.getSizeOfSection(SectionType.UPPERRIGHT);
+			  lastRight = hull.getPointFromSection(sectionSize - 1, SectionType.UPPERRIGHT);
 			  g2.drawLine(lastLeft.getX(), lastLeft.getY(), lastRight.getX(), lastRight.getY());
 		    
 			  }	  
@@ -256,25 +346,37 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	}
     
 	
-	
-	
-	
-	
+	/**
+	 * Creates a new draw panel.
+	 */
 	@Override
 	public void createNewDrawPanel() {
-		model.clear();
+		drawPanelModel.clear();
+		hull.clearAllSections();
 		pointDataHasChanged = false;
 		updateView();	
 	}
 
 
+	/**
+	 * Returns true, if there are no points registered in the draw panel model.
+	 *
+	 * @return true, if there are no points registered in the
+	 * draw panel model.
+	 */
 	@Override
 	public boolean drawPanelModelIsEmpty() {
-		return model.isEmpty();
+		return drawPanelModel.isEmpty();
 	}
 
 	
-	//Files
+	/**
+	 * Saves all points which are registered in the draw panel
+	 * model to disc.
+	 *
+	 * @param path the path
+	 */
+	
 	@Override
 	public void saveModel(String path) {
 		
@@ -283,8 +385,8 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 				try {
 					FileWriter fileWriter = new FileWriter(file);
 					PrintWriter printWriter = new PrintWriter(fileWriter);
-					for(int i = 0; i < model.getNumberOfPoints(); i++) {
-						IPoint point = model.getPointAt(i);
+					for(int i = 0; i < drawPanelModel.getNumberOfPoints(); i++) {
+						IPoint point = drawPanelModel.getPointAt(i);
 						printWriter.println(point.toString());
 					}
 					printWriter.close();
@@ -297,6 +399,12 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 
 	
 
+	/**
+	 * Loads points from a file into the draw
+	 * panel model.
+	 *
+	 * @param file - the file from which the points are loaded.
+	 */
 	@Override
 	public void loadPointsToModel(File file) {
 		
@@ -304,13 +412,13 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 			FileReader fileReader = new FileReader(file);
 			BufferedReader reader = new BufferedReader(fileReader);
 			
-			model.clear();
+			drawPanelModel.clear();
 			
 			String line;
 			while((line = reader.readLine()) != null) {
 				IPoint point = parser.parseLine(line);
 				if(point != null) {
-					model.addPoint(point);
+					drawPanelModel.addPoint(point);
 				}
 			}
 			pointDataHasChanged = false;
@@ -323,6 +431,13 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	}
 
 
+	/**
+	 * Returns true, if points where added or deleted or if 
+	 * the coordinated of a point changed.
+	 *
+	 * @return true, if points where added or deleted or if 
+	 * the coordinated of a point changed.
+	 */
 	@Override
 	public boolean dataChangedSinceLastSave() {
 		return pointDataHasChanged;
@@ -330,12 +445,20 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 
 	
 	
+	/**
+	 * Adds a command to command list.
+	 *
+	 * @param command - the command which is added to the command list
+	 */
 	//Commands
 	private void addCommandToCommandList(ICommand command) {
 		commandList.add(command);
 		commandIndex++;
 	}
 	
+	/**
+	 * Undoes a command.
+	 */
 	@Override
 	public void undoCommand() {
 		if (commandIndex >= 0 && commandIndex < commandList.size()){
@@ -347,6 +470,9 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 		}	
 	}
 
+	/**
+	 * Redoes command.
+	 */
 	@Override
 	public void redoCommand() {
 		if(commandIndex >= - 1 && commandIndex < commandList.size() - 1) {
@@ -358,6 +484,11 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 		}	
 	}
 	
+	/**
+	 * Undo is enabled.
+	 *
+	 * @return true, if there are commands which can be undone.
+	 */
 	@Override
 	public boolean undoIsEnabled() {
 		if(commandIndex >= 0 && commandIndex < commandList.size()) {
@@ -366,6 +497,11 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 		return false;
 	}
 	
+	/**
+	 * Redo is enabled.
+	 *
+	 * @return true, if there are commands which can be redone.
+	 */
 	@Override
 	public boolean redoIsEnabled() {
 		if(commandIndex >= - 1 && commandIndex < commandList.size() - 1) {
@@ -374,6 +510,10 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 		return false;
 	}
 	
+	/**
+	 * Removes the all comands after command index. This method is used
+	 * when one ore more command have been undone an a new command is executed.
+	 */
 	private void removeAllComandsAfterCommandIndex() {
 		for(int i = commandIndex + 1; i < commandList.size(); i++) {
 			commandList.remove(i);
@@ -381,12 +521,18 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	}
 
 
+	/**
+	 * Inserts a number of random points into the draw panel model which all
+	 * fit onto the reference draw panel (the 'unzoomed' draw panel).
+	 *
+	 * @param number the number
+	 */
 	@Override
 	public void insertRandomPoints(int number) {
 		if(commandIndex != commandList.size() - 1) {
 			removeAllComandsAfterCommandIndex();
 		}
-		ICommand insertRandomPointsCommand = new InsertRandomPointsCommand(number, drawPanelReferenceWidth, drawPanelReferenceHeight, model);
+		ICommand insertRandomPointsCommand = new InsertRandomPointsCommand(number, drawPanelReferenceWidth, drawPanelReferenceHeight, drawPanelModel);
 		insertRandomPointsCommand.execute();
 		addCommandToCommandList(insertRandomPointsCommand);
 		
@@ -394,5 +540,12 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 		updateView();
 		
 		pointDataHasChanged = true;	
+	}
+
+
+	@Override
+	public void insertPoint(IPoint point) {
+		drawPanelModel.addPoint(point);
+		
 	}
 }

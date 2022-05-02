@@ -7,7 +7,7 @@ package propra22.q8493367.draw.view;
  *
  */
 
-public interface IDrawPanel {
+public interface IDrawPanel  {
 	
 	/**
 	 * sets the IDrawPanelListener
@@ -19,4 +19,5 @@ public interface IDrawPanel {
 	 * updates the IDrawPanel
 	 */
 	public void update();
+
 }

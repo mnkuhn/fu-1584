@@ -4,19 +4,36 @@ import propra22.q8493367.draw.model.IDrawPanelModel;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
+// TODO: Auto-generated Javadoc
 /**
  * 
- * Command for inserting a number of points into a IDrawPanelModel.
+ * Command for inserting a number of randomly generated 
+ * points into a IDrawPanelModel. The minimal x and y coorindates
+ * are 0, the maximal x and y coordinates are arguments of the
+ * constructor of the command.
  * 
- *
  */
 
 public class InsertRandomPointsCommand implements ICommand {
 
-	IPoint[] points;
-	int number;
-	IDrawPanelModel drawPanelModel;
+	/** The inserted points. */
+	private IPoint[] points;
 	
+	/** The number of the inserted points */
+	private int number;
+	
+	/** The drawPanelModel in which the points are inserted. */
+	private IDrawPanelModel drawPanelModel;
+	
+	
+	/**
+	 * Instantiates a new InsertRandomPointsCommand.
+	 *
+	 * @param number - number the insert points
+	 * @param maxX - the maximal x coordinate a point is allowed to have
+	 * @param maxY - the maximal y coordinate a point is allowed to have
+	 * @param drawPanelModel - the DrawPanelModel, in which the points are inserted.
+	 */
 	public InsertRandomPointsCommand(int number, int maxX, int maxY, IDrawPanelModel drawPanelModel) {
 		this.points = new IPoint[number];
 		this.number = number;
@@ -29,6 +46,9 @@ public class InsertRandomPointsCommand implements ICommand {
 		}
 	}
 	
+	/**
+	 * Execute the command
+	 */
 	@Override
 	public void execute() {
 		for(int i = 0; i < number; i++) {
@@ -36,6 +56,9 @@ public class InsertRandomPointsCommand implements ICommand {
 		}	
 	}
 
+	/**
+	 * Unexecute the command
+	 */
 	@Override
 	public void unexecute() {
 		for(int i = 0; i < number; i++) {

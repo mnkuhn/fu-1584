@@ -15,7 +15,7 @@ public class CommandEvent implements ICommandEvent {
 	/**
 	 * Instantiates a new command event.
 	 *
-	 * @param type the type
+	 * @param type - the type of the commandEvent
 	 */
 	public CommandEvent(CommandEventType type) {
 		this.type = type;

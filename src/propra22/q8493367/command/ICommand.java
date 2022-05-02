@@ -14,7 +14,7 @@ public interface ICommand {
 	public  void execute();
 	
 	/**
-	 * Undoes the execution
+	 * Undoes the execution of the command
 	 */
 	public void unexecute();
 }

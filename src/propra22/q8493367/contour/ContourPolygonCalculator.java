@@ -1,93 +1,210 @@
 package propra22.q8493367.contour;
 
 
-
+import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IDrawPanelModel;
 import propra22.q8493367.point.IPoint;
 
+/**
+ * The Class ContourPolygonCalculator 
+ */
+public class ContourPolygonCalculator implements HullCalculator {
 
-
-
-public class ContourPolygonCalculator implements IContourPolygonCalculator {
+	/** The model of the drawPanel */
+	private IDrawPanelModel drawPanelModel;
 	
-	// the model which contains the points
-	private IDrawPanelModel model;
+	/**The contour polygon*/
+	private IHull hull;
 	
-	public ContourPolygonCalculator(IDrawPanelModel model) {
-		this.model = model;
+	/**
+	 * Instantiates a new contour polygon calculator.
+	 *
+	 * @param drawPanelModel - the model of the drawPanel.
+	 * @param contourPolygon - the contour polygon
+	 */
+	public ContourPolygonCalculator(IDrawPanelModel drawPanelModel, IHull hull) {
+		this.drawPanelModel = drawPanelModel;
+		this.hull = hull;
 	}
     
 	@Override
-	public void updateModel() {
+	public void calculateSection(SectionType sectionType) {
 		
-		if(!model.isEmpty()) {
-			
-			for(SectionType sectionType : SectionType.values()) {
-				model.clearSection(sectionType);
+		switch (sectionType) {
+			case LOWERLEFT: {
+				calculateLowerLeftSection();
+				break;
 			}
-			calculateLeftSide();
-			calculateRightSide();	    			
+			case UPPERLEFT: {
+				calculateUpperLeftSection();
+				break;
+			}
+			case LOWERRIGHT: {
+				calculateLowerRightSection();
+				break;
+			}
+			
+			case UPPERRIGHT: {
+				calculateUpperRightSection();
+				break;
+			}
+		}
+	}
+
+    
+	private void calculateLowerLeftSection() {
+		IPoint point = drawPanelModel.getPointAt(0);
+		
+		hull.addPointToSection(point, SectionType.LOWERLEFT);
+		
+		int minYSoFar = point.getY();
+		int pointY;
+
+		for(int i = 1; i < drawPanelModel.getNumberOfPoints(); i++) {
+			point = drawPanelModel.getPointAt(i);
+			pointY = point.getY();
+			if(pointY > minYSoFar) {
+				minYSoFar = pointY;
+				hull.addPointToSection(point, SectionType.LOWERLEFT);
+			}
 		}
 	}
 	
 	
-	/* calculates the left upper and the left lower section of the contour polygon
-	 * adds the data to the model
-	 */
+    private void calculateUpperLeftSection() {
+
+		IPoint point = drawPanelModel.getPointAt(0);
+		
+		hull.addPointToSection(point, SectionType.UPPERLEFT);
+		
+		
+		int maxYSoFar = point.getY();
+		int pointY;
+
+		for(int i = 1; i < drawPanelModel.getNumberOfPoints(); i++) {
+			point = drawPanelModel.getPointAt(i);
+			pointY = point.getY();
+			if(pointY < maxYSoFar) {
+				maxYSoFar = pointY;
+				hull.addPointToSection(point, SectionType.UPPERLEFT);
+			}
+		}
+	}
 	
+	// kommt  raus
 	private void calculateLeftSide() {
 	
-		IPoint point = model.getPointAt(0);
+		IPoint point = drawPanelModel.getPointAt(0);
 		
-		model.addPointToSection(point, SectionType.LOWERLEFT);
-		model.addPointToSection(point, SectionType.UPPERLEFT);
+		drawPanelModel.addPointToSection(point, SectionType.LOWERLEFT);
+		drawPanelModel.addPointToSection(point, SectionType.UPPERLEFT);
 		
 		int minYSoFar = point.getY();
 		int maxYSoFar = minYSoFar;
 		int pointY;
 
-		for(int i = 1; i < model.getNumberOfPoints(); i++) {
-			point = model.getPointAt(i);
+		for(int i = 1; i < drawPanelModel.getNumberOfPoints(); i++) {
+			point = drawPanelModel.getPointAt(i);
 			pointY = point.getY();
 			if(pointY > minYSoFar) {
 				minYSoFar = pointY;
-				model.addPointToSection(point, SectionType.LOWERLEFT);
+				drawPanelModel.addPointToSection(point, SectionType.LOWERLEFT);
 			}
 			if(pointY < maxYSoFar) {
 				maxYSoFar = pointY;
-				model.addPointToSection(point, SectionType.UPPERLEFT);
+				drawPanelModel.addPointToSection(point, SectionType.UPPERLEFT);
 			}
 		}
 	}
 	
-	/* calculates the right upper and the right lower section of the contour polygon
-	 * adds the data to the model
+	
+	
+
+	private void calculateLowerRightSection() {
+		
+		IPoint point = drawPanelModel.getPointAt(drawPanelModel.getNumberOfPoints() - 1);
+		
+		hull.addPointToSection(point, SectionType.LOWERRIGHT);	
+		
+		
+		int minYSoFar = point.getY();
+		int pointY;
+	
+		for(int i = drawPanelModel.getNumberOfPoints() - 2; i >= 0; i --) {
+			point = drawPanelModel.getPointAt(i);
+			pointY = point.getY();
+			
+			if(pointY > minYSoFar) {
+				minYSoFar = pointY;
+				hull.addPointToSection(point, SectionType.LOWERRIGHT);
+			}
+		}
+	}
+	
+	
+	private void calculateUpperRightSection() {
+		IPoint point = drawPanelModel.getPointAt(drawPanelModel.getNumberOfPoints() - 1);
+		
+		hull.addPointToSection(point, SectionType.UPPERRIGHT);		
+		
+		int maxYSoFar = point.getY();
+		int pointY;
+	
+		for(int i = drawPanelModel.getNumberOfPoints() - 2; i >= 0; i --) {
+			point = drawPanelModel.getPointAt(i);
+			pointY = point.getY();
+			if(pointY < maxYSoFar) {
+				maxYSoFar = pointY;
+				hull.addPointToSection(point, SectionType.UPPERRIGHT);
+			}
+		}
+	}
+	
+	/**
+	 * calculates the right upper and the right lower section of the 
+	 * contour polygon.
+	 * @see propra22.q8493367.SectionType SectionType
 	 */
+	
+	// kommt raus
 	private void calculateRightSide() {
 		
-		IPoint point = model.getPointAt(model.getNumberOfPoints() - 1);
+		IPoint point = drawPanelModel.getPointAt(drawPanelModel.getNumberOfPoints() - 1);
 		
-		model.addPointToSection(point, SectionType.LOWERRIGHT);
-		model.addPointToSection(point, SectionType.UPPERRIGHT);		
+		drawPanelModel.addPointToSection(point, SectionType.LOWERRIGHT);
+		drawPanelModel.addPointToSection(point, SectionType.UPPERRIGHT);		
 		
 		int maxYSoFar = point.getY();
 		int minYSoFar = maxYSoFar;
 		int pointY;
 	
-		for(int i = model.getNumberOfPoints() - 2; i >= 0; i --) {
-			point = model.getPointAt(i);
+		for(int i = drawPanelModel.getNumberOfPoints() - 2; i >= 0; i --) {
+			point = drawPanelModel.getPointAt(i);
 			pointY = point.getY();
 			
 			if(pointY > minYSoFar) {
 				minYSoFar = pointY;
-				model.addPointToSection(point, SectionType.LOWERRIGHT);
+				drawPanelModel.addPointToSection(point, SectionType.LOWERRIGHT);
 			}
 			if(pointY < maxYSoFar) {
 				maxYSoFar = pointY;
-				model.addPointToSection(point, SectionType.UPPERRIGHT);
+				drawPanelModel.addPointToSection(point, SectionType.UPPERRIGHT);
 			}
 		}
 	}
+
+
+
+	public void calculateContourPolygon() {
+		hull.clearAllSections();
+		for(SectionType sectionType : SectionType.values()) {
+			calculateSection(sectionType);
+		}
+	}
+
+
+
+	
 
    /*
 	public void concatenateParts(List<Point> contourPolygon, List<Point> leftLower, List<Point> leftUpper, List<Point> rightLower, List<Point> rightUpper) {

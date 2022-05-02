@@ -83,7 +83,7 @@ public interface IDrawPanelModel {
 	
 	/**
 	 * return the point with index i from the specified section
-	 * @param imdex - index of the point within the section
+	 * @param index - index of the point within the section
 	 * @param sectionType - the specified section
 	 * @return the point at the specified position in the specified section
 	 */
