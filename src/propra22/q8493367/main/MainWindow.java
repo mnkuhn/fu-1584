@@ -124,10 +124,9 @@ public class MainWindow extends JFrame implements IMainWindow {
 		
 		JMenuItem newFileItem = new JMenuItem("Neu");
 		newFileItem.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainWindowListener.FileEventOccured(new FileEvent(FileEventType.NEW));
+			mainWindowListener.FileEventOccured(new FileEvent(FileEventType.NEW));
 			}	
 		});
 		
@@ -154,10 +153,8 @@ public class MainWindow extends JFrame implements IMainWindow {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainWindowListener.FileEventOccured(new FileEvent(FileEventType.SAVE_AS));	
-				
+				mainWindowListener.FileEventOccured(new FileEvent(FileEventType.SAVE_AS));		
 			}
-			
 		});
 		
 		JMenuItem exitItem = new JMenuItem("Beenden");

@@ -1,6 +1,6 @@
 package propra22.q8493367.convex;
 
-import propra22.q8493367.contour.HullCalculator;
+import propra22.q8493367.contour.IHullCalculator;
 import propra22.q8493367.contour.SectionType;
 import propra22.q8493367.draw.model.IDrawPanelModel;
 import propra22.q8493367.draw.model.IHull;
@@ -13,7 +13,7 @@ import propra22.q8493367.point.IPoint;
  * the draw panel. It calcultes the convex hull outgoing from the points of 
  * the contour polygon.
  */
-public class ConvexHullCalculator implements HullCalculator {
+public class ConvexHullCalculator implements IHullCalculator {
 	
 	/** The model. */
 	private IHull hull;

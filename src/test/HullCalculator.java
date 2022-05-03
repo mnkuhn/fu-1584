@@ -1,5 +1,6 @@
 package test;
 
+import java.io.File;
 import java.io.IOException;
 
 import propra22.interfaces.IHullCalculator;
@@ -20,8 +21,7 @@ public class HullCalculator implements IHullCalculator{
 	
 	public HullCalculator() {
 		IDrawPanelModel model = new DrawPanelModel();
-		DrawPanel view = new DrawPanel();
-		drawPanelController = new DrawPanelController(model, view);
+		drawPanelController = new DrawPanelController(model);
 	}
 	
 	@Override
@@ -38,20 +38,19 @@ public class HullCalculator implements IHullCalculator{
 
 	@Override
 	public void addPointsFromFile(String arg0) throws IOException {
-		// TODO Auto-generated method stub
-		
+		drawPanelController.loadPointsToModel(new File(arg0));	
 	}
 
 	@Override
 	public void clearPoints() {
-		// TODO Auto-generated method stub
+		drawPanelController.clearModel();
 		
 	}
 
 	@Override
 	public int[][] getConvexHull() {
-		// TODO Auto-generated method stub
-		return null;
+		drawPanelController.updateModel();
+		return drawPanelController.hullAsArray();
 	}
 
 	@Override
@@ -68,20 +67,17 @@ public class HullCalculator implements IHullCalculator{
 
 	@Override
 	public String getEmail() {
-		// TODO Auto-generated method stub
-		return null;
+		return "manuel.kuhn@studium.fernuni-hagen.de";
 	}
 
 	@Override
 	public String getMatrNr() {
-		// TODO Auto-generated method stub
-		return null;
+		return "8493367";
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Manuel Kuhn";
 	}
 
 	@Override
@@ -107,5 +103,4 @@ public class HullCalculator implements IHullCalculator{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 }

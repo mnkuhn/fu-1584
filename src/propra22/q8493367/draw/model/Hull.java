@@ -12,6 +12,8 @@ public class Hull implements IHull {
     private List<IPoint> upperLeftSection = new ArrayList<>();
     private List<IPoint> lowerRightSection = new ArrayList<>();
     private List<IPoint> upperRightSection = new ArrayList<>();
+	private boolean lowerSectionsMeet;
+	private boolean upperSectionsMeet;
     
     @Override
     public  void addPointToSection(IPoint point, SectionType sectionType) {
@@ -205,8 +207,7 @@ public class Hull implements IHull {
 			}
 			default: {
 				throw new IllegalArgumentException("Unexpected value: " + sectionType);
-			}
-				
+			}	
 		}
 	}
 	
@@ -237,7 +238,87 @@ public class Hull implements IHull {
 			default: {
 				throw new IllegalArgumentException("Unexpected value: " + sectionType);
 			}
-		}		
+		}			
+	}
+
+	@Override
+	public int[][] toArray() {
+		int index = 0;
+		int i = 0;
+		int[][]  array = new int[numberOfRows()][2];
+		while(index < numberOfRows() && i < getSizeOfSection(SectionType.LOWERLEFT)) {
+			IPoint point = getPointFromSection(i++, SectionType.LOWERLEFT);
+			array[index][0] = point.getX();
+			array[index][1] = point.getY();
+			index++;
+		}
 		
+		
+		int gap = 1;
+		if(lowerSectionsMeet) {gap = 2;}
+		i = getSizeOfSection(SectionType.LOWERRIGHT) - gap;
+		while(index < numberOfRows() && i > 0){
+			IPoint point = getPointFromSection(i--, SectionType.LOWERRIGHT);
+			array[index][0] = point.getX();
+			array[index][1] = point.getY();
+			index++;
+		}
+		gap = 1;
+		
+		i = 0;
+		while(index < numberOfRows() && i < getSizeOfSection(SectionType.UPPERRIGHT)) {
+			IPoint point = getPointFromSection(i++, SectionType.UPPERRIGHT);
+			array[index][0] = point.getX();
+			array[index][1] = point.getY();
+			index++;
+		}
+		
+		if(upperSectionsMeet) {gap = 2;}
+		i = getSizeOfSection(SectionType.UPPERLEFT) - gap;
+		while(index < numberOfRows() && i > 0) {
+			IPoint point = getPointFromSection(i--, SectionType.UPPERLEFT);
+			array[index][0] = point.getX();
+			array[index][1] = point.getY();
+			index++;
+		}
+		return array;
+	}
+    
+	@Override
+	public int numberOfRows() {
+		if(lowerLeftSection.get(0) == upperRightSection.get(0)) {
+			return 1;
+		}
+		int lower = lowerLeftSection.size();
+		if(lowerLeftSection.get(lowerLeftSection.size() - 1) == lowerRightSection.get(lowerRightSection.size() - 1)) {
+			lower = lower + lowerRightSection.size() - 1;
+			lowerSectionsMeet = true;
+		}
+		else {
+			lower = lower + lowerRightSection.size();
+			lowerSectionsMeet = false;
+		}
+		
+		
+		int upper = upperRightSection.size();
+		if(upperRightSection.get(upperRightSection.size() - 1) == upperLeftSection.get(upperLeftSection.size() - 1)) {
+			upper = upper + upperLeftSection.size() - 1;
+			upperSectionsMeet = true;
+			
+		}
+		else {
+			upper = upper + upperLeftSection.size();
+			upperSectionsMeet = false;
+		}
+		return lower + upper - 2;
+	}
+	
+	@Override
+	public void outArray() {
+		System.out.println("hull as array");
+		int[][] array = toArray();
+		for(int i = 0; i < array.length; i++) {
+			System.out.println("x: " + array[i][0] + "    y: " + array[i][1]);
+		}
 	}
 }

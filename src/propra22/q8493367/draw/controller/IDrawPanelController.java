@@ -95,5 +95,11 @@ public interface IDrawPanelController {
 
 	public void insertPoint(IPoint point);
 
+
+	void clearModel();
+
+
+	int[][] hullAsArray();
+
 	
 }

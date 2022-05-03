@@ -13,8 +13,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JPanel;
-
 import propra22.q8493367.command.DragPointCommand;
 import propra22.q8493367.command.ICommand;
 import propra22.q8493367.command.InsertPointCommand;
@@ -24,13 +22,10 @@ import propra22.q8493367.contour.ContourPolygonCalculator;
 import propra22.q8493367.contour.SectionType;
 import propra22.q8493367.convex.ConvexHullCalculator;
 import propra22.q8493367.draw.model.Hull;
-import propra22.q8493367.draw.model.ContourPolygon;
-import propra22.q8493367.draw.model.ConvexHull;
-import propra22.q8493367.draw.model.DrawPanelModel;
+
 import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IDrawPanelModel;
 import propra22.q8493367.draw.view.DrawPanel;
-import propra22.q8493367.draw.view.IDrawPanel;
 import propra22.q8493367.draw.view.IDrawPanelListener;
 import propra22.q8493367.file.Parser;
 import propra22.q8493367.metric.IMetric;
@@ -89,6 +84,11 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 		drawPanelReferenceWidth = drawPanel.getPreferredSize().width;
 		drawPanelReferenceHeight = drawPanel.getPreferredSize().height;
 		
+	}
+	
+	public DrawPanelController(IDrawPanelModel drawPanelModel) {
+		this.drawPanelModel = drawPanelModel;
+		this.view = view;
 	}
 	
 	
@@ -273,12 +273,14 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 		drawPanelModel.lexSort();
 		contourPolygonCalculator.calculateContourPolygon();
 		convexHullCalculator.calculateConvexHull();
+		System.out.println(drawPanelModel.toString());
+		System.out.println(hull.numberOfRows());
+		hull.outArray();
 	}
 
 	/**
 	 * This method is called, if the view needs to be updated
 	 * 
-	 *
 	 * @param g - the graphics object of the draw panel.
 	 */
 	@Override
@@ -351,10 +353,15 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	 */
 	@Override
 	public void createNewDrawPanel() {
+		clearModel();
+		updateView();	
+	}
+	
+	@Override
+	public void clearModel() {
 		drawPanelModel.clear();
 		hull.clearAllSections();
 		pointDataHasChanged = false;
-		updateView();	
 	}
 
 
@@ -381,19 +388,19 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	public void saveModel(String path) {
 		
 		if(pointDataHasChanged) {
-				File file = new File(path);
-				try {
-					FileWriter fileWriter = new FileWriter(file);
-					PrintWriter printWriter = new PrintWriter(fileWriter);
-					for(int i = 0; i < drawPanelModel.getNumberOfPoints(); i++) {
-						IPoint point = drawPanelModel.getPointAt(i);
-						printWriter.println(point.toString());
-					}
-					printWriter.close();
-					pointDataHasChanged = false;
-				} catch (IOException e) {
-					e.printStackTrace();
-				}	
+			File file = new File(path);
+			try {
+				FileWriter fileWriter = new FileWriter(file);
+				PrintWriter printWriter = new PrintWriter(fileWriter);
+				for(int i = 0; i < drawPanelModel.getNumberOfPoints(); i++) {
+					IPoint point = drawPanelModel.getPointAt(i);
+					printWriter.println(point.toString());
+				}
+				printWriter.close();
+				pointDataHasChanged = false;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}	
 		}	
 	}
 
@@ -547,5 +554,10 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	public void insertPoint(IPoint point) {
 		drawPanelModel.addPoint(point);
 		
+	}
+	
+	@Override
+	public int[][] hullAsArray(){
+		return hull.toArray();
 	}
 }

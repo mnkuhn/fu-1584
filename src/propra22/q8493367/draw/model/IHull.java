@@ -12,4 +12,7 @@ public interface IHull {
 	void removePointFromSection(IPoint point, SectionType sectionType);
 	void clearAllSections();
 	void removePointFromSection(int index, SectionType sectionType);
+	int[][] toArray();
+	int numberOfRows(); // for testing
+	void outArray();  // for testing
 }

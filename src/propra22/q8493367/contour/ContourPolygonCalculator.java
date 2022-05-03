@@ -8,7 +8,7 @@ import propra22.q8493367.point.IPoint;
 /**
  * The Class ContourPolygonCalculator 
  */
-public class ContourPolygonCalculator implements HullCalculator {
+public class ContourPolygonCalculator implements IHullCalculator {
 
 	/** The model of the drawPanel */
 	private IDrawPanelModel drawPanelModel;
