@@ -5,28 +5,35 @@ import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IDrawPanelModel;
 import propra22.q8493367.point.IPoint;
 
+// TODO: Auto-generated Javadoc
 /**
- * The Class ContourPolygonCalculator 
+ * The Class ContourPolygonCalculator.
  */
-public class ContourPolygonCalculator implements IHullGenerator {
+public class ContourPolygonCalculator implements ISectionCalculator {
 
-	/** The model of the drawPanel */
+	/**  The model of the drawPanel. */
 	private IDrawPanelModel drawPanelModel;
 	
-	/**The contour polygon*/
+	/** The contour polygon. */
 	private IHull hull;
 	
 	/**
 	 * Instantiates a new contour polygon calculator.
 	 *
-	 * @param drawPanelModel - the model of the drawPanel.
-	 * @param contourPolygon - the contour polygon
+	 * @param drawPanelModel - the model of the draw panel.
+	 * @param hull the hull
 	 */
 	public ContourPolygonCalculator(IDrawPanelModel drawPanelModel, IHull hull) {
 		this.drawPanelModel = drawPanelModel;
 		this.hull = hull;
 	}
     
+	
+	/**
+	 * Calculates one of the four sections of the contour polygon.
+	 *
+	 * @param sectionType the section type
+	 */
 	@Override
 	public void calculateSection(SectionType sectionType) {
 		
@@ -52,9 +59,11 @@ public class ContourPolygonCalculator implements IHullGenerator {
 	}
 
     
+	/**
+	 * Calculate lower left section.
+	 */
 	private void calculateLowerLeftSection() {
 		IPoint point = drawPanelModel.getPointAt(0);
-		
 		hull.addPointToSection(point, SectionType.LOWERLEFT);
 		
 		int minYSoFar = point.getY();
@@ -71,12 +80,12 @@ public class ContourPolygonCalculator implements IHullGenerator {
 	}
 	
 	
+    /**
+     * Calculate upper left section.
+     */
     private void calculateUpperLeftSection() {
-
 		IPoint point = drawPanelModel.getPointAt(0);
-		
 		hull.addPointToSection(point, SectionType.UPPERLEFT);
-		
 		
 		int maxYSoFar = point.getY();
 		int pointY;
@@ -91,9 +100,11 @@ public class ContourPolygonCalculator implements IHullGenerator {
 		}
 	}
 	
+	/**
+	 * Calculate left side.
+	 */
 	// kommt  raus
 	private void calculateLeftSide() {
-	
 		IPoint point = drawPanelModel.getPointAt(0);
 		
 		drawPanelModel.addPointToSection(point, SectionType.LOWERLEFT);
@@ -120,10 +131,11 @@ public class ContourPolygonCalculator implements IHullGenerator {
 	
 	
 
+	/**
+	 * Calculate lower right section.
+	 */
 	private void calculateLowerRightSection() {
-		
 		IPoint point = drawPanelModel.getPointAt(drawPanelModel.getNumberOfPoints() - 1);
-		
 		hull.addPointToSection(point, SectionType.LOWERRIGHT);	
 		
 		int minYSoFar = point.getY();
@@ -141,9 +153,11 @@ public class ContourPolygonCalculator implements IHullGenerator {
 	}
 	
 	
+	/**
+	 * Calculate upper right section.
+	 */
 	private void calculateUpperRightSection() {
 		IPoint point = drawPanelModel.getPointAt(drawPanelModel.getNumberOfPoints() - 1);
-		
 		hull.addPointToSection(point, SectionType.UPPERRIGHT);		
 		
 		int maxYSoFar = point.getY();
@@ -194,56 +208,14 @@ public class ContourPolygonCalculator implements IHullGenerator {
 
 
 
+	/**
+	 * Calculate contour polygon.
+	 */
 	public void calculateContourPolygon() {
 		hull.clearAllSections();
 		for(SectionType sectionType : SectionType.values()) {
 			calculateSection(sectionType);
 		}
 	}
-
-
-
-	
-
-   /*
-	public void concatenateParts(List<Point> contourPolygon, List<Point> leftLower, List<Point> leftUpper, List<Point> rightLower, List<Point> rightUpper) {
-		contourPolygon.clear();
-		int k = 1;
-		System.out.println("leftLower Size: " + leftLower.size());
-		for(int i = 0; i < leftLower.size(); i++) {
-			point = leftLower.get(i);
-			contourPolygon.add(point);
-		}
-		System.out.println("rightLower Size: " + rightLower.size());
-		if(rightLower.size() > 1) {
-			if(point == rightLower.get(rightLower.size() - 1)) {k = 2;}
-			for(int i = rightLower.size() - k; i >= 0; i--) {
-				point = rightLower.get(i);
-				contourPolygon.add(rightLower.get(i));
-			}
-		}
-		
-		
-		k = 1;
-		
-		int l = 0;;
-		System.out.println("rightUpper Size: " + rightUpper.size());
-		if(!rightUpper.isEmpty() && (point != rightUpper.get(0))) {l = 1;}
-		for(int i = 1 - l; i < rightUpper.size(); i++) {
-			point = rightUpper.get(i);
-			contourPolygon.add(point);
-		}
-		System.out.println("leftUpper Size: " + leftUpper.size());
-		
-		if(!leftUpper.isEmpty() && point == (leftUpper.get(leftUpper.size() - 1 ))) {
-			k = 2;
-		}
-			
-			for(int i = leftUpper.size() - k; i >= 0; i--) {
-				contourPolygon.add(leftUpper.get(i));
-			}	
-			
-	}
-	*/
 	
 }

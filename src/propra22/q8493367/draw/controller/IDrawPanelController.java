@@ -92,13 +92,27 @@ public interface IDrawPanelController {
 	 */
 	public void updateView();
 
-
+    
+	/**
+	 * Insert a point to the draw panel model
+	 *
+	 * @param point the point
+	 */
 	public void insertPoint(IPoint point);
 
 
+	/**
+	 * Removes all points from the draw panel
+	 */
 	void clearModel();
 
 
+	/**
+	 * Returns the hull as one array, starting with the smallest point (minimal x coordinate, maximal y coordinate)
+	 * and moving counterclockwise. The last point is the second point from the upper left section.
+	 *
+	 * @return the int[][]
+	 */
 	int[][] hullAsArray();
 
 	

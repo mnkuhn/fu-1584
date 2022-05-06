@@ -27,13 +27,6 @@ public interface IDrawPanelModel {
 	
 	
 	
-	/**
-	 * adds a point to the model
-	 * @param x - x coordinate of the point
-	 * @param y - y coordinate of the point
-	 */
-	
-	public void addPoint(int x, int y);
 	
 	/**
 	 * return the point with the specified index

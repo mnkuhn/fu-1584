@@ -1,6 +1,6 @@
 package propra22.q8493367.convex;
 
-import propra22.q8493367.contour.IHullGenerator;
+import propra22.q8493367.contour.ISectionCalculator;
 import propra22.q8493367.contour.SectionType;
 import propra22.q8493367.draw.model.IDrawPanelModel;
 import propra22.q8493367.draw.model.IHull;
@@ -14,7 +14,7 @@ import propra22.q8493367.point.Point;
  * the draw panel. It calcultes the convex hull outgoing from the points of 
  * the contour polygon.
  */
-public class ConvexHullCalculator implements IHullGenerator {
+public class ConvexHullCalculator implements ISectionCalculator {
 	
 	/** The model. */
 	private IHull hull;
@@ -22,7 +22,7 @@ public class ConvexHullCalculator implements IHullGenerator {
 	/**
 	 * Instantiates a new convex hull calculator.
 	 *
-	 * @param model - the draw panel model.
+	 * @param model - the contour polygon
 	 */
 	public ConvexHullCalculator(IHull hull) {
 		this.hull = hull;
@@ -78,12 +78,11 @@ public class ConvexHullCalculator implements IHullGenerator {
 	
 	/**
 	 * This is the DFV function which calculates the signed area of a triangle. Depending
-	 * of the calculates section, area is positive or negative, if the tip of the triangle is
+	 * on the calculated section, area is positive or negative, if the tip of the triangle is
 	 * above or below line which goes through the baseline of the triangle. 
 	 *
-	 * @param a - base point of the triangle
-	 * @param b - base point of the triangle
-	 * @param c - tip of the triangle
+	 * @param base - base point of the triangle which induces the other base point indexed by base + 1
+	 * @param next - tip of the triangle
 	 * @param sectionType - the section type which determines the sign for the calculated area
 	 * @return signed area of the triangle
 	 */
@@ -103,7 +102,6 @@ public class ConvexHullCalculator implements IHullGenerator {
 	/**
 	 * updates all four sections of the draw panel model.
 	 */
-	
 	public void calculateConvexHull() {
 		for(SectionType sectionType : SectionType.values()) {
 			calculateSection(sectionType);

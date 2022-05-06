@@ -21,7 +21,7 @@ public class FileManager implements IFileManager {
 	/** The view. */
 	IMainWindow view;
 	
-	/** The file path. */        // dieser Pfad muss noch relativ werden
+	/** The file path. */
 	private String filePath = null;
 	
 	/**
@@ -45,7 +45,6 @@ public class FileManager implements IFileManager {
 		FileEventType type = e.getFileEventType();
     	
 		switch (type) {
-		
 		case NEW: {
 			if(!drawPanelController.drawPanelModelIsEmpty() && drawPanelController.dataChangedSinceLastSave()) {
 				
