@@ -1,9 +1,11 @@
 package propra22.q8493367.main;
 import javax.swing.SwingUtilities;
-
+import propra22.interfaces.IHullCalculator;
 import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.model.DrawPanelModel;
 import propra22.q8493367.draw.view.DrawPanel;
+import propra22.q8493367.test.HullCalculator;
+import propra22.tester.Tester;
 
 
 public class Main {
@@ -21,11 +23,17 @@ public class Main {
 	}
 	
 	public static  void main(String[] args) {
-
-		SwingUtilities.invokeLater(new Runnable() {
+        if(args.length > 0  && "-t".equals(args[0])) {
+        	IHullCalculator calculator = new HullCalculator();
+        	Tester tester = new Tester(args, calculator);
+        	System.out.println(tester.test());
+        }
+        else {
+        	SwingUtilities.invokeLater(new Runnable() {
 		      public void run() {
 		        createAndShowGUI();
 		      }
-		}); 
+        	}); 	
+        }
 	}
 }

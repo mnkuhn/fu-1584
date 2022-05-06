@@ -40,8 +40,8 @@ public class InsertRandomPointsCommand implements ICommand {
 		this.drawPanelModel = drawPanelModel;
 		
 		for(int i = 0; i < number; i++) {
-			int x = (int) Math.floor (Math.random() * (maxX + 1));
-			int y = (int) Math.floor (Math.random() * (maxY + 1));
+			int x = (int) Math.floor (Math.random() * (maxX + 1 - 20)) + 10;
+			int y = (int) Math.floor (Math.random() * (maxY + 1 - 20)) + 10;
 			points[i] = new Point(x, y);	
 		}
 	}

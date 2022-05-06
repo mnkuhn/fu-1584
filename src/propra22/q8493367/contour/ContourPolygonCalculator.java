@@ -8,7 +8,7 @@ import propra22.q8493367.point.IPoint;
 /**
  * The Class ContourPolygonCalculator 
  */
-public class ContourPolygonCalculator implements IHullCalculator {
+public class ContourPolygonCalculator implements IHullGenerator {
 
 	/** The model of the drawPanel */
 	private IDrawPanelModel drawPanelModel;
@@ -126,11 +126,10 @@ public class ContourPolygonCalculator implements IHullCalculator {
 		
 		hull.addPointToSection(point, SectionType.LOWERRIGHT);	
 		
-		
 		int minYSoFar = point.getY();
 		int pointY;
 	
-		for(int i = drawPanelModel.getNumberOfPoints() - 2; i >= 0; i --) {
+		for(int i = drawPanelModel.getNumberOfPoints() - 2; i >= 0; i--) {
 			point = drawPanelModel.getPointAt(i);
 			pointY = point.getY();
 			
@@ -150,7 +149,7 @@ public class ContourPolygonCalculator implements IHullCalculator {
 		int maxYSoFar = point.getY();
 		int pointY;
 	
-		for(int i = drawPanelModel.getNumberOfPoints() - 2; i >= 0; i --) {
+		for(int i = drawPanelModel.getNumberOfPoints() - 2; i >= 0; i--) {
 			point = drawPanelModel.getPointAt(i);
 			pointY = point.getY();
 			if(pointY < maxYSoFar) {

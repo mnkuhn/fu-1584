@@ -38,31 +38,7 @@ public class Hull implements IHull {
 				throw new IllegalArgumentException("Unexpected value: " + sectionType);
 			}
     	}		
-    }
-    
-	/*
-    @Override
-	public void addPointToLowerLeftSection(IPoint p) {
-		lowerLeftSection.add(p);	
-	}
-
-	@Override
-	public void addPointToUpperLeftSection(IPoint p) {
-		upperLeftSection.add(p);
-		
-	}
-
-	@Override
-	public void addPointToLowerRightSection(IPoint p) {
-		lowerRightSection.add(p);
-	}
-
-	@Override
-	public void addPointToUpperRightSection(IPoint p) {
-		upperRightSection.add(p);	
-	}
-	
-	*/
+    }   
     
     @Override
 	public IPoint getPointFromSection(int index, SectionType sectionType) {
@@ -86,34 +62,6 @@ public class Hull implements IHull {
 		}		
 	}
 	
-	
-	/*
-	
-	//@Override
-	public IPoint getPointFromLowerLeftSection(int index){
-		return lowerLeftSection.get(index);
-	}
-	
-	//@Override
-	public IPoint getPointFromUpperLeftSection(int index){
-		return upperLeftSection.get(index);
-	}
-	
-	//@Override
-	public IPoint getPointFromLowerRightSection(int index){
-		return lowerRightSection.get(index);
-	}
-	
-	//@Override
-	public IPoint getPointUpperRightLeftSection(int index){
-		return upperRightSection.get(index);
-	}
-	
-	public void removePointFromLowerLeftSection(IPoint point) {
-		lowerLeftSection.remove(point);
-	}
-	
-	*/
 	
 	@Override
 	public void removePointFromSection(int index, SectionType sectionType) {
@@ -141,28 +89,6 @@ public class Hull implements IHull {
 	}
 	
 	
-	/*
-	public void removePointFromUpperLeftSection(IPoint point) {
-		upperLeftSection.remove(point);
-	
-	}
-	
-	public void removePointFromLowerRightSection(IPoint point) {
-		lowerRightSection.remove(point);
-	}
-	
-	public void removePointFromUpperRightSection(IPoint point) {
-		upperRightSection.remove(point);
-	}
-	
-	
-	public boolean isEmpty() {
-		return lowerLeftSection.isEmpty() && upperLeftSection.isEmpty() && lowerRightSection.isEmpty()
-				&& upperRightSection.isEmpty();
-	}
-	
-	*/
-	
 	@Override
 	public boolean sectionIsEmpty(SectionType sectionType) {
 		switch (sectionType) {
@@ -185,9 +111,6 @@ public class Hull implements IHull {
 		}		
 	}
 
-	
-	
-	
 
 	@Override
 	public int getSizeOfSection(SectionType sectionType) {
@@ -243,11 +166,12 @@ public class Hull implements IHull {
 
 	@Override
 	public int[][] toArray() {
+		IPoint point = null;
 		int index = 0;
 		int i = 0;
 		int[][]  array = new int[numberOfRows()][2];
 		while(index < numberOfRows() && i < getSizeOfSection(SectionType.LOWERLEFT)) {
-			IPoint point = getPointFromSection(i++, SectionType.LOWERLEFT);
+			point = getPointFromSection(i++, SectionType.LOWERLEFT);
 			array[index][0] = point.getX();
 			array[index][1] = point.getY();
 			index++;
@@ -257,17 +181,19 @@ public class Hull implements IHull {
 		int gap = 1;
 		if(lowerSectionsMeet) {gap = 2;}
 		i = getSizeOfSection(SectionType.LOWERRIGHT) - gap;
-		while(index < numberOfRows() && i > 0){
-			IPoint point = getPointFromSection(i--, SectionType.LOWERRIGHT);
+		
+	
+		while(index < numberOfRows() && i >= 0){
+			point = getPointFromSection(i--, SectionType.LOWERRIGHT);
 			array[index][0] = point.getX();
 			array[index][1] = point.getY();
 			index++;
 		}
 		gap = 1;
 		
-		i = 0;
+		i = 1;
 		while(index < numberOfRows() && i < getSizeOfSection(SectionType.UPPERRIGHT)) {
-			IPoint point = getPointFromSection(i++, SectionType.UPPERRIGHT);
+			point = getPointFromSection(i++, SectionType.UPPERRIGHT);
 			array[index][0] = point.getX();
 			array[index][1] = point.getY();
 			index++;
@@ -276,7 +202,7 @@ public class Hull implements IHull {
 		if(upperSectionsMeet) {gap = 2;}
 		i = getSizeOfSection(SectionType.UPPERLEFT) - gap;
 		while(index < numberOfRows() && i > 0) {
-			IPoint point = getPointFromSection(i--, SectionType.UPPERLEFT);
+			point = getPointFromSection(i--, SectionType.UPPERLEFT);
 			array[index][0] = point.getX();
 			array[index][1] = point.getY();
 			index++;
@@ -313,12 +239,37 @@ public class Hull implements IHull {
 		return lower + upper - 2;
 	}
 	
+	//only for testing
 	@Override
 	public void outArray() {
 		System.out.println("hull as array");
 		int[][] array = toArray();
 		for(int i = 0; i < array.length; i++) {
-			System.out.println("x: " + array[i][0] + "    y: " + array[i][1]);
+			System.out.println(array[i][0] + "    y: " + array[i][1]);
+		}
+	}
+	
+	//test
+	@Override
+	public void outSections() {
+		System.out.println("hull from the sections");
+		System.out.println("lowerLeft:");
+		for(IPoint point : lowerLeftSection) {
+			System.out.println(point.toString());
+		}
+		
+		System.out.println("lowerRight:");
+		for(IPoint point : lowerRightSection) {
+			System.out.println(point.toString());
+		}
+		
+		System.out.println("upperRight:");
+		for(IPoint point : upperRightSection) {
+			System.out.println(point.toString());
+		}
+		System.out.println("upperLeft:");
+		for(IPoint point : upperLeftSection) {
+			System.out.println(point.toString());
 		}
 	}
 }

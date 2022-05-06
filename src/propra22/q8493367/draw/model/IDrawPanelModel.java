@@ -25,13 +25,7 @@ public interface IDrawPanelModel {
 	 */
 	public boolean isEmpty();
 	
-	/**
-	 * Returns true, if model contains a point with the coordinated x and y.
-	 * @param x - x coordinate of the point
-	 * @param y - y coordinate of the point
-	 * @return true, if model contains a point with the coordinated x and y.
-	 */
-	public boolean hasPoint(int x, int y);
+	
 	
 	/**
 	 * adds a point to the model
@@ -120,6 +114,8 @@ public interface IDrawPanelModel {
 	void clear();
 
 	void addPoint(IPoint point);
+
+	boolean hasPoint(IPoint point);
 
 	
 	

@@ -87,8 +87,15 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	}
 	
 	public DrawPanelController(IDrawPanelModel drawPanelModel) {
+		
 		this.drawPanelModel = drawPanelModel;
-		this.view = view;
+		this.view = null;
+		
+		contourPolygonCalculator = new ContourPolygonCalculator(drawPanelModel, hull);
+		convexHullCalculator = new ConvexHullCalculator(hull);
+		
+		drawPanelReferenceWidth = 800;
+		drawPanelReferenceHeight = 500;	
 	}
 	
 	
@@ -270,12 +277,18 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	 * Update model i.e. the draw panel model.
 	 */
 	public void updateModel() {
-		drawPanelModel.lexSort();
+		//drawPanelModel.lexSort();
 		contourPolygonCalculator.calculateContourPolygon();
+		System.out.println("Nach der Berechnung der Konturpolygons");
+		hull.outSections();
 		convexHullCalculator.calculateConvexHull();
-		System.out.println(drawPanelModel.toString());
+		System.out.println("Nach der Berechnung der konvexen Hülle");
+		hull.outSections();
+		
+		System.out.println("model, Anzahl Punkte: " + drawPanelModel.getNumberOfPoints());
+		System.out.println("model: " + drawPanelModel.toString());
 		System.out.println(hull.numberOfRows());
-		hull.outArray();
+		
 	}
 
 	/**
@@ -343,7 +356,6 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 			  g2.drawLine(lastLeft.getX(), lastLeft.getY(), lastRight.getX(), lastRight.getY());
 		    
 			  }	  
-		
 		  g2.setColor(Color.BLACK);
 	}
     
@@ -412,6 +424,9 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	 *
 	 * @param file - the file from which the points are loaded.
 	 */
+	
+	
+	// in den FileManager
 	@Override
 	public void loadPointsToModel(File file) {
 		
@@ -539,7 +554,8 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 		if(commandIndex != commandList.size() - 1) {
 			removeAllComandsAfterCommandIndex();
 		}
-		ICommand insertRandomPointsCommand = new InsertRandomPointsCommand(number, drawPanelReferenceWidth, drawPanelReferenceHeight, drawPanelModel);
+		ICommand insertRandomPointsCommand = new InsertRandomPointsCommand(number, 
+				drawPanelReferenceWidth, drawPanelReferenceHeight, drawPanelModel);
 		insertRandomPointsCommand.execute();
 		addCommandToCommandList(insertRandomPointsCommand);
 		

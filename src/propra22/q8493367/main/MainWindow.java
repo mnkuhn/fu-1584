@@ -46,6 +46,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 		JMenuBar menuBar = new JMenuBar();
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
+		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public  void windowClosing(WindowEvent e) {
@@ -59,10 +60,14 @@ public class MainWindow extends JFrame implements IMainWindow {
 		setJMenuBar(menuBar);
 		
 		JScrollPane scrollPane = new JScrollPane(drawPanel);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		add(scrollPane);
 		
 		pack();
 		setLocationRelativeTo(null);
+		System.out.println(drawPanel.getWidth());
+		System.out.println(drawPanel.getHeight());
 	}
 
 

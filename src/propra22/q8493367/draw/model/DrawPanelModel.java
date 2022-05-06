@@ -2,7 +2,7 @@ package propra22.q8493367.draw.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
+import java.util.Comparator;
 import java.util.List;
 
 import propra22.q8493367.contour.ContourPolygonCalculator;
@@ -21,25 +21,33 @@ public class DrawPanelModel implements IDrawPanelModel {
 	
 	
 	@Override
-	public  boolean hasPoint(int x, int y) {
-		return searchPoint(x, y) > 0;
+	public  boolean hasPoint(IPoint point) {
+		return searchPoint(point) >= 0;
+	}
+	
+	// brauchen wir die?
+	@Override
+	public void addPoint(int x, int y) {
+		IPoint point = new Point(x, y);
+		if(!hasPoint(point)) {points.add(point);}
+		lexSort();
 	}
 	
 	@Override
-	public void addPoint(int x, int y) {
-		points.add(new Point(x, y));
+	public void addPoint(IPoint point) {
+		if(!hasPoint(point)) {points.add(point);}
+		lexSort();
 	}
 	
 	@Override
 	public void removePoint(IPoint point) {
-		points.remove(point);
-		
+		points.remove(point);	
 	}
 	
 	@Override
 	public void removePoint(int x, int y) {
-		int index = searchPoint(x, y);
-		points.remove(index);	
+		int index = searchPoint(new Point(x, y));
+		if(index >= 0) {points.remove(index);}	
 	}
 	
 	@Override
@@ -47,10 +55,8 @@ public class DrawPanelModel implements IDrawPanelModel {
 		Collections.sort(points);
 	}
 
-	
-	// das klappt vermutlich nicht.. oder doch?
-	private int searchPoint(int x, int y) {
-		return Collections.binarySearch(points, new Point(x, y));
+	private int searchPoint(IPoint point) {
+		return Collections.binarySearch(points, point);
 	}
 	
 	@Override
@@ -205,9 +211,13 @@ public class DrawPanelModel implements IDrawPanelModel {
 		points.clear();	
 	}
 
-	@Override
-	public void addPoint(IPoint point) {
-		points.add(point);
-		
-	}	
+	
+	
+	public static void main(String[] args) {
+		DrawPanelModel model = new DrawPanelModel();
+		model.addPoint(new Point(1, 12));
+		model.addPoint(new Point(1, 1));
+		model.addPoint(new Point(2, 3));
+		System.out.println(model.hasPoint(new Point(1, 112)));
+	}
 }

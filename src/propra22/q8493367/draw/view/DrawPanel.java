@@ -15,8 +15,8 @@ import propra22.q8493367.settings.Settings;
 
 public class DrawPanel extends JPanel implements IDrawPanel {
 	
-	private int preferredWidth = 700;
-	private int preferredHeight = 500;
+	private int preferredWidth = 2800;
+	private int preferredHeight = 2000;
 	private IDrawPanelListener drawPanelListener;
 
 	public DrawPanel() {
@@ -81,6 +81,11 @@ public class DrawPanel extends JPanel implements IDrawPanel {
     
     @Override
     public Dimension getPreferredSize() {
+    	return new Dimension(preferredWidth, preferredHeight);
+    }
+    
+    @Override
+    public Dimension getMinimumSize() {
     	return new Dimension(preferredWidth, preferredHeight);
     }
     

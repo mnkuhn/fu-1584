@@ -9,27 +9,27 @@ package propra22.q8493367.contour;
 public enum SectionType {
 	
 	/** points starting at point with lowest x coordinate and highest y coordinate ordered by rising x coordinate and rising y coordinate */
-	LOWERLEFT(1), 
+	LOWERLEFT(-1L), 
 	
 	/** points starting at point with lowest x coordinate and highest y coordinate ordered by rising x coordinate and rising y coordinate*/
-	LOWERRIGHT(-1), 
+	LOWERRIGHT(1L), 
 	
 	/** points starting at point with lowest x coordinate and highest y coordinate ordered by rising x coordinate and falling y coordinate. */
-	UPPERRIGHT(1), 
+	UPPERRIGHT(-1L), 
 	
 	/** points starting at point with lowest x coordinate and highest y coordinate ordered by rising x coordinate and falling y coordinate */
-	UPPERLEFT(-1);
+	UPPERLEFT(1L);
 	
 	/** The sign of the SectionType which is -1 or 1
 	 */
-	private int sign;
+	private long sign;
 	
 	/**
 	 * Private constructor for SectionType.
 	 *
 	 * @param sign - the sign which is -1 or 1
 	 */
-	private SectionType(int sign) {
+	private SectionType(long sign) {
 		this.sign = sign;
 	}
 	
@@ -38,7 +38,7 @@ public enum SectionType {
 	 *
 	 * @return the sign which is -1 or 1
 	 */
-	public int getSign() {
+	public long getSign() {
 		return sign;
 	}
 }

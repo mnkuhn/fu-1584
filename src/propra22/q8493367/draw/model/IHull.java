@@ -15,4 +15,5 @@ public interface IHull {
 	int[][] toArray();
 	int numberOfRows(); // for testing
 	void outArray();  // for testing
+	void outSections();
 }
