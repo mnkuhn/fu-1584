@@ -78,7 +78,8 @@ public class FileManager implements IFileManager {
 		}
 		
 		case OPEN: {
-            if(!drawPanelController.drawPanelModelIsEmpty()) {
+            
+			if(!drawPanelController.drawPanelModelIsEmpty() && drawPanelController.dataChangedSinceLastSave()) {
             	int dialogOption = view.showSaveToFileOptionPane();
             	if(dialogOption == JOptionPane.OK_OPTION) {
             		if(filePath != null) {
@@ -106,17 +107,18 @@ public class FileManager implements IFileManager {
 		}
 		
 		case SAVE: {
-			
-			if(filePath != null) {
-				drawPanelController.saveModel(filePath);
-			}
-			else {
-				String path = view.showSaveFileChooser();
-				if(view.getFileChooserOption() == JFileChooser.APPROVE_OPTION) {
-					if(path != null) {
-					saveFile(path);
-					}
-				}	
+			if(drawPanelController.dataChangedSinceLastSave()) {
+				if(filePath != null) {
+					drawPanelController.saveModel(filePath);
+				}
+				else {
+					String path = view.showSaveFileChooser();
+					if(view.getFileChooserOption() == JFileChooser.APPROVE_OPTION) {
+						if(path != null) {
+						saveFile(path);
+						}
+					}	
+				}
 			}
 			break;
 		}

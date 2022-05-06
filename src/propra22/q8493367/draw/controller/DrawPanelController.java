@@ -42,9 +42,12 @@ import propra22.q8493367.settings.Settings;
  */
 public class DrawPanelController implements IDrawPanelListener, IDrawPanelController {
 	
-	// model and view
+	// view
 	private DrawPanel view;
+	
+	//model
 	private IDrawPanelModel drawPanelModel;
+	private IHull hull = new Hull();
 	
 	private  int drawPanelReferenceWidth;
 	private  int drawPanelReferenceHeight;
@@ -60,7 +63,7 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	private List<ICommand> commandList = new ArrayList<>();
 	private int commandIndex =  -1;
 	
-	private IHull hull = new Hull();
+	
 	private ContourPolygonCalculator contourPolygonCalculator;
 	private ConvexHullCalculator convexHullCalculator;
 	
@@ -277,18 +280,8 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	 * Update model i.e. the draw panel model.
 	 */
 	public void updateModel() {
-		//drawPanelModel.lexSort();
 		contourPolygonCalculator.calculateContourPolygon();
-		System.out.println("Nach der Berechnung der Konturpolygons");
-		hull.outSections();
 		convexHullCalculator.calculateConvexHull();
-		System.out.println("Nach der Berechnung der konvexen Hülle");
-		hull.outSections();
-		
-		System.out.println("model, Anzahl Punkte: " + drawPanelModel.getNumberOfPoints());
-		System.out.println("model: " + drawPanelModel.toString());
-		System.out.println(hull.numberOfRows());
-		
 	}
 
 	/**
