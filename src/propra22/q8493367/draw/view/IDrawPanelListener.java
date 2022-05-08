@@ -18,5 +18,13 @@ import java.awt.Graphics;
  * @see IDrawPanelEvent
  */
 public interface IDrawPanelListener {
+	
+	
+	/**
+	 * Is invoked, when a draw panel event
+	 * has occured.
+	 *
+	 * @param e - the draw panel event
+	 */
 	public void drawPanelEventOccured(IDrawPanelEvent e);	
 }

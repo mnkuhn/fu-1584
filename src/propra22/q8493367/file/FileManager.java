@@ -44,7 +44,7 @@ public class FileManager implements IFileManager {
 	
 	/**
 	 * Handles a FileEvent
-	 * @param the handled FileEvent
+	 * @param e - the handled FileEvent
 	 */
 	@Override
 	public void handleFileEvent(FileEvent e) {
@@ -196,6 +196,4 @@ public class FileManager implements IFileManager {
 	public void setDataChangedSinceLastSave(boolean b) {
 		dataChangedSinceLastSave = b;
 	}
-	
-	
 }

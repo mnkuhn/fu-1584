@@ -100,33 +100,6 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 		}
 	}
 	
-	/**
-	 * Calculate left side.
-	 */
-	// kommt  raus
-	private void calculateLeftSide() {
-		IPoint point = drawPanelModel.getPointAt(0);
-		
-		drawPanelModel.addPointToSection(point, SectionType.LOWERLEFT);
-		drawPanelModel.addPointToSection(point, SectionType.UPPERLEFT);
-		
-		int minYSoFar = point.getY();
-		int maxYSoFar = minYSoFar;
-		int pointY;
-
-		for(int i = 1; i < drawPanelModel.getNumberOfPoints(); i++) {
-			point = drawPanelModel.getPointAt(i);
-			pointY = point.getY();
-			if(pointY > minYSoFar) {
-				minYSoFar = pointY;
-				drawPanelModel.addPointToSection(point, SectionType.LOWERLEFT);
-			}
-			if(pointY < maxYSoFar) {
-				maxYSoFar = pointY;
-				drawPanelModel.addPointToSection(point, SectionType.UPPERLEFT);
-			}
-		}
-	}
 	
 	
 	
@@ -173,40 +146,8 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 		}
 	}
 	
-	/**
-	 * calculates the right upper and the right lower section of the 
-	 * contour polygon.
-	 * @see propra22.q8493367.SectionType SectionType
-	 */
 	
-	// kommt raus
-	private void calculateRightSide() {
-		
-		IPoint point = drawPanelModel.getPointAt(drawPanelModel.getNumberOfPoints() - 1);
-		
-		drawPanelModel.addPointToSection(point, SectionType.LOWERRIGHT);
-		drawPanelModel.addPointToSection(point, SectionType.UPPERRIGHT);		
-		
-		int maxYSoFar = point.getY();
-		int minYSoFar = maxYSoFar;
-		int pointY;
 	
-		for(int i = drawPanelModel.getNumberOfPoints() - 2; i >= 0; i --) {
-			point = drawPanelModel.getPointAt(i);
-			pointY = point.getY();
-			
-			if(pointY > minYSoFar) {
-				minYSoFar = pointY;
-				drawPanelModel.addPointToSection(point, SectionType.LOWERRIGHT);
-			}
-			if(pointY < maxYSoFar) {
-				maxYSoFar = pointY;
-				drawPanelModel.addPointToSection(point, SectionType.UPPERRIGHT);
-			}
-		}
-	}
-
-
 
 	/**
 	 * Calculate contour polygon.

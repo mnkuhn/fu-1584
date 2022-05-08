@@ -52,55 +52,7 @@ public interface IDrawPanelModel {
 	 */
 	public void lexSort();
 	
-	/**
-	 * returns true, if the specified section is empty 
-	 * @param sectionType - the specified section
-	 * @return
-	 */
-	public boolean sectionIsEmpty(SectionType sectionType);
 	
-	/**
-	 * returns the size of the specified section
-	 * @param sectionType - the specified section
-	 * @return the size of the specified section
-	 */
-	public int getSizeOfSection(SectionType sectionType);
-	
-	/**
-	 * return the point with index i from the specified section
-	 * @param index - index of the point within the section
-	 * @param sectionType - the specified section
-	 * @return the point at the specified position in the specified section
-	 */
-	public IPoint getPointFromSection(int index, SectionType sectionType);
-	
-	/**
-	 * adds a point to the specified section
-	 * @param point - point which should be added to the section
-	 * @param sectionType - the specified section
-	 */
-	public void addPointToSection(IPoint point, SectionType sectionType);
-	
-	/**
-	 * clears the section with the specified sectionType
-	 * @param sectionType - the specified section
-	 */
-	public void clearSection(SectionType sectionType);
-	
-	/**
-	 * removes the point from the specified section
-	 * @param index - index of the point which should be removed
-	 * @param sectionType - the specified section
-	 */
-	public void removeSectionPoint(int index, SectionType sectionType);
-	
-	/**
-	 * returns a String with all points and their x and y coordinates registered in the model
-	 * @return String with all points and their x and y coordinates registered in the model
-	 */
-	public String toString();
-
-	IPoint getSectionPointAt(int i, SectionType sectionType);
 
 	void clear();
 

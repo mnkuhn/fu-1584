@@ -124,7 +124,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
     /**
      * The overwritten paintComponent method from JPanel
      *
-     * @param g - the Graphics object
+     * @param g - the Graphics object on which the painting is done
      */
     @Override
     public void paintComponent(Graphics g) {

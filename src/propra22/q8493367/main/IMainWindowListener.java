@@ -8,15 +8,12 @@ import propra22.q8493367.point.RandomPointsEvent;
 
 // TODO: Auto-generated Javadoc
 /**
- * The listener interface for receiving IMainWindow events.
- * The class that is interested in processing a IMainWindow
- * event implements this interface, and the object created
- * with that class is registered with a component using the
- * component's <code>addIMainWindowListener<code> method. When
- * the IMainWindow event occurs, that object's appropriate
- * method is invoked.
+ * The listener interface for receiving file events, command
+ * events and random point events.
  *
- * @see IMainWindowEvent
+ * @see IFileEvent
+ * @see ICommandEvent
+ * @see IRandomPointsEvent
  */
 public interface IMainWindowListener {
      
@@ -46,7 +43,7 @@ public interface IMainWindowListener {
 	 *
 	 * @param generationEvent the generation event
 	 */
-	void insertRandomPointsEventOccured(RandomPointsEvent generationEvent);
+	void insertRandomPointsEventOccured(RandomPointsEvent randomPointsEvent);
 	
 	/**
 	 * Show manual event occured.

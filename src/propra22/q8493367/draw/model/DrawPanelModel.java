@@ -34,7 +34,7 @@ public class DrawPanelModel implements IDrawPanelModel {
 	
 	
 	/**
-	 * Checks for point.
+	 * Checks if a point is in the model
 	 *
 	 * @param point the point
 	 * @return true, if successful
@@ -53,12 +53,10 @@ public class DrawPanelModel implements IDrawPanelModel {
 	@Override
 	public void addPoint(IPoint point) {
 		if(!hasPoint(point)) {points.add(point);}
-		lexSort();
 	}
 	
 	/**
 	 * Removes a point from the draw panel model.
-	 *
 	 * @param point - the point which is removed.
 	 */
 	@Override
@@ -132,145 +130,6 @@ public class DrawPanelModel implements IDrawPanelModel {
 	public boolean isEmpty() {
 		return points.isEmpty();
 	}
-	
-	
-	
-	/**
-	 * Clears the specified section
-	 *
-	 * @param sectionType the section type
-	 */
-	@Override
-	public void clearSection(SectionType sectionType) {
-		switch(sectionType) {
-		  case LOWERLEFT:
-		    leftLower.clear();
-		  case LOWERRIGHT:
-		    rightLower.clear();
-		  case UPPERRIGHT:
-			 rightUpper.clear(); 
-		  case UPPERLEFT:
-			  leftUpper.clear();
-		}	
-	}
-	
-	/**
-	 * Adds the point to section.
-	 *
-	 * @param point the point
-	 * @param sectionType the section type
-	 */
-	@Override 
-	public void addPointToSection(IPoint point, SectionType sectionType){
-		switch(sectionType) {
-		  case LOWERLEFT:
-		    leftLower.add(point);
-		    break;
-		  case LOWERRIGHT:
-		    rightLower.add(point);
-		    break;
-		  case UPPERRIGHT:
-			 rightUpper.add(point);
-			 break;
-		  case UPPERLEFT:
-			 leftUpper.add(point);
-			 break;
-			 
-			  
-		}	
-	}
-	
-	/**
-	 * Removes the section point.
-	 *
-	 * @param i the i
-	 * @param sectionType the section type
-	 */
-	@Override
-	public void removeSectionPoint(int i, SectionType sectionType) {
-		switch(sectionType) {
-		  case LOWERLEFT:
-		    leftLower.remove(i);
-		    break;
-		  case LOWERRIGHT:
-		    rightLower.remove(i);
-		    break;
-		  case UPPERRIGHT:
-			rightUpper.remove(i);
-			break;
-		  case UPPERLEFT:
-			leftUpper.remove(i);
-			break;
-		}	
-	}
-	
-	
-	/**
-	 * Gets the point from section.
-	 *
-	 * @param i the i
-	 * @param sectionType the section type
-	 * @return the point from section
-	 */
-	@Override
-	public IPoint getPointFromSection(int i, SectionType sectionType) {
-		switch(sectionType) {
-		  case LOWERLEFT:
-		    return leftLower.get(i);
-		  case LOWERRIGHT:
-		    return rightLower.get(i);
-		  case UPPERRIGHT:
-			 return rightUpper.get(i); 
-		  case UPPERLEFT:
-			  return leftUpper.get(i);
-		  default:
-			  return null;
-		}	
-	}
-	
-	/**
-	 * Section is empty.
-	 *
-	 * @param sectionType the section type
-	 * @return true, if successful
-	 */
-	@Override 
-	public boolean sectionIsEmpty(SectionType sectionType) {
-		switch(sectionType) {
-		  case LOWERLEFT:
-		    return leftLower.isEmpty();
-		  case LOWERRIGHT:
-		    return rightLower.isEmpty();
-		  case UPPERRIGHT:
-			 return rightUpper.isEmpty(); 
-		  case UPPERLEFT:
-			  return leftUpper.isEmpty();
-		  default:
-			  return false;
-		}		  
-	}
-	
-	/**
-	 * Gets the size of section.
-	 *
-	 * @param sectionType the section type
-	 * @return the size of section
-	 */
-	@Override
-	public int getSizeOfSection(SectionType sectionType) {
-		switch(sectionType) {
-		  case LOWERLEFT :
-		    return leftLower.size();
-		  case LOWERRIGHT:
-			  return rightLower.size();
-		  case UPPERRIGHT:
-			  return rightUpper.size();
-		  case UPPERLEFT:
-			  return leftUpper.size();
-		  default:
-			  return -1;
-		}
-	}
 		
 	
 	/**
@@ -289,30 +148,6 @@ public class DrawPanelModel implements IDrawPanelModel {
 	}
 
 
-	
-
-    /**
-     * Gets the section point at.
-     *
-     * @param i the i
-     * @param sectionType the section type
-     * @return the section point at
-     */
-    @Override
-	public IPoint getSectionPointAt(int i, SectionType sectionType) {
-		switch(sectionType) {
-		  case LOWERLEFT :
-		    return leftLower.get(i);
-		  case LOWERRIGHT:
-			  return rightLower.get(i);
-		  case UPPERRIGHT:
-			  return rightUpper.get(i);
-		  case UPPERLEFT:
-			  return leftUpper.get(i);
-		  default:
-			  return null;
-		}
-	}
 
 	/**
 	 * Clears the point set.

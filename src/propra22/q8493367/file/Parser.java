@@ -6,10 +6,23 @@ import java.util.regex.Pattern;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
+// TODO: Auto-generated Javadoc
+/**
+ * A Parser which can extract a point from a string.
+ */
 public class Parser implements IParser {
     
+	/** The regex. */
 	private String regex = "(\\s)*([+-]{0,1}[0-9]+)(\\s+)([+-]{0,1}[0-9]+)(\\s+.*){0,1}";
 	
+	/**
+	 * Parses the line.
+	 *
+	 * @param line - the line
+	 * @return the point which could be extracted 
+	 * from the line. Null, if no point could be
+	 * extracted.
+	 */
 	@Override
 	public IPoint parseLine(String line) {
 		
