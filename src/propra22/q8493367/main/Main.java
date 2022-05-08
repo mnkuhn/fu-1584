@@ -4,6 +4,8 @@ import propra22.interfaces.IHullCalculator;
 import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.model.DrawPanelModel;
 import propra22.q8493367.draw.view.DrawPanel;
+import propra22.q8493367.draw.view.DrawPanelListener;
+import propra22.q8493367.draw.view.IDrawPanelListener;
 import propra22.q8493367.test.HullCalculator;
 import propra22.tester.Tester;
 
@@ -14,7 +16,8 @@ public class Main {
 		DrawPanel drawPanel = new DrawPanel();
 		DrawPanelModel drawPanelModel = new DrawPanelModel();
 		DrawPanelController drawPanelController = new DrawPanelController(drawPanelModel, drawPanel);
-		drawPanel.setDrawPanelListener(drawPanelController);
+		IDrawPanelListener drawPanelListener = new DrawPanelListener(drawPanelController);
+		drawPanel.setDrawPanelListener(drawPanelListener);
 		
 		MainWindow mainWindow = new MainWindow(drawPanel);
 		IMainWindowListener mainWindowListner = new MainWindowListener(drawPanelController, mainWindow);

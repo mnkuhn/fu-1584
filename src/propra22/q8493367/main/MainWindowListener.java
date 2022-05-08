@@ -9,8 +9,8 @@ import propra22.q8493367.command.CommandEventType;
 import propra22.q8493367.draw.controller.IDrawPanelController;
 import propra22.q8493367.file.FileEvent;
 import propra22.q8493367.file.FileManager;
-import propra22.q8493367.point.GenerationEvent;
-import propra22.q8493367.point.GenerationEventType;
+import propra22.q8493367.point.RandomPointsEvent;
+import propra22.q8493367.point.RandomPointsEventType;
 
 public class MainWindowListener implements IMainWindowListener {
 
@@ -51,8 +51,8 @@ public class MainWindowListener implements IMainWindowListener {
 	}
 
 	@Override
-	public void insertRandomPointsEventOccured(GenerationEvent generationEvent) {
-		GenerationEventType type = generationEvent.getType();
+	public void insertRandomPointsEventOccured(RandomPointsEvent generationEvent) {
+		RandomPointsEventType type = generationEvent.getType();
 		drawPanelController.insertRandomPoints(type.getNumber());		
 	}
 

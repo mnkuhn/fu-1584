@@ -1,5 +1,6 @@
 package propra22.q8493367.draw.controller;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.io.File;
 
@@ -20,26 +21,12 @@ public interface IDrawPanelController {
 	public boolean drawPanelModelIsEmpty();
 	
 
-	/**
-	 * Saves all points which are registered in the draw panel
-	 * model to disc.
-	 *
-	 * @param path the path
-	 */
-	public void saveModel(String path);
 	
 	/**
 	 * Creates the new draw panel.
 	 */
 	public void createNewDrawPanel();
 	
-	/**
-	 * Loads points from a file into the draw
-	 * panel model.
-	 *
-	 * @param file - the file from which the points are loaded.
-	 */
-	public void loadPointsToModel(File file);
 	
 	/**
 	 * Returns true, if points where added or deleted or if 
@@ -98,7 +85,7 @@ public interface IDrawPanelController {
 	 *
 	 * @param point the point
 	 */
-	public void insertPoint(IPoint point);
+	public void insertPointToModel(IPoint point);
 
 
 	/**
@@ -114,6 +101,41 @@ public interface IDrawPanelController {
 	 * @return the int[][]
 	 */
 	int[][] hullAsArray();
+
+
+	public void deletePointFromModel(int mouseX, int mouseY);
+
+
+	public void initializePointDrag(int mouseX, int mouseY);
+
+
+	public void dragPoint(int mouseX, int mouseY);
+
+
+	public void terminatePointDrag(int mouseX, int mouseY);
+
+
+	public void paintDrawPanel(Graphics g);
+
+
+
+	/**
+	 * Saves all points which are registered in the draw panel
+	 * model to disc.
+	 *
+	 * @param path the path
+	 */
+	void saveModel(String path);
+
+
+
+	/**
+	 * Loads points from a file into the draw
+	 * panel model.
+	 *
+	 * @param file - the file from which the points are loaded.
+	 */
+	void loadPointsToModel(File file);
 
 	
 }

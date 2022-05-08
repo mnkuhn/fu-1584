@@ -1,12 +1,13 @@
 package propra22.q8493367.file;
 
+
 import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-
 import propra22.q8493367.draw.controller.IDrawPanelController;
 import propra22.q8493367.main.IMainWindow;
+
 
 
 /**
@@ -18,11 +19,17 @@ public class FileManager implements IFileManager {
 	/** The draw panel controller.*/
 	IDrawPanelController drawPanelController;
 	
-	/** The view. */
-	IMainWindow view;
+	/** The parser for /*
+	IParser parser = new Parser();
+	
+	/** The main view. */
+	IMainWindow mainView;
 	
 	/** The file path. */
 	private String filePath = null;
+	
+	/** Data has changed since last save to file */
+	private boolean dataChangedSinceLastSave = false;
 	
 	/**
 	 * Instantiates a new fileManager.
@@ -32,7 +39,7 @@ public class FileManager implements IFileManager {
 	 */
 	public FileManager(IDrawPanelController drawPanelController, IMainWindow view) {
 		this.drawPanelController = drawPanelController;
-		this.view = view;
+		this.mainView = view;
 	}
 	
 	/**
@@ -46,16 +53,16 @@ public class FileManager implements IFileManager {
     	
 		switch (type) {
 		case NEW: {
-			if(!drawPanelController.drawPanelModelIsEmpty() && drawPanelController.dataChangedSinceLastSave()) {
+			if(!drawPanelController.drawPanelModelIsEmpty() && dataChangedSinceLastSave) {
 				
-				int dialogOption = view.showSaveToFileOptionPane();
+				int dialogOption = mainView.showSaveToFileOptionPane();
 				if(dialogOption == JOptionPane.OK_OPTION) {
 					if(filePath != null) {
 						drawPanelController.saveModel(filePath);
 						}
 					else {
-						String newFilePath = view.showSaveFileChooser();
-						if(view.getFileChooserOption() == JFileChooser.APPROVE_OPTION) {
+						String newFilePath = mainView.showSaveFileChooser();
+						if(mainView.getFileChooserOption() == JFileChooser.APPROVE_OPTION) {
 							if(newFilePath != null) {
 								drawPanelController.saveModel(newFilePath);
 								drawPanelController.createNewDrawPanel();
@@ -78,16 +85,16 @@ public class FileManager implements IFileManager {
 		
 		case OPEN: {
             
-			if(!drawPanelController.drawPanelModelIsEmpty() && drawPanelController.dataChangedSinceLastSave()) {
-            	int dialogOption = view.showSaveToFileOptionPane();
+			if(!drawPanelController.drawPanelModelIsEmpty() && dataChangedSinceLastSave) {
+            	int dialogOption = mainView.showSaveToFileOptionPane();
             	if(dialogOption == JOptionPane.OK_OPTION) {
             		if(filePath != null) {
             			drawPanelController.saveModel(filePath);
             			openFile();
             		}
             		else {
-						String newFilePath = view.showSaveFileChooser();
-						if(view.getFileChooserOption() == JFileChooser.APPROVE_OPTION) {
+						String newFilePath = mainView.showSaveFileChooser();
+						if(mainView.getFileChooserOption() == JFileChooser.APPROVE_OPTION) {
 							if(newFilePath != null) {
 							drawPanelController.saveModel(newFilePath);
 							openFile();
@@ -111,8 +118,8 @@ public class FileManager implements IFileManager {
 					drawPanelController.saveModel(filePath);
 				}
 				else {
-					String path = view.showSaveFileChooser();
-					if(view.getFileChooserOption() == JFileChooser.APPROVE_OPTION) {
+					String path = mainView.showSaveFileChooser();
+					if(mainView.getFileChooserOption() == JFileChooser.APPROVE_OPTION) {
 						if(path != null) {
 						saveFile(path);
 						}
@@ -123,8 +130,8 @@ public class FileManager implements IFileManager {
 		}
 		
 		case SAVE_AS: {
-			String path = view.showSaveFileChooser();
-			if(view.getFileChooserOption() == JFileChooser.APPROVE_OPTION) {
+			String path = mainView.showSaveFileChooser();
+			if(mainView.getFileChooserOption() == JFileChooser.APPROVE_OPTION) {
 				if(path != null) {
 					saveFile(path);
 				}	
@@ -143,8 +150,8 @@ public class FileManager implements IFileManager {
 						System.exit(0);
 					}
 					else {
-						String path = view.showSaveFileChooser();
-						if(view.getFileChooserOption() == JFileChooser.APPROVE_OPTION) {
+						String path = mainView.showSaveFileChooser();
+						if(mainView.getFileChooserOption() == JFileChooser.APPROVE_OPTION) {
 							if(path != null) {
 								drawPanelController.saveModel(path);
 								System.exit(0);	
@@ -166,7 +173,6 @@ public class FileManager implements IFileManager {
 
 	/**
 	 * Saves the data of the model into a file
-	 *
 	 * @param path the path
 	 */
 	private void saveFile(String path) {
@@ -178,7 +184,7 @@ public class FileManager implements IFileManager {
 	 * Loads the data of a file into the model.
 	 */
 	private void openFile() {
-		File file = view.showOpenFileChooser();
+		File file = mainView.showOpenFileChooser();
 		if(file != null) {
 			drawPanelController.loadPointsToModel(file);
 			drawPanelController.updateModel();
@@ -186,4 +192,10 @@ public class FileManager implements IFileManager {
 			filePath = file.getAbsolutePath();
 		}
 	}
+	
+	public void setDataChangedSinceLastSave(boolean b) {
+		dataChangedSinceLastSave = b;
+	}
+	
+	
 }

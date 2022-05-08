@@ -10,13 +10,13 @@ package propra22.q8493367.draw.view;
 public interface IDrawPanel  {
 	
 	/**
-	 * sets the IDrawPanelListener
-	 * @param drawPanelListener
+	 * sets the draw panel listener
+	 * @param drawPanelListener - the draw panel listener
 	 */
 	public void setDrawPanelListener(IDrawPanelListener drawPanelListener);
 	
 	/**
-	 * updates the IDrawPanel
+	 * updates the draw panel
 	 */
 	public void update();
 

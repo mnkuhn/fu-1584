@@ -1,13 +1,22 @@
 package propra22.q8493367.draw.view;
 import java.awt.Graphics;
 
-import propra22.q8493367.point.PointEvent;
 
+
+
+
+// TODO: Auto-generated Javadoc
+/**
+ * The listener interface for receiving IDrawPanel events.
+ * The class that is interested in processing a IDrawPanel
+ * event implements this interface, and the object created
+ * with that class is registered with a component using the
+ * component's <code>addIDrawPanelListener<code> method. When
+ * the IDrawPanel event occurs, that object's appropriate
+ * method is invoked.
+ *
+ * @see IDrawPanelEvent
+ */
 public interface IDrawPanelListener {
-	public void pointInsertionEventOccured(PointEvent e);
-	public void pointDeletionEventOccured(PointEvent e);
-	public void paintEventOccured(Graphics g);
-	public void dragInitializedEventOccured(PointEvent e);
-	public void dragEventOccured(PointEvent e);
-	public void dragEventEnded(PointEvent e);
+	public void drawPanelEventOccured(IDrawPanelEvent e);	
 }

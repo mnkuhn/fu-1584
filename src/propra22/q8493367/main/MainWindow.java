@@ -27,8 +27,8 @@ import propra22.q8493367.command.CommandEventType;
 import propra22.q8493367.draw.view.DrawPanel;
 import propra22.q8493367.file.FileEvent;
 import propra22.q8493367.file.FileEventType;
-import propra22.q8493367.point.GenerationEvent;
-import propra22.q8493367.point.GenerationEventType;
+import propra22.q8493367.point.RandomPointsEvent;
+import propra22.q8493367.point.RandomPointsEventType;
 import propra22.q8493367.settings.Settings;
 
 
@@ -226,7 +226,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainWindowListener.insertRandomPointsEventOccured(new GenerationEvent(GenerationEventType.TEN));
+				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.TEN));
 			}
         });
         
@@ -235,7 +235,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainWindowListener.insertRandomPointsEventOccured(new GenerationEvent(GenerationEventType.FIFTY));
+				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.FIFTY));
 			}
         });
        
@@ -244,7 +244,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainWindowListener.insertRandomPointsEventOccured(new GenerationEvent(GenerationEventType.HUNDRED));
+				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.HUNDRED));
 				
 			}	
         });
@@ -254,7 +254,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainWindowListener.insertRandomPointsEventOccured(new GenerationEvent(GenerationEventType.FIVEHUNDRED));
+				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.FIVEHUNDRED));
 			}	
         });
         
@@ -263,7 +263,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainWindowListener.insertRandomPointsEventOccured(new GenerationEvent(GenerationEventType.THOUSAND));
+				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.THOUSAND));
 			}	
         });
        

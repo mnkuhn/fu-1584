@@ -6,7 +6,7 @@ import propra22.q8493367.point.IPoint;
 
 /**
  * A Collection of objects of the type Point.
- * The IDrawPanelModel interface provides methods to administrate these objects.
+ * The IDrawPanelModel interface provides methods to manage these objects.
  * It also provides the administration of 4 subsets of these points, which are used to calculate the points which are
  * part of the contour polygon respectively the points which are part of the convex hull.
  */
@@ -24,8 +24,6 @@ public interface IDrawPanelModel {
 	 * @return true, if model contains no points
 	 */
 	public boolean isEmpty();
-	
-	
 	
 	
 	/**

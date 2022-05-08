@@ -15,7 +15,7 @@ import java.util.List;
 
 import propra22.q8493367.command.DragPointCommand;
 import propra22.q8493367.command.ICommand;
-import propra22.q8493367.command.InsertPointCommand;
+
 import propra22.q8493367.command.InsertRandomPointsCommand;
 import propra22.q8493367.command.RemovePointCommand;
 import propra22.q8493367.contour.ContourPolygonCalculator;
@@ -26,12 +26,11 @@ import propra22.q8493367.draw.model.Hull;
 import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IDrawPanelModel;
 import propra22.q8493367.draw.view.DrawPanel;
-import propra22.q8493367.draw.view.IDrawPanelListener;
+
 import propra22.q8493367.file.Parser;
 import propra22.q8493367.metric.IMetric;
 import propra22.q8493367.metric.ManhattanDistance;
 import propra22.q8493367.point.IPoint;
-import propra22.q8493367.point.PointEvent;
 import propra22.q8493367.settings.Settings;
 
 
@@ -40,193 +39,104 @@ import propra22.q8493367.settings.Settings;
 /**
  * The controller of the draw panel. It also listens to all events on the draw panel.
  */
-public class DrawPanelController implements IDrawPanelListener, IDrawPanelController {
+public class DrawPanelController implements IDrawPanelController {
 	
+	/** The view. */
 	// view
 	private DrawPanel view;
 	
+	/** The draw panel model. */
 	//model
 	private IDrawPanelModel drawPanelModel;
+	
+	/** The hull. */
+	//should be an argument of the controller constructor
 	private IHull hull = new Hull();
 	
-	private  int drawPanelReferenceWidth;
-	private  int drawPanelReferenceHeight;
+	/** The draw panel reference width to which all calculations refer. */
+	private  int drawPanelReferenceWidth = 800;
 	
-	// Dragging
+	/** The draw panel reference height to which all calculations refer. */
+	private  int drawPanelReferenceHeight = 500;
+	
+	
+	// Dragging points
+	
+	/** The for drag selected. */
 	private IPoint forDragSelected = null;
+	
+	/** The previous mouse X. */
 	private int previousMouseX;
+	
+	/** The previous mouse Y. */
 	private int previousMouseY;
+	
+	/** The start mouse X. */
 	private int startMouseX;
+	
+	/** The start mouse Y. */
 	private int startMouseY;
 	
-	// List of the executed commands
+	
+	
+	//commands
+	/** The command list. */
 	private List<ICommand> commandList = new ArrayList<>();
+	
+	/** The command index. */
+	// actual position in the command list
 	private int commandIndex =  -1;
 	
 	
+	
+	//calculations
+	/** The contour polygon calculator. */
 	private ContourPolygonCalculator contourPolygonCalculator;
+	
+	/** The convex hull calculator. */
 	private ConvexHullCalculator convexHullCalculator;
 	
-	// Parsing a file
+	
+	//File
+	/** The parser. */
 	private Parser parser = new Parser();
 	
-	// Saving to file
-	private boolean pointDataHasChanged = false;
+	/** The data changed since last save. */
+	// Indicates if the point set has changed since last save
+	private boolean dataChangedSinceLastSave = false;
 	
 	/**
 	 * Instantiates a new draw panel controller.
 	 *
-	 * @param drawPanelModell - the draw panel
-	 * @param view - the model of the draw panel.
+	 * @param drawPanelModel the draw panel model
+	 * @param drawPanel the draw panel
 	 */
+	// should take the hull too
 	public DrawPanelController(IDrawPanelModel drawPanelModel, DrawPanel drawPanel) {
 		this.view = drawPanel;
 		this.drawPanelModel = drawPanelModel;
 		contourPolygonCalculator = new ContourPolygonCalculator(drawPanelModel, hull);
 		convexHullCalculator = new ConvexHullCalculator(hull);
 		drawPanelReferenceWidth = drawPanel.getPreferredSize().width;
-		drawPanelReferenceHeight = drawPanel.getPreferredSize().height;
-		
+		drawPanelReferenceHeight = drawPanel.getPreferredSize().height;	
 	}
 	
+	
+	/**
+	 * Instantiates a new draw panel controller which only takes a model. Used for testing 
+	 *
+	 * @param drawPanelModel the draw panel model
+	 */
+	// should take the hull too
 	public DrawPanelController(IDrawPanelModel drawPanelModel) {
 		
 		this.drawPanelModel = drawPanelModel;
 		this.view = null;
-		
 		contourPolygonCalculator = new ContourPolygonCalculator(drawPanelModel, hull);
-		convexHullCalculator = new ConvexHullCalculator(hull);
-		
-		drawPanelReferenceWidth = 800;
-		drawPanelReferenceHeight = 500;	
+		convexHullCalculator = new ConvexHullCalculator(hull);	
 	}
 	
-	
-	//Points
-	
-	/**
-	 * This method is called when the user wants to insert a point 
-	 * on the draw panel.
-	 *
-	 * @param e - the point event which contains information about the point.
-	 */
-	@Override
-	public void pointInsertionEventOccured(PointEvent e) {
-		
-		if(commandIndex != commandList.size() - 1) {
-			removeAllComandsAfterCommandIndex();
-		}
-		ICommand insertPointCommand = new InsertPointCommand(e.getX(), e.getY(), drawPanelModel);
-		insertPointCommand.execute();
-		addCommandToCommandList(insertPointCommand);
-		
-		updateModel();
-		updateView();
-		
-		pointDataHasChanged = true;
-	}
-	
-	/**
-	 * This method is called when the user wants to delete a point
-	 * from the draw panel.
-	 *
-	 * @param e - the point event which contains information about the point.
-	 */
-	//PointEvent ist nicht so eine gute Bezeichnung
-	@Override
-	public void pointDeletionEventOccured(PointEvent e) {
-		IPoint closest =  getClosestPointToMouse(e.getX(), e.getY(), new ManhattanDistance());
-		if(closest != null) {
-			if(pointIsWithinMouseRadius(closest, e.getX(), e.getY(), new ManhattanDistance(), Settings.mouseRadius)) {
 
-				if(commandIndex != commandList.size() - 1) {
-					removeAllComandsAfterCommandIndex();
-				}
-				ICommand removePointCommand = new RemovePointCommand(closest, drawPanelModel);
-	            removePointCommand.execute();
-	            
-	            addCommandToCommandList(removePointCommand);
-	           
-				updateModel();
-				updateView();
-				
-				pointDataHasChanged = true;
-			}
-		}	
-	}
-	
-	/**
-	 * This method is called when the user starts to drag a point
-	 * over the draw panel.
-	 *
-	 * @param e - point event which contains information about the point
-	 */
-	@Override
-	public void dragInitializedEventOccured(PointEvent e) {
-		
-		IPoint closest =  getClosestPointToMouse(e.getX(), e.getY(), new ManhattanDistance());
-	
-		if(closest != null) {
-			if(pointIsWithinMouseRadius(closest, e.getX(), e.getY(), new ManhattanDistance(), Settings.mouseRadius)) {
-				
-				startMouseX = e.getX();
-				startMouseY = e.getY();
-				previousMouseX = e.getX();
-				previousMouseY = e.getY();
-				forDragSelected = closest;	
-			}
-		}			
-	}
-
-	/**
-	 * This method is called when the user is dragging a point over the 
-	 * draw panel.
-	 *
-	 * @param e - point event which contains information about the point
-	 */
-	@Override
-	public void dragEventOccured(PointEvent e) {
-		if(forDragSelected != null) {
-			int dx = e.getX() - previousMouseX;
-			int dy = e.getY() - previousMouseY;
-	
-			forDragSelected.translate(dx, dy);
-			drawPanelModel.lexSort();
-			
-			previousMouseX = e.getX();
-			previousMouseY = e.getY();
-			System.out.println(drawPanelModel.toString());
-			contourPolygonCalculator.calculateContourPolygon();
-			convexHullCalculator.calculateConvexHull();
-			updateView();		
-		}
-	}
-
-	/**
-	 * This method is called when the user has stopped dragging a 
-	 * point over the draw panel.
-	 *
-	 * @param dragEvent the drag event
-	 */
-	@Override
-	public void dragEventEnded(PointEvent dragEvent) {
-		pointDataHasChanged = true;
-		
-		int dx = dragEvent.getX() - startMouseX;
-		int dy = dragEvent.getY() - startMouseY;
-		
-		if(commandIndex != commandList.size() - 1) {
-			removeAllComandsAfterCommandIndex();
-		}
-		
-		ICommand dragPointCommand = new DragPointCommand(dx, dy, forDragSelected);
-        addCommandToCommandList(dragPointCommand);
-       
-		updateModel();
-		updateView();
-		
-		pointDataHasChanged = true;		
-	}
 
 	/**
 	 * Determines, if a point is within a certain radius to the mouse
@@ -252,6 +162,7 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	 * @param metric - the metric which is used to determine the distance
 	 * @return the closest point to mouse pointer
 	 */
+	
 	private IPoint getClosestPointToMouse(int mouseX, int mouseY, IMetric metric) {
 		if(drawPanelModel.isEmpty()) {
 			return null;
@@ -270,42 +181,29 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	
 	
 	/**
-	 * Updates the view i.e the draw panel.
+	 * Updates the the draw panel.
 	 */
 	public void updateView() {
 		view.update();
 	}
 
 	/**
-	 * Update model i.e. the draw panel model.
+	 * Updates the draw panel model.
 	 */
 	public void updateModel() {
+		drawPanelModel.lexSort();
 		contourPolygonCalculator.calculateContourPolygon();
 		convexHullCalculator.calculateConvexHull();
 	}
 
-	/**
-	 * This method is called, if the view needs to be updated
-	 * 
-	 * @param g - the graphics object of the draw panel.
-	 */
-	@Override
-	public void paintEventOccured(Graphics g) {
-		if(!drawPanelModel.isEmpty()) {
-			Graphics2D g2 = (Graphics2D)g;
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			drawPoints(g2);
-			drawHull(g2, Settings.convexHullColor);
-		}
-	}
-    
+	
+	
 	
 	
 	/**
-	 * Draws all points which are part of the draw panel model.
+	 * Draws all points from the model onto the draw panel
 	 *
-	 * @param g2 - the graphics object of the draw panel which has
-	 * been casted to Graphics2D.
+	 * @param g2 - the Graphics2D Object which is used for painting
 	 */
 	private void drawPoints(Graphics2D g2) {
 		
@@ -320,7 +218,8 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	/**
 	 * Draws the convex hull.
 	 *
-	 * @param g2 the g 2
+	 * @param g2 - the Graphics2D Object which is used for painting
+	 * @param color - the color for the hull
 	 */
 	private void drawHull(Graphics2D g2, Color color) {
 		g2.setColor(color);
@@ -362,11 +261,14 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 		updateView();	
 	}
 	
+	/**
+	 * Removes all points from the point set
+	 */
 	@Override
 	public void clearModel() {
 		drawPanelModel.clear();
 		hull.clearAllSections();
-		pointDataHasChanged = false;
+		dataChangedSinceLastSave = false;
 	}
 
 
@@ -386,13 +288,12 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	 * Saves all points which are registered in the draw panel
 	 * model to disc.
 	 *
-	 * @param path the path
+	 * @param path - the path of the file
 	 */
-	
 	@Override
 	public void saveModel(String path) {
 		
-		if(pointDataHasChanged) {
+		if(dataChangedSinceLastSave) {
 			File file = new File(path);
 			try {
 				FileWriter fileWriter = new FileWriter(file);
@@ -402,7 +303,7 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 					printWriter.println(point.toString());
 				}
 				printWriter.close();
-				pointDataHasChanged = false;
+				dataChangedSinceLastSave = false;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}	
@@ -417,9 +318,6 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	 *
 	 * @param file - the file from which the points are loaded.
 	 */
-	
-	
-	// in den FileManager
 	@Override
 	public void loadPointsToModel(File file) {
 		
@@ -436,7 +334,7 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 					drawPanelModel.addPoint(point);
 				}
 			}
-			pointDataHasChanged = false;
+			dataChangedSinceLastSave = false;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -444,7 +342,7 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 		}
 		
 	}
-
+    
 
 	/**
 	 * Returns true, if points where added or deleted or if 
@@ -455,7 +353,7 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 	 */
 	@Override
 	public boolean dataChangedSinceLastSave() {
-		return pointDataHasChanged;
+		return dataChangedSinceLastSave;
 	}
 
 	
@@ -555,18 +453,152 @@ public class DrawPanelController implements IDrawPanelListener, IDrawPanelContro
 		updateModel();
 		updateView();
 		
-		pointDataHasChanged = true;	
+		dataChangedSinceLastSave = true;	
 	}
 
 
+	/**
+	 * Insert a point into the point set
+	 *
+	 * @param point the point
+	 */
 	@Override
-	public void insertPoint(IPoint point) {
+	public void insertPointToModel(IPoint point) {
 		drawPanelModel.addPoint(point);
-		
 	}
 	
+	/**
+	 * Hull as array.
+	 *
+	 * @return the int[][]
+	 */
 	@Override
 	public int[][] hullAsArray(){
 		return hull.toArray();
+	}
+
+
+	/**
+	 * Deletes a point from the point set.
+	 * @param mouseX the mouse X
+	 * @param mouseY the mouse Y
+	 */
+	@Override
+	public void deletePointFromModel(int mouseX, int mouseY) {
+		System.out.println("drawPanelController deletePoint");
+		IPoint closest =  getClosestPointToMouse(mouseX, mouseY, new ManhattanDistance());
+		
+		if(closest != null) {
+			
+			if(pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanDistance(), Settings.mouseRadius)) {
+                System.out.println("point is within mouse radius");
+				if(commandIndex != commandList.size() - 1) {
+					removeAllComandsAfterCommandIndex();
+				}
+				ICommand removePointCommand = new RemovePointCommand(closest, drawPanelModel);
+	            removePointCommand.execute();
+	            addCommandToCommandList(removePointCommand);
+				updateModel();
+				updateView();
+				dataChangedSinceLastSave = true;
+			}
+		}		
+	}
+
+
+	/**
+	 * Initializes a point drag.
+	 *
+	 * @param mouseX - the x coordinate of the mouse which is the starting x coordinate of the 
+	 * drag 
+	 * @param mouseY - the y coordinate of the mouse which is the starting y coordinate of the 
+	 * drag
+	 */
+	@Override
+	public void initializePointDrag(int mouseX, int mouseY) {
+		
+		IPoint closest =  getClosestPointToMouse(mouseX, mouseY, new ManhattanDistance());
+		if(closest != null) {
+			if(pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanDistance(), Settings.mouseRadius)) {
+				System.out.println("initializePointDrag in if");
+				startMouseX = mouseX;
+				startMouseY = mouseY;
+				previousMouseX = mouseX;
+				previousMouseY = mouseY;
+				forDragSelected = closest;
+			}
+		}			
+	}
+
+
+	/**
+	 * Drag point.
+	 *
+	 * @param mouseX - the x coordinate of the mouse
+	 * @param mouseY - the y coordinate of the mouse
+	 */
+	@Override
+	public void dragPoint(int mouseX, int mouseY) {
+		if(forDragSelected != null) {
+			int dx = mouseX - previousMouseX;
+			int dy = mouseY - previousMouseY;
+	
+			forDragSelected.translate(dx, dy);
+			drawPanelModel.lexSort();
+			
+			previousMouseX = mouseX;
+			previousMouseY = mouseY;
+			
+			// a lot to do here..
+			System.out.println(drawPanelModel.toString());
+			contourPolygonCalculator.calculateContourPolygon();
+			convexHullCalculator.calculateConvexHull();
+			updateView();		
+		}	
+	}
+
+
+	/**
+	 * Terminate point drag. It refers to the starting x coordinate and the
+	 * starting y coordinate of the mouse, puts the command in the
+	 * command list and executes the command.
+	 *
+	 * @param mouseX - the x coordinate of the mouse
+	 * @param mouseY - the y coordinate of the mouse
+	 */
+	@Override
+	public void terminatePointDrag(int mouseX, int mouseY) {
+		dataChangedSinceLastSave = true;
+		int dx = mouseX - startMouseX;
+		int dy = mouseY - startMouseY;
+		
+		if(commandIndex != commandList.size() - 1) {
+			removeAllComandsAfterCommandIndex();
+		}
+		ICommand dragPointCommand = new DragPointCommand(dx, dy, forDragSelected);
+        addCommandToCommandList(dragPointCommand);
+        
+        // a lot to do here..
+		updateModel();
+		updateView();
+		
+		dataChangedSinceLastSave = true;	
+	}
+
+
+	/**
+	 * Paints the points, the convex hull und was noch alles kommt on the 
+	 * draw panel
+	 *
+	 * @param g the g
+	 */
+	@Override
+	public void paintDrawPanel(Graphics g) {
+		if(!drawPanelModel.isEmpty()) {
+			Graphics2D g2 = (Graphics2D)g;
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			drawPoints(g2);
+			drawHull(g2, Settings.convexHullColor);
+		}	
 	}
 }

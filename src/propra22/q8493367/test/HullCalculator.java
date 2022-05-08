@@ -24,13 +24,13 @@ public class HullCalculator implements IHullCalculator{
 	
 	@Override
 	public void addPoint(int arg0, int arg1) { 
-		drawPanelController.insertPoint(new Point(arg0, arg1));	
+		drawPanelController.insertPointToModel(new Point(arg0, arg1));	
 	}
 
 	@Override
 	public void addPointsFromArray(int[][] arg0) {
 		for(int i = 0; i < arg0.length; i++) {
-			drawPanelController.insertPoint(new Point(arg0[i][0], arg0[i][1]));
+			drawPanelController.insertPointToModel(new Point(arg0[i][0], arg0[i][1]));
 		}
 	}
 

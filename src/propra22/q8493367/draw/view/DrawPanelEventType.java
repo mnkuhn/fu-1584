@@ -1,0 +1,5 @@
+package propra22.q8493367.draw.view;
+
+public enum DrawPanelEventType {
+		INSERT_POINT, DELETE_POINT, DRAG_POINT_INITIALIZED, DRAG_POINT, DRAG_POINT_ENDED, PAINT;
+}
