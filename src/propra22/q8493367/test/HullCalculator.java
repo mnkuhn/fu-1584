@@ -8,14 +8,13 @@ import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.controller.IDrawPanelController;
 import propra22.q8493367.draw.model.DrawPanelModel;
 import propra22.q8493367.draw.model.IDrawPanelModel;
-
-
+import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
 public class HullCalculator implements IHullCalculator{
 	
 	IDrawPanelModel model = new DrawPanelModel();
-	IDrawPanelController drawPanelController;
+	DrawPanelController drawPanelController;
 	
 	public HullCalculator() {
 		IDrawPanelModel model = new DrawPanelModel();
@@ -53,8 +52,14 @@ public class HullCalculator implements IHullCalculator{
 
 	@Override
 	public int[][] getDiameter() {
-		// TODO Auto-generated method stub
-		return null;
+		drawPanelController.updateModel();
+		int[][] diameter = new int[2][2];
+		IPoint[] diameterPointArray = drawPanelController.getDiameter();
+		diameter[0][0] = diameterPointArray[0].getX();
+		diameter[0][1] = diameterPointArray[0].getY();
+		diameter[1][0] = diameterPointArray[1].getX();
+		diameter[1][1] = diameterPointArray[1].getY();
+		return diameter;
 	}
 
 	@Override

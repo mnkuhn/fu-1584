@@ -7,5 +7,6 @@ public interface IPoint extends Comparable<IPoint> {
 	public void translate(int dx, int dy);
 	public int compareTo(IPoint p);
 	public String toString();
-	
+	public IPoint add(IPoint p);
+	public IPoint subtract(IPoint p);
 }

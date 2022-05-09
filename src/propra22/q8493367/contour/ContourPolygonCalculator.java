@@ -101,9 +101,6 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	}
 	
 	
-	
-	
-
 	/**
 	 * Calculate lower right section.
 	 */

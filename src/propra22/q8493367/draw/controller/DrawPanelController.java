@@ -20,6 +20,7 @@ import propra22.q8493367.command.InsertRandomPointsCommand;
 import propra22.q8493367.command.RemovePointCommand;
 import propra22.q8493367.contour.ContourPolygonCalculator;
 import propra22.q8493367.contour.SectionType;
+import propra22.q8493367.convex.BiggestRectangleCalculator;
 import propra22.q8493367.convex.ConvexHullCalculator;
 import propra22.q8493367.draw.model.Hull;
 
@@ -96,6 +97,9 @@ public class DrawPanelController implements IDrawPanelController {
 	/** The convex hull calculator. */
 	private ConvexHullCalculator convexHullCalculator;
 	
+	/**The calculator for the diameter*/
+	private BiggestRectangleCalculator biggestRectangleCalculator;
+	
 	
 	//File
 	/** The parser. */
@@ -133,7 +137,8 @@ public class DrawPanelController implements IDrawPanelController {
 		this.drawPanelModel = drawPanelModel;
 		this.view = null;
 		contourPolygonCalculator = new ContourPolygonCalculator(drawPanelModel, hull);
-		convexHullCalculator = new ConvexHullCalculator(hull);	
+		convexHullCalculator = new ConvexHullCalculator(hull);
+		biggestRectangleCalculator = new BiggestRectangleCalculator(hull);
 	}
 	
 
@@ -194,6 +199,7 @@ public class DrawPanelController implements IDrawPanelController {
 		drawPanelModel.lexSort();
 		contourPolygonCalculator.calculateContourPolygon();
 		convexHullCalculator.calculateConvexHull();
+		biggestRectangleCalculator.calculate();
 	}
 
 	
@@ -600,5 +606,10 @@ public class DrawPanelController implements IDrawPanelController {
 			drawPoints(g2);
 			drawHull(g2, Settings.convexHullColor);
 		}	
+	}
+	
+	// for testing
+	public IPoint[]getDiameter(){
+		return hull.getDiameter();
 	}
 }

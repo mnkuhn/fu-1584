@@ -38,6 +38,16 @@ public class Point  implements IPoint {
 		builder.append(y);
 		return builder.toString();
 	}
+
+	@Override
+	public IPoint add(IPoint p) {
+		return new Point(this.x + p.getX(), this.y + p.getY());
+	}
+
+	@Override
+	public IPoint subtract(IPoint p) {
+		return new Point(this.x - p.getX(), this.y - p.getY());
+	}
 	
 }
 

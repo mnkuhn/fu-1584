@@ -2,6 +2,8 @@ package propra22.q8493367.draw.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import propra22.q8493367.contour.SectionType;
 import propra22.q8493367.point.IPoint;
@@ -14,6 +16,9 @@ public class Hull implements IHull {
     private List<IPoint> upperRightSection = new ArrayList<>();
 	private boolean lowerSectionsMeet;
 	private boolean upperSectionsMeet;
+	
+	private int rightMost;
+	IPoint[] diameter;
     
     @Override
     public  void addPointToSection(IPoint point, SectionType sectionType) {
@@ -166,6 +171,9 @@ public class Hull implements IHull {
 
 	@Override
 	public int[][] toArray() {
+		
+		
+		/*
 		IPoint point = null;
 		int index = 0;
 		int i = 0;
@@ -191,6 +199,8 @@ public class Hull implements IHull {
 		}
 		gap = 1;
 		
+		rightMost = index - 1;
+		
 		i = 1;
 		while(index < numberOfRows() && i < getSizeOfSection(SectionType.UPPERRIGHT)) {
 			point = getPointFromSection(i++, SectionType.UPPERRIGHT);
@@ -206,6 +216,14 @@ public class Hull implements IHull {
 			array[index][0] = point.getX();
 			array[index][1] = point.getY();
 			index++;
+		}
+		return array;
+		*/
+		List<IPoint> list = this.toList();
+		int[][]  array = new int[list.size()][2];
+		for(int i = 0; i < list.size(); i++) {
+			array[i][0] = list.get(i).getX();
+			array[i][1] = list.get(i).getY();
 		}
 		return array;
 	}
@@ -225,18 +243,60 @@ public class Hull implements IHull {
 			lowerSectionsMeet = false;
 		}
 		
-		
 		int upper = upperRightSection.size();
 		if(upperRightSection.get(upperRightSection.size() - 1) == upperLeftSection.get(upperLeftSection.size() - 1)) {
 			upper = upper + upperLeftSection.size() - 1;
-			upperSectionsMeet = true;
-			
+			upperSectionsMeet = true;	
 		}
 		else {
 			upper = upper + upperLeftSection.size();
 			upperSectionsMeet = false;
 		}
 		return lower + upper - 2;
+	}
+	
+	
+	public List<IPoint> toList() {
+		List<IPoint> pointList = new ArrayList<IPoint>();
+		IPoint point = null;
+		int index = 0;
+		int i = 0;
+		while(index < numberOfRows() && i < getSizeOfSection(SectionType.LOWERLEFT)) {
+			point = getPointFromSection(i++, SectionType.LOWERLEFT);
+			pointList.add(point);
+			index++;
+		}
+		
+		
+		int gap = 1;
+		if(lowerSectionsMeet) {gap = 2;}
+		i = getSizeOfSection(SectionType.LOWERRIGHT) - gap;
+		
+	
+		while(index < numberOfRows() && i >= 0){
+			point = getPointFromSection(i--, SectionType.LOWERRIGHT);
+			pointList.add(point);
+			index++;
+		}
+		gap = 1;
+		
+		rightMost = index - 1;
+		
+		i = 1;
+		while(index < numberOfRows() && i < getSizeOfSection(SectionType.UPPERRIGHT)) {
+			point = getPointFromSection(i++, SectionType.UPPERRIGHT);
+			pointList.add(point);
+			index++;
+		}
+		
+		if(upperSectionsMeet) {gap = 2;}
+		i = getSizeOfSection(SectionType.UPPERLEFT) - gap;
+		while(index < numberOfRows() && i > 0) {
+			point = getPointFromSection(i--, SectionType.UPPERLEFT);
+			pointList.add(point);
+			index++;
+		}
+		return pointList;
 	}
 	
 	//only for testing
@@ -272,4 +332,21 @@ public class Hull implements IHull {
 			System.out.println(point.toString());
 		}
 	}
+	
+	@Override
+	public int getIndexOfRightMostPoint() {
+		return rightMost;
+	}
+
+	@Override
+	public IPoint[] getDiameter() {
+		return diameter;
+	}
+
+	@Override
+	public void setDiameter(IPoint[] diameter) {
+		this.diameter = diameter;	
+	}
+
+	
 }
