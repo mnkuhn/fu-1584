@@ -106,5 +106,6 @@ public class ConvexHullCalculator implements ISectionCalculator {
 		for(SectionType sectionType : SectionType.values()) {
 			calculateSection(sectionType);
 		}
+		hull.createList();
 	}
 }

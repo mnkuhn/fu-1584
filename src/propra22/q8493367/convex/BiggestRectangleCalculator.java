@@ -2,6 +2,7 @@ package propra22.q8493367.convex;
 
 import java.util.List;
 
+import propra22.q8493367.draw.model.Hull.HullIterator;
 import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
@@ -37,92 +38,139 @@ public class BiggestRectangleCalculator {
 		return qaudraticDistance(a, b) > qaudraticDistance(c, d);
 	}
 
-	private static long AngleComparisonTest(IPoint aPoint, IPoint afterAPoint, IPoint bPoint, IPoint afterBPoint) {
-		long xTip = (long) aPoint.getX() + (long) bPoint.getX() - (long) afterBPoint.getX();
-		long yTip = (long) aPoint.getY() + (long) bPoint.getY() - (long) afterBPoint.getY();
+	private static long AngleComparisonTest(HullIterator aIterator, HullIterator bIterator) {
+		long xTip = (long) aIterator.getPoint().getX() + (long) bIterator.getPoint().getX() - (long) bIterator.getNextPoint().getX();
+		long yTip = (long) aIterator.getPoint().getY() + (long) bIterator.getPoint().getY() - (long) bIterator.getNextPoint().getY();
 		IPoint tip = new Point((int) xTip, (int) yTip);
-		return DFV(aPoint, afterAPoint, tip);
+		return DFV(aIterator.getPoint(), aIterator.getNextPoint(), tip);
 	}
 
 	public void calculate() {
 
-		IPoint maxAPoint = null;
-		IPoint maxBPoint = null;
+		IPoint maxDiameterA = null;
+		IPoint maxDiameterB = null;
 
-		List<IPoint> list = hull.toList();
-		if (list.size() == 1) {
-			maxAPoint = list.get(0);
-			maxBPoint = list.get(0);
-		} else if (list.size() == 2) {
-			maxAPoint = list.get(0);
-			maxBPoint = list.get(1);
-		} else if (list.size() >= 3) {
+		HullIterator aIt = hull.getIterator(0, hull.getIndexOfRightMostPoint() + 1);
+		HullIterator cIt = hull.getIterator(hull.getIndexOfRightMostPoint(), 1);
+		
+		if (hull.size() == 1 || hull.size() == 2) {
+			maxDiameterA = aIt.getPoint();
+			maxDiameterB = cIt.getPoint();
+		
+		} else if (hull.size() >= 3) {
+			/*
 			int aIndex = 0;
-			int bIndex = hull.getIndexOfRightMostPoint();
+			int cIndex = hull.getIndexOfRightMostPoint();
+            
+			IPoint aPoint = hull.get(aIndex);;
+			IPoint afterAPoint = hull.get((aIndex + 1) % hull.size());
+			IPoint cPoint = hull.get(cIndex);
+			IPoint afterCPoint = hull.get((cIndex + 1) % hull.size());
+			*/
+            
+			// first diameter
+			maxDiameterA = aIt.getPoint();
+			maxDiameterB = cIt.getPoint();
+			
+			// first rectangle
+			//Rectangle maxRectangle = calculateRectangle(aIndex, cIndex);
 
-			IPoint aPoint = list.get(aIndex);
-			IPoint afterAPoint = list.get(aIndex + 1);
-			IPoint bPoint = list.get(bIndex);
-			IPoint afterBPoint = list.get(bIndex + 1);
+			while (!(aIt.getIndex() > hull.getIndexOfRightMostPoint()) || !(cIt.getIndex() < hull.getIndexOfRightMostPoint())) {
+                /*
+				aPoint = hull.get(aIndex);
+				afterAPoint = hull.get((aIndex + 1) % hull.size());
+				cPoint = hull.get(cIndex);
+				afterCPoint = hull.get((cIndex + 1) % hull.size());
+				*/
 
-			maxAPoint = aPoint;
-			maxBPoint = bPoint;
-
-			while (aIndex < hull.getIndexOfRightMostPoint() || bIndex >= hull.getIndexOfRightMostPoint()) {
-
-				aPoint = list.get(aIndex);
-				afterAPoint = list.get((aIndex + 1) % list.size());
-				bPoint = list.get(bIndex);
-				afterBPoint = list.get((bIndex + 1) % list.size());
-
-				if (isLonger(aPoint, bPoint, maxAPoint, maxBPoint)) {
-					maxAPoint = aPoint;
-					maxBPoint = bPoint;
+				if (isLonger(aIt.getPoint(), cIt.getPoint(), maxDiameterA, maxDiameterB)) {
+					maxDiameterA = aIt.getPoint();
+					maxDiameterB = cIt.getPoint();
+					
 				}
+				
+				/*Rectangle rectangle = calculateRectangle(aIndex, cIndex);
+				if(areaIsBigger(rectangle, maxRectangle)) {
+					maxRectangle = rectangle;
+				}
+				*/
+				
 
-				long angleComparisonTestResult = AngleComparisonTest(aPoint, afterAPoint, bPoint, afterBPoint);
+				long angleComparisonTestResult = AngleComparisonTest(aIt, cIt);
 
 				// angleComparisonResult > 0
 				if (angleComparisonTestResult > 0) {
-					aIndex = (aIndex + 1) % list.size();
+					aIt.next();
 
-					// angleComparisonResult < 0
+				// angleComparisonResult < 0
 				} else if (angleComparisonTestResult < 0) {
-					bIndex = (bIndex + 1) % list.size();
+					cIt.next();
 				}
 
 				// angleComparisonResult == 0
 				else {
-					if (isShorter(aPoint, afterAPoint, bPoint, afterBPoint)) {
-						if (isLonger(afterAPoint, bPoint, maxAPoint, maxBPoint)) {
-							maxAPoint = afterAPoint;
-							maxBPoint = bPoint;
+					if (isShorter(aIt.getPoint(), aIt.getNextPoint(), cIt.getPoint(), cIt.getNextPoint())) {
+						if (isLonger(aIt.getNextPoint(), cIt.getPoint(), maxDiameterA, maxDiameterB)) {
+							maxDiameterA = aIt.getNextPoint();
+							maxDiameterB = cIt.getPoint();
+							
 						}
-						bIndex = (bIndex + 1) % list.size();
+						cIt.next();
+						
 					} else {
-						if (isLonger(aPoint, afterBPoint, maxAPoint, maxBPoint)) {
-							maxAPoint = aPoint;
-							maxBPoint = afterBPoint;
+						if (isLonger(aIt.getPoint(), cIt.getNextPoint(), maxDiameterA, maxDiameterB)) {
+							maxDiameterA = aIt.getPoint();
+							maxDiameterB = cIt.getNextPoint();
+							
 						}
-						aIndex = (aIndex + 1) % list.size();
+						aIt.next();
 					}
 				}
 			}
 		}
 
 		IPoint[] diameter = new IPoint[2];
-		diameter[0] = maxAPoint;
-		diameter[1] = maxBPoint;
+		diameter[0] = maxDiameterA;
+		diameter[1] = maxDiameterB;
 		hull.setDiameter(diameter);
 	}
+	
+	
+	private boolean areaIsBigger(Rectangle rectangle, Rectangle maxRectangle) {
+		long area = DFV(rectangle.getA(), rectangle.getB(), rectangle.getC()) + DFV(rectangle.getA(), rectangle.getC(), rectangle.getD());
+		long maxArea = DFV(maxRectangle.getA(), maxRectangle.getB(), maxRectangle.getC()) + DFV(maxRectangle.getA(), maxRectangle.getC(), maxRectangle.getD());
+		return area > maxArea;
+	}
 
-	public static void main(String[] args) {
-
-		IPoint aP = new Point(1, 10);
-		IPoint b = new Point(11, 10);
-		IPoint afterA = new Point(2, 15);
-		IPoint afterB = new Point(11, 5);
-
-		System.out.println(AngleComparisonTest(aP, afterA, b, afterB));
+	private boolean isHigher(IPoint a, IPoint c, IPoint d, IPoint dDash) {
+		long x = (long)a.getX() + (long)dDash.getX() - (long)c.getX();
+		long y = (long)a.getY() + (long)dDash.getY() - (long)c.getY();
+		IPoint sum = new Point((int)x, (int)y);
+		return DFV(sum, dDash, d) > 0;
+		
+	}
+	
+	private Rectangle calculateRectangle(int aIndex, int cIndex) {
+		IPoint a = hull.get(aIndex);
+		IPoint c = hull.get(cIndex);
+		IPoint b = a;
+		IPoint d = c;
+		int bIndex = aIndex;
+		int dIndex = cIndex;
+		IPoint afterB = hull.get((bIndex + 1) % hull.size());
+		IPoint afterD = hull.get((dIndex + 1) % hull.size());
+		
+		while(isHigher(c, a, afterB, b)) {
+			bIndex = (bIndex + 1) % hull.size();
+			b = hull.get(bIndex);
+			afterB = hull.get((bIndex + 1) % hull.size());
+		}
+		while(isHigher(a, c, afterD, d)) {
+			dIndex = (dIndex + 1) % hull.size();
+			d = hull.get(dIndex);
+			afterD = hull.get((dIndex + 1) % hull.size());
+		}
+		return new Rectangle(a, b, c, d);
+	    
 	}
 }

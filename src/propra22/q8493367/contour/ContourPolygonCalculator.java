@@ -154,6 +154,5 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 		for(SectionType sectionType : SectionType.values()) {
 			calculateSection(sectionType);
 		}
-	}
-	
+	}	
 }

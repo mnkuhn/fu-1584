@@ -23,7 +23,7 @@ import propra22.q8493367.contour.SectionType;
 import propra22.q8493367.convex.BiggestRectangleCalculator;
 import propra22.q8493367.convex.ConvexHullCalculator;
 import propra22.q8493367.draw.model.Hull;
-
+import propra22.q8493367.draw.model.Hull.HullIterator;
 import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IDrawPanelModel;
 import propra22.q8493367.draw.view.DrawPanel;
@@ -121,6 +121,8 @@ public class DrawPanelController implements IDrawPanelController {
 		this.drawPanelModel = drawPanelModel;
 		contourPolygonCalculator = new ContourPolygonCalculator(drawPanelModel, hull);
 		convexHullCalculator = new ConvexHullCalculator(hull);
+		biggestRectangleCalculator = new BiggestRectangleCalculator(hull);
+		
 		drawPanelReferenceWidth = drawPanel.getPreferredSize().width;
 		drawPanelReferenceHeight = drawPanel.getPreferredSize().height;	
 	}
@@ -199,7 +201,7 @@ public class DrawPanelController implements IDrawPanelController {
 		drawPanelModel.lexSort();
 		contourPolygonCalculator.calculateContourPolygon();
 		convexHullCalculator.calculateConvexHull();
-		biggestRectangleCalculator.calculate();
+		biggestRectangleCalculator.calculate();	
 	}
 
 	

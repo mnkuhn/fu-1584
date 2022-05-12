@@ -10,12 +10,13 @@ import propra22.q8493367.point.IPoint;
 
 public class Hull implements IHull {
     
+	private List<IPoint> pointList = new ArrayList<>();
+	
 	private List<IPoint> lowerLeftSection = new ArrayList<>();
     private List<IPoint> upperLeftSection = new ArrayList<>();
     private List<IPoint> lowerRightSection = new ArrayList<>();
     private List<IPoint> upperRightSection = new ArrayList<>();
-	private boolean lowerSectionsMeet;
-	private boolean upperSectionsMeet;
+	
 	
 	private int rightMost;
 	IPoint[] diameter;
@@ -42,7 +43,7 @@ public class Hull implements IHull {
 			default: {
 				throw new IllegalArgumentException("Unexpected value: " + sectionType);
 			}
-    	}		
+    	}
     }   
     
     @Override
@@ -90,7 +91,7 @@ public class Hull implements IHull {
 			default: {
 				throw new IllegalArgumentException("Unexpected value: " + sectionType);
 			}
-		}		
+		}
 	}
 	
 	
@@ -171,65 +172,16 @@ public class Hull implements IHull {
 
 	@Override
 	public int[][] toArray() {
-		
-		
-		/*
-		IPoint point = null;
-		int index = 0;
-		int i = 0;
-		int[][]  array = new int[numberOfRows()][2];
-		while(index < numberOfRows() && i < getSizeOfSection(SectionType.LOWERLEFT)) {
-			point = getPointFromSection(i++, SectionType.LOWERLEFT);
-			array[index][0] = point.getX();
-			array[index][1] = point.getY();
-			index++;
-		}
-		
-		
-		int gap = 1;
-		if(lowerSectionsMeet) {gap = 2;}
-		i = getSizeOfSection(SectionType.LOWERRIGHT) - gap;
-		
-	
-		while(index < numberOfRows() && i >= 0){
-			point = getPointFromSection(i--, SectionType.LOWERRIGHT);
-			array[index][0] = point.getX();
-			array[index][1] = point.getY();
-			index++;
-		}
-		gap = 1;
-		
-		rightMost = index - 1;
-		
-		i = 1;
-		while(index < numberOfRows() && i < getSizeOfSection(SectionType.UPPERRIGHT)) {
-			point = getPointFromSection(i++, SectionType.UPPERRIGHT);
-			array[index][0] = point.getX();
-			array[index][1] = point.getY();
-			index++;
-		}
-		
-		if(upperSectionsMeet) {gap = 2;}
-		i = getSizeOfSection(SectionType.UPPERLEFT) - gap;
-		while(index < numberOfRows() && i > 0) {
-			point = getPointFromSection(i--, SectionType.UPPERLEFT);
-			array[index][0] = point.getX();
-			array[index][1] = point.getY();
-			index++;
-		}
-		return array;
-		*/
-		List<IPoint> list = this.toList();
-		int[][]  array = new int[list.size()][2];
-		for(int i = 0; i < list.size(); i++) {
-			array[i][0] = list.get(i).getX();
-			array[i][1] = list.get(i).getY();
+		int[][]  array = new int[pointList.size()][2];
+		for(int i = 0; i < pointList.size(); i++) {
+			array[i][0] = pointList.get(i).getX();
+			array[i][1] = pointList.get(i).getY();
 		}
 		return array;
 	}
     
-	@Override
-	public int numberOfRows() {
+	/*
+	public int numberOfElements() {
 		if(lowerLeftSection.get(0) == upperRightSection.get(0)) {
 			return 1;
 		}
@@ -254,49 +206,56 @@ public class Hull implements IHull {
 		}
 		return lower + upper - 2;
 	}
+	*/
 	
-	
-	public List<IPoint> toList() {
-		List<IPoint> pointList = new ArrayList<IPoint>();
-		IPoint point = null;
+	@Override
+	public void createList() {
+		
+		IPoint lastPoint = null;
 		int index = 0;
 		int i = 0;
-		while(index < numberOfRows() && i < getSizeOfSection(SectionType.LOWERLEFT)) {
-			point = getPointFromSection(i++, SectionType.LOWERLEFT);
-			pointList.add(point);
+		
+		
+	    while(i < getSizeOfSection(SectionType.LOWERLEFT)) {
+			lastPoint = getPointFromSection(i++, SectionType.LOWERLEFT);
+			pointList.add(lastPoint);
 			index++;
 		}
 		
 		
 		int gap = 1;
-		if(lowerSectionsMeet) {gap = 2;}
-		i = getSizeOfSection(SectionType.LOWERRIGHT) - gap;
-		
-	
-		while(index < numberOfRows() && i >= 0){
-			point = getPointFromSection(i--, SectionType.LOWERRIGHT);
-			pointList.add(point);
+		int sizeOfLowerRight = getSizeOfSection(SectionType.LOWERRIGHT);
+		if(lastPoint == getPointFromSection(sizeOfLowerRight - 1, SectionType.LOWERRIGHT)) {
+			gap = 2;
+		}
+		i = sizeOfLowerRight - gap;
+		while(i >= 0){
+			lastPoint = getPointFromSection(i--, SectionType.LOWERRIGHT);
+			pointList.add(lastPoint);
 			index++;
 		}
-		gap = 1;
+		
 		
 		rightMost = index - 1;
 		
 		i = 1;
-		while(index < numberOfRows() && i < getSizeOfSection(SectionType.UPPERRIGHT)) {
-			point = getPointFromSection(i++, SectionType.UPPERRIGHT);
-			pointList.add(point);
+		while(i < getSizeOfSection(SectionType.UPPERRIGHT)) {
+			lastPoint = getPointFromSection(i++, SectionType.UPPERRIGHT);
+			pointList.add(lastPoint);
 			index++;
 		}
 		
-		if(upperSectionsMeet) {gap = 2;}
-		i = getSizeOfSection(SectionType.UPPERLEFT) - gap;
-		while(index < numberOfRows() && i > 0) {
-			point = getPointFromSection(i--, SectionType.UPPERLEFT);
-			pointList.add(point);
+		gap = 1;
+		int sizeOfUpperLeft = getSizeOfSection(SectionType.UPPERLEFT);
+		if(lastPoint == getPointFromSection(sizeOfUpperLeft - 1, SectionType.UPPERLEFT)) {
+			gap = 2;
+		}
+		i = sizeOfUpperLeft - gap;
+		while(i > 0) {
+			lastPoint = getPointFromSection(i--, SectionType.UPPERLEFT);
+			pointList.add(lastPoint);
 			index++;
 		}
-		return pointList;
 	}
 	
 	//only for testing
@@ -347,6 +306,49 @@ public class Hull implements IHull {
 	public void setDiameter(IPoint[] diameter) {
 		this.diameter = diameter;	
 	}
-
 	
+	@Override
+	public int size() {
+		return pointList.size();
+	}
+	
+	@Override
+	public IPoint get(int index) {
+		return pointList.get(index);
+	}
+	
+	@Override
+	public HullIterator getIterator(int index, int limit) {
+		return new HullIterator(index, limit);
+	}
+	
+	
+	public class HullIterator {
+		int index;
+		int limit;
+		public HullIterator(int index, int limit) {
+			this.index = index;
+			while(index > limit) {
+				limit = limit + pointList.size();
+			}
+			this.limit = limit;
+		}
+		
+		public IPoint getPoint() {
+			return pointList.get(index);
+		}
+		
+		public IPoint getNextPoint() {
+			int size = pointList.size();
+			return pointList.get((index + 1) % size);
+		}
+		
+		public void next() {
+			index = (index + 1) % pointList.size();
+		}
+		
+		public int getIndex() {
+			return index;
+		}
+	}
 }
