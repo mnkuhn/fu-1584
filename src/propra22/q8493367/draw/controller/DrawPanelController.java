@@ -22,8 +22,8 @@ import propra22.q8493367.contour.ContourPolygonCalculator;
 import propra22.q8493367.contour.SectionType;
 import propra22.q8493367.convex.BiggestRectangleCalculator;
 import propra22.q8493367.convex.ConvexHullCalculator;
+import propra22.q8493367.convex.Quadrangle;
 import propra22.q8493367.draw.model.Hull;
-import propra22.q8493367.draw.model.Hull.HullIterator;
 import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IDrawPanelModel;
 import propra22.q8493367.draw.view.DrawPanel;
@@ -613,5 +613,19 @@ public class DrawPanelController implements IDrawPanelController {
 	// for testing
 	public IPoint[]getDiameter(){
 		return hull.getDiameter();
+	}
+
+
+	public double getDiameterLength() {
+		IPoint[] diameter = hull.getDiameter();
+		IPoint point1 = diameter[0];
+		IPoint point2 = diameter[1];
+		double dx = point1.getX() - point2.getX();
+		double dy = point1.getY() - point2.getY();
+		return Math.sqrt( dx*dx + dy*dy );
+	}
+	
+	public Quadrangle getBiggestQuadrangle() {
+		return hull.getRectangle();
 	}
 }

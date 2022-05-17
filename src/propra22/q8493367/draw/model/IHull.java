@@ -3,6 +3,7 @@ package propra22.q8493367.draw.model;
 
 
 import propra22.q8493367.contour.SectionType;
+import propra22.q8493367.convex.Quadrangle;
 import propra22.q8493367.draw.model.Hull.HullIterator;
 import propra22.q8493367.point.IPoint;
 
@@ -29,5 +30,7 @@ public interface IHull {
 	public IPoint get(int i);
 	HullIterator getIterator(int index, int limit);
 	void createList();
+	public void setRectangle(Quadrangle maxRectangle);
+	public Quadrangle getRectangle();
 	
 }

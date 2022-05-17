@@ -6,6 +6,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import propra22.q8493367.contour.SectionType;
+import propra22.q8493367.convex.Quadrangle;
 import propra22.q8493367.point.IPoint;
 
 public class Hull implements IHull {
@@ -20,6 +21,8 @@ public class Hull implements IHull {
 	
 	private int rightMost;
 	IPoint[] diameter;
+
+	private Quadrangle rectangle;
     
     @Override
     public  void addPointToSection(IPoint point, SectionType sectionType) {
@@ -350,5 +353,17 @@ public class Hull implements IHull {
 		public int getIndex() {
 			return index;
 		}
+	}
+
+
+	@Override
+	public void setRectangle(Quadrangle rectangle) {
+		this.rectangle = rectangle;
+		
+	}
+	
+	@Override
+	public Quadrangle getRectangle() {
+		return rectangle;
 	}
 }

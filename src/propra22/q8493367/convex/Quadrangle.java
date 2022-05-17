@@ -2,16 +2,17 @@ package propra22.q8493367.convex;
 
 
 
+import propra22.q8493367.math.Calc;
 import propra22.q8493367.point.IPoint;
 
-public class Rectangle {
+public class Quadrangle {
      
 	private IPoint a;
 	private IPoint b;
 	private IPoint c;
 	private IPoint d;
 
-	public Rectangle(IPoint a, IPoint b, IPoint c, IPoint d) {
+	public Quadrangle(IPoint a, IPoint b, IPoint c, IPoint d) {
 		this.a = a;
 		this.b = b;
 		this.c = c;
@@ -32,5 +33,9 @@ public class Rectangle {
 
 	public IPoint getD() {
 		return d;
+	}
+	
+	public long area() {
+		return Calc.DFV(a, b, c) + Calc.DFV(a, c, d);
 	}
 }

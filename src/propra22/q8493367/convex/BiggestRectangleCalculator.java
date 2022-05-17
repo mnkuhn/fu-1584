@@ -15,7 +15,7 @@ public class BiggestRectangleCalculator {
 		this.hull = hull;
 	}
 
-	private static long DFV(IPoint a, IPoint b, IPoint c) {
+	private long DFV(IPoint a, IPoint b, IPoint c) {
 
 		long summand1 = (long) a.getX() * ((long) b.getY() - (long) c.getY());
 		long summand2 = (long) b.getX() * ((long) c.getY() - (long) a.getY());
@@ -38,7 +38,7 @@ public class BiggestRectangleCalculator {
 		return qaudraticDistance(a, b) > qaudraticDistance(c, d);
 	}
 
-	private static long AngleComparisonTest(HullIterator aIterator, HullIterator bIterator) {
+	private  long AngleComparisonTest(HullIterator aIterator, HullIterator bIterator) {
 		long xTip = (long) aIterator.getPoint().getX() + (long) bIterator.getPoint().getX() - (long) bIterator.getNextPoint().getX();
 		long yTip = (long) aIterator.getPoint().getY() + (long) bIterator.getPoint().getY() - (long) bIterator.getNextPoint().getY();
 		IPoint tip = new Point((int) xTip, (int) yTip);
@@ -49,7 +49,9 @@ public class BiggestRectangleCalculator {
 
 		IPoint maxDiameterA = null;
 		IPoint maxDiameterB = null;
-
+		
+		Quadrangle maxRectangle = null;
+		
 		HullIterator aIt = hull.getIterator(0, hull.getIndexOfRightMostPoint() + 1);
 		HullIterator cIt = hull.getIterator(hull.getIndexOfRightMostPoint(), 1);
 		
@@ -58,22 +60,13 @@ public class BiggestRectangleCalculator {
 			maxDiameterB = cIt.getPoint();
 		
 		} else if (hull.size() >= 3) {
-			/*
-			int aIndex = 0;
-			int cIndex = hull.getIndexOfRightMostPoint();
-            
-			IPoint aPoint = hull.get(aIndex);;
-			IPoint afterAPoint = hull.get((aIndex + 1) % hull.size());
-			IPoint cPoint = hull.get(cIndex);
-			IPoint afterCPoint = hull.get((cIndex + 1) % hull.size());
-			*/
-            
+			
 			// first diameter
 			maxDiameterA = aIt.getPoint();
 			maxDiameterB = cIt.getPoint();
 			
-			// first rectangle
-			//Rectangle maxRectangle = calculateRectangle(aIndex, cIndex);
+	
+		    maxRectangle = calculateRectangle(aIt, cIt);
 
 			while (!(aIt.getIndex() > hull.getIndexOfRightMostPoint()) || !(cIt.getIndex() < hull.getIndexOfRightMostPoint())) {
                 /*
@@ -89,11 +82,10 @@ public class BiggestRectangleCalculator {
 					
 				}
 				
-				/*Rectangle rectangle = calculateRectangle(aIndex, cIndex);
-				if(areaIsBigger(rectangle, maxRectangle)) {
+				Quadrangle rectangle = calculateRectangle(aIt, cIt);
+				if(rectangle.area() > maxRectangle.area()) {
 					maxRectangle = rectangle;
 				}
-				*/
 				
 
 				long angleComparisonTestResult = AngleComparisonTest(aIt, cIt);
@@ -114,6 +106,11 @@ public class BiggestRectangleCalculator {
 							maxDiameterA = aIt.getNextPoint();
 							maxDiameterB = cIt.getPoint();
 							
+						    HullIterator tmp = hull.getIterator(aIt.getIndex() + 1, cIt.getIndex() + 2);
+							rectangle = calculateRectangle(tmp, cIt);
+							if(rectangle.area() > maxRectangle.area()) {
+								maxRectangle = rectangle;
+							}
 						}
 						cIt.next();
 						
@@ -122,6 +119,11 @@ public class BiggestRectangleCalculator {
 							maxDiameterA = aIt.getPoint();
 							maxDiameterB = cIt.getNextPoint();
 							
+							HullIterator tmp = hull.getIterator(cIt.getIndex() + 1, aIt.getIndex() + 1);
+							rectangle = calculateRectangle(aIt, tmp);
+							if(rectangle.area() > maxRectangle.area()) {
+								maxRectangle = rectangle;
+							}	
 						}
 						aIt.next();
 					}
@@ -133,14 +135,11 @@ public class BiggestRectangleCalculator {
 		diameter[0] = maxDiameterA;
 		diameter[1] = maxDiameterB;
 		hull.setDiameter(diameter);
+		hull.setRectangle(maxRectangle);
 	}
 	
 	
-	private boolean areaIsBigger(Rectangle rectangle, Rectangle maxRectangle) {
-		long area = DFV(rectangle.getA(), rectangle.getB(), rectangle.getC()) + DFV(rectangle.getA(), rectangle.getC(), rectangle.getD());
-		long maxArea = DFV(maxRectangle.getA(), maxRectangle.getB(), maxRectangle.getC()) + DFV(maxRectangle.getA(), maxRectangle.getC(), maxRectangle.getD());
-		return area > maxArea;
-	}
+	
 
 	private boolean isHigher(IPoint a, IPoint c, IPoint d, IPoint dDash) {
 		long x = (long)a.getX() + (long)dDash.getX() - (long)c.getX();
@@ -150,27 +149,17 @@ public class BiggestRectangleCalculator {
 		
 	}
 	
-	private Rectangle calculateRectangle(int aIndex, int cIndex) {
-		IPoint a = hull.get(aIndex);
-		IPoint c = hull.get(cIndex);
-		IPoint b = a;
-		IPoint d = c;
-		int bIndex = aIndex;
-		int dIndex = cIndex;
-		IPoint afterB = hull.get((bIndex + 1) % hull.size());
-		IPoint afterD = hull.get((dIndex + 1) % hull.size());
+	private Quadrangle calculateRectangle(HullIterator aIterator, HullIterator cIterator) {
+	
+		HullIterator bIterator = hull.getIterator(aIterator.getIndex(), cIterator.getIndex() + 1);
+		HullIterator dIterator = hull.getIterator(cIterator.getIndex(), aIterator.getIndex() + 1);
 		
-		while(isHigher(c, a, afterB, b)) {
-			bIndex = (bIndex + 1) % hull.size();
-			b = hull.get(bIndex);
-			afterB = hull.get((bIndex + 1) % hull.size());
+		while(isHigher(cIterator.getPoint(), aIterator.getPoint(), bIterator.getNextPoint(), bIterator.getPoint())) {
+			bIterator.next();
 		}
-		while(isHigher(a, c, afterD, d)) {
-			dIndex = (dIndex + 1) % hull.size();
-			d = hull.get(dIndex);
-			afterD = hull.get((dIndex + 1) % hull.size());
+		while(isHigher(aIterator.getPoint(), cIterator.getPoint(), dIterator.getNextPoint(), dIterator.getPoint())) {
+			dIterator.next();
 		}
-		return new Rectangle(a, b, c, d);
-	    
+		return new Quadrangle(aIterator.getPoint(), bIterator.getPoint(), cIterator.getPoint(), dIterator.getPoint());    
 	}
 }

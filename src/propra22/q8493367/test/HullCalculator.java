@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 import propra22.interfaces.IHullCalculator;
+import propra22.q8493367.convex.BiggestRectangleCalculator;
+import propra22.q8493367.convex.Quadrangle;
 import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.controller.IDrawPanelController;
 import propra22.q8493367.draw.model.DrawPanelModel;
@@ -64,8 +66,8 @@ public class HullCalculator implements IHullCalculator{
 
 	@Override
 	public double getDiameterLength() {
-		// TODO Auto-generated method stub
-		return 0;
+		drawPanelController.updateModel();
+		return drawPanelController.getDiameterLength();
 	}
 
 	@Override
@@ -85,14 +87,30 @@ public class HullCalculator implements IHullCalculator{
 
 	@Override
 	public int[][] getQuadrangle() {
-		// TODO Auto-generated method stub
-		return null;
+		drawPanelController.updateModel();
+		Quadrangle biggestQuadrangle = drawPanelController.getBiggestQuadrangle();
+		int[][] biggestQuadrangleAsArray = new int[4][2];
+		
+		biggestQuadrangleAsArray[0][0] = biggestQuadrangle.getA().getX();
+		biggestQuadrangleAsArray[0][1] = biggestQuadrangle.getA().getY();
+		
+		biggestQuadrangleAsArray[1][0] = biggestQuadrangle.getB().getX();
+		biggestQuadrangleAsArray[1][1] = biggestQuadrangle.getB().getY();
+		
+		biggestQuadrangleAsArray[2][0] = biggestQuadrangle.getC().getX();
+		biggestQuadrangleAsArray[2][1] = biggestQuadrangle.getC().getY();
+		
+		biggestQuadrangleAsArray[3][0] = biggestQuadrangle.getD().getX();
+		biggestQuadrangleAsArray[3][1] = biggestQuadrangle.getD().getY();
+		
+		return biggestQuadrangleAsArray;
 	}
 
 	@Override
 	public double getQuadrangleArea() {
-		// TODO Auto-generated method stub
-		return 0;
+		drawPanelController.updateModel();
+		Quadrangle biggestQuadrangle = drawPanelController.getBiggestQuadrangle();
+		return biggestQuadrangle.area();
 	}
 
 	@Override
