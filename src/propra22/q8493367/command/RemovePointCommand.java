@@ -1,6 +1,6 @@
 package propra22.q8493367.command;
 
-import propra22.q8493367.draw.model.IDrawPanelModel;
+import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
@@ -12,7 +12,7 @@ import propra22.q8493367.point.Point;
 public class RemovePointCommand implements ICommand {
 
 	/** The draw panel model. */
-	IDrawPanelModel drawPanelModel;
+	IPointSet drawPanelModel;
 	
 	/** The point. */
 	IPoint point;
@@ -24,7 +24,7 @@ public class RemovePointCommand implements ICommand {
 	 * @param point - the point which is removed from the drawPanelModel
 	 * @param drawPanelModel - the drawPanelModel from which the point is removed
 	 */
-	public RemovePointCommand(IPoint point, IDrawPanelModel drawPanelModel) {
+	public RemovePointCommand(IPoint point, IPointSet drawPanelModel) {
 	      this.point = point;
 	      this.drawPanelModel = drawPanelModel;
 	}

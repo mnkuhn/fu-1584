@@ -38,15 +38,11 @@ public class DrawPanelListener implements IDrawPanelListener {
 		DrawPanelEventType type = e.getType();
 		switch (type) {
 		case INSERT_POINT: {
-			controller.insertPointToModel(new Point(e.getMouseX(), e.getMouseY()));
-			controller.updateModel();
-			controller.updateView();
+			controller.insertPointToPointSetFromUserInput(e.getMouseX(), e.getMouseY());
 			break;
 		}
 		case DELETE_POINT: {
 			controller.deletePointFromModel(e.getMouseX(), e.getMouseY());
-			controller.updateModel();
-			controller.updateView();
 			break;
 		}
 		case DRAG_POINT_INITIALIZED: {

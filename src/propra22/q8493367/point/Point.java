@@ -48,6 +48,11 @@ public class Point  implements IPoint {
 	public IPoint subtract(IPoint p) {
 		return new Point(this.x - p.getX(), this.y - p.getY());
 	}
+
+	@Override
+	public boolean equals(IPoint p) {
+		return (this.x == p.getX()) && (this.y == p.getY());
+	}
 	
 }
 

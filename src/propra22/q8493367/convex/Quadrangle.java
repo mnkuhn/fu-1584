@@ -19,6 +19,13 @@ public class Quadrangle {
 		this.d = d;
 	}
 
+	public Quadrangle() {
+		this.a = null;
+		this.b = null;
+		this.c = null;
+		this.d = null;
+	}
+
 	public IPoint getA() {
 		return a;
 	}
@@ -36,6 +43,32 @@ public class Quadrangle {
 	}
 	
 	public long area() {
-		return Calc.DFV(a, b, c) + Calc.DFV(a, c, d);
+		if(a != null && b != null && c != null && d != null) {
+			return Calc.DFV(a, b, c) + Calc.DFV(a, c, d);
+		}
+		else {
+			return -1;
+		}
+		
+	}
+
+	public void setA(IPoint a) {
+		this.a = a;
+		
+	}
+
+	public void setB(IPoint b) {
+		this.b = b;
+		
+	}
+
+	public void setC(IPoint c) {
+		this.c = c;
+		
+	}
+
+	public void setD(IPoint d) {
+		this.d = d;
+		
 	}
 }

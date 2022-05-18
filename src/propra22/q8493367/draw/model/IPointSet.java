@@ -11,7 +11,7 @@ import propra22.q8493367.point.IPoint;
  * part of the contour polygon respectively the points which are part of the convex hull.
  */
 
-public interface IDrawPanelModel {
+public interface IPointSet {
 	
 	/**
 	 * returns the number of Points contained in the model. 

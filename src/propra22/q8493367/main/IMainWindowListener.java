@@ -49,5 +49,7 @@ public interface IMainWindowListener {
 	 * Show manual event occured.
 	 */
 	void showManualEventOccured();
+
+	void viewEventOccured(IViewEvent viewEvent);
 	
 }

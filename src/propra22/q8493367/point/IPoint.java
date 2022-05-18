@@ -9,4 +9,5 @@ public interface IPoint extends Comparable<IPoint> {
 	public String toString();
 	public IPoint add(IPoint p);
 	public IPoint subtract(IPoint p);
+	public boolean equals(IPoint p);
 }

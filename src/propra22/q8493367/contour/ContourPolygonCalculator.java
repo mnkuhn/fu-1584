@@ -2,7 +2,7 @@ package propra22.q8493367.contour;
 
 
 import propra22.q8493367.draw.model.IHull;
-import propra22.q8493367.draw.model.IDrawPanelModel;
+import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.point.IPoint;
 
 // TODO: Auto-generated Javadoc
@@ -12,7 +12,7 @@ import propra22.q8493367.point.IPoint;
 public class ContourPolygonCalculator implements ISectionCalculator {
 
 	/**  The model of the drawPanel. */
-	private IDrawPanelModel drawPanelModel;
+	private IPointSet drawPanelModel;
 	
 	/** The contour polygon. */
 	private IHull hull;
@@ -23,7 +23,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	 * @param drawPanelModel - the model of the draw panel.
 	 * @param hull the hull
 	 */
-	public ContourPolygonCalculator(IDrawPanelModel drawPanelModel, IHull hull) {
+	public ContourPolygonCalculator(IPointSet drawPanelModel, IHull hull) {
 		this.drawPanelModel = drawPanelModel;
 		this.hull = hull;
 	}
@@ -150,7 +150,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	 * Calculate contour polygon.
 	 */
 	public void calculateContourPolygon() {
-		hull.clearAllSections();
+		hull.clear();
 		for(SectionType sectionType : SectionType.values()) {
 			calculateSection(sectionType);
 		}

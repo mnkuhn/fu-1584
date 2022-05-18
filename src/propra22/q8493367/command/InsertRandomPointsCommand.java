@@ -1,6 +1,6 @@
 package propra22.q8493367.command;
 
-import propra22.q8493367.draw.model.IDrawPanelModel;
+import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
@@ -23,7 +23,7 @@ public class InsertRandomPointsCommand implements ICommand {
 	private int number;
 	
 	/** The drawPanelModel in which the points are inserted. */
-	private IDrawPanelModel drawPanelModel;
+	private IPointSet drawPanelModel;
 	
 	
 	/**
@@ -34,7 +34,7 @@ public class InsertRandomPointsCommand implements ICommand {
 	 * @param maxY - the maximal y coordinate a point is allowed to have
 	 * @param drawPanelModel - the DrawPanelModel, in which the points are inserted.
 	 */
-	public InsertRandomPointsCommand(int number, int maxX, int maxY, IDrawPanelModel drawPanelModel) {
+	public InsertRandomPointsCommand(int number, int maxX, int maxY, IPointSet drawPanelModel) {
 		this.points = new IPoint[number];
 		this.number = number;
 		this.drawPanelModel = drawPanelModel;

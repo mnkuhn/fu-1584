@@ -1,6 +1,7 @@
 package propra22.q8493367.main;
 
 import java.awt.Dimension;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -40,12 +42,15 @@ public class MainWindow extends JFrame implements IMainWindow {
 	private JMenuItem redoItem;
 	private JMenuItem undoItem;
 	private int fileChooserOption = -1;
+	private JCheckBoxMenuItem convexHullItem;
+	private JCheckBoxMenuItem diameterItem;
+	private JCheckBoxMenuItem quadrangleItem;
+	private JCheckBoxMenuItem triangleItem;
 	
 	
 	public MainWindow(DrawPanel drawPanel) {
 		JMenuBar menuBar = new JMenuBar();
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		
 		
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -56,6 +61,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 		
 		createFileMenu(menuBar);
 		createEditMenu(menuBar);
+		createViewMenu(menuBar);
 		createHelpMenu(menuBar);
 		setJMenuBar(menuBar);
 		
@@ -66,8 +72,6 @@ public class MainWindow extends JFrame implements IMainWindow {
 		
 		pack();
 		setLocationRelativeTo(null);
-		System.out.println(drawPanel.getWidth());
-		System.out.println(drawPanel.getHeight());
 	}
 
 
@@ -87,7 +91,6 @@ public class MainWindow extends JFrame implements IMainWindow {
 
 	@Override
 	public File showOpenFileChooser() {
-	
 		JFileChooser fileChooser = createFileChooser();
 		int choice = fileChooser.showOpenDialog(this);
 		if(choice == 0) {
@@ -277,6 +280,41 @@ public class MainWindow extends JFrame implements IMainWindow {
 		menuBar.add(editMenu);
 	}
 	
+	private void createViewMenu(JMenuBar menuBar) {
+		JMenu viewMenu = new JMenu("Ansicht");
+		
+		ActionListener viewActionListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainWindowListener.viewEventOccured(new ViewEvent(e.getSource(), convexHullItem.isSelected(), 
+						diameterItem.isSelected(), quadrangleItem.isSelected(), triangleItem.isSelected()));	
+			}	
+	    };
+		convexHullItem = new JCheckBoxMenuItem("Konvexe Hülle");
+	    convexHullItem.setSelected(Settings.defaultConvexHullIsShown);
+	    convexHullItem.addActionListener(viewActionListener);
+	   
+		diameterItem = new JCheckBoxMenuItem("Durchmesser");
+		diameterItem.setSelected(Settings.defaultDiameterIsShown);
+		diameterItem.addActionListener(viewActionListener);
+		
+		quadrangleItem = new JCheckBoxMenuItem("Grösstes Rechteck");
+		quadrangleItem.setSelected(Settings.defaultQuadrangleIsShown);
+		quadrangleItem.addActionListener(viewActionListener);
+		
+		triangleItem = new JCheckBoxMenuItem("Grösstes Dreieck");
+		triangleItem.setSelected(Settings.defaultTriangleIsShown);
+		triangleItem.addActionListener(viewActionListener);
+		
+		viewMenu.add(convexHullItem);
+		viewMenu.add(diameterItem);
+		viewMenu.add(quadrangleItem);
+		viewMenu.add(triangleItem);
+		
+		menuBar.add(viewMenu);
+	}
+	
 	
 	
 	private void createHelpMenu(JMenuBar menuBar) {
@@ -324,4 +362,21 @@ public class MainWindow extends JFrame implements IMainWindow {
 	public int getFileChooserOption() {
 		return fileChooserOption;
 	}
+	
+	@Override
+	public void setConvexHullIsShown(boolean b) {
+		convexHullItem.setSelected(b);
+		}
+	@Override
+	public void setDiameterIsShown(boolean b) {
+		diameterItem.setSelected(b);
+		}
+	@Override
+	public void setQuadrangleIsShown(boolean b) {
+		quadrangleItem.setSelected(b);
+		}
+	@Override
+	public void setTriangleIsShown(boolean b) {
+		triangleItem.setSelected(b);
+		}
 }

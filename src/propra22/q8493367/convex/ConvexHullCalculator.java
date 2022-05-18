@@ -2,7 +2,7 @@ package propra22.q8493367.convex;
 
 import propra22.q8493367.contour.ISectionCalculator;
 import propra22.q8493367.contour.SectionType;
-import propra22.q8493367.draw.model.IDrawPanelModel;
+import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;

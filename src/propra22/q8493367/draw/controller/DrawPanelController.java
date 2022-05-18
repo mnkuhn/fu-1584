@@ -15,23 +15,25 @@ import java.util.List;
 
 import propra22.q8493367.command.DragPointCommand;
 import propra22.q8493367.command.ICommand;
-
+import propra22.q8493367.command.InsertPointCommand;
 import propra22.q8493367.command.InsertRandomPointsCommand;
 import propra22.q8493367.command.RemovePointCommand;
 import propra22.q8493367.contour.ContourPolygonCalculator;
 import propra22.q8493367.contour.SectionType;
-import propra22.q8493367.convex.BiggestRectangleCalculator;
+import propra22.q8493367.convex.DiameterAndQuadrangleCalculator;
 import propra22.q8493367.convex.ConvexHullCalculator;
 import propra22.q8493367.convex.Quadrangle;
+import propra22.q8493367.draw.model.Diameter;
 import propra22.q8493367.draw.model.Hull;
 import propra22.q8493367.draw.model.IHull;
-import propra22.q8493367.draw.model.IDrawPanelModel;
+import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.draw.view.DrawPanel;
 
 import propra22.q8493367.file.Parser;
 import propra22.q8493367.metric.IMetric;
 import propra22.q8493367.metric.ManhattanDistance;
 import propra22.q8493367.point.IPoint;
+import propra22.q8493367.point.Point;
 import propra22.q8493367.settings.Settings;
 
 
@@ -41,18 +43,28 @@ import propra22.q8493367.settings.Settings;
  * The controller of the draw panel. It also listens to all events on the draw panel.
  */
 public class DrawPanelController implements IDrawPanelController {
-	
+    //view
 	/** The view. */
-	// view
 	private DrawPanel view;
 	
-	/** The draw panel model. */
+	
+	
 	//model
-	private IDrawPanelModel drawPanelModel;
+	/** The draw panel model. */
+	private IPointSet pointSet;
 	
 	/** The hull. */
 	//should be an argument of the controller constructor
 	private IHull hull = new Hull();
+	
+	//** The diameter */
+	private Diameter diameter = new Diameter();
+	
+	//** The quadrangle */
+	private Quadrangle quadrangle = new Quadrangle();
+	
+	
+	
 	
 	/** The draw panel reference width to which all calculations refer. */
 	private  int drawPanelReferenceWidth = 800;
@@ -62,7 +74,6 @@ public class DrawPanelController implements IDrawPanelController {
 	
 	
 	// Dragging points
-	
 	/** The for drag selected. */
 	private IPoint forDragSelected = null;
 	
@@ -98,7 +109,7 @@ public class DrawPanelController implements IDrawPanelController {
 	private ConvexHullCalculator convexHullCalculator;
 	
 	/**The calculator for the diameter*/
-	private BiggestRectangleCalculator biggestRectangleCalculator;
+	private DiameterAndQuadrangleCalculator diameterAndQuadrangleCalulator;
 	
 	
 	//File
@@ -108,6 +119,13 @@ public class DrawPanelController implements IDrawPanelController {
 	/** The data changed since last save. */
 	// Indicates if the point set has changed since last save
 	private boolean dataChangedSinceLastSave = false;
+
+
+
+	private boolean convexHullIsShown = Settings.defaultConvexHullIsShown;
+	private boolean diameterIsShown = Settings.defaultDiameterIsShown;
+	private boolean quadrangleIsShown = Settings.defaultQuadrangleIsShown;
+	private boolean triangleIsShown = Settings.defaultTriangleIsShown;
 	
 	/**
 	 * Instantiates a new draw panel controller.
@@ -116,31 +134,30 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param drawPanel the draw panel
 	 */
 	// should take the hull too
-	public DrawPanelController(IDrawPanelModel drawPanelModel, DrawPanel drawPanel) {
+	public DrawPanelController(IPointSet drawPanelModel, DrawPanel drawPanel) {
 		this.view = drawPanel;
-		this.drawPanelModel = drawPanelModel;
-		contourPolygonCalculator = new ContourPolygonCalculator(drawPanelModel, hull);
-		convexHullCalculator = new ConvexHullCalculator(hull);
-		biggestRectangleCalculator = new BiggestRectangleCalculator(hull);
-		
-		drawPanelReferenceWidth = drawPanel.getPreferredSize().width;
-		drawPanelReferenceHeight = drawPanel.getPreferredSize().height;	
+		this.pointSet = drawPanelModel;
+		this.contourPolygonCalculator = new ContourPolygonCalculator(drawPanelModel, hull);
+		this.convexHullCalculator = new ConvexHullCalculator(hull);
+		this.diameterAndQuadrangleCalulator = new DiameterAndQuadrangleCalculator(hull);
+		this.drawPanelReferenceWidth = drawPanel.getPreferredSize().width;
+		this.drawPanelReferenceHeight = drawPanel.getPreferredSize().height;	
 	}
 	
 	
 	/**
 	 * Instantiates a new draw panel controller which only takes a model. Used for testing 
 	 *
-	 * @param drawPanelModel the draw panel model
+	 * @param pointSet the draw panel model
 	 */
 	// should take the hull too
-	public DrawPanelController(IDrawPanelModel drawPanelModel) {
+	public DrawPanelController(IPointSet pointSet) {
 		
-		this.drawPanelModel = drawPanelModel;
+		this.pointSet = pointSet;
 		this.view = null;
-		contourPolygonCalculator = new ContourPolygonCalculator(drawPanelModel, hull);
+		contourPolygonCalculator = new ContourPolygonCalculator(pointSet, hull);
 		convexHullCalculator = new ConvexHullCalculator(hull);
-		biggestRectangleCalculator = new BiggestRectangleCalculator(hull);
+		diameterAndQuadrangleCalulator = new DiameterAndQuadrangleCalculator(hull);
 	}
 	
 
@@ -171,13 +188,13 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	
 	private IPoint getClosestPointToMouse(int mouseX, int mouseY, IMetric metric) {
-		if(drawPanelModel.isEmpty()) {
+		if(pointSet.isEmpty()) {
 			return null;
 		}
 		else {
-			IPoint closest = drawPanelModel.getPointAt(0);
-			for(int i = 1; i < drawPanelModel.getNumberOfPoints(); i++) {
-				IPoint other = drawPanelModel.getPointAt(i);
+			IPoint closest = pointSet.getPointAt(0);
+			for(int i = 1; i < pointSet.getNumberOfPoints(); i++) {
+				IPoint other = pointSet.getPointAt(i);
 				if(metric.distance(mouseX, mouseY, other.getX(), other.getY()) < metric.distance(mouseX, mouseY, closest.getX(), closest.getY()) ) {
 					closest = other;
 				}
@@ -198,13 +215,34 @@ public class DrawPanelController implements IDrawPanelController {
 	 * Updates the draw panel model.
 	 */
 	public void updateModel() {
-		drawPanelModel.lexSort();
-		contourPolygonCalculator.calculateContourPolygon();
-		convexHullCalculator.calculateConvexHull();
-		biggestRectangleCalculator.calculate();	
+		if(!pointSet.isEmpty()) {
+			pointSet.lexSort();
+			contourPolygonCalculator.calculateContourPolygon();
+			convexHullCalculator.calculateConvexHull();
+			diameterAndQuadrangleCalulator.calculate(diameter, quadrangle);	
+		}
 	}
 
-	
+	/**
+	 * Paints the points, the convex hull und was noch alles kommt on the 
+	 * draw panel
+	 *
+	 * @param g the g
+	 */
+	@Override
+	public void paintDrawPanel(Graphics g) {
+		if(!pointSet.isEmpty()) {
+			Graphics2D g2 = (Graphics2D)g;
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			
+			drawPoints(g2);
+			
+			if(convexHullIsShown) {drawHull(g2, Settings.convexHullColor);}
+			if(diameterIsShown) {drawDiameter(g2, Settings.diameterColor);}
+			if(quadrangleIsShown) {drawQuadrangle(g2, Settings.quadrangleColor);}
+			//if(triangleIsShown) {drawTriangle(g2, Settings.triangleColor);}
+		}	
+	}
 	
 	
 	
@@ -215,8 +253,8 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	private void drawPoints(Graphics2D g2) {
 		
-		for(int i = 0; i < drawPanelModel.getNumberOfPoints(); i++) {
-			 IPoint p = drawPanelModel.getPointAt(i);
+		for(int i = 0; i < pointSet.getNumberOfPoints(); i++) {
+			 IPoint p = pointSet.getPointAt(i);
 			 g2.fillOval(p.getX() -  Settings.radius, p.getY() - Settings.radius , 2 * Settings.radius, 2 * Settings.radius);
 		}	
 	}
@@ -258,6 +296,34 @@ public class DrawPanelController implements IDrawPanelController {
 			  }	  
 		  g2.setColor(Color.BLACK);
 	}
+	
+	private void drawDiameter(Graphics2D g2, Color color) {
+		if(diameter != null) {
+			g2.setColor(color);
+			IPoint a = diameter.getA();
+			IPoint b = diameter.getB();
+			g2.drawLine(a.getX(), a.getY(), b.getX(), b.getY());
+			g2.setColor(Color.BLACK);
+		}	
+	}
+	
+	private void drawQuadrangle(Graphics2D g2, Color color) {
+		if(quadrangle != null) {
+			g2.setColor(color);
+			
+			IPoint a = quadrangle.getA();
+			IPoint b = quadrangle.getB();
+			IPoint c = quadrangle.getC();
+			IPoint d = quadrangle.getD();
+			
+			g2.drawLine(a.getX(), a.getY(), b.getX(), b.getY());
+			g2.drawLine(b.getX(), b.getY(), c.getX(), c.getY());
+			g2.drawLine(c.getX(), c.getY(), d.getX(), d.getY());
+			g2.drawLine(d.getX(), d.getY(), a.getX(), a.getY());
+			
+			g2.setColor(Color.BLACK);
+		}
+	}
     
 	
 	/**
@@ -274,8 +340,8 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public void clearModel() {
-		drawPanelModel.clear();
-		hull.clearAllSections();
+		pointSet.clear();
+		hull.clear();
 		dataChangedSinceLastSave = false;
 	}
 
@@ -288,7 +354,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public boolean drawPanelModelIsEmpty() {
-		return drawPanelModel.isEmpty();
+		return pointSet.isEmpty();
 	}
 
 	
@@ -306,8 +372,8 @@ public class DrawPanelController implements IDrawPanelController {
 			try {
 				FileWriter fileWriter = new FileWriter(file);
 				PrintWriter printWriter = new PrintWriter(fileWriter);
-				for(int i = 0; i < drawPanelModel.getNumberOfPoints(); i++) {
-					IPoint point = drawPanelModel.getPointAt(i);
+				for(int i = 0; i < pointSet.getNumberOfPoints(); i++) {
+					IPoint point = pointSet.getPointAt(i);
 					printWriter.println(point.toString());
 				}
 				printWriter.close();
@@ -333,13 +399,13 @@ public class DrawPanelController implements IDrawPanelController {
 			FileReader fileReader = new FileReader(file);
 			BufferedReader reader = new BufferedReader(fileReader);
 			
-			drawPanelModel.clear();
+			pointSet.clear();
 			
 			String line;
 			while((line = reader.readLine()) != null) {
 				IPoint point = parser.parseLine(line);
 				if(point != null) {
-					drawPanelModel.addPoint(point);
+					pointSet.addPoint(point);
 				}
 			}
 			dataChangedSinceLastSave = false;
@@ -454,7 +520,7 @@ public class DrawPanelController implements IDrawPanelController {
 			removeAllComandsAfterCommandIndex();
 		}
 		ICommand insertRandomPointsCommand = new InsertRandomPointsCommand(number, 
-				drawPanelReferenceWidth, drawPanelReferenceHeight, drawPanelModel);
+				drawPanelReferenceWidth, drawPanelReferenceHeight, pointSet);
 		insertRandomPointsCommand.execute();
 		addCommandToCommandList(insertRandomPointsCommand);
 		
@@ -471,20 +537,24 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param point the point
 	 */
 	@Override
-	public void insertPointToModel(IPoint point) {
-		drawPanelModel.addPoint(point);
+	public void insertPointToPointSetFromUserInput(int x, int y) {
+		if(commandIndex != commandList.size() - 1) {
+			removeAllComandsAfterCommandIndex();
+		}
+		ICommand insertPointCommand = new InsertPointCommand(x, y, pointSet);
+		insertPointCommand.execute();
+		addCommandToCommandList(insertPointCommand);
+		updateModel();
+		updateView();
+		dataChangedSinceLastSave = true;
 	}
 	
-	/**
-	 * Hull as array.
-	 *
-	 * @return the int[][]
-	 */
 	@Override
-	public int[][] hullAsArray(){
-		return hull.toArray();
+	public void insertPointToPointSetFromFileInput(int x, int y) {
+		pointSet.addPoint(new Point(x, y));
 	}
-
+	
+	
 
 	/**
 	 * Deletes a point from the point set.
@@ -493,17 +563,13 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public void deletePointFromModel(int mouseX, int mouseY) {
-		System.out.println("drawPanelController deletePoint");
 		IPoint closest =  getClosestPointToMouse(mouseX, mouseY, new ManhattanDistance());
-		
 		if(closest != null) {
-			
 			if(pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanDistance(), Settings.mouseRadius)) {
-                System.out.println("point is within mouse radius");
 				if(commandIndex != commandList.size() - 1) {
 					removeAllComandsAfterCommandIndex();
 				}
-				ICommand removePointCommand = new RemovePointCommand(closest, drawPanelModel);
+				ICommand removePointCommand = new RemovePointCommand(closest, pointSet);
 	            removePointCommand.execute();
 	            addCommandToCommandList(removePointCommand);
 				updateModel();
@@ -528,7 +594,6 @@ public class DrawPanelController implements IDrawPanelController {
 		IPoint closest =  getClosestPointToMouse(mouseX, mouseY, new ManhattanDistance());
 		if(closest != null) {
 			if(pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanDistance(), Settings.mouseRadius)) {
-				System.out.println("initializePointDrag in if");
 				startMouseX = mouseX;
 				startMouseY = mouseY;
 				previousMouseX = mouseX;
@@ -552,15 +617,13 @@ public class DrawPanelController implements IDrawPanelController {
 			int dy = mouseY - previousMouseY;
 	
 			forDragSelected.translate(dx, dy);
-			drawPanelModel.lexSort();
+			pointSet.lexSort();
 			
 			previousMouseX = mouseX;
 			previousMouseY = mouseY;
 			
 			// a lot to do here..
-			System.out.println(drawPanelModel.toString());
-			contourPolygonCalculator.calculateContourPolygon();
-			convexHullCalculator.calculateConvexHull();
+			updateModel();
 			updateView();		
 		}	
 	}
@@ -594,38 +657,91 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 
 
-	/**
-	 * Paints the points, the convex hull und was noch alles kommt on the 
-	 * draw panel
-	 *
-	 * @param g the g
-	 */
-	@Override
-	public void paintDrawPanel(Graphics g) {
-		if(!drawPanelModel.isEmpty()) {
-			Graphics2D g2 = (Graphics2D)g;
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			drawPoints(g2);
-			drawHull(g2, Settings.convexHullColor);
-		}	
-	}
+
 	
 	// for testing
-	public IPoint[]getDiameter(){
-		return hull.getDiameter();
+	public Diameter getDiameter(){
+		return this.diameter;
 	}
 
 
 	public double getDiameterLength() {
-		IPoint[] diameter = hull.getDiameter();
-		IPoint point1 = diameter[0];
-		IPoint point2 = diameter[1];
-		double dx = point1.getX() - point2.getX();
-		double dy = point1.getY() - point2.getY();
-		return Math.sqrt( dx*dx + dy*dy );
+		if(diameter != null) {	
+			IPoint point1 = this.diameter.getA();
+			IPoint point2 = this.diameter.getB();
+			double dx = point1.getX() - point2.getX();
+			double dy = point1.getY() - point2.getY();
+			return Math.sqrt( dx*dx + dy*dy );
+		}
+		return -1;	
 	}
 	
 	public Quadrangle getBiggestQuadrangle() {
-		return hull.getRectangle();
+		return quadrangle;
 	}
+	
+	
+	/**
+	 * Hull as array.
+	 *
+	 * @return the int[][]
+	 */
+	@Override
+	public int[][] hullAsArray(){
+		return hull.toArray();
+	}
+
+
+	@Override
+	public boolean convexHullIsShown() {
+	     return convexHullIsShown;
+		
+	}
+
+
+	@Override
+	public boolean diameterIsShown() {
+		return diameterIsShown;
+	}
+
+
+	@Override
+	public boolean quadrangelIsShown() {
+		return quadrangleIsShown;
+	}
+
+
+	@Override
+	public boolean triangelIsShown() {
+		return triangleIsShown;
+	}
+
+
+	@Override
+	public void setShowConvexHull(boolean b) {
+		convexHullIsShown = b;
+		
+	}
+
+
+	@Override
+	public void setShowDiameter(boolean b) {
+		diameterIsShown = b;
+		
+	}
+
+
+	@Override
+	public void setShowQuadrangle(boolean b) {
+		quadrangleIsShown =  b;
+		
+	}
+
+
+	@Override
+	public void setShowTriangle(boolean b) {
+		triangleIsShown = b;
+		
+	}
+
 }

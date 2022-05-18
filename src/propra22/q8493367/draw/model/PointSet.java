@@ -15,7 +15,7 @@ import propra22.q8493367.point.Point;
 /**
  * This class implements the interface IDrawPanelModel. It provides methods to 
  */
-public class DrawPanelModel implements IDrawPanelModel {
+public class PointSet implements IPointSet {
 	
 	/** The points. */
 	private List<IPoint> points = new ArrayList<>();

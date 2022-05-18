@@ -80,12 +80,6 @@ public interface IDrawPanelController {
 	public void updateView();
 
     
-	/**
-	 * Insert a point to the draw panel model
-	 *
-	 * @param point the point
-	 */
-	public void insertPointToModel(IPoint point);
 
 
 	/**
@@ -102,20 +96,30 @@ public interface IDrawPanelController {
 	 */
 	int[][] hullAsArray();
 
+	/**
+	 * Insert a point into the point set
+	 *
+	 * @param point the point
+	 */
+	void insertPointToPointSetFromUserInput(int x, int y);
+	
+	
+	void insertPointToPointSetFromFileInput(int x, int y);
+	
+	
+	void deletePointFromModel(int mouseX, int mouseY);
 
-	public void deletePointFromModel(int mouseX, int mouseY);
+
+	void initializePointDrag(int mouseX, int mouseY);
 
 
-	public void initializePointDrag(int mouseX, int mouseY);
+	void dragPoint(int mouseX, int mouseY);
 
 
-	public void dragPoint(int mouseX, int mouseY);
+	void terminatePointDrag(int mouseX, int mouseY);
 
 
-	public void terminatePointDrag(int mouseX, int mouseY);
-
-
-	public void paintDrawPanel(Graphics g);
+	void paintDrawPanel(Graphics g);
 
 
 
@@ -136,6 +140,22 @@ public interface IDrawPanelController {
 	 * @param file - the file from which the points are loaded.
 	 */
 	void loadPointsToModel(File file);
+
+
+
+	boolean convexHullIsShown();
+	boolean diameterIsShown();
+	boolean quadrangelIsShown();
+	boolean triangelIsShown();
+	
+	void setShowConvexHull(boolean b);
+	void setShowDiameter(boolean b);
+	void setShowQuadrangle(boolean b);
+	void setShowTriangle(boolean b);
+
+
+
+
 
 	
 }

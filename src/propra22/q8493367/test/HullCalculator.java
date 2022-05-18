@@ -4,40 +4,42 @@ import java.io.File;
 import java.io.IOException;
 
 import propra22.interfaces.IHullCalculator;
-import propra22.q8493367.convex.BiggestRectangleCalculator;
+import propra22.q8493367.convex.DiameterAndQuadrangleCalculator;
 import propra22.q8493367.convex.Quadrangle;
 import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.controller.IDrawPanelController;
-import propra22.q8493367.draw.model.DrawPanelModel;
-import propra22.q8493367.draw.model.IDrawPanelModel;
+import propra22.q8493367.draw.model.PointSet;
+import propra22.q8493367.draw.model.Diameter;
+import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
 public class HullCalculator implements IHullCalculator{
 	
-	IDrawPanelModel model = new DrawPanelModel();
+	IPointSet model = new PointSet();
 	DrawPanelController drawPanelController;
 	
 	public HullCalculator() {
-		IDrawPanelModel model = new DrawPanelModel();
-		drawPanelController = new DrawPanelController(model);
+		IPointSet pointSet = new PointSet();
+		drawPanelController = new DrawPanelController(pointSet);
 	}
 	
 	@Override
 	public void addPoint(int arg0, int arg1) { 
-		drawPanelController.insertPointToModel(new Point(arg0, arg1));	
+		drawPanelController.insertPointToPointSetFromFileInput(arg0, arg1);	
 	}
 
 	@Override
 	public void addPointsFromArray(int[][] arg0) {
 		for(int i = 0; i < arg0.length; i++) {
-			drawPanelController.insertPointToModel(new Point(arg0[i][0], arg0[i][1]));
+			drawPanelController.insertPointToPointSetFromFileInput(arg0[i][0], arg0[i][1]);
 		}
 	}
 
 	@Override
 	public void addPointsFromFile(String arg0) throws IOException {
-		drawPanelController.loadPointsToModel(new File(arg0));	
+		drawPanelController.loadPointsToModel(new File(arg0));
+		drawPanelController.updateModel();
 	}
 
 	@Override
@@ -48,25 +50,22 @@ public class HullCalculator implements IHullCalculator{
 
 	@Override
 	public int[][] getConvexHull() {
-		drawPanelController.updateModel();
 		return drawPanelController.hullAsArray();
 	}
 
 	@Override
 	public int[][] getDiameter() {
-		drawPanelController.updateModel();
-		int[][] diameter = new int[2][2];
-		IPoint[] diameterPointArray = drawPanelController.getDiameter();
-		diameter[0][0] = diameterPointArray[0].getX();
-		diameter[0][1] = diameterPointArray[0].getY();
-		diameter[1][0] = diameterPointArray[1].getX();
-		diameter[1][1] = diameterPointArray[1].getY();
-		return diameter;
+		int[][] diameterArr = new int[2][2];
+		Diameter diameter= drawPanelController.getDiameter();
+		diameterArr[0][0] = diameter.getA().getX();
+		diameterArr[0][1] = diameter.getA().getY();
+		diameterArr[1][0] = diameter.getB().getX();
+		diameterArr[1][1] = diameter.getB().getY();
+		return diameterArr;
 	}
 
 	@Override
 	public double getDiameterLength() {
-		drawPanelController.updateModel();
 		return drawPanelController.getDiameterLength();
 	}
 
@@ -87,7 +86,6 @@ public class HullCalculator implements IHullCalculator{
 
 	@Override
 	public int[][] getQuadrangle() {
-		drawPanelController.updateModel();
 		Quadrangle biggestQuadrangle = drawPanelController.getBiggestQuadrangle();
 		int[][] biggestQuadrangleAsArray = new int[4][2];
 		
@@ -108,7 +106,6 @@ public class HullCalculator implements IHullCalculator{
 
 	@Override
 	public double getQuadrangleArea() {
-		drawPanelController.updateModel();
 		Quadrangle biggestQuadrangle = drawPanelController.getBiggestQuadrangle();
 		return biggestQuadrangle.area();
 	}

@@ -1,6 +1,6 @@
 package propra22.q8493367.command;
 
-import propra22.q8493367.draw.model.IDrawPanelModel;
+import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
@@ -12,7 +12,7 @@ import propra22.q8493367.point.Point;
 public class InsertPointCommand implements ICommand {
     
     /** The instance of a from IDrawPanelModel derived class, in which the point is inserted. */
-    IDrawPanelModel drawPanelModel;
+    IPointSet pointSet;
 	
 	/** The point which is inserted */
 	IPoint point;
@@ -23,11 +23,11 @@ public class InsertPointCommand implements ICommand {
 	 *
 	 * @param x- x coordinate of the point
 	 * @param y - y coordinate of the point
-	 * @param drawPanelModel - Instance of a from IDrawPanelModel derived class, in which the point is inserted.
+	 * @param pointSet - Instance of a from IDrawPanelModel derived class, in which the point is inserted.
 	 */
-	public InsertPointCommand(int x, int y, IDrawPanelModel drawPanelModel) {
+	public InsertPointCommand(int x, int y, IPointSet pointSet) {
 	      point = new Point(x, y);
-	      this.drawPanelModel = drawPanelModel;
+	      this.pointSet = pointSet;
 	}
 	
 	/**
@@ -35,7 +35,7 @@ public class InsertPointCommand implements ICommand {
 	 */
 	@Override
 	public void execute() {
-		drawPanelModel.addPoint(point);
+		pointSet.addPoint(point);
 		
 	}
 
@@ -44,7 +44,7 @@ public class InsertPointCommand implements ICommand {
 	 */
 	@Override
 	public void unexecute() {
-		drawPanelModel.removePoint(point);	
+		pointSet.removePoint(point);	
 	}
 
 }

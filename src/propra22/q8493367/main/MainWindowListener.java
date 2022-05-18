@@ -11,6 +11,7 @@ import propra22.q8493367.file.FileEvent;
 import propra22.q8493367.file.FileManager;
 import propra22.q8493367.point.RandomPointsEvent;
 import propra22.q8493367.point.RandomPointsEventType;
+import propra22.q8493367.settings.Settings;
 
 public class MainWindowListener implements IMainWindowListener {
 
@@ -22,6 +23,11 @@ public class MainWindowListener implements IMainWindowListener {
     	this.drawPanelController = drawPanelController;
     	this.view = mainWindow;
     	fileManager = new FileManager(drawPanelController, mainWindow);
+    	
+        view.setConvexHullIsShown(drawPanelController.convexHullIsShown());
+        view.setDiameterIsShown(drawPanelController.diameterIsShown());
+        view.setQuadrangleIsShown(drawPanelController.quadrangelIsShown());
+        view.setTriangleIsShown(drawPanelController.triangelIsShown());
     }
 	
     @Override
@@ -55,6 +61,16 @@ public class MainWindowListener implements IMainWindowListener {
 		RandomPointsEventType type = generationEvent.getType();
 		drawPanelController.insertRandomPoints(type.getNumber());		
 	}
+	
+	@Override
+	public void viewEventOccured(IViewEvent viewEvent) {
+		drawPanelController.setShowConvexHull(viewEvent.convexHullIsDisplayed());
+		drawPanelController.setShowDiameter(viewEvent.DiameterIsDisplayed());
+		drawPanelController.setShowQuadrangle(viewEvent.QuadrangleIsDisplayed());
+		drawPanelController.setShowTriangle(viewEvent.TriangleIsDisplayed());
+		drawPanelController.updateModel();
+		drawPanelController.updateView();
+	}
 
 	@Override
 	public void showManualEventOccured() {
@@ -65,7 +81,5 @@ public class MainWindowListener implements IMainWindowListener {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}	
-	}
-
-	
+	}	
 }

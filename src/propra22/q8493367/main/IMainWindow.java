@@ -72,5 +72,10 @@ public interface IMainWindow {
 	 * file.
 	 */
 	int getFileChooserOption();
+	
+	void setConvexHullIsShown(boolean b);
+	void setDiameterIsShown(boolean b);
+	void setQuadrangleIsShown(boolean b);
+    void setTriangleIsShown(boolean b);
 
 }

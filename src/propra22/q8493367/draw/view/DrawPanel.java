@@ -43,8 +43,6 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("DrawPanel mouseClicked");
-				System.out.println(SwingUtilities.isEventDispatchThread());
 				if(SwingUtilities.isLeftMouseButton(e)) {
 					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.INSERT_POINT, e.getSource(), e.getX(), e.getY(), null));
 				}
@@ -70,7 +68,6 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		
 
 		addMouseMotionListener(new MouseMotionAdapter() {
-			
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				if(SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
