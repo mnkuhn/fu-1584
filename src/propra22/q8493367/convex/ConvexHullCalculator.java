@@ -11,20 +11,23 @@ import propra22.q8493367.point.Point;
 // TODO: Auto-generated Javadoc
 /**
  * The Class ConvexHullCalculator is considered to be part of the controller of
- * the draw panel. It calcultes the convex hull outgoing from the points of 
+ * the draw panel. It calculates the convex hull outgoing from the points of 
  * the contour polygon.
  */
 public class ConvexHullCalculator implements ISectionCalculator {
 	
-	/** The model. */
-	private IHull hull;
 	
+	private IHull hull;
+
+
+
 	/**
 	 * Instantiates a new convex hull calculator.
 	 *
 	 * @param model - the contour polygon
 	 */
 	public ConvexHullCalculator(IHull hull) {
+
 		this.hull = hull;
 	}
 	
@@ -35,9 +38,6 @@ public class ConvexHullCalculator implements ISectionCalculator {
 	 */
 	@Override
 	public void calculateSection(SectionType sectionType) {
-		IPoint a;
-		IPoint b;
-		IPoint c;
 		
 		if(!hull.sectionIsEmpty(sectionType)) {
 			int size = hull.getSizeOfSection(sectionType);
@@ -45,7 +45,7 @@ public class ConvexHullCalculator implements ISectionCalculator {
 				int base = 0;
 				int next = 2;
 				while(next < size) {
-					if( DFV(base, next, sectionType )  > 0){
+					if(DFV(base, next, sectionType)  > 0){
 						base++;
 						next++;	
 					}
@@ -86,6 +86,8 @@ public class ConvexHullCalculator implements ISectionCalculator {
 	 * @param sectionType - the section type which determines the sign for the calculated area
 	 * @return signed area of the triangle
 	 */
+	
+	
 	private long DFV(int base, int next, SectionType sectionType) {
 		
 		IPoint a = hull.getPointFromSection(base, sectionType);
@@ -98,10 +100,13 @@ public class ConvexHullCalculator implements ISectionCalculator {
 		
 		return sectionType.getSign() * (summand1 + summand2 + summand3);
 	}
+
+	
 	
 	/**
 	 * updates all four sections of the draw panel model.
 	 */
+	
 	public void calculateConvexHull() {
 		for(SectionType sectionType : SectionType.values()) {
 			calculateSection(sectionType);

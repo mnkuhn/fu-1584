@@ -28,7 +28,7 @@ import propra22.q8493367.draw.model.Hull;
 import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.draw.view.DrawPanel;
-
+import propra22.q8493367.file.FileManager;
 import propra22.q8493367.file.Parser;
 import propra22.q8493367.metric.IMetric;
 import propra22.q8493367.metric.ManhattanDistance;
@@ -120,8 +120,7 @@ public class DrawPanelController implements IDrawPanelController {
 	// Indicates if the point set has changed since last save
 	private boolean dataChangedSinceLastSave = false;
 
-
-
+    //default settings for the display of the geometric objects
 	private boolean convexHullIsShown = Settings.defaultConvexHullIsShown;
 	private boolean diameterIsShown = Settings.defaultDiameterIsShown;
 	private boolean quadrangleIsShown = Settings.defaultQuadrangleIsShown;
@@ -426,7 +425,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 * the coordinated of a point changed.
 	 */
 	@Override
-	public boolean dataChangedSinceLastSave() {
+	public boolean dataHasChangedSinceLastSave() {
 		return dataChangedSinceLastSave;
 	}
 
@@ -590,7 +589,6 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public void initializePointDrag(int mouseX, int mouseY) {
-		
 		IPoint closest =  getClosestPointToMouse(mouseX, mouseY, new ManhattanDistance());
 		if(closest != null) {
 			if(pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanDistance(), Settings.mouseRadius)) {
@@ -648,7 +646,7 @@ public class DrawPanelController implements IDrawPanelController {
 		}
 		ICommand dragPointCommand = new DragPointCommand(dx, dy, forDragSelected);
         addCommandToCommandList(dragPointCommand);
-        
+        forDragSelected = null;
         // a lot to do here..
 		updateModel();
 		updateView();

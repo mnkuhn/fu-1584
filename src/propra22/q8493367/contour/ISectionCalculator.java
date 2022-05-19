@@ -1,5 +1,6 @@
 package propra22.q8493367.contour;
 
+import propra22.q8493367.point.IPoint;
 
 /**
  * The  IContourPolygonCaluclator interface is considered to be part of the controller. 
@@ -13,5 +14,4 @@ public interface ISectionCalculator {
 	/**
 	 * updates all four sections of the draw panel model.
 	 */
-	
 }

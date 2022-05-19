@@ -22,7 +22,7 @@ public class MainWindowListener implements IMainWindowListener {
     public MainWindowListener(IDrawPanelController drawPanelController, MainWindow mainWindow) {
     	this.drawPanelController = drawPanelController;
     	this.view = mainWindow;
-    	fileManager = new FileManager(drawPanelController, mainWindow);
+    	this.fileManager = new FileManager(drawPanelController, mainWindow);
     	
         view.setConvexHullIsShown(drawPanelController.convexHullIsShown());
         view.setDiameterIsShown(drawPanelController.diameterIsShown());
@@ -64,6 +64,7 @@ public class MainWindowListener implements IMainWindowListener {
 	
 	@Override
 	public void viewEventOccured(IViewEvent viewEvent) {
+		// Beim Event keine Funktionen, das können auch Felder sein.
 		drawPanelController.setShowConvexHull(viewEvent.convexHullIsDisplayed());
 		drawPanelController.setShowDiameter(viewEvent.DiameterIsDisplayed());
 		drawPanelController.setShowQuadrangle(viewEvent.QuadrangleIsDisplayed());

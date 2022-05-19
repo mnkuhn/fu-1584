@@ -35,7 +35,7 @@ public interface IDrawPanelController {
 	 * @return true, if points where added or deleted or if 
 	 * the coordinated of a point changed.
 	 */
-	public boolean dataChangedSinceLastSave();
+	public boolean dataHasChangedSinceLastSave();
 	
 	/**
 	 * Undoes a command.

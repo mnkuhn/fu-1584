@@ -53,7 +53,7 @@ public class FileManager implements IFileManager {
     	
 		switch (type) {
 		case NEW: {
-			if(!drawPanelController.drawPanelModelIsEmpty() && dataChangedSinceLastSave) {
+			if(!drawPanelController.drawPanelModelIsEmpty() && drawPanelController.dataHasChangedSinceLastSave()) {
 				
 				int dialogOption = mainView.showSaveToFileOptionPane();
 				if(dialogOption == JOptionPane.OK_OPTION) {
@@ -85,7 +85,7 @@ public class FileManager implements IFileManager {
 		
 		case OPEN: {
             
-			if(!drawPanelController.drawPanelModelIsEmpty() && dataChangedSinceLastSave) {
+			if(!drawPanelController.drawPanelModelIsEmpty() && drawPanelController.dataHasChangedSinceLastSave()) {
             	int dialogOption = mainView.showSaveToFileOptionPane();
             	if(dialogOption == JOptionPane.OK_OPTION) {
             		if(filePath != null) {
@@ -113,7 +113,7 @@ public class FileManager implements IFileManager {
 		}
 		
 		case SAVE: {
-			if(drawPanelController.dataChangedSinceLastSave()) {
+			if(drawPanelController.dataHasChangedSinceLastSave()) {
 				if(filePath != null) {
 					drawPanelController.saveModel(filePath);
 				}
@@ -141,7 +141,7 @@ public class FileManager implements IFileManager {
 			
 		case EXIT: {
 		
-			if(drawPanelController.dataChangedSinceLastSave()) {
+			if(drawPanelController.dataHasChangedSinceLastSave()) {
 				int dialogOption = JOptionPane.showConfirmDialog (null, "Datei speichern?", "", 
 					JOptionPane.YES_NO_CANCEL_OPTION);
 				if(dialogOption == JOptionPane.OK_OPTION) {
@@ -191,9 +191,5 @@ public class FileManager implements IFileManager {
 			drawPanelController.updateView();
 			filePath = file.getAbsolutePath();
 		}
-	}
-	
-	public void setDataChangedSinceLastSave(boolean b) {
-		dataChangedSinceLastSave = b;
 	}
 }
