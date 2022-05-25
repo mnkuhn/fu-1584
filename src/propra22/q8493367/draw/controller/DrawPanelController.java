@@ -215,10 +215,27 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	public void updateModel() {
 		if(!pointSet.isEmpty()) {
+			
+			long start = System.currentTimeMillis();
 			pointSet.lexSort();
+			long end = System.currentTimeMillis();
+			System.out.println("Punktmenge sortieren: " + (end - start) + " ms");
+			
+			start = end;
 			contourPolygonCalculator.calculateContourPolygon();
+			end = System.currentTimeMillis();
+			System.out.println("Konturpolygon berechnen: " + (end - start) +  " ms");
+			
+			start = end;
 			convexHullCalculator.calculateConvexHull();
-			diameterAndQuadrangleCalulator.calculate(diameter, quadrangle);	
+			end = System.currentTimeMillis();
+			System.out.println("Konvexe Hülle berechnen: " + (end - start)  + " ms");
+			
+			start = end;
+			diameterAndQuadrangleCalulator.calculate(diameter, quadrangle);
+			end = System.currentTimeMillis();
+			System.out.println("Durchmesser und Viereck berechen: " + (end - start)  + " ms");
+			
 		}
 	}
 
@@ -407,6 +424,7 @@ public class DrawPanelController implements IDrawPanelController {
 					pointSet.addPoint(point);
 				}
 			}
+			reader.close();
 			dataChangedSinceLastSave = false;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

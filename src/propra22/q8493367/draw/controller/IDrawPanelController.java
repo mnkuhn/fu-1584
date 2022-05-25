@@ -1,7 +1,6 @@
 package propra22.q8493367.draw.controller;
 
 import java.awt.Graphics;
-import java.awt.Point;
 import java.io.File;
 
 import propra22.q8493367.point.IPoint;

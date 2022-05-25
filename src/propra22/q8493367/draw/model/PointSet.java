@@ -2,12 +2,7 @@ package propra22.q8493367.draw.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-
-import propra22.q8493367.contour.ContourPolygonCalculator;
-import propra22.q8493367.contour.SectionType;
-import propra22.q8493367.convex.ConvexHullCalculator;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 

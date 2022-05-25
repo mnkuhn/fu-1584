@@ -48,6 +48,8 @@ public class MainWindow extends JFrame implements IMainWindow {
 	private JCheckBoxMenuItem triangleItem;
 	
 	
+	
+	
 	public MainWindow(DrawPanel drawPanel) {
 		JMenuBar menuBar = new JMenuBar();
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -63,6 +65,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 		createEditMenu(menuBar);
 		createViewMenu(menuBar);
 		createHelpMenu(menuBar);
+		
 		setJMenuBar(menuBar);
 		
 		JScrollPane scrollPane = new JScrollPane(drawPanel);
@@ -134,7 +137,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 		newFileItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			mainWindowListener.FileEventOccured(new FileEvent(FileEventType.NEW));
+				mainWindowListener.FileEventOccured(new FileEvent(FileEventType.NEW));
 			}	
 		});
 		
@@ -198,7 +201,6 @@ public class MainWindow extends JFrame implements IMainWindow {
 		redoItem = new JMenuItem("Wiederherstellen");
 		
 		undoItem.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainWindowListener.commandEventOccured(new CommandEvent(CommandEventType.UNDO));
@@ -207,7 +209,6 @@ public class MainWindow extends JFrame implements IMainWindow {
 		
 		
 		redoItem.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainWindowListener.commandEventOccured(new CommandEvent(CommandEventType.REDO));		
@@ -226,7 +227,6 @@ public class MainWindow extends JFrame implements IMainWindow {
         
         JMenuItem tenPointsItem = new JMenuItem("10 neue Punkte");
         tenPointsItem.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.TEN));
@@ -235,7 +235,6 @@ public class MainWindow extends JFrame implements IMainWindow {
         
         JMenuItem fiftyPointsItem = new JMenuItem("50 neue Punkte");
         fiftyPointsItem.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.FIFTY));
@@ -244,7 +243,6 @@ public class MainWindow extends JFrame implements IMainWindow {
        
         JMenuItem hundredPointsItem = new JMenuItem("100 neue Punkte");
         hundredPointsItem.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.HUNDRED));
@@ -254,7 +252,6 @@ public class MainWindow extends JFrame implements IMainWindow {
         
         JMenuItem fivehundredPointsItem = new JMenuItem("500 neue Punkte");
         fivehundredPointsItem.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.FIVEHUNDRED));
@@ -263,7 +260,6 @@ public class MainWindow extends JFrame implements IMainWindow {
         
         JMenuItem thousandPointsItem = new JMenuItem("1000 neue Punkte");
         thousandPointsItem.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.THOUSAND));
@@ -284,13 +280,13 @@ public class MainWindow extends JFrame implements IMainWindow {
 		JMenu viewMenu = new JMenu("Ansicht");
 		
 		ActionListener viewActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainWindowListener.viewEventOccured(new ViewEvent(e.getSource(), convexHullItem.isSelected(), 
 						diameterItem.isSelected(), quadrangleItem.isSelected(), triangleItem.isSelected()));	
 			}	
 	    };
+	    
 		convexHullItem = new JCheckBoxMenuItem("Konvexe Hülle");
 	    convexHullItem.setSelected(Settings.defaultConvexHullIsShown);
 	    convexHullItem.addActionListener(viewActionListener);
@@ -321,12 +317,12 @@ public class MainWindow extends JFrame implements IMainWindow {
 		JMenu helpMenu = new JMenu("Hilfe");
 		JMenuItem manualItem = new JMenuItem("Anleitung");
 		manualItem.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainWindowListener.showManualEventOccured();	
 			}
 		});
+		
 		helpMenu.add(manualItem);
 		menuBar.add(helpMenu);
 	}

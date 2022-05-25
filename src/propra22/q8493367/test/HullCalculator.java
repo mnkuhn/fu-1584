@@ -55,8 +55,8 @@ public class HullCalculator implements IHullCalculator{
 
 	@Override
 	public int[][] getDiameter() {
-		int[][] diameterArr = new int[2][2];
 		Diameter diameter= drawPanelController.getDiameter();
+		int[][] diameterArr = new int[2][2];
 		diameterArr[0][0] = diameter.getA().getX();
 		diameterArr[0][1] = diameter.getA().getY();
 		diameterArr[1][0] = diameter.getB().getX();

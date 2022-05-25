@@ -45,11 +45,13 @@ public class ConvexHullCalculator implements ISectionCalculator {
 				int base = 0;
 				int next = 2;
 				while(next < size) {
+					//next is on the inner side of the line through base and base + 1
 					if(DFV(base, next, sectionType)  > 0){
 						base++;
 						next++;	
 					}
 					else {
+						//next is on the outer side of the line through base and base + 1
 						if(base > 0) {
 							hull.removePointFromSection(base + 1, sectionType);
 							size--;
@@ -64,6 +66,7 @@ public class ConvexHullCalculator implements ISectionCalculator {
 								}
 							}
 						}
+						//base == 0
 						else {
 							hull.removePointFromSection(base + 1, sectionType);
 							size--;

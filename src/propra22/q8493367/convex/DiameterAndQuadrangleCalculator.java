@@ -1,6 +1,6 @@
 package propra22.q8493367.convex;
 
-import java.util.List;
+
 
 import propra22.q8493367.draw.model.Diameter;
 import propra22.q8493367.draw.model.IHull;
@@ -11,6 +11,8 @@ import propra22.q8493367.point.Point;
 public class DiameterAndQuadrangleCalculator {
 
 	private IHull hull;
+	private IHullIterator bIterator;
+	private IHullIterator dIterator;
 
 	public DiameterAndQuadrangleCalculator(IHull hull) {
 		this.hull = hull;
@@ -47,7 +49,7 @@ public class DiameterAndQuadrangleCalculator {
 	}
 
 	public void calculate(Diameter diameter, Quadrangle quadrangle) {
-
+        System.out.println("size of hull: " + hull.size());
 		IPoint maxDiameterA = null;
 		IPoint maxDiameterB = null;
 		
@@ -56,6 +58,9 @@ public class DiameterAndQuadrangleCalculator {
 		// Set iterators with limits
 		IHullIterator aIt = hull.getIterator(0, hull.getIndexOfRightMostPoint() + 1);
 		IHullIterator cIt = hull.getIterator(hull.getIndexOfRightMostPoint(), 1);
+		bIterator = hull.getIterator(1, hull.getIndexOfRightMostPoint() + 2);
+		dIterator = hull.getIterator(hull.getIndexOfRightMostPoint() + 1, 2);
+		
 		
 		// Hull has only one point
 		if (hull.size() == 1 ) {
@@ -79,9 +84,11 @@ public class DiameterAndQuadrangleCalculator {
 			// first diameter
 		    maxDiameterA = aIt.getPoint();
 			maxDiameterB = cIt.getPoint();
-
-			maxQuadrangle = calculateRectangle(aIt, cIt);
-
+            
+			
+			maxQuadrangle = calculateQuadrangle(aIt, cIt);
+            
+			
 			while ((!aIt.hasReachedLimit()) || (!cIt.hasReachedLimit())) {
 				
                
@@ -91,10 +98,11 @@ public class DiameterAndQuadrangleCalculator {
 					
 				}
 				
-				Quadrangle rectangle = calculateRectangle(aIt, cIt);
+				Quadrangle rectangle = calculateQuadrangle(aIt, cIt);
 				if(rectangle.area() > maxQuadrangle.area()) {
 					maxQuadrangle = rectangle;
 				}
+				
 				
 
 				long angleComparisonTestResult = AngleComparisonTest(aIt, cIt);
@@ -116,10 +124,12 @@ public class DiameterAndQuadrangleCalculator {
 							maxDiameterB = cIt.getPoint();
 							
 							IHullIterator tmp = hull.getIterator(aIt.getIndex() + 1, cIt.getIndex() + 2);
-							rectangle = calculateRectangle(tmp, cIt);
+							
+							rectangle = calculateQuadrangle(tmp, cIt);
 							if(rectangle.area() > maxQuadrangle.area()) {
 								maxQuadrangle = rectangle;
 							}
+							
 						}
 						cIt.next();
 						
@@ -129,10 +139,13 @@ public class DiameterAndQuadrangleCalculator {
 							maxDiameterB = cIt.getNextPoint();
 							
 							IHullIterator tmp = hull.getIterator(cIt.getIndex() + 1, aIt.getIndex() + 1);
-							rectangle = calculateRectangle(aIt, tmp);
+							
+							
+							rectangle = calculateQuadrangle(aIt, tmp);
 							if(rectangle.area() > maxQuadrangle.area()) {
 								maxQuadrangle = rectangle;
-							}	
+							}
+							
 						}
 						aIt.next();
 					}
@@ -160,17 +173,24 @@ public class DiameterAndQuadrangleCalculator {
 		
 	}
 	
-	private Quadrangle calculateRectangle(IHullIterator aIterator, IHullIterator cIterator) {
-	
-		IHullIterator bIterator = hull.getIterator(aIterator.getIndex(), cIterator.getIndex() + 1);
-		IHullIterator dIterator = hull.getIterator(cIterator.getIndex(), aIterator.getIndex() + 1);
+	private Quadrangle calculateQuadrangle(IHullIterator aIterator, IHullIterator cIterator) {
 		
+		//IHullIterator bIterator = hull.getIterator(aIterator.getIndex() + 1, cIterator.getIndex() + 2);
+		//IHullIterator dIterator = hull.getIterator(cIterator.getIndex() + 1, aIterator.getIndex() + 2);
+		System.out.println("aIt: " + aIterator.getIndex() + "  cIt: " + cIterator.getIndex());
+		System.out.println("bIt started: " + bIterator.getIndex() );
 		while(isHigher(cIterator.getPoint(), aIterator.getPoint(), bIterator.getNextPoint(), bIterator.getPoint())) {
 			bIterator.next();
+			
 		}
+		System.out.println("bIt stopped: " + bIterator.getIndex() );
+		System.out.println("dIt started: " + dIterator.getIndex());
 		while(isHigher(aIterator.getPoint(), cIterator.getPoint(), dIterator.getNextPoint(), dIterator.getPoint())) {
 			dIterator.next();
+			
 		}
+		System.out.println("dIt stopped: " + dIterator.getIndex() );
+		System.out.println(" ");
 		return new Quadrangle(aIterator.getPoint(), bIterator.getPoint(), cIterator.getPoint(), dIterator.getPoint());    
 	}
 }
