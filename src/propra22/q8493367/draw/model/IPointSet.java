@@ -4,6 +4,7 @@ import propra22.q8493367.contour.SectionType;
 import propra22.q8493367.point.IPoint;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * A Collection of objects of the type Point.
  * The IDrawPanelModel interface provides methods to manage these objects.
@@ -20,30 +21,34 @@ public interface IPointSet {
 	public int getNumberOfPoints();
 	
 	/**
-	 * Returns true, if model contains no points
+	 * Returns true, if model contains no points.
+	 *
 	 * @return true, if model contains no points
 	 */
 	public boolean isEmpty();
 	
 	
 	/**
-	 * return the point with the specified index
+	 * return the point with the specified index.
+	 *
 	 * @param index - the index of the point in the data structure used
 	 * @return the point with the specified index
 	 */
 	public IPoint getPointAt(int index);
 	
 	/**
-	 * removes the specified point from the model
-	 * @param point which should be removed
+	 * removes the specified point from the model.
+	 *
+	 * @param p which should be removed
 	 */
-	public void removePoint(IPoint point);
+	public void removePoint(IPoint p);
 	
 	/**
 	 * removes the point with the x coordinate x and the y coordinate y 
-	 * from the model if it is contained by the model
-	 * @param x
-	 * @param y
+	 * from the model if it is contained by the model.
+	 *
+	 * @param x the x
+	 * @param y the y
 	 */
 	void removePoint(int x, int y);
 	
@@ -53,12 +58,27 @@ public interface IPointSet {
 	public void lexSort();
 	
 	
-
+	/**
+	 * Removes all points from the point set.
+	 */
 	void clear();
 
-	void addPoint(IPoint point);
+	/**
+	 * Adds a point to the point set.
+	 *
+	 * @param p - the point which is added 
+	 * to the point set
+	 */
+	void addPoint(IPoint p);
 
-	boolean hasPoint(IPoint point);
+	/**
+	 * Checks if the point set contains a point with the same
+	 * coordinates as p
+	 *
+	 * @param p - the point
+	 * @return true, if the point set contains the point p or a point
+	 */
+	boolean hasPoint(IPoint p);
 
 	
 	

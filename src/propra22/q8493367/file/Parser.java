@@ -12,17 +12,9 @@ import propra22.q8493367.point.Point;
  */
 public class Parser implements IParser {
     
-	/** The regex. */
+	// the regular expression which has to be matched
 	private String regex = "(\\s)*([+-]{0,1}[0-9]+)(\\s+)([+-]{0,1}[0-9]+)(\\s+.*){0,1}";
 	
-	/**
-	 * Parses the line.
-	 *
-	 * @param line - the line
-	 * @return the point which could be extracted 
-	 * from the line. Null, if no point could be
-	 * extracted.
-	 */
 	@Override
 	public IPoint parseLine(String line) {
 		

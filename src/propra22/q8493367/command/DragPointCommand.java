@@ -1,7 +1,7 @@
 package propra22.q8493367.command;
 import propra22.q8493367.point.IPoint;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * 
  * The command for dragging a point from one position to
@@ -13,13 +13,13 @@ import propra22.q8493367.point.IPoint;
 public class DragPointCommand implements ICommand {
     
 	
-	// new x coordinate minus old x coordinate for the whole drag operation
+	// New x coordinate minus old x coordinate for the whole drag operation
 	private int dx;
 	
-	//new y coordinate minus old y coordinate for the whole drag operation
+	// New y coordinate minus old y coordinate for the whole drag operation
 	private int dy;
 	
-	//point which is dragged
+	// Point which is dragged
 	private IPoint point;
 	
 	
@@ -28,7 +28,7 @@ public class DragPointCommand implements ICommand {
 	 *
 	 * @param dx - new x coordinate minus old x coordinate for the whole drag operation
 	 * @param dy - new y coordinate minus old y coordinate for the whole drag operation
-	 * @param point - point the point which is dragged
+	 * @param point - the point which is dragged
 	 */
 	public DragPointCommand(int dx, int dy, IPoint point) {
 		this.dx = dx;

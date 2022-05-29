@@ -1,23 +1,39 @@
 package propra22.q8493367.convex;
 
-
-
 import propra22.q8493367.draw.model.Diameter;
 import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IHullIterator;
+import propra22.q8493367.draw.model.Quadrangle;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
+
+
+/**
+ * The Class DiameterAndQuadrangleCalculator provides a calculator, which takes a convex hull
+ * as an argument and calculates the diameter and the quadrangle with maximum area.
+ */
 public class DiameterAndQuadrangleCalculator {
 
-	private IHull hull;
+	/** The hull. */
+	private IHull convexHull;
+	
+	/** The iterator which represents the point b in the quadrangle  where a, b, c and d are the 4 points of the quadrangle listed counterclockwise. */
 	private IHullIterator bIterator;
+	
+	/** The iterator which represents the point d in the quadrangle  where a, b, c and d are the 4 points of the quadrangle listed counterclockwise. */
 	private IHullIterator dIterator;
 
-	public DiameterAndQuadrangleCalculator(IHull hull) {
-		this.hull = hull;
+	/**
+	 * Instantiates a new diameter and quadrangle calculator.
+	 *
+	 * @param The convex hull
+	 */
+	public DiameterAndQuadrangleCalculator(IHull convexHull) {
+		this.convexHull = convexHull;
 	}
 
+	
 	private long DFV(IPoint a, IPoint b, IPoint c) {
 
 		long summand1 = (long) a.getX() * ((long) b.getY() - (long) c.getY());
@@ -27,20 +43,27 @@ public class DiameterAndQuadrangleCalculator {
 		return -(summand1 + summand2 + summand3);
 	}
 
+	// quadratic distance between two points
 	private long qaudraticDistance(IPoint a, IPoint b) {
 		long dx = (long) a.getX() - (long) b.getX();
 		long dy = (long) a.getY() - (long) b.getY();
 		return dx * dx + dy * dy;
 	}
 
+	// Returns true, if quadratic distance between a and b is smaller than between c and d
+	// Returns false otherwise
 	private boolean isShorter(IPoint a, IPoint b, IPoint c, IPoint d) {
 		return qaudraticDistance(a, b) < qaudraticDistance(c, d);
 	}
 
+
+	// Returns true, if quadratic distance between a and b is bigger than between c and d.
+	// Returns false otherwise
 	private boolean isLonger(IPoint a, IPoint b, IPoint c, IPoint d) {
 		return qaudraticDistance(a, b) > qaudraticDistance(c, d);
 	}
 
+	// The angle comparison test
 	private  long AngleComparisonTest(IHullIterator aIterator, IHullIterator bIterator) {
 		long xTip = (long) aIterator.getPoint().getX() + (long) bIterator.getPoint().getX() - (long) bIterator.getNextPoint().getX();
 		long yTip = (long) aIterator.getPoint().getY() + (long) bIterator.getPoint().getY() - (long) bIterator.getNextPoint().getY();
@@ -48,22 +71,28 @@ public class DiameterAndQuadrangleCalculator {
 		return DFV(aIterator.getPoint(), aIterator.getNextPoint(), tip);
 	}
 
+	/**
+	 * Calculate the diameter and the quadrangle with the biggest area.
+	 *
+	 * @param diameter the diameter
+	 * @param quadrangle the quadrangle
+	 */
 	public void calculate(Diameter diameter, Quadrangle quadrangle) {
-        System.out.println("size of hull: " + hull.size());
+        System.out.println("size of hull: " + convexHull.size());
 		IPoint maxDiameterA = null;
 		IPoint maxDiameterB = null;
 		
 		Quadrangle maxQuadrangle = null;
 		
 		// Set iterators with limits
-		IHullIterator aIt = hull.getIterator(0, hull.getIndexOfRightMostPoint() + 1);
-		IHullIterator cIt = hull.getIterator(hull.getIndexOfRightMostPoint(), 1);
-		bIterator = hull.getIterator(1, hull.getIndexOfRightMostPoint() + 2);
-		dIterator = hull.getIterator(hull.getIndexOfRightMostPoint() + 1, 2);
+		IHullIterator aIt = convexHull.getIterator(0, convexHull.getIndexOfRightMostPoint() + 1);
+		IHullIterator cIt = convexHull.getIterator(convexHull.getIndexOfRightMostPoint(), 1);
+		bIterator = convexHull.getIterator(1, convexHull.getIndexOfRightMostPoint() + 2);
+		dIterator = convexHull.getIterator(convexHull.getIndexOfRightMostPoint() + 1, 2);
 		
 		
 		// Hull has only one point
-		if (hull.size() == 1 ) {
+		if (convexHull.size() == 1 ) {
 			
 			// first diameter
 			maxDiameterA = aIt.getPoint();
@@ -71,7 +100,7 @@ public class DiameterAndQuadrangleCalculator {
 			
 			maxQuadrangle = new Quadrangle(aIt.getPoint(), aIt.getPoint(), aIt.getPoint(), aIt.getPoint());
 		// Hull has two points
-		} else if (hull.size() == 2) {
+		} else if (convexHull.size() == 2) {
 			
 			// first diameter
 			maxDiameterA = aIt.getPoint();
@@ -79,7 +108,7 @@ public class DiameterAndQuadrangleCalculator {
 			
 			maxQuadrangle = new Quadrangle(aIt.getPoint(), aIt.getPoint(), cIt.getPoint(), cIt.getPoint());
 			
-		} else if (hull.size() >= 3) {
+		} else if (convexHull.size() >= 3) {
 		    
 			// first diameter
 		    maxDiameterA = aIt.getPoint();
@@ -123,7 +152,7 @@ public class DiameterAndQuadrangleCalculator {
 							maxDiameterA = aIt.getNextPoint();
 							maxDiameterB = cIt.getPoint();
 							
-							IHullIterator tmp = hull.getIterator(aIt.getIndex() + 1, cIt.getIndex() + 2);
+							IHullIterator tmp = convexHull.getIterator(aIt.getIndex() + 1, cIt.getIndex() + 2);
 							
 							rectangle = calculateQuadrangle(tmp, cIt);
 							if(rectangle.area() > maxQuadrangle.area()) {
@@ -138,7 +167,7 @@ public class DiameterAndQuadrangleCalculator {
 							maxDiameterA = aIt.getPoint();
 							maxDiameterB = cIt.getNextPoint();
 							
-							IHullIterator tmp = hull.getIterator(cIt.getIndex() + 1, aIt.getIndex() + 1);
+							IHullIterator tmp = convexHull.getIterator(cIt.getIndex() + 1, aIt.getIndex() + 1);
 							
 							
 							rectangle = calculateQuadrangle(aIt, tmp);
@@ -164,7 +193,8 @@ public class DiameterAndQuadrangleCalculator {
 	
 	
 	
-
+    // Returns true, if the triangle a - c - d with baseline a - c is higher
+	// than the triangle a - c - dDash, with baseline a - c.
 	private boolean isHigher(IPoint a, IPoint c, IPoint d, IPoint dDash) {
 		long x = (long)a.getX() + (long)dDash.getX() - (long)c.getX();
 		long y = (long)a.getY() + (long)dDash.getY() - (long)c.getY();
@@ -173,6 +203,13 @@ public class DiameterAndQuadrangleCalculator {
 		
 	}
 	
+	/**
+	 * Calculate quadrangle.
+	 *
+	 * @param aIterator - the iterator which represents the point a in the quadrangle  where a, b, c and d are the 4 points of the quadrangle listed counterclockwise.
+	 * @param cIterator - the iterator which represents the point c in the quadrangle  where a, b, c and d are the 4 points of the quadrangle listed counterclockwise.
+	 * @return the quadrangle
+	 */
 	private Quadrangle calculateQuadrangle(IHullIterator aIterator, IHullIterator cIterator) {
 		
 		//IHullIterator bIterator = hull.getIterator(aIterator.getIndex() + 1, cIterator.getIndex() + 2);

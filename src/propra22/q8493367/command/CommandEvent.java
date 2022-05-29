@@ -7,7 +7,7 @@ package propra22.q8493367.command;
  * previously executed, or wants to re-execute a command that was previously 
  * undone.
  */
-public class CommandEvent implements ICommandEvent {
+public class CommandEvent  {
 	
 	/** The type of the commandEvent */
 	private	CommandEventType type;
@@ -24,9 +24,9 @@ public class CommandEvent implements ICommandEvent {
 	/**
 	 * Gets the type of the commandEvent.
 	 *
-	 * @return the type of the commandEvent
+	 * @return The type of the commandEvent
 	 */
-	@Override
+	
 	public CommandEventType getEventType() {
 		return type;
 	}

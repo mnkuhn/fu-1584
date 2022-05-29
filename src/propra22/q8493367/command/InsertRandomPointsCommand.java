@@ -23,21 +23,21 @@ public class InsertRandomPointsCommand implements ICommand {
 	private int number;
 	
 	/** The drawPanelModel in which the points are inserted. */
-	private IPointSet drawPanelModel;
+	private IPointSet pointSet;
 	
 	
 	/**
-	 * Instantiates a new InsertRandomPointsCommand.
+	 * Instantiates a new insert random points command.
 	 *
 	 * @param number - number the insert points
 	 * @param maxX - the maximal x coordinate a point is allowed to have
 	 * @param maxY - the maximal y coordinate a point is allowed to have
-	 * @param drawPanelModel - the DrawPanelModel, in which the points are inserted.
+	 * @param pointSet - the DrawPanelModel, in which the points are inserted.
 	 */
-	public InsertRandomPointsCommand(int number, int maxX, int maxY, IPointSet drawPanelModel) {
+	public InsertRandomPointsCommand(int number, int maxX, int maxY, IPointSet pointSet) {
 		this.points = new IPoint[number];
 		this.number = number;
-		this.drawPanelModel = drawPanelModel;
+		this.pointSet = pointSet;
 		
 		for(int i = 0; i < number; i++) {
 			int x = (int) Math.floor (Math.random() * (maxX + 1 - 20)) + 10;
@@ -52,7 +52,7 @@ public class InsertRandomPointsCommand implements ICommand {
 	@Override
 	public void execute() {
 		for(int i = 0; i < number; i++) {
-			drawPanelModel.addPoint(points[i]);
+			pointSet.addPoint(points[i]);
 		}	
 	}
 
@@ -62,7 +62,7 @@ public class InsertRandomPointsCommand implements ICommand {
 	@Override
 	public void unexecute() {
 		for(int i = 0; i < number; i++) {
-			drawPanelModel.removePoint(points[i]);
+			pointSet.removePoint(points[i]);
 		}	
 	}	
 }

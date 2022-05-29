@@ -2,8 +2,9 @@ package propra22.q8493367.contour;
 
 // TODO: Auto-generated Javadoc
 /**
- * SectionType identifies the 4 sections of the contour polygon i.e. the convex hull.
- * It also provides a sign method which is used to determine the sign of the result of the DFV algorithm
+ * The Enum SectionType identifies the 4 sections of the contour polygon i.e. the convex hull.
+ * It also provides a sign method which is used to determine the sign of the result of the DFV algorithm. We need
+ * this method  because we have to distinguish clockwise and counterclockwise movement.
  */
 
 public enum SectionType {

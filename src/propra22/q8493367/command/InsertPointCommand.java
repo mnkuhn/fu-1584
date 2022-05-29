@@ -4,14 +4,14 @@ import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
-// TODO: Auto-generated Javadoc
+
 /**
- * Command for inserting a point into a IDrawPanelModel.
+ * Command for inserting a point into a point set.
  */
 
 public class InsertPointCommand implements ICommand {
     
-    /** The instance of a from IDrawPanelModel derived class, in which the point is inserted. */
+    /** The instance of a pointset, into which the point is inserted. */
     IPointSet pointSet;
 	
 	/** The point which is inserted */
@@ -21,9 +21,9 @@ public class InsertPointCommand implements ICommand {
 	/**
 	 * Instantiates a new InsertPointCommand.
 	 *
-	 * @param x- x coordinate of the point
-	 * @param y - y coordinate of the point
-	 * @param pointSet - Instance of a from IDrawPanelModel derived class, in which the point is inserted.
+	 * @param x - the x coordinate of the point
+	 * @param y - the y coordinate of the point
+	 * @param pointSet - the point set.
 	 */
 	public InsertPointCommand(int x, int y, IPointSet pointSet) {
 	      point = new Point(x, y);
@@ -31,7 +31,7 @@ public class InsertPointCommand implements ICommand {
 	}
 	
 	/**
-	 * Execute the command 
+	 * Execute the insert point command 
 	 */
 	@Override
 	public void execute() {
@@ -40,7 +40,7 @@ public class InsertPointCommand implements ICommand {
 	}
 
 	/**
-	 * Unexecute the command
+	 * Unexecute the insert point command
 	 */
 	@Override
 	public void unexecute() {

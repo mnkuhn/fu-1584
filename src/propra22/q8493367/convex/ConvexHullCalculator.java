@@ -19,12 +19,10 @@ public class ConvexHullCalculator implements ISectionCalculator {
 	
 	private IHull hull;
 
-
-
 	/**
 	 * Instantiates a new convex hull calculator.
 	 *
-	 * @param model - the contour polygon
+	 * @param hull - the hull, which is the contour polygon.
 	 */
 	public ConvexHullCalculator(IHull hull) {
 
@@ -114,6 +112,9 @@ public class ConvexHullCalculator implements ISectionCalculator {
 		for(SectionType sectionType : SectionType.values()) {
 			calculateSection(sectionType);
 		}
+		
+		// puts the 4 sections into a list, following the points counterclockwise
+		// starting at the leftmost point.
 		hull.createList();
 	}
 }

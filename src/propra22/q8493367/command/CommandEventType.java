@@ -11,6 +11,7 @@ public enum CommandEventType {
 	
 	/** Event for a command which was executed before is to be undone again. */
 	UNDO, 
- /** Event for a command that was previously undone is to be executed again. */
- REDO;
+	
+	/** Event for a command that was previously undone is to be executed again. */
+	REDO;
 }

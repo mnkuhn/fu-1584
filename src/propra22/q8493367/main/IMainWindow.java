@@ -11,7 +11,7 @@ import java.net.URL;
 public interface IMainWindow {
 
 	/**
-	 * Shows the file chooser to save to a file
+	 * Shows the file chooser to save to a file.
 	 *
 	 * @return the string
 	 */
@@ -25,7 +25,7 @@ public interface IMainWindow {
 	void setMainWindowListener(IMainWindowListener mainWindowListener);
 	
 	/**
-	 * Shows the file chooser to open a file
+	 * Shows the file chooser to open a file.
 	 *
 	 * @return the file
 	 */
@@ -33,7 +33,7 @@ public interface IMainWindow {
 	
 	/**
 	 * Shows an option pane which gives the 
-	 * user the option to save to a file
+	 * user the option to save to a file.
 	 *
 	 * @return the int
 	 */
@@ -73,9 +73,34 @@ public interface IMainWindow {
 	 */
 	int getFileChooserOption();
 	
+	
+	/**
+	 * Sets the convex hull visible or invisible.
+	 * 
+	 *
+	 * @param b -  true to make the convex hull visible; false to make it invisible
+	 */
 	void setConvexHullIsShown(boolean b);
+	
+	/**
+	 * Sets the diameter visible or invisible.
+	 *
+	 * @param b - true to make the diameter visible; false to make it invisible.
+	 */
 	void setDiameterIsShown(boolean b);
+	
+	/**
+	 * Sets the quadrangle visible or invisible.
+	 *
+	 * @param b - true to make the quadrangle visible; false to make it invisible.
+	 */
 	void setQuadrangleIsShown(boolean b);
+    
+    /**
+     * Sets the triangle visible or invisible.
+     *
+     * @param b - true to make the triangle visible; false to make it invisible.
+     */
     void setTriangleIsShown(boolean b);
 
 }

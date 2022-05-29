@@ -20,16 +20,18 @@ public interface IMainWindowListener {
 	
 	
 	/**
-	 * File event occured.
+	 * File event occured -> The user wants to open or save a file
+	 * or exit the application.
 	 *
-	 * @param e the e
+	 * @param e - the file event
 	 */
 	void FileEventOccured(FileEvent e);
 	
 	/**
-	 * Command event occured.
+	 * Command event occured -> The user wants to 
+	 * undo or redo the last command.
 	 *
-	 * @param commandEvent the command event
+	 * @param commandEvent - the command event
 	 */
 	void commandEventOccured(CommandEvent commandEvent);
 	
@@ -41,7 +43,7 @@ public interface IMainWindowListener {
 	/**
 	 * Insert random points event occured.
 	 *
-	 * @param generationEvent the generation event
+	 * @param randomPointsEvent - the random points event.
 	 */
 	void insertRandomPointsEventOccured(RandomPointsEvent randomPointsEvent);
 	
@@ -50,6 +52,12 @@ public interface IMainWindowListener {
 	 */
 	void showManualEventOccured();
 
-	void viewEventOccured(IViewEvent viewEvent);
+	
+	/**
+	 * A view event has occured.
+	 * 
+	 * @param viewEvent
+	 */
+	void viewEventOccured(ViewEvent viewEvent);
 	
 }

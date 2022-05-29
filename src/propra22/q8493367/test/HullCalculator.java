@@ -5,10 +5,10 @@ import java.io.IOException;
 
 import propra22.interfaces.IHullCalculator;
 import propra22.q8493367.convex.DiameterAndQuadrangleCalculator;
-import propra22.q8493367.convex.Quadrangle;
 import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.controller.IDrawPanelController;
 import propra22.q8493367.draw.model.PointSet;
+import propra22.q8493367.draw.model.Quadrangle;
 import propra22.q8493367.draw.model.Diameter;
 import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.point.IPoint;
@@ -26,19 +26,19 @@ public class HullCalculator implements IHullCalculator{
 	
 	@Override
 	public void addPoint(int arg0, int arg1) { 
-		drawPanelController.insertPointToPointSetFromFileInput(arg0, arg1);	
+		drawPanelController.insertPointToPointSetByFileInput(arg0, arg1);	
 	}
 
 	@Override
 	public void addPointsFromArray(int[][] arg0) {
 		for(int i = 0; i < arg0.length; i++) {
-			drawPanelController.insertPointToPointSetFromFileInput(arg0[i][0], arg0[i][1]);
+			drawPanelController.insertPointToPointSetByFileInput(arg0[i][0], arg0[i][1]);
 		}
 	}
 
 	@Override
 	public void addPointsFromFile(String arg0) throws IOException {
-		drawPanelController.loadPointsToModel(new File(arg0));
+		drawPanelController.loadPointsToPointSet(new File(arg0));
 		drawPanelController.updateModel();
 	}
 

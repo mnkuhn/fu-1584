@@ -2,16 +2,18 @@ package propra22.q8493367.contour;
 
 import propra22.q8493367.point.IPoint;
 
+
 /**
- * The  IContourPolygonCaluclator interface is considered to be part of the controller. 
- * It updates the the contour polygon outgoing from the points in the draw panel 
- * model.
+ * The section calculator is used to calculate one of the four sections lowerLeft, lowerRight, upperRight and upperLeft.
+ * In particular, it is used to calculate the sections of the contour polygon or the sections of the convex hull.
  */
 public interface ISectionCalculator {
-
+    
+	/**
+	 * Calculate section.
+	 *
+	 * @param sectionType the section type
+	 */
 	void calculateSection(SectionType sectionType);
 
-	/**
-	 * updates all four sections of the draw panel model.
-	 */
 }

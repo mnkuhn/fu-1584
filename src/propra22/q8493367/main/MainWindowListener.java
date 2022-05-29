@@ -26,8 +26,8 @@ public class MainWindowListener implements IMainWindowListener {
     	
         view.setConvexHullIsShown(drawPanelController.convexHullIsShown());
         view.setDiameterIsShown(drawPanelController.diameterIsShown());
-        view.setQuadrangleIsShown(drawPanelController.quadrangelIsShown());
-        view.setTriangleIsShown(drawPanelController.triangelIsShown());
+        view.setQuadrangleIsShown(drawPanelController.quadrangleIsShown());
+        view.setTriangleIsShown(drawPanelController.triangleIsShown());
     }
 	
     @Override
@@ -63,7 +63,7 @@ public class MainWindowListener implements IMainWindowListener {
 	}
 	
 	@Override
-	public void viewEventOccured(IViewEvent viewEvent) {
+	public void viewEventOccured(ViewEvent viewEvent) {
 		// Beim Event keine Funktionen, das können auch Felder sein.
 		drawPanelController.setShowConvexHull(viewEvent.convexHullIsDisplayed());
 		drawPanelController.setShowDiameter(viewEvent.DiameterIsDisplayed());

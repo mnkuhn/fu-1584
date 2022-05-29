@@ -174,21 +174,6 @@ public class Hull implements IHull {
 		return array;
 	}
 
-	/*
-	 * public int numberOfElements() { if(lowerLeftSection.get(0) ==
-	 * upperRightSection.get(0)) { return 1; } int lower = lowerLeftSection.size();
-	 * if(lowerLeftSection.get(lowerLeftSection.size() - 1) ==
-	 * lowerRightSection.get(lowerRightSection.size() - 1)) { lower = lower +
-	 * lowerRightSection.size() - 1; lowerSectionsMeet = true; } else { lower =
-	 * lower + lowerRightSection.size(); lowerSectionsMeet = false; }
-	 * 
-	 * int upper = upperRightSection.size();
-	 * if(upperRightSection.get(upperRightSection.size() - 1) ==
-	 * upperLeftSection.get(upperLeftSection.size() - 1)) { upper = upper +
-	 * upperLeftSection.size() - 1; upperSectionsMeet = true; } else { upper = upper
-	 * + upperLeftSection.size(); upperSectionsMeet = false; } return lower + upper
-	 * - 2; }
-	 */
 
 	@Override
 	public void createList() {
@@ -249,28 +234,6 @@ public class Hull implements IHull {
 		}
 	}
 
-	/*
-	 * //only for testing
-	 * 
-	 * @Override public void outArray() { System.out.println("hull as array");
-	 * int[][] array = toArray(); for(int i = 0; i < array.length; i++) {
-	 * System.out.println(array[i][0] + "    y: " + array[i][1]); } }
-	 * 
-	 * //test
-	 * 
-	 * @Override public void outSections() {
-	 * System.out.println("hull from the sections");
-	 * System.out.println("lowerLeft:"); for(IPoint point : lowerLeftSection) {
-	 * System.out.println(point.toString()); }
-	 * 
-	 * System.out.println("lowerRight:"); for(IPoint point : lowerRightSection) {
-	 * System.out.println(point.toString()); }
-	 * 
-	 * System.out.println("upperRight:"); for(IPoint point : upperRightSection) {
-	 * System.out.println(point.toString()); } System.out.println("upperLeft:");
-	 * for(IPoint point : upperLeftSection) { System.out.println(point.toString());
-	 * } }
-	 */
 
 	@Override
 	public int getIndexOfRightMostPoint() {
@@ -291,7 +254,8 @@ public class Hull implements IHull {
 	public IHullIterator getIterator(int index, int limit) {
 		return new HullIterator(index, limit);
 	}
-
+    
+	
 	private class HullIterator implements IHullIterator {
 		int index;
 		int limit;

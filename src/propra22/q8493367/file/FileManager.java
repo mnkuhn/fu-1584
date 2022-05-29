@@ -53,18 +53,18 @@ public class FileManager implements IFileManager {
     	
 		switch (type) {
 		case NEW: {
-			if(!drawPanelController.drawPanelModelIsEmpty() && drawPanelController.dataHasChangedSinceLastSave()) {
+			if(!drawPanelController.pointSetIsEmpty() && drawPanelController.dataHasChangedSinceLastSave()) {
 				
 				int dialogOption = mainView.showSaveToFileOptionPane();
 				if(dialogOption == JOptionPane.OK_OPTION) {
 					if(filePath != null) {
-						drawPanelController.saveModel(filePath);
+						drawPanelController.savePointSet(filePath);
 						}
 					else {
 						String newFilePath = mainView.showSaveFileChooser();
 						if(mainView.getFileChooserOption() == JFileChooser.APPROVE_OPTION) {
 							if(newFilePath != null) {
-								drawPanelController.saveModel(newFilePath);
+								drawPanelController.savePointSet(newFilePath);
 								drawPanelController.createNewDrawPanel();
 								filePath = null;
 							}
@@ -85,18 +85,18 @@ public class FileManager implements IFileManager {
 		
 		case OPEN: {
             
-			if(!drawPanelController.drawPanelModelIsEmpty() && drawPanelController.dataHasChangedSinceLastSave()) {
+			if(!drawPanelController.pointSetIsEmpty() && drawPanelController.dataHasChangedSinceLastSave()) {
             	int dialogOption = mainView.showSaveToFileOptionPane();
             	if(dialogOption == JOptionPane.OK_OPTION) {
             		if(filePath != null) {
-            			drawPanelController.saveModel(filePath);
+            			drawPanelController.savePointSet(filePath);
             			openFile();
             		}
             		else {
 						String newFilePath = mainView.showSaveFileChooser();
 						if(mainView.getFileChooserOption() == JFileChooser.APPROVE_OPTION) {
 							if(newFilePath != null) {
-							drawPanelController.saveModel(newFilePath);
+							drawPanelController.savePointSet(newFilePath);
 							openFile();
 							}
 						}	
@@ -115,7 +115,7 @@ public class FileManager implements IFileManager {
 		case SAVE: {
 			if(drawPanelController.dataHasChangedSinceLastSave()) {
 				if(filePath != null) {
-					drawPanelController.saveModel(filePath);
+					drawPanelController.savePointSet(filePath);
 				}
 				else {
 					String path = mainView.showSaveFileChooser();
@@ -146,14 +146,14 @@ public class FileManager implements IFileManager {
 					JOptionPane.YES_NO_CANCEL_OPTION);
 				if(dialogOption == JOptionPane.OK_OPTION) {
 					if(filePath != null) {
-						drawPanelController.saveModel(filePath);
+						drawPanelController.savePointSet(filePath);
 						System.exit(0);
 					}
 					else {
 						String path = mainView.showSaveFileChooser();
 						if(mainView.getFileChooserOption() == JFileChooser.APPROVE_OPTION) {
 							if(path != null) {
-								drawPanelController.saveModel(path);
+								drawPanelController.savePointSet(path);
 								System.exit(0);	
 							}
 						}
@@ -171,12 +171,9 @@ public class FileManager implements IFileManager {
 		}
 	}
 
-	/**
-	 * Saves the data of the model into a file
-	 * @param path the path
-	 */
+	//Saves the data of the model into a file
 	private void saveFile(String path) {
-		drawPanelController.saveModel(path);
+		drawPanelController.savePointSet(path);
 		filePath = path;
 	}
 
@@ -186,7 +183,7 @@ public class FileManager implements IFileManager {
 	private void openFile() {
 		File file = mainView.showOpenFileChooser();
 		if(file != null) {
-			drawPanelController.loadPointsToModel(file);
+			drawPanelController.loadPointsToPointSet(file);
 			drawPanelController.updateModel();
 			drawPanelController.updateView();
 			filePath = file.getAbsolutePath();

@@ -22,11 +22,11 @@ import propra22.q8493367.contour.ContourPolygonCalculator;
 import propra22.q8493367.contour.SectionType;
 import propra22.q8493367.convex.DiameterAndQuadrangleCalculator;
 import propra22.q8493367.convex.ConvexHullCalculator;
-import propra22.q8493367.convex.Quadrangle;
 import propra22.q8493367.draw.model.Diameter;
 import propra22.q8493367.draw.model.Hull;
 import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IPointSet;
+import propra22.q8493367.draw.model.Quadrangle;
 import propra22.q8493367.draw.view.DrawPanel;
 import propra22.q8493367.file.FileManager;
 import propra22.q8493367.file.Parser;
@@ -37,8 +37,6 @@ import propra22.q8493367.point.Point;
 import propra22.q8493367.settings.Settings;
 
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The controller of the draw panel. It also listens to all events on the draw panel.
  */
@@ -50,17 +48,18 @@ public class DrawPanelController implements IDrawPanelController {
 	
 	
 	//model
-	/** The draw panel model. */
+	/** The point set */
 	private IPointSet pointSet;
 	
-	/** The hull. */
+	/** The hull */
 	//should be an argument of the controller constructor
 	private IHull hull = new Hull();
 	
-	//** The diameter */
+	/** The diameter */
 	private Diameter diameter = new Diameter();
 	
-	//** The quadrangle */
+	
+	/** The quadrangle */
 	private Quadrangle quadrangle = new Quadrangle();
 	
 	
@@ -77,16 +76,18 @@ public class DrawPanelController implements IDrawPanelController {
 	/** The for drag selected. */
 	private IPoint forDragSelected = null;
 	
-	/** The previous mouse X. */
+	/** The previous x coordinate of the mouse*/
 	private int previousMouseX;
 	
-	/** The previous mouse Y. */
+	/** The previous y coordinate of the mouse. */
 	private int previousMouseY;
 	
-	/** The start mouse X. */
+	/** The x coordinate of the mouse when the 
+	 * dragging started. */
 	private int startMouseX;
 	
-	/** The start mouse Y. */
+	/** The y coordinate of the mouse when the 
+	 * dragging ended */
 	private int startMouseY;
 	
 	
@@ -95,8 +96,7 @@ public class DrawPanelController implements IDrawPanelController {
 	/** The command list. */
 	private List<ICommand> commandList = new ArrayList<>();
 	
-	/** The command index. */
-	// actual position in the command list
+	/** The actual position in the command list */
 	private int commandIndex =  -1;
 	
 	
@@ -108,7 +108,7 @@ public class DrawPanelController implements IDrawPanelController {
 	/** The convex hull calculator. */
 	private ConvexHullCalculator convexHullCalculator;
 	
-	/**The calculator for the diameter*/
+	/** The calculator for the diameter. */
 	private DiameterAndQuadrangleCalculator diameterAndQuadrangleCalulator;
 	
 	
@@ -120,10 +120,17 @@ public class DrawPanelController implements IDrawPanelController {
 	// Indicates if the point set has changed since last save
 	private boolean dataChangedSinceLastSave = false;
 
+    /** The convex hull is shown. */
     //default settings for the display of the geometric objects
 	private boolean convexHullIsShown = Settings.defaultConvexHullIsShown;
+	
+	/** The diameter is shown. */
 	private boolean diameterIsShown = Settings.defaultDiameterIsShown;
+	
+	/** The quadrangle is shown. */
 	private boolean quadrangleIsShown = Settings.defaultQuadrangleIsShown;
+	
+	/** The triangle is shown. */
 	private boolean triangleIsShown = Settings.defaultTriangleIsShown;
 	
 	/**
@@ -241,7 +248,7 @@ public class DrawPanelController implements IDrawPanelController {
 
 	/**
 	 * Paints the points, the convex hull und was noch alles kommt on the 
-	 * draw panel
+	 * draw panel.
 	 *
 	 * @param g the g
 	 */
@@ -263,7 +270,7 @@ public class DrawPanelController implements IDrawPanelController {
 	
 	
 	/**
-	 * Draws all points from the model onto the draw panel
+	 * Draws all points from the model onto the draw panel.
 	 *
 	 * @param g2 - the Graphics2D Object which is used for painting
 	 */
@@ -313,6 +320,12 @@ public class DrawPanelController implements IDrawPanelController {
 		  g2.setColor(Color.BLACK);
 	}
 	
+	/**
+	 * Draw diameter.
+	 *
+	 * @param g2 the g 2
+	 * @param color the color
+	 */
 	private void drawDiameter(Graphics2D g2, Color color) {
 		if(diameter != null) {
 			g2.setColor(color);
@@ -323,6 +336,12 @@ public class DrawPanelController implements IDrawPanelController {
 		}	
 	}
 	
+	/**
+	 * Draw quadrangle.
+	 *
+	 * @param g2 the g 2
+	 * @param color the color
+	 */
 	private void drawQuadrangle(Graphics2D g2, Color color) {
 		if(quadrangle != null) {
 			g2.setColor(color);
@@ -352,7 +371,7 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 	
 	/**
-	 * Removes all points from the point set
+	 * Removes all points from the point set.
 	 */
 	@Override
 	public void clearModel() {
@@ -369,7 +388,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 * draw panel model.
 	 */
 	@Override
-	public boolean drawPanelModelIsEmpty() {
+	public boolean pointSetIsEmpty() {
 		return pointSet.isEmpty();
 	}
 
@@ -381,7 +400,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param path - the path of the file
 	 */
 	@Override
-	public void saveModel(String path) {
+	public void savePointSet(String path) {
 		
 		if(dataChangedSinceLastSave) {
 			File file = new File(path);
@@ -409,7 +428,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param file - the file from which the points are loaded.
 	 */
 	@Override
-	public void loadPointsToModel(File file) {
+	public void loadPointsToPointSet(File file) {
 		
 		try {
 			FileReader fileReader = new FileReader(file);
@@ -549,12 +568,14 @@ public class DrawPanelController implements IDrawPanelController {
 
 
 	/**
-	 * Insert a point into the point set
+	 * Insert a point into the point set if the user enters the point on
+	 * the user interface. Model is updated afterwards.
 	 *
-	 * @param point the point
+	 * @param x the x
+	 * @param y the y
 	 */
 	@Override
-	public void insertPointToPointSetFromUserInput(int x, int y) {
+	public void insertPointToPointSetByUserInput(int x, int y) {
 		if(commandIndex != commandList.size() - 1) {
 			removeAllComandsAfterCommandIndex();
 		}
@@ -566,8 +587,16 @@ public class DrawPanelController implements IDrawPanelController {
 		dataChangedSinceLastSave = true;
 	}
 	
+	
+	/**
+	 * Insert point to point set from file input. 
+	 * Model is not updated afterwards.
+	 *
+	 * @param x - the x coordinate of the point
+	 * @param y - the y coordinate of the point
+	 */
 	@Override
-	public void insertPointToPointSetFromFileInput(int x, int y) {
+	public void insertPointToPointSetByFileInput(int x, int y) {
 		pointSet.addPoint(new Point(x, y));
 	}
 	
@@ -579,7 +608,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param mouseY the mouse Y
 	 */
 	@Override
-	public void deletePointFromModel(int mouseX, int mouseY) {
+	public void deletePointFromPointSetByUserInput(int mouseX, int mouseY) {
 		IPoint closest =  getClosestPointToMouse(mouseX, mouseY, new ManhattanDistance());
 		if(closest != null) {
 			if(pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanDistance(), Settings.mouseRadius)) {
@@ -621,7 +650,7 @@ public class DrawPanelController implements IDrawPanelController {
 
 
 	/**
-	 * Drag point.
+	 * Drags a point after the point drag has been initialized.
 	 *
 	 * @param mouseX - the x coordinate of the mouse
 	 * @param mouseY - the y coordinate of the mouse
@@ -673,41 +702,12 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 
 
-
-	
-	// for testing
-	public Diameter getDiameter(){
-		return this.diameter;
-	}
-
-
-	public double getDiameterLength() {
-		if(diameter != null) {	
-			IPoint point1 = this.diameter.getA();
-			IPoint point2 = this.diameter.getB();
-			double dx = point1.getX() - point2.getX();
-			double dy = point1.getY() - point2.getY();
-			return Math.sqrt( dx*dx + dy*dy );
-		}
-		return -1;	
-	}
-	
-	public Quadrangle getBiggestQuadrangle() {
-		return quadrangle;
-	}
-	
-	
 	/**
-	 * Hull as array.
+	 * Convex hull is shown.
 	 *
-	 * @return the int[][]
+	 * @return true, if the user chose to display the 
+	 * convex hull on the draw panel.
 	 */
-	@Override
-	public int[][] hullAsArray(){
-		return hull.toArray();
-	}
-
-
 	@Override
 	public boolean convexHullIsShown() {
 	     return convexHullIsShown;
@@ -715,24 +715,47 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 
 
+	/**
+	 * Diameter is shown.
+	 *
+	 * @return true, if the user chose to display the 
+	 * diameter on the draw panel.
+	 */
 	@Override
 	public boolean diameterIsShown() {
 		return diameterIsShown;
 	}
 
 
+	/**
+	 * Quadrangle is shown.
+	 *
+	 * @return true, if successful
+	 */
 	@Override
-	public boolean quadrangelIsShown() {
+	public boolean quadrangleIsShown() {
 		return quadrangleIsShown;
 	}
 
-
+	/**
+	 * Triangle is shown.
+	 *
+	 * @return true, if the user chose to display the 
+	 * triangle on the draw panel.
+	 */
 	@Override
-	public boolean triangelIsShown() {
+	public boolean triangleIsShown() {
 		return triangleIsShown;
 	}
 
 
+	/**
+	 * Determines, if the convex hull
+	 * should be shown.
+	 *
+	 * @param b - true, if the convex hull should 
+	 * be shown. False otherwise.
+	 */
 	@Override
 	public void setShowConvexHull(boolean b) {
 		convexHullIsShown = b;
@@ -740,6 +763,10 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 
 
+	/**
+	 * Determines whether the diameter is to be shown.
+	 * @param b the new show diameter
+	 */
 	@Override
 	public void setShowDiameter(boolean b) {
 		diameterIsShown = b;
@@ -747,17 +774,67 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 
 
+	/**
+	 * Determines whether the quadrangle is to be shown.
+	 * @param b the new show quadrangle
+	 */
 	@Override
 	public void setShowQuadrangle(boolean b) {
 		quadrangleIsShown =  b;
 		
 	}
 
-
+	/**
+	 * Determines whether the triangle is to be shown.
+	 * @param b the new show triangle
+	 */
 	@Override
 	public void setShowTriangle(boolean b) {
 		triangleIsShown = b;
 		
+	}
+	
+	
+
+    // for testing only
+	
+	/**
+	 * Gets the diameter.
+	 * @return the diameter
+	 */
+	public Diameter getDiameter(){
+		return this.diameter;
+	}
+
+    
+	/**
+	 * Gets the length of the diameter.
+	 * @return the diameter length
+	 */
+	public double getDiameterLength() {
+		if(diameter != null) {
+			return diameter.length();	
+		}
+		return -1;	
+	}
+	
+	/**
+	 * Gets the biggest quadrangle.
+	 * @return the biggest quadrangle
+	 */
+	public Quadrangle getBiggestQuadrangle() {
+		return quadrangle;
+	}
+
+	
+	/**
+	 * Hull as array.
+	 * @return the int[][] which contains all points 
+	 * of the hull in counterclockwise direction.
+	 */
+	
+	public int[][] hullAsArray(){
+		return hull.toArray();
 	}
 
 }

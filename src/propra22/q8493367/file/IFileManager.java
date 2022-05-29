@@ -9,9 +9,9 @@ package propra22.q8493367.file;
 public interface IFileManager {
 	
 	/**
-	 * Handle the fileEvent.
+	 * Handle the file event.
 	 *
-	 * @param the handled FileEvent
+	 * @param the handled file event
 	 */
 	void handleFileEvent(FileEvent e);
 }
