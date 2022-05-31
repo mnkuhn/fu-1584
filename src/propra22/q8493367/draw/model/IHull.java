@@ -123,4 +123,26 @@ public interface IHull {
 	 * @return the iterator
 	 */
 	IHullIterator getIterator(int index);
+	
+	
+	/**
+	 * Returns true, if the point p is inside the hull.
+	 * Returns false otherwise
+	 *
+	 * @param p - the point
+	 * @return true, if the point p 
+	 * is inside the hull, false otherwise
+	 * 
+	 */
+	boolean contains(IPoint p);
+	
+	
+	/**
+	 * Gets the section in which the point p
+	 * is located
+	 *
+	 * @param p - the point
+	 * @return the section
+	 */
+	SectionType getSection(IPoint p);
 }
