@@ -39,13 +39,14 @@ public class MainWindowListener implements IMainWindowListener {
 	public void commandEventOccured(CommandEvent commandEvent) {
 		CommandEventType type = commandEvent.getEventType();
 		switch (type) {
-		case UNDO: {
-			drawPanelController.undoCommand();
-			break;
-		}
-		case REDO:
-            drawPanelController.redoCommand();
-			break;
+			case UNDO: {
+				drawPanelController.undoCommand();
+				break;
+			}
+			case REDO: {
+				drawPanelController.redoCommand();
+				break;		
+			}      
 		}	
 	}
 	
@@ -57,18 +58,20 @@ public class MainWindowListener implements IMainWindowListener {
 	}
 
 	@Override
-	public void insertRandomPointsEventOccured(RandomPointsEvent generationEvent) {
-		RandomPointsEventType type = generationEvent.getType();
-		drawPanelController.insertRandomPoints(type.getNumber());		
+	public void insertRandomPointsEventOccured(RandomPointsEvent randomPointsEvent) {
+		RandomPointsEventType type = randomPointsEvent.getType();
+		System.out.println("Obere linke Ecke des viewports: " + randomPointsEvent.getUpperLeftCornerOfViewPortX() + "  " + randomPointsEvent.getUpperLeftCornerOfViewPortY());
+		System.out.println("Grösse des viewports: " + randomPointsEvent.getViewportSize().getWidth() + "  " + randomPointsEvent.getViewportSize().getHeight());
+		drawPanelController.insertRandomPoints(type.getNumber(), randomPointsEvent.getUpperLeftCornerOfViewPortX(), randomPointsEvent.getUpperLeftCornerOfViewPortY(), randomPointsEvent.getViewportSize() );		
 	}
 	
 	@Override
 	public void viewEventOccured(ViewEvent viewEvent) {
-		// Beim Event keine Funktionen, das können auch Felder sein.
 		drawPanelController.setShowConvexHull(viewEvent.convexHullIsDisplayed());
 		drawPanelController.setShowDiameter(viewEvent.DiameterIsDisplayed());
 		drawPanelController.setShowQuadrangle(viewEvent.QuadrangleIsDisplayed());
 		drawPanelController.setShowTriangle(viewEvent.TriangleIsDisplayed());
+		
 		drawPanelController.updateModel();
 		drawPanelController.updateView();
 	}

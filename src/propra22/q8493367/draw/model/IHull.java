@@ -6,6 +6,7 @@ import propra22.q8493367.contour.SectionType;
 import propra22.q8493367.point.IPoint;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface for a hull of a set of points.
  */
@@ -42,7 +43,7 @@ public interface IHull {
 	 * Gets the point with index i from section 
 	 * determined by the section type.
 	 *
-	 * @param index the index
+	 * @param i the i
 	 * @param sectionType the section type
 	 * @return the point from section
 	 */
@@ -108,18 +109,18 @@ public interface IHull {
 	 */
 	public IPoint get(int i);
 	
-	/**
-	 * Returns an iterator
-	 *
-	 * @param index the index
-	 * @param limit the limit
-	 * @return the iterator
-	 */
-	IHullIterator getIterator(int index, int limit);
 	
 	/**
 	 * Creates the list of the points following the points
 	 * counterclockwise.
 	 */
 	void createList();
+    
+	/**
+	 * Gets the iterator.
+	 *
+	 * @param index - the index from which the iterator starts
+	 * @return the iterator
+	 */
+	IHullIterator getIterator(int index);
 }

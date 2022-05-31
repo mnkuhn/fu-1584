@@ -44,19 +44,21 @@ public class ConvexHullCalculator implements ISectionCalculator {
 				int next = 2;
 				while(next < size) {
 					//next is on the inner side of the line through base and base + 1
-					if(DFV(base, next, sectionType)  > 0){
+					if(signedTriangleArea(base, next, sectionType)  > 0){
 						base++;
 						next++;	
 					}
 					else {
-						//next is on the outer side of the line through base and base + 1
+						/*next is on the outer side of the line through base and base + 1 or 
+						 * next is exactly on the line through base and base + 1
+						 */
 						if(base > 0) {
 							hull.removePointFromSection(base + 1, sectionType);
 							size--;
 							base--;
 							next--;
 							if(next < size) {
-								while(base > 0 && DFV(base, next, sectionType) < 0) {
+								while(base > 0 && signedTriangleArea(base, next, sectionType) < 0) {
 									hull.removePointFromSection(base + 1, sectionType);
 									size--;
 									base--;
@@ -75,6 +77,12 @@ public class ConvexHullCalculator implements ISectionCalculator {
 		}
 	}
 		
+	private long signedTriangleArea(int base, int next, SectionType sectionType) {
+		return sectionType.getSign() * Point.signedTriangleArea(
+				hull.getPointFromSection(base, sectionType), 
+				hull.getPointFromSection(base + 1, sectionType),  
+				hull.getPointFromSection(next, sectionType));
+	}
 	
 	
 	/**
@@ -88,7 +96,7 @@ public class ConvexHullCalculator implements ISectionCalculator {
 	 * @return signed area of the triangle
 	 */
 	
-	
+	/*
 	private long DFV(int base, int next, SectionType sectionType) {
 		
 		IPoint a = hull.getPointFromSection(base, sectionType);
@@ -102,7 +110,7 @@ public class ConvexHullCalculator implements ISectionCalculator {
 		return sectionType.getSign() * (summand1 + summand2 + summand3);
 	}
 
-	
+	*/
 	
 	/**
 	 * updates all four sections of the draw panel model.

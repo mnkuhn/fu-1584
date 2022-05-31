@@ -21,6 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JViewport;
 import javax.swing.event.MenuEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -46,6 +47,8 @@ public class MainWindow extends JFrame implements IMainWindow {
 	private JCheckBoxMenuItem diameterItem;
 	private JCheckBoxMenuItem quadrangleItem;
 	private JCheckBoxMenuItem triangleItem;
+	
+	private JViewport viewport;
 	
 	
 	
@@ -75,6 +78,8 @@ public class MainWindow extends JFrame implements IMainWindow {
 		
 		pack();
 		setLocationRelativeTo(null);
+		
+		this.viewport = scrollPane.getViewport();
 	}
 
 
@@ -229,7 +234,9 @@ public class MainWindow extends JFrame implements IMainWindow {
         tenPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.TEN));
+				double viewportPositionX = viewport.getViewPosition().getX();
+				double viewportPositionY = viewport.getViewPosition().getY();
+				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.TEN, viewportPositionX, viewportPositionY, viewport.getSize()));
 			}
         });
         
@@ -237,7 +244,9 @@ public class MainWindow extends JFrame implements IMainWindow {
         fiftyPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.FIFTY));
+				double viewportPositionX = viewport.getViewPosition().getX();
+				double viewportPositionY = viewport.getViewPosition().getY();
+				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.FIFTY, viewportPositionX, viewportPositionY, viewport.getSize()));
 			}
         });
        
@@ -245,7 +254,9 @@ public class MainWindow extends JFrame implements IMainWindow {
         hundredPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.HUNDRED));
+				double viewportPositionX = viewport.getViewPosition().getX();
+				double viewportPositionY = viewport.getViewPosition().getY();
+				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.HUNDRED, viewportPositionX, viewportPositionY, viewport.getSize()));
 				
 			}	
         });
@@ -254,7 +265,9 @@ public class MainWindow extends JFrame implements IMainWindow {
         fivehundredPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.FIVEHUNDRED));
+				double viewportPositionX = viewport.getViewPosition().getX();
+				double viewportPositionY = viewport.getViewPosition().getY();
+				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.FIVEHUNDRED, viewportPositionX, viewportPositionY, viewport.getSize()));
 			}	
         });
         
@@ -262,7 +275,9 @@ public class MainWindow extends JFrame implements IMainWindow {
         thousandPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.THOUSAND));
+				double viewportPositionX = viewport.getViewPosition().getX();
+				double viewportPositionY = viewport.getViewPosition().getY();
+				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.THOUSAND, viewportPositionX, viewportPositionY, viewport.getSize()));
 			}	
         });
        

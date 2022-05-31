@@ -31,7 +31,7 @@ public class ViewEvent  {
 	}
 
 	/**
-	 * Gets the source.
+	 * Gets the source of the event.
 	 *
 	 * @return the source
 	 */

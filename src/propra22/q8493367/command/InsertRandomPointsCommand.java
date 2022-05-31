@@ -1,5 +1,7 @@
 package propra22.q8493367.command;
 
+import java.util.Random;
+
 import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
@@ -34,14 +36,18 @@ public class InsertRandomPointsCommand implements ICommand {
 	 * @param maxY - the maximal y coordinate a point is allowed to have
 	 * @param pointSet - the DrawPanelModel, in which the points are inserted.
 	 */
-	public InsertRandomPointsCommand(int number, int maxX, int maxY, IPointSet pointSet) {
+	public InsertRandomPointsCommand(int number, int minX, int minY, int maxX, int maxY, IPointSet pointSet) {
 		this.points = new IPoint[number];
 		this.number = number;
 		this.pointSet = pointSet;
-		
+		Random random = new Random();
 		for(int i = 0; i < number; i++) {
-			int x = (int) Math.floor (Math.random() * (maxX + 1 - 20)) + 10;
-			int y = (int) Math.floor (Math.random() * (maxY + 1 - 20)) + 10;
+			int x = random.nextInt(maxX - minX) + minX;
+			int y = random.nextInt(maxY - minY) + minY;
+			
+			
+			//int x = (int) Math.floor (Math.random() * (maxX + 1 - 20)) + 10;
+			//int y = (int) Math.floor (Math.random() * (maxY + 1 - 20)) + 10;
 			points[i] = new Point(x, y);	
 		}
 	}

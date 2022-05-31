@@ -54,19 +54,36 @@ public class Point  implements IPoint {
 		return (this.x == p.getX()) && (this.y == p.getY());
 	}
 	
-	/*
-	public static long DFV(IPoint a, IPoint b, IPoint c) {
-
+	
+	public static long signedTriangleArea(IPoint a, IPoint b, IPoint c) {
+		
 		long summand1 = (long) a.getX() * ((long) b.getY() - (long) c.getY());
 		long summand2 = (long) b.getX() * ((long) c.getY() - (long) a.getY());
 		long summand3 = (long) c.getX() * ((long) a.getY() - (long) b.getY());
-		// change the sign because (0, 0) is in the upper left corner
-		return -(summand1 + summand2 + summand3);
+		// change sign because (0, 0) is in the upper left corner
+		return - (summand1 + summand2 + summand3);
 	}
-	*/
 	
+	public static long qaudraticDistance(IPoint a, IPoint b) {
+		long dx = (long) a.getX() - (long) b.getX();
+		long dy = (long) a.getY() - (long) b.getY();
+		return dx * dx + dy * dy;
+	}
 	
+	public static boolean isShorter(IPoint a, IPoint b, IPoint c, IPoint d) {
+		return qaudraticDistance(a, b) < qaudraticDistance(c, d);
+	}
 	
+	public static boolean isLonger(IPoint a, IPoint b, IPoint c, IPoint d) {
+		return qaudraticDistance(a, b) > qaudraticDistance(c, d);
+	}
+	
+	public static boolean isHigher(IPoint a, IPoint c, IPoint d1, IPoint d2) {
+		long x = (long)a.getX() + (long)d2.getX() - (long)c.getX();
+		long y = (long)a.getY() + (long)d2.getY() - (long)c.getY();
+		IPoint sum = new Point((int)x, (int)y);
+		return signedTriangleArea(sum, d2, d1) > 0;	
+	}
 }
 
 

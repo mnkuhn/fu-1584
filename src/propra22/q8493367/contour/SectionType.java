@@ -10,16 +10,16 @@ package propra22.q8493367.contour;
 public enum SectionType {
 	
 	/** points starting at point with lowest x coordinate and highest y coordinate ordered by rising x coordinate and rising y coordinate */
-	LOWERLEFT(-1L), 
+	LOWERLEFT(1L), 
 	
 	/** points starting at point with lowest x coordinate and highest y coordinate ordered by rising x coordinate and rising y coordinate*/
-	LOWERRIGHT(1L), 
+	LOWERRIGHT(-1L), 
 	
 	/** points starting at point with lowest x coordinate and highest y coordinate ordered by rising x coordinate and falling y coordinate. */
-	UPPERRIGHT(-1L), 
+	UPPERRIGHT(1L), 
 	
 	/** points starting at point with lowest x coordinate and highest y coordinate ordered by rising x coordinate and falling y coordinate */
-	UPPERLEFT(1L);
+	UPPERLEFT(-1L);
 	
 	/** The sign of the SectionType which is -1 or 1
 	 */

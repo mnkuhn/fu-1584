@@ -1,5 +1,6 @@
 package propra22.q8493367.draw.controller;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -73,7 +74,7 @@ public class DrawPanelController implements IDrawPanelController {
 	
 	
 	// Dragging points
-	/** The for drag selected. */
+	/** The point which is selected for dragging. */
 	private IPoint forDragSelected = null;
 	
 	/** The previous x coordinate of the mouse*/
@@ -241,8 +242,7 @@ public class DrawPanelController implements IDrawPanelController {
 			start = end;
 			diameterAndQuadrangleCalulator.calculate(diameter, quadrangle);
 			end = System.currentTimeMillis();
-			System.out.println("Durchmesser und Viereck berechen: " + (end - start)  + " ms");
-			
+			System.out.println("Durchmesser und Viereck berechen: " + (end - start)  + " ms \n \n");
 		}
 	}
 
@@ -259,7 +259,6 @@ public class DrawPanelController implements IDrawPanelController {
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			
 			drawPoints(g2);
-			
 			if(convexHullIsShown) {drawHull(g2, Settings.convexHullColor);}
 			if(diameterIsShown) {drawDiameter(g2, Settings.diameterColor);}
 			if(quadrangleIsShown) {drawQuadrangle(g2, Settings.quadrangleColor);}
@@ -270,7 +269,7 @@ public class DrawPanelController implements IDrawPanelController {
 	
 	
 	/**
-	 * Draws all points from the model onto the draw panel.
+	 * Draws all points from the point set onto the draw panel.
 	 *
 	 * @param g2 - the Graphics2D Object which is used for painting
 	 */
@@ -551,12 +550,15 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param number the number
 	 */
 	@Override
-	public void insertRandomPoints(int number) {
+	public void insertRandomPoints(int number, double viewportPositionX, double viewportPositionY, Dimension viewportSize) {
 		if(commandIndex != commandList.size() - 1) {
 			removeAllComandsAfterCommandIndex();
 		}
-		ICommand insertRandomPointsCommand = new InsertRandomPointsCommand(number, 
-				drawPanelReferenceWidth, drawPanelReferenceHeight, pointSet);
+		int minX = (int) viewportPositionX;
+		int minY = (int) viewportPositionY;
+		int maxX = minX + (int) viewportSize.getWidth();
+		int maxY = minY + (int) viewportSize.getHeight();
+		ICommand insertRandomPointsCommand = new InsertRandomPointsCommand(number, minX, minY, maxX, maxY, pointSet);
 		insertRandomPointsCommand.execute();
 		addCommandToCommandList(insertRandomPointsCommand);
 		

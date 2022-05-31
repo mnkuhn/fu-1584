@@ -251,8 +251,8 @@ public class Hull implements IHull {
 	}
 
 	@Override
-	public IHullIterator getIterator(int index, int limit) {
-		return new HullIterator(index, limit);
+	public IHullIterator getIterator(int index) {
+		return new HullIterator(index);
 	}
     
 	
@@ -260,8 +260,12 @@ public class Hull implements IHull {
 		int index;
 		int limit;
 
-		public HullIterator(int index, int limit) {
+		public HullIterator(int index) {
 			this.index = index;
+		}
+		
+		@Override
+		public void setLimit(int limit) {
 			while (index > limit) {
 				limit = limit + pointList.size();
 			}
@@ -283,6 +287,11 @@ public class Hull implements IHull {
 		@Override
 		public void next() {
 			index++;
+		}
+		
+		@Override
+		public void previous() {
+			index--;
 		}
 
 		@Override

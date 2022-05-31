@@ -1,5 +1,6 @@
 package propra22.q8493367.draw.controller;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.File;
 
@@ -65,8 +66,11 @@ public interface IDrawPanelController {
 	 * fit onto the visible part of the draw panel.
 	 *
 	 * @param number -  the number of random points to be inserted
+	 * @param dimension 
+	 * @param e 
+	 * @param d 
 	 */
-	public void insertRandomPoints(int number);
+	public void insertRandomPoints(int number, double d, double e, Dimension dimension);
 	
 	/**
 	 * Updates the model (of the draw panel).

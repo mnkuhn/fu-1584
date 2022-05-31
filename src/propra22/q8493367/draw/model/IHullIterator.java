@@ -4,6 +4,7 @@ import propra22.q8493367.point.IPoint;
 
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface for an iterator over a hull.
  */
@@ -32,6 +33,13 @@ public interface IHullIterator {
 	 * position.
 	 */
 	void next();
+	
+
+	/**
+	 * Moves the iterator to the previous
+	 * position in the hull
+	 */
+	void previous();
 
 	/**
 	 * Returns true if the iterator has 
@@ -50,6 +58,14 @@ public interface IHullIterator {
 	 * referenced by the iterator.
 	 */
 	int getIndex();
+    
+	/**
+	 * Sets the limit of the iterator.
+	 *
+	 * @param limit - the limit
+	 */
+	void setLimit(int limit);
+    
 	
 
 }
