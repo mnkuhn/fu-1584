@@ -19,15 +19,17 @@ import propra22.q8493367.point.Point;
 
 public class HullCalculator implements IHullCalculator{
 	
-	IPointSet model = new PointSet();
-	
+	IPointSet pointSet;
 	DrawPanelController drawPanelController;
-	IParser parser = new Parser();
-	FileManager fileManager = new FileManager(model, parser);
+	FileManager fileManager;
 	
 	public HullCalculator() {
-		IPointSet pointSet = new PointSet();
+		
+		pointSet = new PointSet();
 		drawPanelController = new DrawPanelController(pointSet);
+		
+		IParser parser = new Parser();
+		fileManager = new FileManager(pointSet, parser);
 	}
 	
 	@Override

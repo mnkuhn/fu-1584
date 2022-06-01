@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import propra22.q8493367.draw.controller.IDrawPanelController;
+
 import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.main.IMainWindow;
 import propra22.q8493367.point.IPoint;
