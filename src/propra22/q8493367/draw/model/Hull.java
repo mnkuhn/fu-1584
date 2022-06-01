@@ -254,6 +254,19 @@ public class Hull implements IHull {
 	public IHullIterator getIterator(int index) {
 		return new HullIterator(index);
 	}
+	
+	@Override
+	public boolean contains(IPoint p) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public SectionType getSection(IPoint p) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
     
 	
 	private class HullIterator implements IHullIterator {
@@ -306,4 +319,10 @@ public class Hull implements IHull {
 		}
 	}
 
+
+
+	
+
+
+	
 }
