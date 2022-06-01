@@ -4,25 +4,33 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+
 import propra22.q8493367.command.CommandEvent;
 import propra22.q8493367.command.CommandEventType;
 import propra22.q8493367.draw.controller.IDrawPanelController;
+import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.file.FileEvent;
 import propra22.q8493367.file.FileManager;
+import propra22.q8493367.file.IFileManager;
+import propra22.q8493367.file.IParser;
+import propra22.q8493367.file.Parser;
 import propra22.q8493367.point.RandomPointsEvent;
 import propra22.q8493367.point.RandomPointsEventType;
-import propra22.q8493367.settings.Settings;
 
 public class MainWindowListener implements IMainWindowListener {
 
 	private IDrawPanelController drawPanelController;
 	private IMainWindow view;
-	private FileManager fileManager;
+	private IFileManager fileManager;
+	private IPointSet pointSet;
 	
-    public MainWindowListener(IDrawPanelController drawPanelController, MainWindow mainWindow) {
+    public MainWindowListener(IDrawPanelController drawPanelController, IPointSet pointSet, MainWindow mainWindow) {
     	this.drawPanelController = drawPanelController;
+    	this.pointSet = pointSet;
     	this.view = mainWindow;
-    	this.fileManager = new FileManager(drawPanelController, mainWindow);
+    	
+        IParser parser = new Parser();
+    	this.fileManager = new FileManager(pointSet, mainWindow, parser);
     	
         view.setConvexHullIsShown(drawPanelController.convexHullIsShown());
         view.setDiameterIsShown(drawPanelController.diameterIsShown());
@@ -32,7 +40,12 @@ public class MainWindowListener implements IMainWindowListener {
 	
     @Override
 	public void FileEventOccured(FileEvent e) {
-		fileManager.handleFileEvent(e); 	
+		fileManager.handleFileEvent(e);
+		if(pointSet.hasChanged()) {
+			drawPanelController.updateModel();
+			drawPanelController.updateView();
+		}
+		pointSet.setHasChanged(false);
 	}
 
 	@Override

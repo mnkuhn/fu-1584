@@ -13,14 +13,16 @@ import propra22.tester.Tester;
 public class Main {
 	
 	private static void createAndShowGUI() {
+		PointSet pointSet = new PointSet();
+		
 		DrawPanel drawPanel = new DrawPanel();
-		PointSet drawPanelModel = new PointSet();
-		DrawPanelController drawPanelController = new DrawPanelController(drawPanelModel, drawPanel);
+		
+		DrawPanelController drawPanelController = new DrawPanelController(pointSet, drawPanel);
 		IDrawPanelListener drawPanelListener = new DrawPanelListener(drawPanelController);
 		drawPanel.setDrawPanelListener(drawPanelListener);
 		
 		MainWindow mainWindow = new MainWindow(drawPanel);
-		IMainWindowListener mainWindowListner = new MainWindowListener(drawPanelController, mainWindow);
+		IMainWindowListener mainWindowListner = new MainWindowListener(drawPanelController, pointSet, mainWindow);
 		mainWindow.setMainWindowListener(mainWindowListner);
 		mainWindow.setVisible(true);
 	}

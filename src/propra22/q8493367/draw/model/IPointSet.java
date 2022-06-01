@@ -79,6 +79,16 @@ public interface IPointSet {
 	 * @return true, if the point set contains the point p or a point
 	 */
 	boolean hasPoint(IPoint p);
+    
+	/*
+	boolean hasChangedSinceLastSave();
+
+	void setHasChangedSinceLastSave(boolean hasChangedSinceLastSave);
+	*/
+
+	public boolean hasChanged();
+
+	void setHasChanged(boolean b);
 
 	
 	

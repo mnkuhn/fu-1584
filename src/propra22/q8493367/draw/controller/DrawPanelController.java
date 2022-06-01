@@ -5,13 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +24,6 @@ import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.draw.model.Quadrangle;
 import propra22.q8493367.draw.view.DrawPanel;
-import propra22.q8493367.file.FileManager;
-import propra22.q8493367.file.Parser;
 import propra22.q8493367.metric.IMetric;
 import propra22.q8493367.metric.ManhattanDistance;
 import propra22.q8493367.point.IPoint;
@@ -106,11 +98,17 @@ public class DrawPanelController implements IDrawPanelController {
 
 	// File
 	/** The parser. */
+	
+	/*
 	private Parser parser = new Parser();
+	*/
 
 	/** The data changed since last save. */
 	// Indicates if the point set has changed since last save
+	
+	/*
 	private boolean dataChangedSinceLastSave = false;
+	/*
 
 	/** The convex hull is shown. */
 	// default settings for the display of the geometric objects
@@ -364,7 +362,7 @@ public class DrawPanelController implements IDrawPanelController {
 	public void clearModel() {
 		pointSet.clear();
 		hull.clear();
-		dataChangedSinceLastSave = false;
+		pointSet.setHasChanged(false);
 	}
 
 	/**
@@ -382,10 +380,13 @@ public class DrawPanelController implements IDrawPanelController {
 	 *
 	 * @param path - the path of the file
 	 */
+	
+	/*
 	@Override
+	
 	public void savePointSet(String path) {
 
-		if (dataChangedSinceLastSave) {
+		if (pointSet.hasChangedSinceLastSave()) {
 			File file = new File(path);
 			try {
 				FileWriter fileWriter = new FileWriter(file);
@@ -395,18 +396,22 @@ public class DrawPanelController implements IDrawPanelController {
 					printWriter.println(point.toString());
 				}
 				printWriter.close();
-				dataChangedSinceLastSave = false;
+				pointSet.setHasChangedSinceLastSave(false);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
+	
+	*/
 
 	/**
 	 * Loads points from a file into the draw panel model.
 	 *
 	 * @param file - the file from which the points are loaded.
 	 */
+	
+	/*
 	@Override
 	public void loadPointsToPointSet(File file) {
 
@@ -423,7 +428,7 @@ public class DrawPanelController implements IDrawPanelController {
 				}
 			}
 			reader.close();
-			dataChangedSinceLastSave = false;
+			pointSet.setHasChangedSinceLastSave(false);
         // for FileReader(file)
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -433,6 +438,8 @@ public class DrawPanelController implements IDrawPanelController {
 		}
 
 	}
+	
+	*/
 
 	/**
 	 * Returns true, if points where added or deleted or if the coordinated of a
@@ -441,10 +448,11 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @return true, if points where added or deleted or if the coordinated of a
 	 *         point changed.
 	 */
-	@Override
+	/*
 	public boolean dataHasChangedSinceLastSave() {
 		return dataChangedSinceLastSave;
 	}
+	*/
 
 	/**
 	 * Adds a command to command list.
@@ -452,6 +460,8 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param command - the command which is added to the command list
 	 */
 	// Commands
+	
+	
 	private void addCommandToCommandList(ICommand command) {
 		commandList.add(command);
 		commandIndex++;
@@ -544,7 +554,7 @@ public class DrawPanelController implements IDrawPanelController {
 		updateModel();
 		updateView();
 
-		dataChangedSinceLastSave = true;
+		pointSet.setHasChanged(true);
 	}
 
 	/**
@@ -564,7 +574,7 @@ public class DrawPanelController implements IDrawPanelController {
 		addCommandToCommandList(insertPointCommand);
 		updateModel();
 		updateView();
-		dataChangedSinceLastSave = true;
+		pointSet.setHasChanged(true);
 	}
 
 	/**
@@ -597,7 +607,7 @@ public class DrawPanelController implements IDrawPanelController {
 				addCommandToCommandList(removePointCommand);
 				updateModel();
 				updateView();
-				dataChangedSinceLastSave = true;
+				pointSet.setHasChanged(true);
 			}
 		}
 	}
@@ -658,7 +668,6 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public void terminatePointDrag(int mouseX, int mouseY) {
-		dataChangedSinceLastSave = true;
 		int dx = mouseX - startMouseX;
 		int dy = mouseY - startMouseY;
 
@@ -672,7 +681,7 @@ public class DrawPanelController implements IDrawPanelController {
 		updateModel();
 		updateView();
 
-		dataChangedSinceLastSave = true;
+		pointSet.setHasChanged(true);
 	}
 
 	/**

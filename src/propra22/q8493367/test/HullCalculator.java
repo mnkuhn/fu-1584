@@ -9,6 +9,9 @@ import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.controller.IDrawPanelController;
 import propra22.q8493367.draw.model.PointSet;
 import propra22.q8493367.draw.model.Quadrangle;
+import propra22.q8493367.file.FileManager;
+import propra22.q8493367.file.IParser;
+import propra22.q8493367.file.Parser;
 import propra22.q8493367.draw.model.Diameter;
 import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.point.IPoint;
@@ -17,7 +20,10 @@ import propra22.q8493367.point.Point;
 public class HullCalculator implements IHullCalculator{
 	
 	IPointSet model = new PointSet();
+	
 	DrawPanelController drawPanelController;
+	IParser parser = new Parser();
+	FileManager fileManager = new FileManager(model, parser);
 	
 	public HullCalculator() {
 		IPointSet pointSet = new PointSet();
@@ -38,7 +44,7 @@ public class HullCalculator implements IHullCalculator{
 
 	@Override
 	public void addPointsFromFile(String arg0) throws IOException {
-		drawPanelController.loadPointsToPointSet(new File(arg0));
+		fileManager.loadPointsToPointSet(new File(arg0));
 		drawPanelController.updateModel();
 	}
 

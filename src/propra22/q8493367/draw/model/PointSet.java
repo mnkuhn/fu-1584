@@ -14,8 +14,19 @@ public class PointSet implements IPointSet {
 	
 	// the points
 	private List<IPoint> points = new ArrayList<>();
-	
-	
+	//private boolean hasChangedSinceLastSave = false;
+	private boolean hasChanged = false;
+	/*
+	@Override
+	public boolean hasChangedSinceLastSave() {
+		return hasChangedSinceLastSave;
+	}
+
+	@Override
+	public void setHasChangedSinceLastSave(boolean hasChangedSinceLastSave) {
+		this.hasChangedSinceLastSave = hasChangedSinceLastSave;
+	}
+    */
 	@Override
 	public  boolean hasPoint(IPoint point) {
 		return searchPoint(point) >= 0;
@@ -24,18 +35,23 @@ public class PointSet implements IPointSet {
 	@Override
 	public void addPoint(IPoint point) {
 		if(!hasPoint(point)) {points.add(point);}
+		hasChanged = true;
 	}
 	
 	@Override
 	public void removePoint(IPoint point) {
-		points.remove(point);	
+		points.remove(point);
+		hasChanged = true;
 	}
 	
 	
 	@Override
 	public void removePoint(int x, int y) {
 		int index = searchPoint(new Point(x, y));
-		if(index >= 0) {points.remove(index);}	
+		if(index >= 0) {
+			points.remove(index);
+			hasChanged = true;
+		}	
 	}
 	
 	
@@ -76,6 +92,17 @@ public class PointSet implements IPointSet {
 
 	@Override
     public void clear() {
-		points.clear();	
+		points.clear();
+		hasChanged = true;
+	}
+
+	@Override
+	public boolean hasChanged() {
+		return hasChanged;
+	}
+	
+	@Override
+	public void setHasChanged(boolean b) {
+		hasChanged = b;
 	}
 }

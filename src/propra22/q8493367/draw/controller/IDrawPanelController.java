@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.File;
 
+import propra22.q8493367.command.ICommand;
+
 
 
 // TODO: Auto-generated Javadoc
@@ -28,6 +30,10 @@ public interface IDrawPanelController {
 	public void createNewDrawPanel();
 	
 	
+	
+	
+	
+	
 	/**
 	 * Returns true, if points where added or deleted or if 
 	 * the coordinates of a point changed.
@@ -35,7 +41,10 @@ public interface IDrawPanelController {
 	 * @return true, if points where added or deleted or if 
 	 * the coordinated of a point changed.
 	 */
+	
+	/*
 	public boolean dataHasChangedSinceLastSave();
+	*/
 	
 	/**
 	 * Undoes a command.
@@ -66,9 +75,9 @@ public interface IDrawPanelController {
 	 * fit onto the visible part of the draw panel.
 	 *
 	 * @param number -  the number of random points to be inserted
-	 * @param dimension 
-	 * @param e 
-	 * @param d 
+	 * @param d the d
+	 * @param e the e
+	 * @param dimension the dimension
 	 */
 	public void insertRandomPoints(int number, double d, double e, Dimension dimension);
 	
@@ -158,15 +167,17 @@ public interface IDrawPanelController {
 	void paintDrawPanel(Graphics g);
 
 
-
+    
 	/**
 	 * Saves all points which are registered in the point set
 	 * to disc.
 	 *
-	 * @param path the path
+	 * @return true, if successful
 	 */
+	
+	/*
 	void savePointSet(String path);
-
+    */
 
 
 	/**
@@ -174,8 +185,10 @@ public interface IDrawPanelController {
 	 *
 	 * @param file - the file from which the points are loaded.
 	 */
+	
+	/*
 	void loadPointsToPointSet(File file);
-
+	*/
 
 
 	/**
