@@ -1,8 +1,10 @@
 package propra22.q8493367.convex;
 
 import propra22.q8493367.draw.model.Diameter;
+import propra22.q8493367.draw.model.IDiameter;
 import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IHullIterator;
+import propra22.q8493367.draw.model.IQuadrangle;
 import propra22.q8493367.draw.model.Quadrangle;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
@@ -13,7 +15,7 @@ import propra22.q8493367.point.Point;
  * The Class DiameterAndQuadrangleCalculator provides a calculator, which takes a convex hull
  * as an argument and calculates the diameter and the quadrangle with maximum area.
  */
-public class DiameterAndQuadrangleCalculator {
+public class DiameterAndQuadrangleCalculator implements IDiameterAndQuadrangleCalculator {
 
 	/** The hull. */
 	private IHull convexHull;
@@ -41,7 +43,7 @@ public class DiameterAndQuadrangleCalculator {
 	 * @param diameter the diameter
 	 * @param inQuadrangle the quadrangle
 	 */
-	public void calculate(Diameter diameter, Quadrangle inQuadrangle) {
+	public void calculate(IDiameter diameter, IQuadrangle inQuadrangle) {
 		IPoint diameterPoint1 = null;
 		IPoint diameterPoint2 = null;
 		

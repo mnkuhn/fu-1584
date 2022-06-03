@@ -57,10 +57,12 @@ public class DrawPanelListener implements IDrawPanelListener {
 			controller.terminatePointDrag(e.getMouseX(), e.getMouseY());
 			break;
 		}
+		/*
 		case PAINT: {
 			controller.paintDrawPanel(e.getGraphicsObject());
 			break;
 		}
+		*/
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + e);
 		}

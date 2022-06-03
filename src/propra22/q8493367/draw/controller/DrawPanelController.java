@@ -20,8 +20,10 @@ import propra22.q8493367.convex.DiameterAndQuadrangleCalculator;
 import propra22.q8493367.convex.ConvexHullCalculator;
 import propra22.q8493367.draw.model.Diameter;
 import propra22.q8493367.draw.model.Hull;
+import propra22.q8493367.draw.model.IDiameter;
 import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IPointSet;
+import propra22.q8493367.draw.model.IQuadrangle;
 import propra22.q8493367.draw.model.Quadrangle;
 import propra22.q8493367.draw.view.DrawPanel;
 import propra22.q8493367.metric.IMetric;
@@ -45,13 +47,13 @@ public class DrawPanelController implements IDrawPanelController {
 
 	/** The hull */
 	// should be an argument of the controller constructor
-	private IHull hull = new Hull();
+	private IHull hull;
 
 	/** The diameter */
-	private Diameter diameter = new Diameter();
+	private IDiameter diameter;
 
 	/** The quadrangle */
-	private Quadrangle quadrangle = new Quadrangle();
+	private IQuadrangle quadrangle;
 
 	/** The draw panel reference width to which all calculations refer. */
 	private int drawPanelReferenceWidth = 800;
@@ -95,33 +97,11 @@ public class DrawPanelController implements IDrawPanelController {
 
 	/** The calculator for the diameter. */
 	private DiameterAndQuadrangleCalculator diameterAndQuadrangleCalulator;
-
-	// File
-	/** The parser. */
 	
-	/*
-	private Parser parser = new Parser();
-	*/
-
-	/** The data changed since last save. */
-	// Indicates if the point set has changed since last save
 	
-	/*
-	private boolean dataChangedSinceLastSave = false;
-	/*
+	
 
-	/** The convex hull is shown. */
-	// default settings for the display of the geometric objects
-	private boolean convexHullIsShown = Settings.defaultConvexHullIsShown;
 
-	/** The diameter is shown. */
-	private boolean diameterIsShown = Settings.defaultDiameterIsShown;
-
-	/** The quadrangle is shown. */
-	private boolean quadrangleIsShown = Settings.defaultQuadrangleIsShown;
-
-	/** The triangle is shown. */
-	private boolean triangleIsShown = Settings.defaultTriangleIsShown;
 
 	/**
 	 * Instantiates a new draw panel controller.
@@ -130,9 +110,14 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param drawPanel      the draw panel
 	 */
 	// should take the hull too
-	public DrawPanelController(IPointSet drawPanelModel, DrawPanel drawPanel) {
-		this.view = drawPanel;
+	public DrawPanelController(IPointSet drawPanelModel, IHull hull, IDiameter diameter, IQuadrangle quadrangle,  DrawPanel drawPanel) {
 		this.pointSet = drawPanelModel;
+		this.hull = hull;
+		this.diameter = diameter;
+		this.quadrangle = quadrangle;
+		
+		this.view = drawPanel;
+		
 		this.contourPolygonCalculator = new ContourPolygonCalculator(drawPanelModel, hull);
 		this.convexHullCalculator = new ConvexHullCalculator(hull);
 		this.diameterAndQuadrangleCalulator = new DiameterAndQuadrangleCalculator(hull);
@@ -237,6 +222,8 @@ public class DrawPanelController implements IDrawPanelController {
 	 *
 	 * @param g the g
 	 */
+	
+	/*
 	@Override
 	public void paintDrawPanel(Graphics g) {
 		if (!pointSet.isEmpty()) {
@@ -256,12 +243,16 @@ public class DrawPanelController implements IDrawPanelController {
 			// if(triangleIsShown) {drawTriangle(g2, Settings.triangleColor);}
 		}
 	}
+	
+	*/
 
 	/**
 	 * Draws all points from the point set onto the draw panel.
 	 *
 	 * @param g2 - the Graphics2D Object which is used for painting
 	 */
+	
+	/*
 	private void drawPoints(Graphics2D g2) {
 
 		for (int i = 0; i < pointSet.getNumberOfPoints(); i++) {
@@ -270,6 +261,7 @@ public class DrawPanelController implements IDrawPanelController {
 					2 * Settings.radius);
 		}
 	}
+	*/
 
 	/**
 	 * Draws the convex hull.
@@ -277,6 +269,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param g2    - the Graphics2D Object which is used for painting
 	 * @param color - the color for the hull
 	 */
+	/*
 	private void drawHull(Graphics2D g2, Color color) {
 		g2.setColor(color);
 
@@ -305,6 +298,7 @@ public class DrawPanelController implements IDrawPanelController {
 		}
 		g2.setColor(Color.BLACK);
 	}
+	*/
 
 	/**
 	 * Draw diameter.
@@ -312,6 +306,8 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param g2    the g 2
 	 * @param color the color
 	 */
+	
+	/*
 	private void drawDiameter(Graphics2D g2, Color color) {
 		if (diameter != null) {
 			g2.setColor(color);
@@ -321,6 +317,7 @@ public class DrawPanelController implements IDrawPanelController {
 			g2.setColor(Color.BLACK);
 		}
 	}
+	*/
 
 	/**
 	 * Draw quadrangle.
@@ -328,6 +325,8 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param g2    the g 2
 	 * @param color the color
 	 */
+	
+	/*
 	private void drawQuadrangle(Graphics2D g2, Color color) {
 		if (quadrangle != null) {
 			g2.setColor(color);
@@ -345,9 +344,11 @@ public class DrawPanelController implements IDrawPanelController {
 			g2.setColor(Color.BLACK);
 		}
 	}
+	
+	*/
 
 	/**
-	 * Creates a new draw panel.
+	 * Creates a new draw panel.  ?? Clear pointSet updateModel updateView ??
 	 */
 	@Override
 	public void createNewDrawPanel() {
@@ -689,41 +690,52 @@ public class DrawPanelController implements IDrawPanelController {
 	 *
 	 * @return true, if the user chose to display the convex hull on the draw panel.
 	 */
+	
 	@Override
 	public boolean convexHullIsShown() {
-		return convexHullIsShown;
+		return view.convexHullIsShown();
 
 	}
-
+   
 	/**
 	 * Diameter is shown.
 	 *
 	 * @return true, if the user chose to display the diameter on the draw panel.
 	 */
+	
+	
 	@Override
 	public boolean diameterIsShown() {
-		return diameterIsShown;
+		return view.diameterIsShown();
 	}
+	
 
 	/**
 	 * Quadrangle is shown.
 	 *
 	 * @return true, if successful
 	 */
+	 
+	
 	@Override
+	
 	public boolean quadrangleIsShown() {
-		return quadrangleIsShown;
+		return view.quadrangleIsShown();
 	}
-
+   
 	/**
 	 * Triangle is shown.
 	 *
 	 * @return true, if the user chose to display the triangle on the draw panel.
 	 */
+	 
+	
 	@Override
 	public boolean triangleIsShown() {
-		return triangleIsShown;
+		return view.triangleIsShown();
 	}
+	
+	
 
 	/**
 	 * Determines, if the convex hull should be shown.
@@ -732,7 +744,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public void setShowConvexHull(boolean b) {
-		convexHullIsShown = b;
+		view.setConvexHullIsShown(b);
 
 	}
 
@@ -743,7 +755,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public void setShowDiameter(boolean b) {
-		diameterIsShown = b;
+		view.setDiameterIsShown(b);
 
 	}
 
@@ -754,20 +766,26 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public void setShowQuadrangle(boolean b) {
-		quadrangleIsShown = b;
+		view.setQuadrangleIsShown(b);
 
 	}
+	
+	@Override
+	public void setShowTriangle(boolean b) {
+		view.setTriangleIsShown(b);
+	}
+	
+	
 
 	/**
 	 * Determines whether the triangle is to be shown.
 	 * 
 	 * @param b the new show triangle
 	 */
-	@Override
-	public void setShowTriangle(boolean b) {
-		triangleIsShown = b;
-
-	}
+	
+	
+	
+	
 
 	// for testing only
 
@@ -776,7 +794,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 * 
 	 * @return the diameter
 	 */
-	public Diameter getDiameter() {
+	public IDiameter getDiameter() {
 		return this.diameter;
 	}
 
@@ -797,7 +815,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 * 
 	 * @return the biggest quadrangle
 	 */
-	public Quadrangle getBiggestQuadrangle() {
+	public IQuadrangle getBiggestQuadrangle() {
 		return quadrangle;
 	}
 
@@ -811,5 +829,6 @@ public class DrawPanelController implements IDrawPanelController {
 	public int[][] hullAsArray() {
 		return hull.toArray();
 	}
+
 
 }

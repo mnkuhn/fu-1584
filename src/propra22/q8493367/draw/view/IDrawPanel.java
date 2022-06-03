@@ -20,4 +20,20 @@ public interface IDrawPanel  {
 	 */
 	public void update();
 
+	void setConvexHullIsShown(boolean convexHullIsShown);
+
+	void setDiameterIsShown(boolean diameterIsShown);
+
+	void setQuadrangleIsShown(boolean quadrangleIsShown);
+
+	void setTriangleIsShown(boolean b);
+
+	boolean convexHullIsShown();
+
+	boolean diameterIsShown();
+
+	boolean quadrangleIsShown();
+
+	boolean triangleIsShown();
+
 }

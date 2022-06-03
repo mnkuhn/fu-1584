@@ -2,6 +2,10 @@ package propra22.q8493367.draw.model;
 
 import propra22.q8493367.point.IPoint;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface IQuadrangle.
+ */
 public interface IQuadrangle {
 
 	/**
@@ -59,5 +63,12 @@ public interface IQuadrangle {
 	 * @param d the point d
 	 */
 	void setD(IPoint d);
+    
+	/**
+	 * The area of the quadrangle
+	 *
+	 * @return the area of the quadrangle
+	 */
+	long area();
 
 }

@@ -2,7 +2,14 @@ package propra22.q8493367.main;
 import javax.swing.SwingUtilities;
 import propra22.interfaces.IHullCalculator;
 import propra22.q8493367.draw.controller.DrawPanelController;
+import propra22.q8493367.draw.model.Diameter;
+import propra22.q8493367.draw.model.Hull;
+import propra22.q8493367.draw.model.IDiameter;
+import propra22.q8493367.draw.model.IHull;
+import propra22.q8493367.draw.model.IPointSet;
+import propra22.q8493367.draw.model.IQuadrangle;
 import propra22.q8493367.draw.model.PointSet;
+import propra22.q8493367.draw.model.Quadrangle;
 import propra22.q8493367.draw.view.DrawPanel;
 import propra22.q8493367.draw.view.DrawPanelListener;
 import propra22.q8493367.draw.view.IDrawPanelListener;
@@ -13,11 +20,15 @@ import propra22.tester.Tester;
 public class Main {
 	
 	private static void createAndShowGUI() {
-		PointSet pointSet = new PointSet();
+		//model
+		IPointSet pointSet = new PointSet();
+		IHull hull = new Hull();
+		IDiameter diameter = new Diameter();
+		IQuadrangle quadrangle = new Quadrangle();
 		
-		DrawPanel drawPanel = new DrawPanel();
-		
-		DrawPanelController drawPanelController = new DrawPanelController(pointSet, drawPanel);
+		//view and controller and viewListener
+		DrawPanel drawPanel = new DrawPanel(pointSet, hull, diameter, quadrangle);
+		DrawPanelController drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, drawPanel);
 		IDrawPanelListener drawPanelListener = new DrawPanelListener(drawPanelController);
 		drawPanel.setDrawPanelListener(drawPanelListener);
 		

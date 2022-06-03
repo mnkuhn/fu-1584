@@ -13,7 +13,9 @@ import propra22.q8493367.file.FileManager;
 import propra22.q8493367.file.IParser;
 import propra22.q8493367.file.Parser;
 import propra22.q8493367.draw.model.Diameter;
+import propra22.q8493367.draw.model.IDiameter;
 import propra22.q8493367.draw.model.IPointSet;
+import propra22.q8493367.draw.model.IQuadrangle;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
@@ -61,7 +63,7 @@ public class HullCalculator implements IHullCalculator{
 
 	@Override
 	public int[][] getDiameter() {
-		Diameter diameter= drawPanelController.getDiameter();
+		IDiameter diameter= drawPanelController.getDiameter();
 		int[][] diameterArr = new int[2][2];
 		diameterArr[0][0] = diameter.getA().getX();
 		diameterArr[0][1] = diameter.getA().getY();
@@ -92,7 +94,7 @@ public class HullCalculator implements IHullCalculator{
 
 	@Override
 	public int[][] getQuadrangle() {
-		Quadrangle biggestQuadrangle = drawPanelController.getBiggestQuadrangle();
+		IQuadrangle biggestQuadrangle = drawPanelController.getBiggestQuadrangle();
 		int[][] biggestQuadrangleAsArray = new int[4][2];
 		
 		biggestQuadrangleAsArray[0][0] = biggestQuadrangle.getA().getX();
@@ -112,7 +114,7 @@ public class HullCalculator implements IHullCalculator{
 
 	@Override
 	public double getQuadrangleArea() {
-		Quadrangle biggestQuadrangle = drawPanelController.getBiggestQuadrangle();
+		IQuadrangle biggestQuadrangle = drawPanelController.getBiggestQuadrangle();
 		return biggestQuadrangle.area();
 	}
 

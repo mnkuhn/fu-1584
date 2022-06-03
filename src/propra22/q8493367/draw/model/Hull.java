@@ -45,22 +45,21 @@ public class Hull implements IHull {
 	@Override
 	public IPoint getPointFromSection(int index, SectionType sectionType) {
 		switch (sectionType) {
-		case LOWERLEFT: {
-			return lowerLeftSection.get(index);
-		}
-		case UPPERLEFT: {
-			return upperLeftSection.get(index);
-		}
-		case LOWERRIGHT: {
-			return lowerRightSection.get(index);
-		}
-		case UPPERRIGHT: {
-			return upperRightSection.get(index);
-
-		}
-		default: {
-			return null;
-		}
+			case LOWERLEFT: {
+				return lowerLeftSection.get(index);
+			}
+			case UPPERLEFT: {
+				return upperLeftSection.get(index);
+			}
+			case LOWERRIGHT: {
+				return lowerRightSection.get(index);
+			}
+			case UPPERRIGHT: {
+				return upperRightSection.get(index);
+			}
+			default: {
+				return null;
+			}
 		}
 	}
 
