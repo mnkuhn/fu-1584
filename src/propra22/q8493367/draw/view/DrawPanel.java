@@ -18,6 +18,7 @@ import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.draw.model.IQuadrangle;
 import propra22.q8493367.point.IPoint;
+import propra22.q8493367.point.Point;
 import propra22.q8493367.settings.Settings;
 
 // TODO: Auto-generated Javadoc
@@ -46,6 +47,11 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	private boolean diameterIsShown = Settings.defaultDiameterIsShown;
 	private boolean quadrangleIsShown = Settings.defaultQuadrangleIsShown;
 	private boolean triangleIsShown = Settings.defaultTriangleIsShown;
+	
+	private int panningStartX, dx;
+	private int panningStartY, dy;
+	private int offSetX = 0;
+	private int offSetY = 0;
 
 	/**
 	 * Instantiates a new draw panel.
@@ -69,12 +75,16 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(
 							DrawPanelEventType.DRAG_POINT_INITIALIZED, e.getSource(), e.getX(), e.getY(), null));
 				} else {
-					if (SwingUtilities.isLeftMouseButton(e)) {
+					if (SwingUtilities.isLeftMouseButton(e) && !e.isAltDown()) {
+						IPoint point = transformFromScrennToModel(new Point(e.getX(), e.getY()));
 						drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.INSERT_POINT,
-								e.getSource(), e.getX(), e.getY(), null));
+								e.getSource(), point.getX(), point.getY(), null));
 					} else if (SwingUtilities.isRightMouseButton(e)) {
 						drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DELETE_POINT,
 								e.getSource(), e.getX(), e.getY(), null));
+					} else if (SwingUtilities.isLeftMouseButton(e) && e.isAltDown()) {
+						panningStartX = e.getX();
+						panningStartY = e.getY();
 					}
 				}
 			}
@@ -84,6 +94,12 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 				if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
 					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DRAG_POINT_ENDED,
 							e.getSource(), e.getX(), e.getY(), null));
+				} else if(SwingUtilities.isLeftMouseButton(e) && e.isAltDown()) {
+					offSetX += dx;
+					offSetY += dy;
+					dx = 0;
+					dy = 0;
+					System.out.println("new offsetX: " + offSetX + " new offsetY: " + offSetY);
 				}
 			}
 		});
@@ -94,6 +110,13 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 				if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
 					drawPanelListener.drawPanelEventOccured(
 							new DrawPanelEvent(DrawPanelEventType.DRAG_POINT, e.getSource(), e.getX(), e.getY(), null));
+				} else if (SwingUtilities.isLeftMouseButton(e) && e.isAltDown()) {
+					System.out.println("offsetX: " + offSetX + " offsetY: " + offSetY);
+					dx = e.getX() - panningStartX;
+					dy = e.getY() - panningStartY;
+					System.out.println("dx: " + dx + " dy: " + dy);
+					
+					repaint();
 				}
 			}
 		});
@@ -172,7 +195,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	private void drawPoints(Graphics2D g2) {
 
 		for (int i = 0; i < pointSet.getNumberOfPoints(); i++) {
-			IPoint p = pointSet.getPointAt(i);
+			IPoint p = transformFromModelToScreen(pointSet.getPointAt(i));
 			g2.fillOval(p.getX() - Settings.radius, p.getY() - Settings.radius, 2 * Settings.radius,
 					2 * Settings.radius);
 		}
@@ -291,5 +314,17 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	@Override
 	public boolean triangleIsShown() {
 		return triangleIsShown;
+	}
+	
+	public IPoint transformFromModelToScreen(IPoint p) {
+		int x = p.getX() + offSetX + dx;
+		int y = p.getY() + offSetY + dy;
+		return new Point(x, y);
+	}
+	
+	public IPoint transformFromScrennToModel(IPoint p) {
+		int x = p.getX() - offSetX;
+		int y = p.getY() - offSetY;
+		return new Point(x, y);
 	}
 }
