@@ -1,4 +1,5 @@
 package propra22.q8493367.draw.view;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -19,33 +20,28 @@ import propra22.q8493367.draw.model.IQuadrangle;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.settings.Settings;
 
-
-
 // TODO: Auto-generated Javadoc
 /**
- * The Class DrawPanel extends JPanel. It shows all the graphical representations 
- * like points, the convex hull, triangles and rectangles.
+ * The Class DrawPanel extends JPanel. It shows all the graphical
+ * representations like points, the convex hull, triangles and rectangles.
  */
 public class DrawPanel extends JPanel implements IDrawPanel {
-	
-	
-	//the model
+
+	// the model
 	IPointSet pointSet;
 	IHull hull;
 	IDiameter diameter;
 	IQuadrangle quadrangle;
-	
-	
-	//The preferred width of the draw panel.
+
+	// The preferred width of the draw panel.
 	private int preferredWidth = 750;
-	
-	
+
 	// The preferred height of the draw panel.
 	private int preferredHeight = 600;
-	
-	//The draw panel listener.
+
+	// The draw panel listener.
 	private IDrawPanelListener drawPanelListener;
-	
+
 	private boolean convexHullIsShown = Settings.defaultConvexHullIsShown;
 	private boolean diameterIsShown = Settings.defaultDiameterIsShown;
 	private boolean quadrangleIsShown = Settings.defaultQuadrangleIsShown;
@@ -55,55 +51,54 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * Instantiates a new draw panel.
 	 */
 	public DrawPanel(IPointSet pointSet, IHull hull, IDiameter diameter, IQuadrangle quadrangle) {
-		
+
 		this.pointSet = pointSet;
 		this.hull = hull;
 		this.diameter = diameter;
 		this.quadrangle = quadrangle;
-		
+
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		preferredWidth = (int)(screenSize.width * Settings.panelToScreenWidhtRatio); 
-		preferredHeight = (int)(screenSize.height * Settings.panelToScreenHeightRatio);
-		
+		preferredWidth = (int) (screenSize.width * Settings.panelToScreenWidhtRatio);
+		preferredHeight = (int) (screenSize.height * Settings.panelToScreenHeightRatio);
+
 		addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(SwingUtilities.isLeftMouseButton(e)) {
-					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.INSERT_POINT, e.getSource(), e.getX(), e.getY(), null));
-				}
-				else if(SwingUtilities.isRightMouseButton(e)) {
-					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DELETE_POINT, e.getSource(), e.getX(), e.getY(), null));
-				}	
-			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
-				 if(SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
-					 drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DRAG_POINT_INITIALIZED, e.getSource(), e.getX(), e.getY(), null));
-				 }
+				if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
+					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(
+							DrawPanelEventType.DRAG_POINT_INITIALIZED, e.getSource(), e.getX(), e.getY(), null));
+				} else {
+					if (SwingUtilities.isLeftMouseButton(e)) {
+						drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.INSERT_POINT,
+								e.getSource(), e.getX(), e.getY(), null));
+					} else if (SwingUtilities.isRightMouseButton(e)) {
+						drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DELETE_POINT,
+								e.getSource(), e.getX(), e.getY(), null));
+					}
+				}
 			}
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				if(SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
-					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DRAG_POINT_ENDED, e.getSource(), e.getX(), e.getY(), null));
+				if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
+					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DRAG_POINT_ENDED,
+							e.getSource(), e.getX(), e.getY(), null));
 				}
 			}
 		});
-		
 
 		addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if(SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
-					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DRAG_POINT, e.getSource(), e.getX(), e.getY(), null));
-				}	
+				if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
+					drawPanelListener.drawPanelEventOccured(
+							new DrawPanelEvent(DrawPanelEventType.DRAG_POINT, e.getSource(), e.getX(), e.getY(), null));
+				}
 			}
 		});
 	}
-		
-	
+
 	/**
 	 * Sets the draw panel listener to the draw panel.
 	 *
@@ -111,60 +106,65 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 */
 	@Override
 	public void setDrawPanelListener(IDrawPanelListener drawPanelListener) {
-    	this.drawPanelListener = drawPanelListener;
-    }
-	
-	
-    /**
-     * Updates the draw panel
-     */
-    @Override
-    public void update() {
-    	repaint();
-    }
-	
-    
-    /**
-     * Returns the preferred size of the draw panel
-     *
-     * @return the preferred size
-     */
-    @Override
-    public Dimension getPreferredSize() {
-    	return new Dimension(preferredWidth, preferredHeight);
-    }
-    
-    /**
-     * Returns the minimum size of the draw panel
-     *
-     * @return the minimum size
-     */
-    @Override
-    public Dimension getMinimumSize() {
-    	return new Dimension(preferredWidth, preferredHeight);
-    }
-    
-    /**
-     * The overwritten paintComponent method from JPanel
-     *
-     * @param g - the Graphics object on which the painting is done
-     */
-    @Override
-    public void paintComponent(Graphics g) {
-    	super.paintComponent(g);
-    	if(!pointSet.isEmpty()) {
-    		
-	    	Graphics2D g2 = (Graphics2D) g;
+		this.drawPanelListener = drawPanelListener;
+	}
+
+	/**
+	 * Updates the draw panel
+	 */
+	@Override
+	public void update() {
+		repaint();
+	}
+
+	/**
+	 * Returns the preferred size of the draw panel
+	 *
+	 * @return the preferred size
+	 */
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(preferredWidth, preferredHeight);
+	}
+
+	/**
+	 * Returns the minimum size of the draw panel
+	 *
+	 * @return the minimum size
+	 */
+	@Override
+	public Dimension getMinimumSize() {
+		return new Dimension(preferredWidth, preferredHeight);
+	}
+
+	/**
+	 * The overwritten paintComponent method from JPanel
+	 *
+	 * @param g - the Graphics object on which the painting is done
+	 */
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		if (!pointSet.isEmpty()) {
+
+			Graphics2D g2 = (Graphics2D) g;
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			drawPoints(g2);
-			if (convexHullIsShown) {drawHull(g2, Settings.convexHullColor);}
-			if (diameterIsShown) {drawDiameter(g2, Settings.diameterColor);}
-			if (quadrangleIsShown) {drawQuadrangle(g2, Settings.quadrangleColor);}	
-    	}
-    	//drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.PAINT, DrawPanel.this, -1, -1, g));
-    }
-    
-    /**
+			if (convexHullIsShown) {
+				drawHull(g2, Settings.convexHullColor);
+			}
+			if (diameterIsShown) {
+				drawDiameter(g2, Settings.diameterColor);
+			}
+			if (quadrangleIsShown) {
+				drawQuadrangle(g2, Settings.quadrangleColor);
+			}
+		}
+		// drawPanelListener.drawPanelEventOccured(new
+		// DrawPanelEvent(DrawPanelEventType.PAINT, DrawPanel.this, -1, -1, g));
+	}
+
+	/**
 	 * Draws all points from the point set onto the draw panel.
 	 *
 	 * @param g2 - the Graphics2D Object which is used for painting
@@ -177,7 +177,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					2 * Settings.radius);
 		}
 	}
-	
+
 	/**
 	 * Draws the convex hull.
 	 *
@@ -212,7 +212,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		}
 		g2.setColor(Color.BLACK);
 	}
-	
+
 	/**
 	 * Draw diameter.
 	 *
@@ -228,7 +228,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			g2.setColor(Color.BLACK);
 		}
 	}
-	
+
 	/**
 	 * Draw quadrangle.
 	 *
@@ -253,42 +253,42 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		}
 	}
 
-    @Override
+	@Override
 	public void setConvexHullIsShown(boolean convexHullIsShown) {
 		this.convexHullIsShown = convexHullIsShown;
 	}
 
-    @Override
+	@Override
 	public void setDiameterIsShown(boolean diameterIsShown) {
 		this.diameterIsShown = diameterIsShown;
 	}
 
-    @Override
+	@Override
 	public void setQuadrangleIsShown(boolean quadrangleIsShown) {
 		this.quadrangleIsShown = quadrangleIsShown;
 	}
 
-    @Override
+	@Override
 	public void setTriangleIsShown(boolean b) {
-		triangleIsShown  = b;	
+		triangleIsShown = b;
 	}
-    
-    @Override
+
+	@Override
 	public boolean convexHullIsShown() {
 		return convexHullIsShown;
 	}
-    
-    @Override
+
+	@Override
 	public boolean diameterIsShown() {
 		return diameterIsShown;
 	}
-    
-    @Override
+
+	@Override
 	public boolean quadrangleIsShown() {
 		return quadrangleIsShown;
 	}
-    
-    @Override
+
+	@Override
 	public boolean triangleIsShown() {
 		return triangleIsShown;
 	}
