@@ -94,6 +94,7 @@ public class FileManager implements IFileManager {
 				}
 			}
 			else {
+				pointSet.clear();
 				filePath = null;
 			}		
 		break;

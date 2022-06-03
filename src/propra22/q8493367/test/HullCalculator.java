@@ -24,10 +24,8 @@ public class HullCalculator implements IHullCalculator{
 	FileManager fileManager;
 	
 	public HullCalculator() {
-		
 		pointSet = new PointSet();
 		drawPanelController = new DrawPanelController(pointSet);
-		
 		IParser parser = new Parser();
 		fileManager = new FileManager(pointSet, parser);
 	}
