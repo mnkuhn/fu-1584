@@ -251,4 +251,10 @@ public interface IDrawPanelController {
 	 */
 	void setShowTriangle(boolean b);
 
+
+
+	public void setDrawPanelSize(Dimension d);
+	
+	public void setDrawPanelOffsets(int xOffset, int yOffset);
+
 }

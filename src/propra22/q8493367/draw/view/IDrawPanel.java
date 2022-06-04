@@ -36,4 +36,8 @@ public interface IDrawPanel  {
 
 	boolean triangleIsShown();
 
+	public void setXOffset(int xOffset);
+
+	public void setYOffset(int yOffset);
+
 }

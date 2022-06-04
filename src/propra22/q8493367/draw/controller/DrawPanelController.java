@@ -9,6 +9,8 @@ import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JPanel;
+
 import propra22.q8493367.command.DragPointCommand;
 import propra22.q8493367.command.ICommand;
 import propra22.q8493367.command.InsertPointCommand;
@@ -26,6 +28,7 @@ import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.draw.model.IQuadrangle;
 import propra22.q8493367.draw.model.Quadrangle;
 import propra22.q8493367.draw.view.DrawPanel;
+import propra22.q8493367.draw.view.IDrawPanel;
 import propra22.q8493367.metric.IMetric;
 import propra22.q8493367.metric.ManhattanDistance;
 import propra22.q8493367.point.IPoint;
@@ -39,7 +42,7 @@ import propra22.q8493367.settings.Settings;
 public class DrawPanelController implements IDrawPanelController {
 	// view
 	/** The view. */
-	private DrawPanel view;
+	private IDrawPanel view;
 
 	// model
 	/** The point set */
@@ -828,6 +831,19 @@ public class DrawPanelController implements IDrawPanelController {
 
 	public int[][] hullAsArray() {
 		return hull.toArray();
+	}
+
+	@Override
+	public void setDrawPanelSize(Dimension d) {
+		JPanel view = (JPanel)this.view;
+		view.setPreferredSize(d);	
+	}
+	
+
+	@Override
+	public void setDrawPanelOffsets(int xOffset, int yOffset) {
+		view.setXOffset(xOffset);
+		view.setYOffset(yOffset);	
 	}
 
 

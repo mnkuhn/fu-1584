@@ -9,6 +9,9 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -48,10 +51,13 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	private boolean quadrangleIsShown = Settings.defaultQuadrangleIsShown;
 	private boolean triangleIsShown = Settings.defaultTriangleIsShown;
 	
+	//panning and zooming
 	private int panningStartX, dx;
 	private int panningStartY, dy;
-	private int offSetX = 0;
-	private int offSetY = 0;
+	private float offSetX = 0f;
+	private float offSetY = 0f;
+	private float scale = 1f;
+	
 
 	/**
 	 * Instantiates a new draw panel.
@@ -63,9 +69,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		this.diameter = diameter;
 		this.quadrangle = quadrangle;
 
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		preferredWidth = (int) (screenSize.width * Settings.panelToScreenWidhtRatio);
-		preferredHeight = (int) (screenSize.height * Settings.panelToScreenHeightRatio);
+		
 
 		addMouseListener(new MouseAdapter() {
 
@@ -117,6 +121,34 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					System.out.println("dx: " + dx + " dy: " + dy);
 					
 					repaint();
+				}
+			}
+		});
+		
+		addMouseWheelListener(new MouseWheelListener() {
+			
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				if(e.isControlDown()) {
+					if(e.getWheelRotation() < 0) {
+						System.out.println("zoom out");
+						scale = scale / 1.01f;
+						float mouseX = e.getX();
+						float mouseY = e.getY();
+						mouseX = mouseX / scale;
+						mouseY = mouseY / scale;
+						
+					}
+					else {
+						System.out.println("zoom in");
+						scale = scale * 1.01f;
+						float mouseX = e.getX();
+						float mouseY = e.getY();
+						float scaledMouseX = mouseX * scale;
+						float scaledMouseY = mouseY * scale;
+						offSetX = offSetX - scaledMouseX;
+						offSetY = offSetY - scaledMouseY;
+					}
 				}
 			}
 		});
@@ -317,14 +349,24 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	}
 	
 	public IPoint transformFromModelToScreen(IPoint p) {
-		int x = p.getX() + offSetX + dx;
-		int y = p.getY() + offSetY + dy;
+		int x = (int)((float)p.getX()*scale + offSetX + (float)dx);
+		int y = p.getY() + (int)offSetY + dy;
 		return new Point(x, y);
 	}
 	
 	public IPoint transformFromScrennToModel(IPoint p) {
-		int x = p.getX() - offSetX;
-		int y = p.getY() - offSetY;
+		int x = p.getX() - (int)offSetX - dx;
+		int y = p.getY() - (int)offSetY - dy;
 		return new Point(x, y);
+	}
+
+	public void setXOffset(int xOffset) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setYOffset(int yOffset) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -43,6 +43,11 @@ public class FileManager implements IFileManager {
 	/** Data has changed since last save to file */
 	private boolean dataChangedSinceLastSave = false;
 	
+	private int minX;
+	private int maxX;
+	private int minY;
+	private int maxY;
+	
 	/**
 	 * Instantiates a new fileManager.
 	 *
@@ -225,17 +230,32 @@ public class FileManager implements IFileManager {
 	}
 	
 	public void loadPointsToPointSet(File file) {
-
+        
 		try {
 			FileReader fileReader = new FileReader(file);
 			BufferedReader reader = new BufferedReader(fileReader);
 
 			String line;
 			pointSet.clear();
+			// first point 
+			if((line = reader.readLine()) != null) {
+				IPoint point = parser.parseLine(line);
+				// initialize min and max
+				maxX = point.getX();
+				minX = point.getX();
+				maxY = point.getY();
+				minY = point.getY();
+			}
 			while ((line = reader.readLine()) != null) {
 				IPoint point = parser.parseLine(line);
 				if (point != null) {
 					pointSet.addPoint(point);
+					int tempX = point.getX();
+					int tempY = point.getY();
+					if(tempX > maxX) {maxX = tempX;}
+					if(tempX < minX) {minX = tempX;}
+					if(tempY > maxY) {maxY = tempY;}
+					if(tempY < maxY) {minY = tempY;}
 				}
 			}
 			reader.close();

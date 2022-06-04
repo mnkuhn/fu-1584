@@ -1,7 +1,7 @@
 package propra22.q8493367.main;
 
 import java.awt.Dimension;
-
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -54,6 +54,12 @@ public class MainWindow extends JFrame implements IMainWindow {
 	
 	
 	public MainWindow(DrawPanel drawPanel) {
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int preferredWidth = (int) (screenSize.width * Settings.panelToScreenWidhtRatio);
+		int preferredHeight = (int) (screenSize.height * Settings.panelToScreenHeightRatio);
+		setSize(new Dimension(preferredWidth, preferredHeight));
+		
 		JMenuBar menuBar = new JMenuBar();
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
