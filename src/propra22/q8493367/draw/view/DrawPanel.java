@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
@@ -13,6 +14,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 import javax.swing.JPanel;
+import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
 import propra22.q8493367.contour.SectionType;
@@ -38,10 +40,10 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	IQuadrangle quadrangle;
 
 	// The preferred width of the draw panel.
-	private int preferredWidth = 750;
+	private int preferredWidth;
 
 	// The preferred height of the draw panel.
-	private int preferredHeight = 600;
+	private int preferredHeight;
 
 	// The draw panel listener.
 	private IDrawPanelListener drawPanelListener;
@@ -51,11 +53,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	private boolean quadrangleIsShown = Settings.defaultQuadrangleIsShown;
 	private boolean triangleIsShown = Settings.defaultTriangleIsShown;
 	
-	//panning and zooming
-	private int panningStartX, dx;
-	private int panningStartY, dy;
-	private float offSetX = 0f;
-	private float offSetY = 0f;
+	//zooming
+	
 	private float scale = 1f;
 	
 
@@ -80,16 +79,13 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 							DrawPanelEventType.DRAG_POINT_INITIALIZED, e.getSource(), e.getX(), e.getY(), null));
 				} else {
 					if (SwingUtilities.isLeftMouseButton(e) && !e.isAltDown()) {
-						IPoint point = transformFromScrennToModel(new Point(e.getX(), e.getY()));
+						
 						drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.INSERT_POINT,
-								e.getSource(), point.getX(), point.getY(), null));
+								e.getSource(), e.getX(), e.getY(), null));
 					} else if (SwingUtilities.isRightMouseButton(e)) {
 						drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DELETE_POINT,
 								e.getSource(), e.getX(), e.getY(), null));
-					} else if (SwingUtilities.isLeftMouseButton(e) && e.isAltDown()) {
-						panningStartX = e.getX();
-						panningStartY = e.getY();
-					}
+					} 
 				}
 			}
 
@@ -98,12 +94,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 				if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
 					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DRAG_POINT_ENDED,
 							e.getSource(), e.getX(), e.getY(), null));
-				} else if(SwingUtilities.isLeftMouseButton(e) && e.isAltDown()) {
-					offSetX += dx;
-					offSetY += dy;
-					dx = 0;
-					dy = 0;
-					System.out.println("new offsetX: " + offSetX + " new offsetY: " + offSetY);
+				
 				}
 			}
 		});
@@ -114,14 +105,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 				if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
 					drawPanelListener.drawPanelEventOccured(
 							new DrawPanelEvent(DrawPanelEventType.DRAG_POINT, e.getSource(), e.getX(), e.getY(), null));
-				} else if (SwingUtilities.isLeftMouseButton(e) && e.isAltDown()) {
-					System.out.println("offsetX: " + offSetX + " offsetY: " + offSetY);
-					dx = e.getX() - panningStartX;
-					dy = e.getY() - panningStartY;
-					System.out.println("dx: " + dx + " dy: " + dy);
-					
-					repaint();
-				}
+				} 
 			}
 		});
 		
@@ -130,25 +114,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
 				if(e.isControlDown()) {
-					if(e.getWheelRotation() < 0) {
-						System.out.println("zoom out");
-						scale = scale / 1.01f;
-						float mouseX = e.getX();
-						float mouseY = e.getY();
-						mouseX = mouseX / scale;
-						mouseY = mouseY / scale;
-						
-					}
-					else {
-						System.out.println("zoom in");
-						scale = scale * 1.01f;
-						float mouseX = e.getX();
-						float mouseY = e.getY();
-						float scaledMouseX = mouseX * scale;
-						float scaledMouseY = mouseY * scale;
-						offSetX = offSetX - scaledMouseX;
-						offSetY = offSetY - scaledMouseY;
-					}
+					
 				}
 			}
 		});
@@ -169,6 +135,19 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 */
 	@Override
 	public void update() {
+		repaint();
+	}
+	
+	
+	@Override
+	public void updateAfterFileEvent() {
+		if(!pointSet.isEmpty()) {
+			preferredWidth = pointSet.getMaxX() - pointSet.getMinX() + 1;
+			preferredHeight = pointSet.getMaxY() - pointSet.getMinY() + 1;
+		}
+		setPreferredSize(getPreferredSize());
+		
+		revalidate();
 		repaint();
 	}
 
@@ -201,8 +180,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (!pointSet.isEmpty()) {
-
+            
 			Graphics2D g2 = (Graphics2D) g;
+			//g2.translate(-pointSet.getMinX(), -pointSet.getMinY());
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			drawPoints(g2);
 			if (convexHullIsShown) {
@@ -215,8 +195,6 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 				drawQuadrangle(g2, Settings.quadrangleColor);
 			}
 		}
-		// drawPanelListener.drawPanelEventOccured(new
-		// DrawPanelEvent(DrawPanelEventType.PAINT, DrawPanel.this, -1, -1, g));
 	}
 
 	/**
@@ -227,7 +205,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	private void drawPoints(Graphics2D g2) {
 
 		for (int i = 0; i < pointSet.getNumberOfPoints(); i++) {
-			IPoint p = transformFromModelToScreen(pointSet.getPointAt(i));
+			IPoint p = pointSet.getPointAt(i);
 			g2.fillOval(p.getX() - Settings.radius, p.getY() - Settings.radius, 2 * Settings.radius,
 					2 * Settings.radius);
 		}
@@ -346,27 +324,5 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	@Override
 	public boolean triangleIsShown() {
 		return triangleIsShown;
-	}
-	
-	public IPoint transformFromModelToScreen(IPoint p) {
-		int x = (int)((float)p.getX()*scale + offSetX + (float)dx);
-		int y = p.getY() + (int)offSetY + dy;
-		return new Point(x, y);
-	}
-	
-	public IPoint transformFromScrennToModel(IPoint p) {
-		int x = p.getX() - (int)offSetX - dx;
-		int y = p.getY() - (int)offSetY - dy;
-		return new Point(x, y);
-	}
-
-	public void setXOffset(int xOffset) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setYOffset(int yOffset) {
-		// TODO Auto-generated method stub
-		
-	}
+	}	
 }

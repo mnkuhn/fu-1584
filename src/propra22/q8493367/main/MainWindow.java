@@ -58,7 +58,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int preferredWidth = (int) (screenSize.width * Settings.panelToScreenWidhtRatio);
 		int preferredHeight = (int) (screenSize.height * Settings.panelToScreenHeightRatio);
-		setSize(new Dimension(preferredWidth, preferredHeight));
+		setPreferredSize(new Dimension(preferredWidth, preferredHeight));
 		
 		JMenuBar menuBar = new JMenuBar();
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

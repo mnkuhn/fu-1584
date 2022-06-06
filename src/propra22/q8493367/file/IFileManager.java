@@ -14,4 +14,6 @@ public interface IFileManager {
 	 * @param the handled file event
 	 */
 	void handleFileEvent(FileEvent e);
+
+	
 }

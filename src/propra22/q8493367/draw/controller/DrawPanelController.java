@@ -190,6 +190,13 @@ public class DrawPanelController implements IDrawPanelController {
 	public void updateView() {
 		view.update();
 	}
+	
+	
+	@Override
+	public void updateViewAfterFileEvent() {
+		view.updateAfterFileEvent();
+		
+	}
 
 	/**
 	 * Updates the draw panel model.
@@ -831,19 +838,6 @@ public class DrawPanelController implements IDrawPanelController {
 
 	public int[][] hullAsArray() {
 		return hull.toArray();
-	}
-
-	@Override
-	public void setDrawPanelSize(Dimension d) {
-		JPanel view = (JPanel)this.view;
-		view.setPreferredSize(d);	
-	}
-	
-
-	@Override
-	public void setDrawPanelOffsets(int xOffset, int yOffset) {
-		view.setXOffset(xOffset);
-		view.setYOffset(yOffset);	
 	}
 
 

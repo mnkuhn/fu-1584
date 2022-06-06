@@ -89,6 +89,16 @@ public interface IPointSet {
 	public boolean hasChanged();
 
 	void setHasChanged(boolean b);
+	
+	int getMinX();
+
+	int getMaxX();
+
+	int getMinY();
+
+	int getMaxY();
+
+	
 
 	
 	

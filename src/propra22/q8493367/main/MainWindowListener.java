@@ -1,5 +1,6 @@
 package propra22.q8493367.main;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -43,7 +44,7 @@ public class MainWindowListener implements IMainWindowListener {
 		fileManager.handleFileEvent(e);
 		if(pointSet.hasChanged()) {
 			drawPanelController.updateModel();
-			drawPanelController.updateView();
+			drawPanelController.updateViewAfterFileEvent();
 		}
 		pointSet.setHasChanged(false);
 	}
