@@ -18,10 +18,10 @@ public class PointSet implements IPointSet {
 	private boolean hasChanged = false;
 	
 	
-	private int minX;
-	private int maxX;
-	private int minY;
-	private int maxY;
+	private int minX = 0;
+	private int maxX = 0;
+	private int minY = 0;
+	private int maxY = 0;
 	/*
 	@Override
 	public boolean hasChangedSinceLastSave() {
@@ -46,13 +46,19 @@ public class PointSet implements IPointSet {
 	}
 
 	private void checkForNewBounds(IPoint point) {
-		if(points.size() == 1) {
+		if (points.size() == 0) {
+			minX = 0;
+			maxX = 0;
+			minY = 0;
+			maxY = 0;
+		}
+		else if(points.size() == 1) {
 			maxX = point.getX();
 			minX = point.getX();
 			maxY = point.getY();
 			minY = point.getY();
 		}
-		else {
+		else if(points.size() > 1) {
 			int tempX = point.getX();
 			int tempY = point.getY();
 			if(tempX > maxX) {maxX = tempX;}
@@ -118,6 +124,7 @@ public class PointSet implements IPointSet {
     public void clear() {
 		points.clear();
 		hasChanged = true;
+		
 	}
 
 	@Override

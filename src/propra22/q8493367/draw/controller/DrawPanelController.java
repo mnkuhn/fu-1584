@@ -130,15 +130,18 @@ public class DrawPanelController implements IDrawPanelController {
 
 	/**
 	 * Instantiates a new draw panel controller which only takes a model. Used for
-	 * testing
+	 * testing or calculating the data without displaying it.
 	 *
 	 * @param pointSet the draw panel model
 	 */
-	// should take the hull too
-	public DrawPanelController(IPointSet pointSet) {
+	public DrawPanelController(IPointSet pointSet, IHull hull, IDiameter diameter, IQuadrangle quadrangle) {
 
 		this.pointSet = pointSet;
+		this.hull = hull;
+		this.diameter = diameter;
+		this.quadrangle = quadrangle;
 		this.view = null;
+		
 		contourPolygonCalculator = new ContourPolygonCalculator(pointSet, hull);
 		convexHullCalculator = new ConvexHullCalculator(hull);
 		diameterAndQuadrangleCalulator = new DiameterAndQuadrangleCalculator(hull);

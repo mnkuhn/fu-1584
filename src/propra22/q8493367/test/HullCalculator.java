@@ -13,7 +13,9 @@ import propra22.q8493367.file.FileManager;
 import propra22.q8493367.file.IParser;
 import propra22.q8493367.file.Parser;
 import propra22.q8493367.draw.model.Diameter;
+import propra22.q8493367.draw.model.Hull;
 import propra22.q8493367.draw.model.IDiameter;
+import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.draw.model.IQuadrangle;
 import propra22.q8493367.point.IPoint;
@@ -22,12 +24,21 @@ import propra22.q8493367.point.Point;
 public class HullCalculator implements IHullCalculator{
 	
 	IPointSet pointSet;
+	IHull hull;
+	IDiameter diameter;
+	IQuadrangle quadrangle;
+	
 	DrawPanelController drawPanelController;
 	FileManager fileManager;
 	
 	public HullCalculator() {
 		pointSet = new PointSet();
-		drawPanelController = new DrawPanelController(pointSet);
+		hull = new Hull();
+		diameter = new Diameter();
+		quadrangle = new Quadrangle();
+		
+		drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle);
+		
 		IParser parser = new Parser();
 		fileManager = new FileManager(pointSet, parser);
 	}
@@ -63,13 +74,7 @@ public class HullCalculator implements IHullCalculator{
 
 	@Override
 	public int[][] getDiameter() {
-		IDiameter diameter= drawPanelController.getDiameter();
-		int[][] diameterArr = new int[2][2];
-		diameterArr[0][0] = diameter.getA().getX();
-		diameterArr[0][1] = diameter.getA().getY();
-		diameterArr[1][0] = diameter.getB().getX();
-		diameterArr[1][1] = diameter.getB().getY();
-		return diameterArr;
+		return diameter.asArray();
 	}
 
 	@Override
@@ -94,28 +99,12 @@ public class HullCalculator implements IHullCalculator{
 
 	@Override
 	public int[][] getQuadrangle() {
-		IQuadrangle biggestQuadrangle = drawPanelController.getBiggestQuadrangle();
-		int[][] biggestQuadrangleAsArray = new int[4][2];
-		
-		biggestQuadrangleAsArray[0][0] = biggestQuadrangle.getA().getX();
-		biggestQuadrangleAsArray[0][1] = biggestQuadrangle.getA().getY();
-		
-		biggestQuadrangleAsArray[1][0] = biggestQuadrangle.getB().getX();
-		biggestQuadrangleAsArray[1][1] = biggestQuadrangle.getB().getY();
-		
-		biggestQuadrangleAsArray[2][0] = biggestQuadrangle.getC().getX();
-		biggestQuadrangleAsArray[2][1] = biggestQuadrangle.getC().getY();
-		
-		biggestQuadrangleAsArray[3][0] = biggestQuadrangle.getD().getX();
-		biggestQuadrangleAsArray[3][1] = biggestQuadrangle.getD().getY();
-		
-		return biggestQuadrangleAsArray;
+		return quadrangle.asArray();
 	}
 
 	@Override
 	public double getQuadrangleArea() {
-		IQuadrangle biggestQuadrangle = drawPanelController.getBiggestQuadrangle();
-		return biggestQuadrangle.area();
+		return quadrangle.area();
 	}
 
 	@Override

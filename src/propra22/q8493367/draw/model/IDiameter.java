@@ -42,4 +42,6 @@ public interface IDiameter {
 	 */
 	double length();
 
+	int[][] asArray();
+
 }

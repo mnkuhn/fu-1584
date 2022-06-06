@@ -64,4 +64,14 @@ public class Diameter implements IDiameter {
 		double dy = a.getY() - b.getY();
 		return Math.sqrt( dx*dx + dy*dy );
 	}
+	
+	@Override
+	public int[][] asArray(){
+		int[][] diameterArr = new int[2][2];
+		diameterArr[0][0] = a.getX();
+		diameterArr[0][1] = a.getY();
+		diameterArr[1][0] = b.getX();
+		diameterArr[1][1] = b.getY();
+		return diameterArr;
+	}
 }

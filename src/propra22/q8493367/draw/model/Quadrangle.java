@@ -119,4 +119,23 @@ public class Quadrangle implements IQuadrangle {
 			return -1;
 		}	
 	}
+	
+	@Override
+	public int [][] asArray(){
+		int[][] quadrangleAsArray = new int[4][2];
+		
+		quadrangleAsArray[0][0] = a.getX();
+		quadrangleAsArray[0][1] = a.getY();
+		
+		quadrangleAsArray[1][0] = b.getX();
+		quadrangleAsArray[1][1] = b.getY();
+		
+		quadrangleAsArray[2][0] = c.getX();
+		quadrangleAsArray[2][1] = c.getY();
+		
+		quadrangleAsArray[3][0] = d.getX();
+		quadrangleAsArray[3][1] = d.getY();
+		
+		return quadrangleAsArray;
+	}
 }

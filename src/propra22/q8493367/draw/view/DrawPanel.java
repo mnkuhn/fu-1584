@@ -56,6 +56,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	//zooming
 	
 	private float scale = 1f;
+	private int xOffset = 0;
+	private int yOffset = 0;
 	
 
 	/**
@@ -135,6 +137,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 */
 	@Override
 	public void update() {
+		revalidate();
 		repaint();
 	}
 	
@@ -142,13 +145,12 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	@Override
 	public void updateAfterFileEvent() {
 		if(!pointSet.isEmpty()) {
-			preferredWidth = pointSet.getMaxX() - pointSet.getMinX() + 1;
-			preferredHeight = pointSet.getMaxY() - pointSet.getMinY() + 1;
+			if(pointSet.getMinX() < 0) {xOffset = - pointSet.getMinX();}
+			if(pointSet.getMinY() < 0) {yOffset = - pointSet.getMinY();}
+			preferredWidth = pointSet.getMaxX()  + xOffset + 1;
+			preferredHeight = pointSet.getMaxY()  + yOffset + 1;
 		}
-		setPreferredSize(getPreferredSize());
-		
-		revalidate();
-		repaint();
+		update();
 	}
 
 	/**
@@ -182,7 +184,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		if (!pointSet.isEmpty()) {
             
 			Graphics2D g2 = (Graphics2D) g;
-			//g2.translate(-pointSet.getMinX(), -pointSet.getMinY());
+			g2.translate(xOffset, yOffset);
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			drawPoints(g2);
 			if (convexHullIsShown) {
