@@ -195,11 +195,6 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 	
 	
-	@Override
-	public void updateViewAfterFileEvent() {
-		view.updateAfterFileEvent();
-		
-	}
 
 	/**
 	 * Updates the draw panel model.

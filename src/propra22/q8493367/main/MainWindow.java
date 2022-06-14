@@ -58,7 +58,9 @@ public class MainWindow extends JFrame implements IMainWindow {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int preferredWidth = (int) (screenSize.width * Settings.panelToScreenWidhtRatio);
 		int preferredHeight = (int) (screenSize.height * Settings.panelToScreenHeightRatio);
-		setPreferredSize(new Dimension(preferredWidth, preferredHeight));
+		setSize(new Dimension(preferredWidth, preferredHeight));
+		
+		//drawPanel.setPreferredSize(new Dimension(preferredWidth -34, preferredHeight - 65));
 		
 		JMenuBar menuBar = new JMenuBar();
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -82,10 +84,10 @@ public class MainWindow extends JFrame implements IMainWindow {
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		add(scrollPane);
 		
-		pack();
+		
 		setLocationRelativeTo(null);
 		
-		this.viewport = scrollPane.getViewport();
+		viewport = scrollPane.getViewport();
 	}
 
 

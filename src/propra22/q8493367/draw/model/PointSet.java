@@ -156,4 +156,9 @@ public class PointSet implements IPointSet {
 	public int getMaxY() {
 		return maxY;
 	}
+
+	@Override
+	public int size() {
+		return points.size();
+	}
 }

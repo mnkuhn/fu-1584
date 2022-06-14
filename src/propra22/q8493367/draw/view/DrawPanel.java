@@ -39,25 +39,33 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	IDiameter diameter;
 	IQuadrangle quadrangle;
 
-	// The preferred width of the draw panel.
-	private int preferredWidth;
 
-	// The preferred height of the draw panel.
-	private int preferredHeight;
-
-	// The draw panel listener.
+	// Draw panel listener.
 	private IDrawPanelListener drawPanelListener;
-
+    
+	// Which shape is shown
 	private boolean convexHullIsShown = Settings.defaultConvexHullIsShown;
 	private boolean diameterIsShown = Settings.defaultDiameterIsShown;
 	private boolean quadrangleIsShown = Settings.defaultQuadrangleIsShown;
 	private boolean triangleIsShown = Settings.defaultTriangleIsShown;
 	
-	//zooming
+	// Points with x coordinate < 0 or y coordinate < 0
+    int pointSetOffsetX = 0;
+    int pointSetOffsetY = 0;
 	
-	private float scale = 1f;
-	private int xOffset = 0;
-	private int yOffset = 0;
+	// Zoom
+	private double scale = 1.0;
+	private final double scaleFactor = 1.08;
+	private int zoomOffsetX = 0;
+	private int zoomOffsetY = 0;
+	
+	// Drag
+	private int initialDragX;
+	private int initialDragY;
+	protected int offsetX;
+	protected int offsetY;
+	protected int mouseOffsetX;
+	protected int mouseOffsetY;
 	
 
 	/**
@@ -70,33 +78,38 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		this.diameter = diameter;
 		this.quadrangle = quadrangle;
 
-		
-
 		addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
+				if (SwingUtilities.isLeftMouseButton(e) && e.isAltDown()) {
 					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(
 							DrawPanelEventType.DRAG_POINT_INITIALIZED, e.getSource(), e.getX(), e.getY(), null));
-				} else {
-					if (SwingUtilities.isLeftMouseButton(e) && !e.isAltDown()) {
-						
+				} else if (SwingUtilities.isLeftMouseButton(e) && !e.isAltDown() && !e.isControlDown()) {
 						drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.INSERT_POINT,
 								e.getSource(), e.getX(), e.getY(), null));
-					} else if (SwingUtilities.isRightMouseButton(e)) {
+				} else if (SwingUtilities.isRightMouseButton(e)) {
 						drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DELETE_POINT,
 								e.getSource(), e.getX(), e.getY(), null));
-					} 
+				} else if(SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
+						// panel drag initialized
+						initialDragX = e.getX();
+						initialDragY = e.getY();
 				}
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
+				if (SwingUtilities.isLeftMouseButton(e) && !e.isControlDown() && e.isAltDown()) {
 					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DRAG_POINT_ENDED,
 							e.getSource(), e.getX(), e.getY(), null));
 				
+				} else if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown() && !e.isAltDown()) {
+					// panel drag ended
+					offsetX += mouseOffsetX;
+					offsetY += mouseOffsetY;
+					mouseOffsetX = 0;
+					mouseOffsetY = 0;
 				}
 			}
 		});
@@ -104,10 +117,16 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
+				if (SwingUtilities.isLeftMouseButton(e) && e.isAltDown()) {
 					drawPanelListener.drawPanelEventOccured(
 							new DrawPanelEvent(DrawPanelEventType.DRAG_POINT, e.getSource(), e.getX(), e.getY(), null));
-				} 
+				}
+				else if(SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
+					// panel drag
+					mouseOffsetX = e.getX() - initialDragX;
+					mouseOffsetY = e.getY() - initialDragY;
+					repaint();
+				}	
 			}
 		});
 		
@@ -115,12 +134,34 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
+				
 				if(e.isControlDown()) {
+					double rot = e.getPreciseWheelRotation();
+					double d = rot * scaleFactor;
+					d = rot > 0 ? 1/d : -d;
+					zoomOffsetX =  (int)(((e.getX() - zoomOffsetX))/scale * (1 - scale * d));
+					System.out.println("scale: " + scale);
+					System.out.println("d: " + d);
+					System.out.println("zoomOffsetX: " + zoomOffsetX);	
+					zoomOffsetY =  (int)(((e.getY() - zoomOffsetY))/scale * (1 - scale * d));
+					scale = scale * d;
+					repaint();
 					
-				}
-			}
+				}	 
+			}		
 		});
 	}
+	
+	/*
+	private void updatePreferredSize(double rot) {
+				double d = rot * scaleFactor;
+				d = rot > 0 ? 1/d : -d;
+				int newPreferredWidth = (int)(getWidth() * d);
+				int newPreferredHeight = (int)(getHeight() * d);
+				setPreferredSize(new Dimension(newPreferredWidth, newPreferredHeight));
+			}
+	
+	*/
 
 	/**
 	 * Sets the draw panel listener to the draw panel.
@@ -137,31 +178,43 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 */
 	@Override
 	public void update() {
+		System.out.println("drawpanel in update");
+		if(!pointSet.isEmpty()) {
+			if(pointSet.getMinX() < 0) {pointSetOffsetX = - pointSet.getMinX();}
+			if(pointSet.getMinY() < 0) {pointSetOffsetY = - pointSet.getMinY();}
+		}
 		revalidate();
 		repaint();
 	}
 	
 	
-	@Override
+
+	//@Override
+	/*
 	public void updateAfterFileEvent() {
 		if(!pointSet.isEmpty()) {
 			if(pointSet.getMinX() < 0) {xOffset = - pointSet.getMinX();}
 			if(pointSet.getMinY() < 0) {yOffset = - pointSet.getMinY();}
-			preferredWidth = pointSet.getMaxX()  + xOffset + 1;
-			preferredHeight = pointSet.getMaxY()  + yOffset + 1;
+			int preferredWidth = pointSet.getMaxX()  + xOffset + 1;
+			int preferredHeight = pointSet.getMaxY()  + yOffset + 1;
+			setPreferredSize(new Dimension(preferredWidth, preferredHeight));
 		}
 		update();
 	}
+	*/
 
 	/**
 	 * Returns the preferred size of the draw panel
 	 *
 	 * @return the preferred size
-	 */
+	 
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(preferredWidth, preferredHeight);
+		
+		return super.getPreferredSize();
 	}
+	
+	*/
 
 	/**
 	 * Returns the minimum size of the draw panel
@@ -170,7 +223,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 */
 	@Override
 	public Dimension getMinimumSize() {
-		return new Dimension(preferredWidth, preferredHeight);
+		return super.getPreferredSize();
 	}
 
 	/**
@@ -182,9 +235,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (!pointSet.isEmpty()) {
-            
 			Graphics2D g2 = (Graphics2D) g;
-			g2.translate(xOffset, yOffset);
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			drawPoints(g2);
 			if (convexHullIsShown) {
@@ -205,12 +256,44 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * @param g2 - the Graphics2D Object which is used for painting
 	 */
 	private void drawPoints(Graphics2D g2) {
-
+		
+        System.out.println("xModelOffset: " + pointSetOffsetX);
+        System.out.println("yModelOffseet: " + pointSetOffsetY);
+        System.out.println("minX: " + pointSet.getMinX());
+        System.out.println("minY: " + pointSet.getMinY());
+        System.out.println("maxX: " + pointSet.getMaxX());
+        System.out.println("maxY: " + pointSet.getMaxY());
+        System.out.println("width: " + getWidth());
+        System.out.println("height: " + getHeight());
 		for (int i = 0; i < pointSet.getNumberOfPoints(); i++) {
+			
 			IPoint p = pointSet.getPointAt(i);
-			g2.fillOval(p.getX() - Settings.radius, p.getY() - Settings.radius, 2 * Settings.radius,
-					2 * Settings.radius);
+			
+			int x = (int)((p.getX() + offsetX + mouseOffsetX)*scale + zoomOffsetX);
+			int y = (int)((p.getY() + offsetY + mouseOffsetY)*scale + zoomOffsetY);
+			
+			g2.fillOval((int)Math.round(x) - Settings.radius, (int)Math.round(y) - Settings.radius, 2 * Settings.radius, 2 * Settings.radius);
 		}
+	}
+
+
+
+
+
+
+	private double scaleY(IPoint p, double f) {
+		double y = (((double)p.getY() + pointSetOffsetY))/((double)pointSet.getMaxY() + pointSetOffsetY)*(f - 2*Settings.radius) + Settings.radius;
+		return y;
+	}
+
+
+
+
+
+
+	private double scaleX(IPoint p, double f) {
+		double x = (((double)p.getX() + pointSetOffsetX))/((double)pointSet.getMaxX() + pointSetOffsetX)*(f - 2*Settings.radius) + Settings.radius;
+		return x;
 	}
 
 	/**
@@ -221,7 +304,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 */
 	private void drawHull(Graphics2D g2, Color color) {
 		g2.setColor(color);
-
+		double f = Math.min(getWidth(), getHeight());
+		
 		for (SectionType sectionType : SectionType.values()) {
 			int sectionSize = hull.getSizeOfSection(sectionType);
 			if (sectionSize > 1) {
@@ -326,5 +410,5 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	@Override
 	public boolean triangleIsShown() {
 		return triangleIsShown;
-	}	
+	}
 }

@@ -252,6 +252,6 @@ public interface IDrawPanelController {
 	void setShowTriangle(boolean b);
 
 
-	public void updateViewAfterFileEvent();
+	
 
 }

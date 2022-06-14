@@ -17,21 +17,23 @@ import propra22.q8493367.test.HullCalculator;
 import propra22.tester.Tester;
 
 
-public class Main {
+public class CHGO_8493367_Kuhn_Manuel {
 	
 	private static void createAndShowGUI() {
-		//model
+		
+		//Model of the draw panel
 		IPointSet pointSet = new PointSet();
 		IHull hull = new Hull();
 		IDiameter diameter = new Diameter();
 		IQuadrangle quadrangle = new Quadrangle();
 		
-		//view and controller and viewListener
+		//Draw panel and controller of the draw panel
 		DrawPanel drawPanel = new DrawPanel(pointSet, hull, diameter, quadrangle);
 		DrawPanelController drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, drawPanel);
 		IDrawPanelListener drawPanelListener = new DrawPanelListener(drawPanelController);
 		drawPanel.setDrawPanelListener(drawPanelListener);
 		
+		//Main window and its listener
 		MainWindow mainWindow = new MainWindow(drawPanel);
 		IMainWindowListener mainWindowListner = new MainWindowListener(drawPanelController, pointSet, mainWindow);
 		mainWindow.setMainWindowListener(mainWindowListner);

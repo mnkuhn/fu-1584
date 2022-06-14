@@ -36,6 +36,6 @@ public interface IDrawPanel  {
 
 	boolean triangleIsShown();
 
-    void updateAfterFileEvent();
+    
 
 }

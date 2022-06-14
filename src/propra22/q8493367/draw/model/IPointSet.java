@@ -98,6 +98,8 @@ public interface IPointSet {
 
 	int getMaxY();
 
+	public int size();
+
 	
 
 	
