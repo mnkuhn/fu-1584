@@ -75,6 +75,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	// Offset (data)
 	private int offsetX;
 	private int offsetY;
+	private int originalWidth;
+	private int originalHeight;
 	
 
 	/**
@@ -171,9 +173,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				if(!pointSet.isEmpty()) {
-					initializeScale();
-					initializeOffsets();
-					repaint();
+					
+					//repaint();
 				}
 			}
 
@@ -223,6 +224,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 */
 	@Override
 	public void initialize() {
+		originalWidth = getWidth();
+		originalHeight = getHeight();
 		if(!pointSet.isEmpty()) {
 			initializeScale();
 			initializeOffsets();	
@@ -344,8 +347,13 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	
 	//eventuell runden
 	private IPoint translatePointFromModelToView(IPoint point) {
-		int x = translatePointXFromModelToView(point);
-		int y = translatePointYFromModelToView(point);
+		double panelScaleX = (double)getWidth()/(double)originalWidth;
+		double panelScaleY = (double)getHeight()/(double)originalHeight;
+		double panelScale = Math.min(panelScaleX, panelScaleY);
+		System.out.println("drawPanel: " + panelScale);
+		
+		int x = (int) (translatePointXFromModelToView(point) * panelScale);
+		int y = (int) (translatePointYFromModelToView(point) * panelScale);
 		return new Point(x, y);
 	}
 
