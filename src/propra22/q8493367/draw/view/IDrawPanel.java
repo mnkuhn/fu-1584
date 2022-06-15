@@ -36,6 +36,11 @@ public interface IDrawPanel  {
 
 	boolean triangleIsShown();
 
+	/**
+	 * Updates the draw panel
+	 */
+	void initialize();
+
     
 
 }

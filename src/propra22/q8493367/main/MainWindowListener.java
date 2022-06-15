@@ -44,7 +44,8 @@ public class MainWindowListener implements IMainWindowListener {
 		fileManager.handleFileEvent(e);
 		if(pointSet.hasChanged()) {
 			drawPanelController.updateModel();
-			drawPanelController.updateView();
+			drawPanelController.initializeView();
+			//drawPanelController.updateView();
 		}
 		pointSet.setHasChanged(false);
 	}

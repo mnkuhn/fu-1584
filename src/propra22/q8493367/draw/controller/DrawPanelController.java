@@ -838,5 +838,10 @@ public class DrawPanelController implements IDrawPanelController {
 		return hull.toArray();
 	}
 
+	@Override
+	public void initializeView() {
+		view.initialize();	
+	}
+
 
 }
