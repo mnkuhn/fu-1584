@@ -49,10 +49,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 	private JCheckBoxMenuItem triangleItem;
 	
 	private JViewport viewport;
-	
-	
-	
-	
+
 	public MainWindow(DrawPanel drawPanel) {
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -83,7 +80,6 @@ public class MainWindow extends JFrame implements IMainWindow {
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		add(scrollPane);
-		
 		
 		setLocationRelativeTo(null);
 		

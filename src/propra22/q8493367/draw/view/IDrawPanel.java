@@ -39,8 +39,8 @@ public interface IDrawPanel  {
 	/**
 	 * Updates the draw panel
 	 */
+	
+
 	void initialize();
-
-    
-
+   
 }

@@ -13,6 +13,7 @@ import propra22.q8493367.draw.model.Quadrangle;
 import propra22.q8493367.draw.view.DrawPanel;
 import propra22.q8493367.draw.view.DrawPanelListener;
 import propra22.q8493367.draw.view.IDrawPanelListener;
+import propra22.q8493367.settings.Settings;
 import propra22.q8493367.test.HullCalculator;
 import propra22.tester.Tester;
 
@@ -35,6 +36,7 @@ public class CHGO_8493367_Kuhn_Manuel {
 		
 		//Main window and its listener
 		MainWindow mainWindow = new MainWindow(drawPanel);
+		mainWindow.setTitle(Settings.title);
 		IMainWindowListener mainWindowListner = new MainWindowListener(drawPanelController, pointSet, mainWindow);
 		mainWindow.setMainWindowListener(mainWindowListner);
 		mainWindow.setVisible(true);

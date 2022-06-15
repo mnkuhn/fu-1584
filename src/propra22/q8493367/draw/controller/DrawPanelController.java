@@ -842,6 +842,4 @@ public class DrawPanelController implements IDrawPanelController {
 	public void initializeView() {
 		view.initialize();	
 	}
-
-
 }

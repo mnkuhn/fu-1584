@@ -17,6 +17,7 @@ import propra22.q8493367.file.IParser;
 import propra22.q8493367.file.Parser;
 import propra22.q8493367.point.RandomPointsEvent;
 import propra22.q8493367.point.RandomPointsEventType;
+import propra22.q8493367.settings.Settings;
 
 public class MainWindowListener implements IMainWindowListener {
 
@@ -93,7 +94,7 @@ public class MainWindowListener implements IMainWindowListener {
 
 	@Override
 	public void showManualEventOccured() {
-		File file = new File("C:\\Users\\mkuhn\\eclipse-workspace\\ProPra_22_Workspace\\CHGO_8493367_Kuhn_Manuel\\src\\propra22\\q8493367\\Manual\\manual.html");
+		File file = new File(Settings.defaultManualPath);
 		try {
 			URL url = file.toURI().toURL();
 			view.showManual(url);
