@@ -8,6 +8,8 @@ import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -163,6 +165,36 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 				}	 
 			}		
 		});
+		
+		addComponentListener(new ComponentListener() {
+
+			@Override
+			public void componentResized(ComponentEvent e) {
+				if(!pointSet.isEmpty()) {
+					initializeScale();
+					initializeOffsets();
+					repaint();
+				}
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void componentShown(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void componentHidden(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}});
+		
 	}
 	
 	/*
@@ -192,14 +224,21 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	@Override
 	public void initialize() {
 		if(!pointSet.isEmpty()) {
-		
-			double xScale = (double)(getWidth() - 3 * Settings.radius)/(double)(pointSet.getMaxX() - pointSet.getMinX());
-			double yScale = (double)(getHeight() - 3 * Settings.radius)/(double)(pointSet.getMaxY() - pointSet.getMinY());
-			scale = Math.min(xScale, yScale);
-			offsetX = (int)(((double)getWidth() - (double)(pointSet.getMaxX() + pointSet.getMinX())*scale) / (2 * scale) ); 
-			offsetY = (int)(((double)getHeight() - (double)(pointSet.getMaxY() + pointSet.getMinY())*scale) / (2 * scale) ); 	
+			initializeScale();
+			initializeOffsets();	
 		}
 		repaint();
+	}
+	
+	private void initializeScale() {
+		double xScale = (double)(getWidth() - 3 * Settings.radius)/(double)(pointSet.getMaxX() - pointSet.getMinX());
+		double yScale = (double)(getHeight() - 3 * Settings.radius)/(double)(pointSet.getMaxY() - pointSet.getMinY());
+		scale = Math.min(xScale, yScale);
+	}
+	
+	private void initializeOffsets() {
+		offsetX = (int)(((double)getWidth() - (double)(pointSet.getMaxX() + pointSet.getMinX())*scale) / (2 * scale) ); 
+		offsetY = (int)(((double)getHeight() - (double)(pointSet.getMaxY() + pointSet.getMinY())*scale) / (2 * scale) ); 	
 	}
 	
 	@Override
@@ -358,7 +397,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			sectionSize = hull.getSizeOfSection(SectionType.UPPERRIGHT);
 			lastRight = hull.getPointFromSection(sectionSize - 1, SectionType.UPPERRIGHT);
 			translatedLastRight = translatePointFromModelToView(lastRight);
-			g2.drawLine(lastLeft.getX(), lastLeft.getY(), lastRight.getX(), lastRight.getY());
+			g2.drawLine(translatedLastLeft.getX(), translatedLastLeft.getY(), translatedLastRight.getX(), translatedLastRight.getY());
 
 		}
 		g2.setColor(Color.BLACK);

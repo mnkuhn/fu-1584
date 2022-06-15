@@ -9,7 +9,7 @@ public class Settings {
 	//Colors
 	public static Color convexHullColor = new Color(255, 0, 0, 255); // red
 	public static Color diameterColor = new Color(0, 0, 255, 255);   // blue
-	public static Color quadrangleColor = new Color(0, 255, 0, 65); // green
+	public static Color quadrangleColor = new Color(0, 255, 0, 55); // green
 	public static Color triangleColor = new Color(255, 255, 0, 255); // yellow
 	
 	public static int radius =  3;
