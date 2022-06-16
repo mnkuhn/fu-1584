@@ -20,7 +20,7 @@ public class Settings {
 	public static Color diameterColor = new Color(0, 0, 255, 255);   				// blue
 	public static Color quadrangleColor = new Color(0, 255, 0, 40);  				// green
 	public static Color triangleColor = new Color(255, 255, 0, 255); 				// yellow
-	public static final Color CoordinateSystemColor = new Color(112,128,144, 60); 	// slategray
+	public static final Color CoordinateSystemColor = new Color(112,128,144, 115); 	// slategray
 	
 	// Radius of a point
 	public static int radius =  3;
