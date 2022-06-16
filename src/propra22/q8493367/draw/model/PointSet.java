@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
+import propra22.q8493367.status.IPointSetObserver;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -14,25 +15,17 @@ public class PointSet implements IPointSet {
 	
 	// the points
 	private List<IPoint> points = new ArrayList<>();
-	//private boolean hasChangedSinceLastSave = false;
-	private boolean hasChanged = false;
 	
+	private boolean hasChanged = false;
 	
 	private int minX = 0;
 	private int maxX = 0;
 	private int minY = 0;
 	private int maxY = 0;
-	/*
-	@Override
-	public boolean hasChangedSinceLastSave() {
-		return hasChangedSinceLastSave;
-	}
-
-	@Override
-	public void setHasChangedSinceLastSave(boolean hasChangedSinceLastSave) {
-		this.hasChangedSinceLastSave = hasChangedSinceLastSave;
-	}
-    */
+	
+	private List<IPointSetObserver> observers = new ArrayList<>();
+	
+	
 	@Override
 	public  boolean hasPoint(IPoint point) {
 		return searchPoint(point) >= 0;
@@ -43,6 +36,7 @@ public class PointSet implements IPointSet {
 		if(!hasPoint(point)) {points.add(point);}
 		checkForNewBounds(point);
 		hasChanged = true;
+		notifyObservers();
 	}
 
 	private void checkForNewBounds(IPoint point) {
@@ -72,6 +66,7 @@ public class PointSet implements IPointSet {
 	public void removePoint(IPoint point) {
 		points.remove(point);
 		hasChanged = true;
+		notifyObservers();
 	}
 	
 	
@@ -81,6 +76,7 @@ public class PointSet implements IPointSet {
 		if(index >= 0) {
 			points.remove(index);
 			hasChanged = true;
+			notifyObservers();
 		}	
 	}
 	
@@ -124,6 +120,7 @@ public class PointSet implements IPointSet {
     public void clear() {
 		points.clear();
 		hasChanged = true;
+		notifyObservers();
 		
 	}
 
@@ -160,5 +157,21 @@ public class PointSet implements IPointSet {
 	@Override
 	public int size() {
 		return points.size();
+	}
+	
+	@Override
+	public void addPointSetObserver(IPointSetObserver pointSetObserver){
+		observers.add(pointSetObserver);
+	}
+	
+	@Override
+	public void removePointSetObserver(IPointSetObserver pointSetObserver) {
+		observers.remove(pointSetObserver);
+	}
+	
+	private void notifyObservers() {
+		for(IPointSetObserver o : observers) {
+			o.update(points.size());
+		}
 	}
 }

@@ -39,7 +39,7 @@ public class CHGO_8493367_Kuhn_Manuel {
 		drawPanel.setDrawPanelListener(drawPanelListener);
 		
 		StatusBar statusBar = new StatusBar();
-		//Main window and its listener
+		pointSet.addPointSetObserver(statusBar);
 		MainWindow mainWindow = new MainWindow(drawPanel, statusBar);
 		mainWindow.setTitle(Settings.title);
 		IMainWindowListener mainWindowListner = new MainWindowListener(drawPanelController, pointSet, mainWindow);
