@@ -307,17 +307,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * @param g2 - the Graphics2D Object which is used for painting
 	 */
 	private void drawPoints(Graphics2D g2) {
-		/*
-		System.out.println("scale: " + scale);
-        System.out.println("offsetX: " + offsetX);
-        System.out.println("offsetY: " + offsetY);
-        System.out.println("minX: " + pointSet.getMinX());
-        System.out.println("minY: " + pointSet.getMinY());
-        System.out.println("maxX: " + pointSet.getMaxX());
-        System.out.println("maxY: " + pointSet.getMaxY());
-        System.out.println("width: " + getWidth());
-        System.out.println("height: " + getHeight());
-        */
+		
 		for (int i = 0; i < pointSet.getNumberOfPoints(); i++) {
 			IPoint p = pointSet.getPointAt(i);
 			IPoint translatedPoint = translatePointFromModelToView(p);
@@ -325,13 +315,10 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		}
 	}
 	
-	//eventuell runden
+	
 	private IPoint translatePointFromModelToView(IPoint point) {
 		int x = (int) (translateXFromModelToView(point));
 		int y = (int) (translateYFromModelToView(point));
-		System.out.println("dragOffset: " + dragOffsetX + " , " + dragOffsetY);
-		System.out.println("mouseOffset: " + mouseOffsetX + " , " + mouseOffsetY);
-		System.out.println("zoomOffset: " + zoomOffsetX + " , " + zoomOffsetY);
 		return new Point(x, y);
 	}
 	
@@ -341,15 +328,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		return new Point(translatedX, translatedY);	
 	}
 
-	private int translateXFromViewToModel(int x) {
-		int translatedX =  (int)Math.round(  (x / panelScale - dragOffsetX -  mouseOffsetX - zoomOffsetX)/scale - offsetX);
-		return translatedX;
-	}
 	
-	private int translateYFromViewToModel(int y) {
-		//return  (int)Math.round(  (y / panelScale - dragOffsetY -  mouseOffsetY - zoomOffsetY)/scale - offsetY);
-		return getHeight() - 1 - (int)Math.round(  (y / panelScale - dragOffsetY -  mouseOffsetY - zoomOffsetY)/scale - offsetY);
-	}
+	
+	
 
 
 	
@@ -358,9 +339,18 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		return ((p.getX() + offsetX )*scale + dragOffsetX + mouseOffsetX + zoomOffsetX)*panelScale;
 	}
 	
+	private int translateXFromViewToModel(int x) {
+		return (int)Math.round(  (x / panelScale - dragOffsetX -  mouseOffsetX - zoomOffsetX)/scale - offsetX);
+	}
+	
 	private double translateYFromModelToView(IPoint p) {
 		//return  ((p.getY() + offsetY)*scale + dragOffsetY + mouseOffsetY + zoomOffsetY);
 		return  (getHeight() - 1 -  (((p.getY() + offsetY))*scale + dragOffsetY + mouseOffsetY + zoomOffsetY)*panelScale);
+	}
+	
+	private int translateYFromViewToModel(int y) {
+		//return  (int)Math.round(  (y / panelScale - dragOffsetY -  mouseOffsetY - zoomOffsetY)/scale - offsetY);
+		return  (int) Math.round(  ((getHeight() - 1 - y) / panelScale - dragOffsetY - mouseOffsetY - zoomOffsetY) / scale - offsetY);
 	}
 
 
