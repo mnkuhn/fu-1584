@@ -1,6 +1,7 @@
 package propra22.q8493367.main;
 import javax.swing.SwingUtilities;
 import propra22.interfaces.IHullCalculator;
+
 import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.model.Diameter;
 import propra22.q8493367.draw.model.Hull;
@@ -13,9 +14,12 @@ import propra22.q8493367.draw.model.Quadrangle;
 import propra22.q8493367.draw.view.DrawPanel;
 import propra22.q8493367.draw.view.DrawPanelListener;
 import propra22.q8493367.draw.view.IDrawPanelListener;
+
+import propra22.q8493367.status.StatusBar;
 import propra22.q8493367.settings.Settings;
 import propra22.q8493367.test.HullCalculator;
 import propra22.tester.Tester;
+
 
 
 public class CHGO_8493367_Kuhn_Manuel {
@@ -34,8 +38,9 @@ public class CHGO_8493367_Kuhn_Manuel {
 		IDrawPanelListener drawPanelListener = new DrawPanelListener(drawPanelController);
 		drawPanel.setDrawPanelListener(drawPanelListener);
 		
+		StatusBar statusBar = new StatusBar();
 		//Main window and its listener
-		MainWindow mainWindow = new MainWindow(drawPanel);
+		MainWindow mainWindow = new MainWindow(drawPanel, statusBar);
 		mainWindow.setTitle(Settings.title);
 		IMainWindowListener mainWindowListner = new MainWindowListener(drawPanelController, pointSet, mainWindow);
 		mainWindow.setMainWindowListener(mainWindowListner);

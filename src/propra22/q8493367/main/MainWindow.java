@@ -1,5 +1,6 @@
 package propra22.q8493367.main;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import java.awt.Toolkit;
@@ -37,6 +38,8 @@ import propra22.q8493367.point.Point;
 import propra22.q8493367.point.RandomPointsEvent;
 import propra22.q8493367.point.RandomPointsEventType;
 import propra22.q8493367.settings.Settings;
+import propra22.q8493367.status.IStatusBar;
+import propra22.q8493367.status.StatusBar;
 
 
 
@@ -52,16 +55,19 @@ public class MainWindow extends JFrame implements IMainWindow {
 	private JCheckBoxMenuItem quadrangleItem;
 	private JCheckBoxMenuItem triangleItem;
 	private IDrawPanel drawPanel;
+	private IStatusBar statusBar;
 	
 
-	public MainWindow(DrawPanel drawPanel) {
+	public MainWindow(DrawPanel drawPanel, StatusBar statusBar) {
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int preferredWidth = (int) (screenSize.width * Settings.panelToScreenWidhtRatio);
 		int preferredHeight = (int) (screenSize.height * Settings.panelToScreenHeightRatio);
 		setSize(new Dimension(preferredWidth, preferredHeight));
+		setLayout(new BorderLayout());
 		
 		this.drawPanel = drawPanel;
+		this.statusBar = statusBar;
 		
 		JMenuBar menuBar = new JMenuBar();
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -80,10 +86,9 @@ public class MainWindow extends JFrame implements IMainWindow {
 		
 		setJMenuBar(menuBar);
 		
-		JScrollPane scrollPane = new JScrollPane(drawPanel);
-		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		add(scrollPane);
+		
+		add(drawPanel, BorderLayout.CENTER);
+		add(statusBar, BorderLayout.SOUTH);
 		
 		setLocationRelativeTo(null);
 	}
