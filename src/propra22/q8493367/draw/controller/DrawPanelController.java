@@ -547,15 +547,11 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param number the number
 	 */
 	@Override
-	public void insertRandomPoints(int number, double viewportPositionX, double viewportPositionY,
-			Dimension viewportSize) {
+	public void insertRandomPoints(int number, int minX, int minY, int maxX, int maxY) {
 		if (commandIndex != commandList.size() - 1) {
 			removeAllComandsAfterCommandIndex();
 		}
-		int minX = (int) viewportPositionX;
-		int minY = (int) viewportPositionY;
-		int maxX = minX + (int) viewportSize.getWidth();
-		int maxY = minY + (int) viewportSize.getHeight();
+	    
 		ICommand insertRandomPointsCommand = new InsertRandomPointsCommand(number, minX, minY, maxX, maxY, pointSet);
 		insertRandomPointsCommand.execute();
 		addCommandToCommandList(insertRandomPointsCommand);

@@ -1,5 +1,8 @@
 package propra22.q8493367.draw.view;
 
+import propra22.q8493367.point.IPoint;
+import propra22.q8493367.point.Point;
+
 /**
  * 
  * IDrawPanel is the interface for the view which shows the points and the 
@@ -42,5 +45,7 @@ public interface IDrawPanel  {
 	
 
 	void initialize();
+
+	public IPoint getViewPointTranslatedToModelPoint(IPoint point);
    
 }

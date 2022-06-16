@@ -1,26 +1,20 @@
 package propra22.q8493367.draw.view;
 
-import java.awt.BasicStroke;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.Stroke;
-import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-
 import javax.swing.JPanel;
-import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
 import propra22.q8493367.contour.SectionType;
@@ -77,7 +71,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	private int originalWidth;
 	private int originalHeight;
 	
-	private double panelScale = 1;;
+	private double panelScale = 1;
+	private boolean isInitialized;;
 	
 
 	/**
@@ -195,6 +190,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
             @Override
             public void componentResized(ComponentEvent e) {
+            	System.out.println("drawPanel ComponentAdapter: componentResized");
             	super.componentResized(e);
             	if(originalWidth != 0 && originalHeight != 0) {
             		panelScale = Math.min((double)getWidth()/(double)originalWidth, (double)getHeight()/(double)originalHeight);
@@ -202,6 +198,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
             	else {
             		panelScale = 1;
             	}
+            	repaint();
             }
 		});
 	}
@@ -260,6 +257,10 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	
 	@Override
 	public void update() {
+		if(originalWidth == 0 || originalHeight == 0) {
+			originalWidth = getWidth();
+			originalHeight = getHeight();
+		}
 		repaint();
 	}
 	
@@ -498,5 +499,11 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	@Override
 	public boolean triangleIsShown() {
 		return triangleIsShown;
+	}
+
+
+	@Override
+	public IPoint getViewPointTranslatedToModelPoint(IPoint point) {
+		return translatePointFromViewToModel(point.getX(), point.getY());
 	}
 }

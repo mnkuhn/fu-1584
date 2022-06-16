@@ -1,6 +1,5 @@
 package propra22.q8493367.main;
 
-import java.awt.Dimension;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -43,12 +42,12 @@ public class MainWindowListener implements IMainWindowListener {
     @Override
 	public void FileEventOccured(FileEvent e) {
 		fileManager.handleFileEvent(e);
-		if(pointSet.hasChanged()) {
+		if(pointSet.hasChanged() && !fileManager.handlingWasCancelled()) {
 			drawPanelController.updateModel();
 			drawPanelController.initializeView();
-			//drawPanelController.updateView();
+			pointSet.setHasChanged(false);
 		}
-		pointSet.setHasChanged(false);
+		
 	}
 
 	@Override
@@ -76,9 +75,8 @@ public class MainWindowListener implements IMainWindowListener {
 	@Override
 	public void insertRandomPointsEventOccured(RandomPointsEvent randomPointsEvent) {
 		RandomPointsEventType type = randomPointsEvent.getType();
-		System.out.println("Obere linke Ecke des viewports: " + randomPointsEvent.getUpperLeftCornerOfViewPortX() + "  " + randomPointsEvent.getUpperLeftCornerOfViewPortY());
-		System.out.println("Grösse des viewports: " + randomPointsEvent.getViewportSize().getWidth() + "  " + randomPointsEvent.getViewportSize().getHeight());
-		drawPanelController.insertRandomPoints(type.getNumber(), randomPointsEvent.getUpperLeftCornerOfViewPortX(), randomPointsEvent.getUpperLeftCornerOfViewPortY(), randomPointsEvent.getViewportSize() );		
+		
+		drawPanelController.insertRandomPoints(type.getNumber(), randomPointsEvent.getMinX(), randomPointsEvent.getMinY(), randomPointsEvent.getMaxX(), randomPointsEvent.getMaxY() );		
 	}
 	
 	@Override

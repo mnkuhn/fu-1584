@@ -1,35 +1,51 @@
 package propra22.q8493367.point;
 
-import java.awt.Dimension;
-import java.awt.Point;
+
 
 public class RandomPointsEvent implements IRandomPointsEvent {
 	private final RandomPointsEventType type;
-	private final double upperLeftCornerOfViewPortX;
-	private final double upperLeftCornerOfViewPortY;
-	private final Dimension viewportSize;
+	private final int minX;
+	private final int minY; 
+	private final int maxX;
+	private final int maxY;
 	
 	public RandomPointsEvent(RandomPointsEventType type, 
-			double upperLeftCornerOfViewPortX, 
-			double upperLeftCornerOfViewPortY, 
-			Dimension viewportSize) {
+			int minX, 
+			int minY, 
+			int maxX,
+			int maxY) {
 		this.type = type;
-		this.upperLeftCornerOfViewPortX = upperLeftCornerOfViewPortX;
-		this.upperLeftCornerOfViewPortY = upperLeftCornerOfViewPortY;
-		this.viewportSize = viewportSize;
+		this.minX = minX;
+		this.minY = minY;
+		this.maxX = maxX;
+		this.maxY = maxY;
 	}
 	
-	public double getUpperLeftCornerOfViewPortX() {
-		return upperLeftCornerOfViewPortX;
+	
+
+	public int getMinX() {
+		return minX;
 	}
 
-	public double getUpperLeftCornerOfViewPortY() {
-		return upperLeftCornerOfViewPortY;
+
+
+	public int getMinY() {
+		return minY;
 	}
 
-	public Dimension getViewportSize() {
-		return viewportSize;
+
+
+	public int getMaxX() {
+		return maxX;
 	}
+
+
+
+	public int getMaxY() {
+		return maxY;
+	}
+
+
 
 	@Override
 	public RandomPointsEventType  getType(){

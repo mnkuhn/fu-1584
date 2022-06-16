@@ -15,5 +15,7 @@ public interface IFileManager {
 	 */
 	void handleFileEvent(FileEvent e);
 
+	boolean handlingWasCancelled();
+
 	
 }

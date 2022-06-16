@@ -44,10 +44,7 @@ public class InsertRandomPointsCommand implements ICommand {
 		for(int i = 0; i < number; i++) {
 			int x = random.nextInt(maxX - minX) + minX;
 			int y = random.nextInt(maxY - minY) + minY;
-			
-			
-			//int x = (int) Math.floor (Math.random() * (maxX + 1 - 20)) + 10;
-			//int y = (int) Math.floor (Math.random() * (maxY + 1 - 20)) + 10;
+
 			points[i] = new Point(x, y);	
 		}
 	}

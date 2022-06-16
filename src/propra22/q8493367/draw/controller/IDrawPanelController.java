@@ -77,7 +77,7 @@ public interface IDrawPanelController {
 	 * @param e the e
 	 * @param dimension the dimension
 	 */
-	public void insertRandomPoints(int number, double d, double e, Dimension dimension);
+	//public void insertRandomPoints(int number, int x, int y, Dimension dimension);
 	
 	/**
 	 * Updates the model (of the draw panel).
@@ -254,6 +254,29 @@ public interface IDrawPanelController {
 
 
 	public void initializeView();
+
+
+
+	public void insertRandomPoints(int number, int minX, int minY, int maxX, int maxY);
+
+
+
+	/**
+	 * Inserts a number of random points into the draw panel model which all fit
+	 * onto the reference draw panel (the 'unzoomed' draw panel).
+	 *
+	 * @param number the number
+	 */
+	
+
+
+
+	/**
+	 * Inserts a number of random points into the draw panel model which all fit
+	 * onto the reference draw panel (the 'unzoomed' draw panel).
+	 *
+	 * @param number the number
+	 */
 
 
 	
