@@ -36,11 +36,12 @@ public interface IDrawPanelEvent {
 	 */
 	int getMouseY();
 	
+
 	/**
-	 * Returns the graphics object
+	 * Gets the total scale which is the product of the scale and the panel scale of the view.
 	 *
-	 * @return the graphics object
+	 * @return the total scale
 	 */
-	Graphics getGraphicsObject();
+	double getTotalScale();
 
 }

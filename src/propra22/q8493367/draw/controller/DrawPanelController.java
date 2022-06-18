@@ -157,7 +157,10 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param radius - the radius
 	 * @return true, if successful
 	 */
-	private boolean pointIsWithinMouseRadius(IPoint point, int mouseX, int mouseY, IMetric norm, int radius) {
+	
+	
+	//float müsste reichen
+	private boolean pointIsWithinMouseRadius(IPoint point, int mouseX, int mouseY, IMetric norm, double radius) {
 		return norm.distance(point.getX(), point.getY(), mouseX, mouseY) <= radius;
 	}
 
@@ -600,10 +603,12 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param mouseY the mouse Y
 	 */
 	@Override
-	public void deletePointFromPointSetByUserInput(int mouseX, int mouseY) {
+	public void deletePointFromPointSetByUserInput(int mouseX, int mouseY, double totalScale) {
+		System.out.println("in drawPanel, deletePointFromPointSetByUserInput, totalScale: " + totalScale + "\n \n \n");
+		
 		IPoint closest = getClosestPointToMouse(mouseX, mouseY, new ManhattanDistance());
 		if (closest != null) {
-			if (pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanDistance(), Settings.mouseRadius)) {
+			if (pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanDistance(), Settings.mouseRadius/totalScale)) {
 				if (commandIndex != commandList.size() - 1) {
 					removeAllComandsAfterCommandIndex();
 				}
@@ -626,10 +631,10 @@ public class DrawPanelController implements IDrawPanelController {
 	 *               coordinate of the drag
 	 */
 	@Override
-	public void initializePointDrag(int mouseX, int mouseY) {
+	public void initializePointDrag(int mouseX, int mouseY, double totalScale) {
 		IPoint closest = getClosestPointToMouse(mouseX, mouseY, new ManhattanDistance());
 		if (closest != null) {
-			if (pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanDistance(), Settings.mouseRadius)) {
+			if (pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanDistance(), Settings.mouseRadius/totalScale)) {
 				startMouseX = mouseX;
 				startMouseY = mouseY;
 				previousMouseX = mouseX;
@@ -665,8 +670,8 @@ public class DrawPanelController implements IDrawPanelController {
 
 	/**
 	 * Terminate point drag. It refers to the starting x coordinate and the starting
-	 * y coordinate of the mouse, puts the command in the command list and executes
-	 * the command.
+	 * y coordinate of the mouse, puts the command in the command list. Important:
+	 * The command is not executed, because the point has already been dragged.
 	 *
 	 * @param mouseX - the x coordinate of the mouse
 	 * @param mouseY - the y coordinate of the mouse

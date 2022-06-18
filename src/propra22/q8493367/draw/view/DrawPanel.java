@@ -92,23 +92,31 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			public void mousePressed(MouseEvent e) {
 				int translatedX = (int)Math.round(translateXFromViewToModel(e.getX()));
 				int translatedY = (int)Math.round(translateYFromViewToModel(e.getY()));
-				System.out.println("drawPanel delete point, point before translation: " + e.getX() + ", " + e.getY());
-				System.out.println("drawPanel delete point, point after translation: " + translatedX + ", " + translatedY);
+				
+				System.out.println("drawPanel, point before translation: " + e.getX() + ", " + e.getY());
+				System.out.println("drawPanel, point after translation: " + translatedX + ", " + translatedY);
+				// translate back
+				System.out.println("drawPanel, translated point translated back to view: " + translateXFromModelToView(translatedX) + ", " +
+				      translateYFromModelToView(translatedY));
+				
 				System.out.println("drawPanel delete point, pointSet: " +  pointSet.toString());
+				
+				System.out.println("scale: " + scale + " panelScale: " + panelScale);
+				
 				if (SwingUtilities.isLeftMouseButton(e) && !e.isAltDown() && !e.isControlDown()) {
 					// insert point
 					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.INSERT_POINT,
-									e.getSource(), translatedX, translatedY, null));
+									e.getSource(), translatedX, translatedY, scale*panelScale));
 					
 				} else if (SwingUtilities.isRightMouseButton(e)) {	
 					// delete point
 					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DELETE_POINT,
-									e.getSource(), translatedX, translatedY, null));
+									e.getSource(), translatedX, translatedY, scale*panelScale));
 				
 				} else if (SwingUtilities.isLeftMouseButton(e) && e.isAltDown()) {
 					// point drag initialized
 					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(
-							DrawPanelEventType.DRAG_POINT_INITIALIZED, e.getSource(), translatedX, translatedY, null));
+							DrawPanelEventType.DRAG_POINT_INITIALIZED, e.getSource(), translatedX, translatedY, scale*panelScale));
 					
 				} else if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
 					// panel drag initialized
@@ -124,7 +132,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					int translatedX = (int)Math.round(translateXFromViewToModel(e.getX()));
 					int translatedY = (int)Math.round(translateYFromViewToModel(e.getY()));
 					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DRAG_POINT_ENDED,
-							e.getSource(), translatedX, translatedY, null));
+							e.getSource(), translatedX, translatedY, scale*panelScale));
 				
 				} else if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown() && !e.isAltDown()) {
 					// panel drag ended
@@ -144,7 +152,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					int translatedX = (int)Math.round(translateXFromViewToModel(e.getX()));
 					int translatedY = (int)Math.round(translateYFromViewToModel(e.getY()));
 					drawPanelListener.drawPanelEventOccured(
-							new DrawPanelEvent(DrawPanelEventType.DRAG_POINT, e.getSource(), translatedX, translatedY, null));
+							new DrawPanelEvent(DrawPanelEventType.DRAG_POINT, e.getSource(), translatedX, translatedY, scale*panelScale));
 				}
 				else if(SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
 					// panel drag
@@ -232,11 +240,11 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 
 	private void setOffsetsToZero() {
-		zoomOffsetX = 	0; 	zoomOffsetY = 	0;
-		initialDragX = 	0; 	initialDragY = 	0;
-		mouseOffsetX = 	0; 	mouseOffsetY = 	0;
-		dragOffsetX = 	0; 	dragOffsetY =	0;
-		offsetX = 		0; 	offsetY =  		0;
+		zoomOffsetX 	= 	0; 	zoomOffsetY 	= 	0;
+		initialDragX 	= 	0; 	initialDragY 	= 	0;
+		mouseOffsetX 	= 	0; 	mouseOffsetY 	= 	0;
+		dragOffsetX 	= 	0; 	dragOffsetY 	=	0;
+		offsetX 		= 	0; 	offsetY 		=  	0;
 	}
 	
 	private void initializeScale() {
@@ -336,7 +344,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	
 	
 	private double translateYFromViewToModel(int y) {
-		return  (  (((double)getHeight() - 1d - (double)y) / panelScale - dragOffsetY - mouseOffsetY - zoomOffsetY) / scale - offsetY);
+		return  (  (((double)getHeight() - 1d - (double)y) / panelScale - dragOffsetY - mouseOffsetY - zoomOffsetY)/scale - offsetY);
 	}
 
 

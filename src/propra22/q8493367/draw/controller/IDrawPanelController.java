@@ -124,8 +124,9 @@ public interface IDrawPanelController {
 	 *
 	 * @param mouseX the mouse X
 	 * @param mouseY the mouse Y
+	 * @param d 
 	 */
-	void deletePointFromPointSetByUserInput(int mouseX, int mouseY);
+	void deletePointFromPointSetByUserInput(int mouseX, int mouseY, double totalScale);
 
 
 	/**
@@ -135,8 +136,9 @@ public interface IDrawPanelController {
 	 * drag 
 	 * @param mouseY - the y coordinate of the mouse which is the starting y coordinate of the 
 	 * drag
+	 * @param d 
 	 */
-	void initializePointDrag(int mouseX, int mouseY);
+	void initializePointDrag(int mouseX, int mouseY, double totalScale);
 
 
 	/**

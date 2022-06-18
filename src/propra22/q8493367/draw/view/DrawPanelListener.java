@@ -42,11 +42,11 @@ public class DrawPanelListener implements IDrawPanelListener {
 			break;
 		}
 		case DELETE_POINT: {
-			controller.deletePointFromPointSetByUserInput(e.getMouseX(), e.getMouseY());
+			controller.deletePointFromPointSetByUserInput(e.getMouseX(), e.getMouseY(), e.getTotalScale());
 			break;
 		}
 		case DRAG_POINT_INITIALIZED: {
-			controller.initializePointDrag(e.getMouseX(), e.getMouseY());
+			controller.initializePointDrag(e.getMouseX(), e.getMouseY(), e.getTotalScale());
 			break;
 		}
 		case DRAG_POINT: {

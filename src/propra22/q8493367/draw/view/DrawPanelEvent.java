@@ -20,8 +20,7 @@ public class DrawPanelEvent implements IDrawPanelEvent {
 	/** The y coordinate of the mouse */
 	private int mouseY;
 	
-	/** The Graphics object */
-	private Graphics g;
+	private double totalScale;
 	
 	/**
 	 * Instantiates a new draw panel event.
@@ -32,12 +31,13 @@ public class DrawPanelEvent implements IDrawPanelEvent {
 	 * @param mouseY - the y coordinate of the mouse
 	 * @param g - the graphics object
 	 */
-	public DrawPanelEvent(DrawPanelEventType type, Object source, int mouseX, int mouseY, Graphics g) {
+	public DrawPanelEvent(DrawPanelEventType type, Object source, int mouseX, int mouseY, double totalScale) {
 		this.type = type;
 		this.source = source;
 		this.mouseX = mouseX;
 		this.mouseY = mouseY;
-		this.g = g;
+		this.totalScale = totalScale;
+		
 		
 	}
     
@@ -80,15 +80,13 @@ public class DrawPanelEvent implements IDrawPanelEvent {
 	public int getMouseY() {
 		return mouseY;
 	}
-	
-	/**
-	 * Gets the graphics object.
-	 *
-	 * @return the graphics object
-	 */
+
 	@Override
-	public Graphics getGraphicsObject() {
-		return g;
+	public double getTotalScale() {
+		
+		return totalScale;
 	}
+	
+	
 
 }
