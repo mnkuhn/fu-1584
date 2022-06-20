@@ -12,6 +12,7 @@ public class ViewEvent  {
 	private boolean showDiameter;
 	private boolean showQuadrangle;
 	private boolean showTriangle;
+	private boolean showAnimation;
 
 	/**
 	 * Instantiates a new view event.
@@ -21,13 +22,15 @@ public class ViewEvent  {
 	 * @param showDiameter - true, if the diameter is to be shown, false otherwise.
 	 * @param showQuadrangle - true, if the quadrangle is to be shown, false otherwise.
 	 * @param ShowTriangle - true, if the triangle is to be shown, false otherwise.
+	 * @param b 
 	 */
-	public ViewEvent(Object source, boolean showConvexHull, boolean showDiameter, boolean showQuadrangle, boolean ShowTriangle) {
+	public ViewEvent(Object source, boolean showConvexHull, boolean showDiameter, boolean showQuadrangle, boolean ShowTriangle, boolean showAnimation) {
 		this.source = source;
 		this.showConvexHull = showConvexHull;
 		this.showDiameter = showDiameter;
 		this.showQuadrangle = showQuadrangle;
 		this.showTriangle = ShowTriangle;
+		this.showAnimation = showAnimation;
 	}
 
 	/**
@@ -74,5 +77,9 @@ public class ViewEvent  {
 	 */
 	public boolean TriangleIsDisplayed() {
 		return showTriangle;
+	}
+
+	public boolean animationIsShown() {
+		return showAnimation;
 	}
 }

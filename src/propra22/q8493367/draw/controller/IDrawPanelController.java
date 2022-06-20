@@ -253,13 +253,25 @@ public interface IDrawPanelController {
 	 */
 	void setShowTriangle(boolean b);
 
-
+    void setShowAnimation(boolean animationIsShown);
 
 	public void initializeView();
 
 
 
 	public void insertRandomPoints(int number, int minX, int minY, int maxX, int maxY);
+
+
+
+	boolean animationIsShown();
+
+
+
+	
+
+
+
+	
 
 
 

@@ -172,6 +172,11 @@ public class Hull implements IHull {
 		}
 		return array;
 	}
+	
+	@Override
+	public List<IPoint> toList(){
+		return pointList;
+	}
 
 
 	@Override

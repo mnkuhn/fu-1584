@@ -2,6 +2,8 @@ package propra22.q8493367.draw.model;
 
 
 
+import java.util.List;
+
 import propra22.q8493367.contour.SectionType;
 import propra22.q8493367.point.IPoint;
 
@@ -145,4 +147,6 @@ public interface IHull {
 	 * @return the section
 	 */
 	SectionType getSection(IPoint p);
+
+	List<IPoint> toList();
 }

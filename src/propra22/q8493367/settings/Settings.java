@@ -37,5 +37,6 @@ public class Settings {
 	public static boolean defaultDiameterIsShown = false;
 	public static boolean defaultQuadrangleIsShown = false;
 	public static boolean defaultTriangleIsShown = false;
+	public static boolean defaultAnimationIsShown = false;
 	
 }

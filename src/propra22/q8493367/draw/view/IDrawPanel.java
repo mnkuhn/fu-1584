@@ -30,6 +30,8 @@ public interface IDrawPanel  {
 	void setQuadrangleIsShown(boolean quadrangleIsShown);
 
 	void setTriangleIsShown(boolean b);
+	
+	void setShowAnimation(boolean b);
 
 	boolean convexHullIsShown();
 
@@ -37,7 +39,7 @@ public interface IDrawPanel  {
 
 	boolean quadrangleIsShown();
 
-	boolean triangleIsShown();
+	boolean animationIsShown();
 
 	/**
 	 * Updates the draw panel
@@ -47,5 +49,9 @@ public interface IDrawPanel  {
 	void initialize();
 
 	public IPoint getViewPointTranslatedToModelPoint(IPoint point);
+
+	public boolean triangleIsShown();
+
+	
    
 }

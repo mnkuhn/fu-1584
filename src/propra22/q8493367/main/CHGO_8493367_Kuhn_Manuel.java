@@ -1,5 +1,8 @@
 package propra22.q8493367.main;
 import javax.swing.SwingUtilities;
+
+import animation.ITangentPair;
+import animation.TangentPair;
 import propra22.interfaces.IHullCalculator;
 
 import propra22.q8493367.draw.controller.DrawPanelController;
@@ -31,10 +34,11 @@ public class CHGO_8493367_Kuhn_Manuel {
 		IHull hull = new Hull();
 		IDiameter diameter = new Diameter();
 		IQuadrangle quadrangle = new Quadrangle();
+		ITangentPair tangentPair = new TangentPair();
 		
 		//Draw panel and controller of the draw panel
-		DrawPanel drawPanel = new DrawPanel(pointSet, hull, diameter, quadrangle);
-		DrawPanelController drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, drawPanel);
+		DrawPanel drawPanel = new DrawPanel(pointSet, hull, diameter, quadrangle, tangentPair);
+		DrawPanelController drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, tangentPair, drawPanel);
 		IDrawPanelListener drawPanelListener = new DrawPanelListener(drawPanelController);
 		drawPanel.setDrawPanelListener(drawPanelListener);
 		

@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import animation.ITangentPair;
 import propra22.q8493367.command.DragPointCommand;
 import propra22.q8493367.command.ICommand;
 import propra22.q8493367.command.InsertPointCommand;
@@ -57,6 +58,8 @@ public class DrawPanelController implements IDrawPanelController {
 
 	/** The quadrangle */
 	private IQuadrangle quadrangle;
+	
+	private ITangentPair tangentPair;
 
 	/** The draw panel reference width to which all calculations refer. */
 	private int drawPanelReferenceWidth = 800;
@@ -112,12 +115,12 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param drawPanelModel the draw panel model
 	 * @param drawPanel      the draw panel
 	 */
-	// should take the hull too
-	public DrawPanelController(IPointSet drawPanelModel, IHull hull, IDiameter diameter, IQuadrangle quadrangle,  DrawPanel drawPanel) {
+	public DrawPanelController(IPointSet drawPanelModel, IHull hull, IDiameter diameter, IQuadrangle quadrangle, ITangentPair tangentPair,  DrawPanel drawPanel) {
 		this.pointSet = drawPanelModel;
 		this.hull = hull;
 		this.diameter = diameter;
 		this.quadrangle = quadrangle;
+		this.tangentPair = tangentPair;
 		
 		this.view = drawPanel;
 		
@@ -133,6 +136,8 @@ public class DrawPanelController implements IDrawPanelController {
 	 * testing or calculating the data without displaying it.
 	 *
 	 * @param pointSet the draw panel model
+	 * @param drawPanel 
+	 * @param tangentPair 
 	 */
 	public DrawPanelController(IPointSet pointSet, IHull hull, IDiameter diameter, IQuadrangle quadrangle) {
 
@@ -140,7 +145,9 @@ public class DrawPanelController implements IDrawPanelController {
 		this.hull = hull;
 		this.diameter = diameter;
 		this.quadrangle = quadrangle;
+		tangentPair = null;
 		this.view = null;
+		
 		
 		contourPolygonCalculator = new ContourPolygonCalculator(pointSet, hull);
 		convexHullCalculator = new ConvexHullCalculator(hull);
@@ -744,6 +751,12 @@ public class DrawPanelController implements IDrawPanelController {
 		return view.triangleIsShown();
 	}
 	
+	@Override
+	public boolean animationIsShown() {
+		return view.animationIsShown();
+	}
+	
+	
 	
 
 	/**
@@ -842,5 +855,11 @@ public class DrawPanelController implements IDrawPanelController {
 	@Override
 	public void initializeView() {
 		view.initialize();	
+	}
+
+	@Override
+	public void setShowAnimation(boolean b) {
+		view.setShowAnimation(b);
+		
 	}
 }

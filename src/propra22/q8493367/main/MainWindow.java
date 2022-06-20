@@ -53,6 +53,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 	private JCheckBoxMenuItem diameterItem;
 	private JCheckBoxMenuItem quadrangleItem;
 	private JCheckBoxMenuItem triangleItem;
+	private JCheckBoxMenuItem animationItem;
 	private IDrawPanel drawPanel;
 	private JPanel statusBar;
 	
@@ -317,8 +318,12 @@ public class MainWindow extends JFrame implements IMainWindow {
 		ActionListener viewActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainWindowListener.viewEventOccured(new ViewEvent(e.getSource(), convexHullItem.isSelected(), 
-						diameterItem.isSelected(), quadrangleItem.isSelected(), triangleItem.isSelected()));	
+				mainWindowListener.viewEventOccured(new ViewEvent(e.getSource(), 
+						convexHullItem.isSelected(), 
+						diameterItem.isSelected(), 
+						quadrangleItem.isSelected(), 
+						triangleItem.isSelected(), 
+						animationItem.isSelected()));	
 			}	
 	    };
 	    
@@ -338,10 +343,18 @@ public class MainWindow extends JFrame implements IMainWindow {
 		triangleItem.setSelected(Settings.defaultTriangleIsShown);
 		triangleItem.addActionListener(viewActionListener);
 		
+		animationItem = new JCheckBoxMenuItem("Animation");
+		animationItem.setSelected(false);
+		animationItem.addActionListener(viewActionListener);
+		
 		viewMenu.add(convexHullItem);
 		viewMenu.add(diameterItem);
 		viewMenu.add(quadrangleItem);
 		viewMenu.add(triangleItem);
+		
+		viewMenu.addSeparator();
+		
+		viewMenu.add(animationItem);
 		
 		menuBar.add(viewMenu);
 	}
