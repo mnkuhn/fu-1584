@@ -16,8 +16,8 @@ import java.awt.event.MouseWheelListener;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import animation.ITangentPair;
-import animation.TangentPair;
+import propra22.q8493367.animation.ITangentPair;
+import propra22.q8493367.animation.TangentPair;
 import propra22.q8493367.contour.SectionType;
 import propra22.q8493367.draw.model.IDiameter;
 import propra22.q8493367.draw.model.IHull;
@@ -36,11 +36,10 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 	// the model
 	private IPointSet pointSet;
-	private IHull hull;
+	private volatile IHull hull;
 	private IDiameter diameter;
 	private IQuadrangle quadrangle;
-	private ITangentPair tangentPair;
-	private Thread animationThread;
+	private volatile ITangentPair tangentPair;
 
 	// Draw panel listener.
 	private IDrawPanelListener drawPanelListener;
@@ -71,6 +70,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	// Offset (data)
 	private double offsetX = 0;
 	private double offsetY = 0;
+	
+	// Scale
 	private double originalWidth;
 	private double originalHeight;
 
@@ -177,12 +178,6 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					double rot = e.getPreciseWheelRotation();
 					double d = rot * scaleFactor;
 					d = rot > 0 ? 1 / d : -d;
-					/*
-					 * System.out.println("Mouse Position  X:  " + e.getX() + " Mouse Position Y: "
-					 * + e.getY()) ; System.out.println("scale: " + scale); System.out.println("d: "
-					 * + d); System.out.println("zoomOffsetX: " + zoomOffsetX);
-					 * System.out.println("zoomOffsetY: " + zoomOffsetY);
-					 */
 					double newzoomOffsetX = ((double) e.getX() / panelScale - zoomOffsetX - dragOffsetX - mouseOffsetX)
 							* (1 - d) + zoomOffsetX;
 					double newzoomOffsetY = (((double) getHeight() - 1d - (double) e.getY()) / panelScale - dragOffsetY
@@ -190,10 +185,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 					zoomOffsetX = newzoomOffsetX;
 					zoomOffsetY = newzoomOffsetY;
-
 					scale = scale * d;
-					updateTangetPairLength();
-					repaint();
+					// adjust scale factor for tangents
+					update();
 				}
 			}
 
@@ -213,15 +207,13 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					originalHeight = getHeight();
 					panelScale = 1;
 				}
-				updateTangetPairLength();
-				repaint();
+				// adjust scale factor for tangents
+				update();
 			}
 		});
 	}
 	
-	private void updateTangetPairLength() {
-		tangentPair.setLength((float) (Math.sqrt(getWidth() * getWidth() + getHeight() * getHeight())/ (scale * panelScale))  );
-	}
+	
 
 	/**
 	 * Sets the draw panel listener to the draw panel.
@@ -271,10 +263,10 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	}
 
 	private void initializeOffsets() {
-		offsetX = (int) (((double) getWidth() - (double) (pointSet.getMaxX() + pointSet.getMinX()) * scale)
-				/ (2 * scale));
-		offsetY = (int) (((double) getHeight() - (double) (pointSet.getMaxY() + pointSet.getMinY()) * scale)
-				/ (2 * scale));
+		offsetX = (int) (((double) getWidth() - (double) (pointSet.getMaxX() + 
+				pointSet.getMinX()) * scale) / (2 * scale));
+		offsetY = (int) (((double) getHeight() - (double) (pointSet.getMaxY() + 
+				pointSet.getMinY()) * scale)/ (2 * scale));
 	}
 
 	@Override
@@ -484,13 +476,16 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		*/
 
 		try {
+			 // get the tangents from the tangent pair
 			 IPoint[] tangent1 = tangentPair.getTangent1(); 
 			 IPoint[] tangent2 = tangentPair.getTangent2(); 
+			 /*
 			 System.out.println( "tangent1  " + (int) Math.round(tangent1[1].getX()) + "   " + (int)
 			 Math.round(tangent1[1].getY()));
 		
-			 System.out.println( "tangent2  " + (int) Math.round(tangent2[1].getX()) +
+			 //System.out.println( "tangent2  " + (int) Math.round(tangent2[1].getX()) +
 			 "   " + (int) Math.round(tangent2[1].getY())); 
+			 */
 			 
 			 /* int a1 =
 			 * tangent1[0].getX(); int b1 = tangent1[0].getY(); int c1 = tangent1[2].getX();
@@ -499,18 +494,29 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			 * int a2 = tangent2[0].getX(); int b2 = tangent2[0].getY(); int c2 =
 			 * tangent2[2].getX(); int d2 = tangent2[2].getY();
 			 */
-			
+			 // draw first tangent
 			 g2.drawLine(
-					 (int) Math.round(translateXFromModelToView(tangent1[0].getX())),
-					 (int) Math.round(translateYFromModelToView(tangent1[0].getY())), 
+					 (int)Math.round(translateXFromModelToView(tangent1[0].getX())),
+					 (int)Math.round(translateYFromModelToView(tangent1[0].getY())), 
 					 (int)Math.round(translateXFromModelToView(tangent1[2].getX())), 
 					 (int)Math.round(translateYFromModelToView(tangent1[2].getY())));
 			 
+			 // draw second tangent
 			 g2.drawLine(
-					 (int) Math.round(translateXFromModelToView(tangent2[0].getX())),
-					 (int) Math.round(translateYFromModelToView(tangent2[0].getY())), 
+					 (int)Math.round(translateXFromModelToView(tangent2[0].getX())),
+					 (int)Math.round(translateYFromModelToView(tangent2[0].getY())), 
 					 (int)Math.round(translateXFromModelToView(tangent2[2].getX())), 
 					 (int)Math.round(translateYFromModelToView(tangent2[2].getY())));
+			 
+			 // draw connection of the centers i.e. the connection between the points 
+			 // of the antipodal pair
+			 g2.drawLine(
+					 (int)Math.round(translateXFromModelToView(tangent1[1].getX())),
+					 (int)Math.round(translateYFromModelToView(tangent1[1].getY())), 
+					 (int)Math.round(translateXFromModelToView(tangent2[1].getX())), 
+					 (int)Math.round(translateYFromModelToView(tangent2[1].getY())));
+			 
+			 
 		} catch (NullPointerException e) {
 			e.getStackTrace();
 		}
@@ -559,36 +565,36 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	}
 
 	@Override
-	public void setShowAnimation(boolean b) {
-		if ((animationIsShown == false) && b) {
-			animationIsShown = true;
+	public void setShowAnimation(boolean animationRequested) {
+		if ((animationIsShown == false) && animationRequested) {
 			animate();
-		} else if ((animationIsShown == true) && (b == false)) {
-			
+		} else if ((animationIsShown == true) && (animationRequested == false)) {
 			animationIsShown = false;
 		}
 	}
 
 	private void animate() {
-		System.out.println("Thread hello");
+		animationIsShown = true;
+		tangentPair.initialize(hull);
 		Thread animationThread = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-				System.out.println("in run");
-				float diagonal = (float)( Math.sqrt(getWidth() * getWidth() + getHeight() * getHeight() ) / (scale * panelScale));
-				tangentPair.initialize(hull, diagonal);
+				Thread.currentThread().setName("Animation Thread");
 				while(animationIsShown) {
 					update();
-					tangentPair.step();
 					try {
-						Thread.sleep(15);
+						tangentPair.step();
+						Thread.sleep(20);
 					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (NullPointerException e) {
+						e.printStackTrace();
+					} catch(ArithmeticException e) {
 						e.printStackTrace();
 					}
 				}
-				System.out.println("Thread bye bye");
-				
+				System.out.println("Animation Thread bye bye");		
 			}});
 		animationThread.start();
 		

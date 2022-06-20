@@ -1,10 +1,9 @@
 package propra22.q8493367.main;
 import javax.swing.SwingUtilities;
 
-import animation.ITangentPair;
-import animation.TangentPair;
 import propra22.interfaces.IHullCalculator;
-
+import propra22.q8493367.animation.ITangentPair;
+import propra22.q8493367.animation.TangentPair;
 import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.model.Diameter;
 import propra22.q8493367.draw.model.Hull;

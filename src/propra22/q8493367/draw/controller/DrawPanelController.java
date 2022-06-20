@@ -11,7 +11,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import animation.ITangentPair;
+import propra22.q8493367.animation.ITangentPair;
 import propra22.q8493367.command.DragPointCommand;
 import propra22.q8493367.command.ICommand;
 import propra22.q8493367.command.InsertPointCommand;

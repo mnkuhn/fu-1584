@@ -1,4 +1,4 @@
-package animation;
+package propra22.q8493367.animation;
 
 import java.util.List;
 
@@ -14,22 +14,21 @@ public class TangentPair implements ITangentPair {
 	private Tangent tangent1;
 	private Tangent tangent2;
 	private float length;
-	private boolean isRunning = true;
 	
 	
 	
 	public TangentPair() {
 		angle = 0;
-		length = 20;
+		length = 120;
 		
 	}
 	
 	@Override
-	public void initialize(IHull hull, float length){
-		angle = 0;
+	public void initialize(IHull hull){
+		// each tangent gets the hull ? 
 		tangent1 = new Tangent(hull, 0, angle);
 		tangent2 = new Tangent(hull, hull.getIndexOfRightMostPoint(), Math.PI);
-		this.length = length;
+		
 	}
 	
 	private boolean nextAngleOfTangentIsValid(Tangent tangent) {
@@ -38,6 +37,7 @@ public class TangentPair implements ITangentPair {
 	
 	@Override
 	public void step() {
+		/*
 		System.out.println("tangent1 index: " + tangent1.getCenterIndex() + " tangent2 index: " + tangent2.getCenterIndex());
 		System.out.println("Common Angle: " + angle);
 		System.out.println("tangent1 A: " + tangent1.getA());
@@ -46,16 +46,14 @@ public class TangentPair implements ITangentPair {
 		System.out.println("tangent2 A: " + tangent2.getA());
 		System.out.println("tangent2 B: " + tangent2.getB());
 		System.out.println("\n");
+		*/
 		// if next angle is not valid change center
 		if(!nextAngleOfTangentIsValid(tangent1)) {
-		     System.out.println("angle of 1 not valid");
-		     tangent1.stepToNextHullPoint();
+			tangent1.stepToPreviousHullPoint();
 		}
 		if(!nextAngleOfTangentIsValid(tangent2)) {
-		     System.out.println("angle of 2 not valid");
-		     tangent2.stepToNextHullPoint();
-		}
-		increaseAngle();
+			tangent2.stepToPreviousHullPoint();
+		}	increaseAngle();
 	}
 	
 	@Override
@@ -81,24 +79,19 @@ public class TangentPair implements ITangentPair {
 
 
 	private class Tangent  {
-		private List<IPoint> hullAsList;
+		private volatile List<IPoint> hullAsList;
 		private int centerIndex;
         double angleOffset;
 		
-		
-		
-		
-		
 		public Tangent(IHull hull, int centerIndex, double angleOffset) {
 			hull.createList();
+			System.out.println("Vor hullAsList: " + Thread.currentThread().getName());
 			this.hullAsList = hull.toList();
 			this.centerIndex = centerIndex;
 			this.angleOffset = angleOffset;
 		}
 		
-		public void stepToNextHullPoint() {
-			int a = -1 % 5;
-			System.out.println("-1 modulo 5" + Math.floorMod(-1, 5));
+		public void stepToPreviousHullPoint() {
 			centerIndex = Math.floorMod(centerIndex - 1, hullAsList.size());
 			
 		}
@@ -108,7 +101,7 @@ public class TangentPair implements ITangentPair {
 			IPoint nextB = getNextB();
 			IPoint previousHullPoint =  getPreviousHullPoint();
 			long result = Point.signedTriangleArea(getCenter(), getNextB(), getPreviousHullPoint());
-			return result < 0;
+			return result <= 0;
 		}
 
 		
@@ -166,11 +159,6 @@ public class TangentPair implements ITangentPair {
 			return hullAsList.get(index);
 		}
 		
-		
-		public boolean angleIsValid() {   
-			return Point.signedTriangleArea(getCenter(), getB(), getPreviousHullPoint()) < 0;
-		}
-
 	}
 	public static void main(String[] args) {
 		IHull hull = new Hull();
@@ -197,11 +185,4 @@ public class TangentPair implements ITangentPair {
 		}
 		
 	}
-
-	
-	@Override
-	public void stop() {
-		isRunning = false;
-	}
-
 }
