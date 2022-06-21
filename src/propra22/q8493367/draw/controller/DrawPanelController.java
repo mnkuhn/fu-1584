@@ -753,7 +753,7 @@ public class DrawPanelController implements IDrawPanelController {
 	
 	@Override
 	public boolean animationIsShown() {
-		return view.animationIsShown();
+		return view.animationISRunning();
 	}
 	
 	

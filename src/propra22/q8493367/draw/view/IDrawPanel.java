@@ -39,7 +39,7 @@ public interface IDrawPanel  {
 
 	boolean quadrangleIsShown();
 
-	boolean animationIsShown();
+	boolean animationISRunning();
 
 	/**
 	 * Updates the draw panel

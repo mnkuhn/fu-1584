@@ -49,7 +49,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	private boolean diameterIsShown = Settings.defaultDiameterIsShown;
 	private boolean quadrangleIsShown = Settings.defaultQuadrangleIsShown;
 	private boolean triangleIsShown = Settings.defaultTriangleIsShown;
-	private boolean animationIsShown = Settings.defaultAnimationIsShown;
+	private boolean animationIsRunning = Settings.defaultAnimationIsShown;
 
 	// Zoom
 	private double scale = 1.0;
@@ -310,7 +310,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 				drawQuadrangle(g2, Settings.quadrangleColor);
 			}
 			drawCoordinateSystem(g2);
-			if (animationIsShown) {
+			if (animationIsRunning) {
 				drawAnimation(g2);
 			}
 		}
@@ -467,34 +467,19 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 	private void drawAnimation(Graphics2D g2) {
 		
-		/*
-		System.out.println("Show Animation");
-		tangentPair.initialize(hull);
-
-		System.out.println("hull");
-		System.out.println(hull.toList());
-		*/
-
 		try {
 			 // get the tangents from the tangent pair
 			 IPoint[] tangent1 = tangentPair.getTangent1(); 
-			 IPoint[] tangent2 = tangentPair.getTangent2(); 
-			 /*
-			 System.out.println( "tangent1  " + (int) Math.round(tangent1[1].getX()) + "   " + (int)
-			 Math.round(tangent1[1].getY()));
-		
-			 //System.out.println( "tangent2  " + (int) Math.round(tangent2[1].getX()) +
-			 "   " + (int) Math.round(tangent2[1].getY())); 
-			 */
+			 IPoint[] tangent2 = tangentPair.getTangent2();
 			 
-			 /* int a1 =
-			 * tangent1[0].getX(); int b1 = tangent1[0].getY(); int c1 = tangent1[2].getX();
-			 * int d1 = tangent1[2].getY();
-			 * 
-			 * int a2 = tangent2[0].getX(); int b2 = tangent2[0].getY(); int c2 =
-			 * tangent2[2].getX(); int d2 = tangent2[2].getY();
-			 */
+			 extend(tangent1);
+			 extend(tangent2);
+			 
 			 // draw first tangent
+			 
+			 System.out.println("Tangent1 A x in view:" + (int)Math.round(translateXFromModelToView(tangent1[0].getX())));
+			 System.out.println("Tangent1 A y in view:" + (int)Math.round(translateYFromModelToView(tangent1[0].getY())));
+
 			 g2.drawLine(
 					 (int)Math.round(translateXFromModelToView(tangent1[0].getX())),
 					 (int)Math.round(translateYFromModelToView(tangent1[0].getY())), 
@@ -523,6 +508,28 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		 
 		 
 	}
+
+	private void extend(IPoint[] tangent) {
+		double length =  Math.sqrt(Point.qaudraticDistance(tangent[0], tangent[2]))*scale*panelScale;
+		double stretch = 2*panelDiagonal()/length;
+		
+		int dx = (int)Math.round ((tangent[0].getX() - tangent[1].getX())*stretch);
+		int dy = (int)Math.round ((tangent[0].getY() - tangent[1].getY())*stretch);
+		tangent[0].translate(dx, dy);
+		
+		dx = (int)Math.round((tangent[2].getX() - tangent[1].getX())*stretch);
+		dy = (int)Math.round((tangent[2].getY() - tangent[1].getY())*stretch);
+		tangent[2].translate(dx, dy);
+		
+	}
+
+
+
+	private double panelDiagonal() {
+		return Math.sqrt(getWidth() * getWidth() + getHeight() * getHeight());
+	}
+
+
 
 	@Override
 	public void setConvexHullIsShown(boolean convexHullIsShown) {
@@ -566,26 +573,31 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 	@Override
 	public void setShowAnimation(boolean animationRequested) {
-		if ((animationIsShown == false) && animationRequested) {
-			animate();
-		} else if ((animationIsShown == true) && (animationRequested == false)) {
-			animationIsShown = false;
+		if ((animationIsRunning == false) && animationRequested) {
+			runAnimation();
+		} else if ((animationIsRunning == true) && (animationRequested == false)) {
+			animationIsRunning = false;
 		}
 	}
 
-	private void animate() {
-		animationIsShown = true;
-		tangentPair.initialize(hull);
+	private void runAnimation() {
+		animationIsRunning = true;
+		// nicht so schön...
+		
+		
+		
 		Thread animationThread = new Thread(new Runnable() {
-
+             
 			@Override
 			public void run() {
 				Thread.currentThread().setName("Animation Thread");
-				while(animationIsShown) {
+				System.out.println("Hello Animation Thread");
+				tangentPair.initialize(hull);
+				while(animationIsRunning) {
 					update();
 					try {
 						tangentPair.step();
-						Thread.sleep(20);
+						Thread.sleep(5);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					} catch (NullPointerException e) {
@@ -596,13 +608,12 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 				}
 				System.out.println("Animation Thread bye bye");		
 			}});
-		animationThread.start();
-		
+		animationThread.start();	
 	}
 
 	@Override
-	public boolean animationIsShown() {
-		return animationIsShown;
+	public boolean animationISRunning() {
+		return animationIsRunning;
 	}
 
 	@Override

@@ -7,12 +7,12 @@ import propra22.q8493367.point.IPoint;
 
 public class Hull implements IHull {
 
-	private List<IPoint> pointList = new ArrayList<>();
+	private volatile List<IPoint> pointList = new ArrayList<>();
 
-	private List<IPoint> lowerLeftSection = new ArrayList<>();
-	private List<IPoint> upperLeftSection = new ArrayList<>();
-	private List<IPoint> lowerRightSection = new ArrayList<>();
-	private List<IPoint> upperRightSection = new ArrayList<>();
+	private  List<IPoint> lowerLeftSection = new ArrayList<>();
+	private  List<IPoint> upperLeftSection = new ArrayList<>();
+	private  List<IPoint> lowerRightSection = new ArrayList<>();
+	private  List<IPoint> upperRightSection = new ArrayList<>();
 
 	private int rightMost;
 	
@@ -181,6 +181,7 @@ public class Hull implements IHull {
 
 	@Override
 	public void createList() {
+		System.out.println("Hull -> createList()");
 		pointList.clear();
 		IPoint lastPoint = null;
 		int index = 0;
