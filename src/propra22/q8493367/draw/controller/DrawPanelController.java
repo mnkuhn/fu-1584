@@ -215,15 +215,7 @@ public class DrawPanelController implements IDrawPanelController {
 			pointSet.lexSort();
 			long end = System.currentTimeMillis();
 			System.out.println("Punktmenge sortieren: " + (end - start) + " ms");
-			/*
-			try {
 			
-			throw new Exception();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			*/
-
 			start = end;
 			contourPolygonCalculator.calculateContourPolygon();
 			end = System.currentTimeMillis();

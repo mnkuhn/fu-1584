@@ -456,7 +456,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	}
 
 	private void drawAnimation(Graphics2D g2) {
-		
+		// try and catch in case the tangent pair is not initialized yet
 		try {
 			 // get the tangents from the tangent pair
 			 IPoint[] tangent1 = tangentPair.getTangent1(); 
@@ -501,7 +501,6 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 	private void extend(IPoint[] tangent) {
 		
-		// einfach mit getLength..
 		double length =  Math.sqrt(Point.qaudraticDistance(tangent[0], tangent[2]))*scale*panelScale;
 		double stretch = 2*panelDiagonal()/length;
 		
@@ -511,10 +510,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		
 		dx = (int)Math.round((tangent[2].getX() - tangent[1].getX())*stretch);
 		dy = (int)Math.round((tangent[2].getY() - tangent[1].getY())*stretch);
-		tangent[2].translate(dx, dy);
-		
+		tangent[2].translate(dx, dy);	
 	}
-
 
 
 	private double panelDiagonal() {
@@ -574,9 +571,6 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 	private void runAnimation() {
 		animationIsRunning = true;
-		// nicht so schön...
-		
-		
 		
 		Thread animationThread = new Thread(new Runnable() {
              
@@ -584,14 +578,24 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			public void run() {
 				Thread.currentThread().setName("Animation Thread");
 				System.out.println("Hello Animation Thread");
-				
-				try {
-					tangentPair.initialize(hull);
-				} catch (NullPointerException e) {
-					e.printStackTrace();
-				} catch (ArithmeticException e) {
-					e.printStackTrace();
+				boolean tangentPairInitialized = false;
+				int tries = 0;
+				int MAXTRIES = 10;
+				while(animationIsRunning && !tangentPairInitialized && tries < MAXTRIES) {
+					try {
+						tangentPair.initialize(hull);
+						tangentPairInitialized = true;
+					} catch (NullPointerException e) {
+						e.printStackTrace();
+						tries++;
+						takeNap();
+					} catch (ArithmeticException e) {
+						e.printStackTrace();
+						tries++;
+						takeNap();
+					}	
 				}
+				
 				while(animationIsRunning) {
 					update();
 					try {
@@ -599,7 +603,6 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 						Thread.sleep(20);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
-					  //  
 					} catch (NullPointerException e) {
 						e.printStackTrace();
 					} catch(ArithmeticException e) {
@@ -607,7 +610,17 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					}
 				}
 				System.out.println("Animation Thread bye bye");		
-			}});
+			}
+
+			private void takeNap() {
+				try {
+					Thread.sleep(30);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+			}
+			
+		});
 		animationThread.start();	
 	}
 

@@ -95,7 +95,8 @@ public class TangentPair implements ITangentPair {
    
 		private boolean nextAngleIsValid() {
 			long result = Point.signedTriangleArea(getCenter(), getNextB(diff), getPreviousHullPoint());
-			return result < 0;
+			// ist <=0 richtig?
+			return result <= 0;
 		}
 
 		
