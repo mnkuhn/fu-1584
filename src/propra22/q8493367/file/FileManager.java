@@ -249,8 +249,9 @@ public class FileManager implements IFileManager {
 	}
 
 	public void loadPointsToPointSet(File file) {
-
+		
 		try {
+			long start = System.currentTimeMillis();
 			FileReader fileReader = new FileReader(file);
 			BufferedReader reader = new BufferedReader(fileReader);
 
@@ -265,8 +266,11 @@ public class FileManager implements IFileManager {
 			}
 			reader.close();
 			pointSet.setHasChanged(true);
+			long end = System.currentTimeMillis();
+			System.out.println("Punktmenge von Datei einlesen: " + (end- start) + " ms");
 			// for FileReader(file)
 		} catch (FileNotFoundException e) {
+			// show dialog
 			e.printStackTrace();
 			// for readLine()
 		} catch (IOException e) {
