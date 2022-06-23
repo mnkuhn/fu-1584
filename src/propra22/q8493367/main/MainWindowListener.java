@@ -87,7 +87,7 @@ public class MainWindowListener implements IMainWindowListener {
 		drawPanelController.setShowTriangle(viewEvent.TriangleIsDisplayed());
 		drawPanelController.setShowAnimation(viewEvent.animationIsShown());
 		
-		drawPanelController.updateModel();
+		//drawPanelController.updateModel();
 		drawPanelController.updateView();
 	}
 

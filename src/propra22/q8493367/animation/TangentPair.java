@@ -10,7 +10,7 @@ import propra22.q8493367.point.Point;
 
 public class TangentPair implements ITangentPair {
     private double angle;
-    private double diff = Math.PI / 500;
+    private final double diff = Math.PI / 500;
 	private Tangent tangent1;
 	private Tangent tangent2;
 	private float length;
@@ -27,9 +27,9 @@ public class TangentPair implements ITangentPair {
 	@Override
 	public void initialize(IHull hull){
 		angle = 0;
-		System.out.println("vor createList Thread: " + Thread.currentThread().getName());
+		//System.out.println("vor createList Thread: " + Thread.currentThread().getName());
 		//hull.createList();
-		System.out.println("create List ist fertig in initialize");
+		//System.out.println("create List ist fertig in initialize");
 		this.hullAsList = hull.toList();
 		tangent1 = new Tangent(0, 0);
 		tangent2 = new Tangent(hull.getIndexOfRightMostPoint(), Math.PI);	
@@ -41,8 +41,8 @@ public class TangentPair implements ITangentPair {
 	
 	@Override
 	public void step() {
-		System.out.println("TangetPair step Angle: " + angle);
-		System.out.println("Tangent1 A: " + tangent1.getA().getX() + ", " + tangent2.getA().getY());
+		//System.out.println("TangetPair -> step Angle: " + angle);
+		//System.out.println("Tangent1 A: " + tangent1.getA().getX() + ", " + tangent2.getA().getY());
 		/*
 		System.out.println("tangent1 index: " + tangent1.getCenterIndex() + " tangent2 index: " + tangent2.getCenterIndex());
 		System.out.println("Common Angle: " + angle);
@@ -59,15 +59,16 @@ public class TangentPair implements ITangentPair {
 			increaseAngle();
 		}
 		else {
-			if(!nextAngleOfTangentIsValid(tangent1)) {
+			while(!nextAngleOfTangentIsValid(tangent1)) {
 				tangent1.stepToPreviousHullPoint();
-			}
-			if(!nextAngleOfTangentIsValid(tangent2)) {
+				}
+			
+			while(!nextAngleOfTangentIsValid(tangent2)) {
 				tangent2.stepToPreviousHullPoint();
 			}
-			findNewAngle();
+			increaseAngle();
 		}
-		
+
 	}
 	
 	private void increaseAngle() {
@@ -122,23 +123,20 @@ public class TangentPair implements ITangentPair {
 		
    
 		private boolean nextAngleIsValid() {
+			/*
 			IPoint center = getCenter();
 			IPoint nextB = getNextB(diff);
 			IPoint previousHullPoint =  getPreviousHullPoint();
+			*/
 			long result = Point.signedTriangleArea(getCenter(), getNextB(diff), getPreviousHullPoint());
 			return result < 0;
 		}
 
 		
-		private int getCenterIndex() {
-			return centerIndex;
-		}
-	    
+	  
 		
 		
 		public IPoint getCenter() {
-			if(hullAsList.size() == 0) {System.out.println("TangentPair -> getCenter(): hullAsList ist leer");}
-			
 			return hullAsList.get(centerIndex % hullAsList.size());
 		}
 
@@ -181,7 +179,8 @@ public class TangentPair implements ITangentPair {
 		}
 		
 		private IPoint getNextHullPoint() {
-			return hullAsList.get((centerIndex + 1) % hullAsList.size());
+			
+			return hullAsList.get(Math.floorMod(centerIndex + 1, hullAsList.size()));
 		}
 		
 		private IPoint getPreviousHullPoint() {

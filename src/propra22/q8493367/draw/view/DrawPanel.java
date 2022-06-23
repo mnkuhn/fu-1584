@@ -477,8 +477,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			 
 			 // draw first tangent
 			 
-			 System.out.println("Tangent1 A x in view:" + (int)Math.round(translateXFromModelToView(tangent1[0].getX())));
-			 System.out.println("Tangent1 A y in view:" + (int)Math.round(translateYFromModelToView(tangent1[0].getY())));
+			 //System.out.println("Tangent1 A x in view -> drawAnimation:" + (int)Math.round(translateXFromModelToView(tangent1[0].getX())));
+			 //System.out.println("Tangent1 A y in view -> drawAnimation" + (int)Math.round(translateYFromModelToView(tangent1[0].getY())));
 
 			 g2.drawLine(
 					 (int)Math.round(translateXFromModelToView(tangent1[0].getX())),
@@ -510,6 +510,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	}
 
 	private void extend(IPoint[] tangent) {
+		
+		// einfach mit getLength..
 		double length =  Math.sqrt(Point.qaudraticDistance(tangent[0], tangent[2]))*scale*panelScale;
 		double stretch = 2*panelDiagonal()/length;
 		
@@ -592,14 +594,22 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			public void run() {
 				Thread.currentThread().setName("Animation Thread");
 				System.out.println("Hello Animation Thread");
-				tangentPair.initialize(hull);
+				
+				try {
+					tangentPair.initialize(hull);
+				} catch (NullPointerException e) {
+					e.printStackTrace();
+				} catch (ArithmeticException e) {
+					e.printStackTrace();
+				}
 				while(animationIsRunning) {
 					update();
 					try {
 						tangentPair.step();
-						Thread.sleep(5);
+						Thread.sleep(20);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
+					  //  
 					} catch (NullPointerException e) {
 						e.printStackTrace();
 					} catch(ArithmeticException e) {
