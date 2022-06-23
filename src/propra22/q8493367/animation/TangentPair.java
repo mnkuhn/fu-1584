@@ -85,7 +85,7 @@ public class TangentPair implements ITangentPair {
 		return new IPoint[]{tangent2.getA(), tangent2.getCenter(),  tangent2.getB()};
 	}
 	
-	
+	/*
 	private void findNewAngle() {
 		double diff1 = diff;  
 		while(Point.signedTriangleArea(tangent1.getCenter(), tangent1.getNextB(diff1), tangent1.getPreviousHullPoint()) > 0) {
@@ -98,6 +98,7 @@ public class TangentPair implements ITangentPair {
 		}
 		angle = diff1 <= diff2 ? angle + diff1 : angle + diff2;	
 	}
+	*/
 	
 	@Override
 	public void setLength(float length) {

@@ -98,16 +98,6 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 				int translatedX = (int) Math.round(translateXFromViewToModel(e.getX()));
 				int translatedY = (int) Math.round(translateYFromViewToModel(e.getY()));
 
-				System.out.println("drawPanel, point before translation: " + e.getX() + ", " + e.getY());
-				System.out.println("drawPanel, point after translation: " + translatedX + ", " + translatedY);
-				// translate back
-				System.out.println("drawPanel, translated point translated back to view: "
-						+ translateXFromModelToView(translatedX) + ", " + translateYFromModelToView(translatedY));
-
-				System.out.println("drawPanel delete point, pointSet: " + pointSet.toString());
-
-				System.out.println("scale: " + scale + " panelScale: " + panelScale);
-
 				if (SwingUtilities.isLeftMouseButton(e) && !e.isAltDown() && !e.isControlDown()) {
 					// insert point
 					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.INSERT_POINT,
