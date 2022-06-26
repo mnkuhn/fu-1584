@@ -267,6 +267,18 @@ public interface IDrawPanelController {
 
 
 
+	void addObserver(IDrawPanelControllerObserver observer);
+
+
+
+	void removeObserver(IDrawPanelControllerObserver observer);
+
+
+
+	void notifyObservers();
+
+
+
 	
 
 

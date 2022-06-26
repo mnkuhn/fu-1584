@@ -104,7 +104,8 @@ public class DrawPanelController implements IDrawPanelController {
 	/** The calculator for the diameter. */
 	private DiameterAndQuadrangleCalculator diameterAndQuadrangleCalulator;
 	
-	
+    
+	private List<IDrawPanelControllerObserver> observers = new ArrayList<>();
 	
 
 
@@ -231,6 +232,7 @@ public class DrawPanelController implements IDrawPanelController {
 			end = System.currentTimeMillis();
 			System.out.println("Durchmesser und Viereck berechen: " + (end - start) + " ms \n \n");
 		}
+		notifyObservers();
 	}
 
 	/**
@@ -860,5 +862,22 @@ public class DrawPanelController implements IDrawPanelController {
 	public void setShowAnimation(boolean b) {
 		view.setShowAnimation(b);
 		
+	}
+	
+	@Override
+	public void addObserver(IDrawPanelControllerObserver observer) {
+		this.observers.add(observer);
+	}
+	
+	@Override
+	public void removeObserver(IDrawPanelControllerObserver observer) {
+		this.observers.remove(observer);
+	}
+	
+	@Override
+	public void notifyObservers() {
+		for(IDrawPanelControllerObserver observer : observers) {
+			observer.update(pointSet.getNumberOfPoints());
+		}
 	}
 }

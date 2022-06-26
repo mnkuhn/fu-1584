@@ -100,9 +100,6 @@ public class TangentPair implements ITangentPair {
 		}
 
 		
-	  
-		
-		
 		public IPoint getCenter() {
 			return hullAsList.get(centerIndex % hullAsList.size());
 		}
@@ -113,9 +110,6 @@ public class TangentPair implements ITangentPair {
 			return length;
 		}
 
-		
-		
-		
 		
 		
 		public IPoint getA() {

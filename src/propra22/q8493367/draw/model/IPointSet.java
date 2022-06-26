@@ -2,7 +2,7 @@ package propra22.q8493367.draw.model;
 
 import propra22.q8493367.contour.SectionType;
 import propra22.q8493367.point.IPoint;
-import propra22.q8493367.status.IPointSetObserver;
+
 
 
 // TODO: Auto-generated Javadoc
@@ -101,9 +101,7 @@ public interface IPointSet {
 
 	public int size();
 
-	void addPointSetObserver(IPointSetObserver pointSetObserver);
 
-	void removePointSetObserver(IPointSetObserver pointSetObserver);
 
 	
 

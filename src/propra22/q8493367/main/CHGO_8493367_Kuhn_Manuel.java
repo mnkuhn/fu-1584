@@ -5,6 +5,7 @@ import propra22.interfaces.IHullCalculator;
 import propra22.q8493367.animation.ITangentPair;
 import propra22.q8493367.animation.TangentPair;
 import propra22.q8493367.draw.controller.DrawPanelController;
+import propra22.q8493367.draw.controller.IDrawPanelControllerObserver;
 import propra22.q8493367.draw.model.Diameter;
 import propra22.q8493367.draw.model.Hull;
 import propra22.q8493367.draw.model.IDiameter;
@@ -18,6 +19,7 @@ import propra22.q8493367.draw.view.DrawPanelListener;
 import propra22.q8493367.draw.view.IDrawPanelListener;
 
 import propra22.q8493367.status.StatusBar;
+import propra22.q8493367.status.StatusBarController;
 import propra22.q8493367.settings.Settings;
 import propra22.q8493367.test.HullCalculator;
 import propra22.tester.Tester;
@@ -41,8 +43,12 @@ public class CHGO_8493367_Kuhn_Manuel {
 		IDrawPanelListener drawPanelListener = new DrawPanelListener(drawPanelController);
 		drawPanel.setDrawPanelListener(drawPanelListener);
 		
+		//Status bar and controller of the status bar
 		StatusBar statusBar = new StatusBar();
-		pointSet.addPointSetObserver(statusBar);
+		IDrawPanelControllerObserver statusBarController = new StatusBarController(statusBar);
+		drawPanelController.addObserver(statusBarController);
+		
+		//Main window
 		MainWindow mainWindow = new MainWindow(drawPanel, statusBar);
 		mainWindow.setTitle(Settings.title);
 		IMainWindowListener mainWindowListner = new MainWindowListener(drawPanelController, pointSet, mainWindow);

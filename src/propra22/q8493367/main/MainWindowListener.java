@@ -7,8 +7,10 @@ import java.net.URL;
 
 import propra22.q8493367.command.CommandEvent;
 import propra22.q8493367.command.CommandEventType;
+import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.controller.IDrawPanelController;
 import propra22.q8493367.draw.model.IPointSet;
+import propra22.q8493367.draw.model.PointSet;
 import propra22.q8493367.file.FileEvent;
 import propra22.q8493367.file.FileManager;
 import propra22.q8493367.file.IFileManager;
@@ -30,8 +32,8 @@ public class MainWindowListener implements IMainWindowListener {
     	this.pointSet = pointSet;
     	this.view = mainWindow;
     	
-        IParser parser = new Parser();
-    	this.fileManager = new FileManager(pointSet, mainWindow, parser);
+        Parser parser = new Parser();
+    	this.fileManager = new FileManager((PointSet)pointSet, (DrawPanelController)drawPanelController, (Parser)parser);
     	
         view.setConvexHullIsShown(drawPanelController.convexHullIsShown());
         view.setDiameterIsShown(drawPanelController.diameterIsShown());
@@ -42,12 +44,6 @@ public class MainWindowListener implements IMainWindowListener {
     @Override
 	public void FileEventOccured(FileEvent e) {
 		fileManager.handleFileEvent(e);
-		if(pointSet.hasChanged() && !fileManager.handlingWasCancelled()) {
-			drawPanelController.updateModel();
-			drawPanelController.initializeView();
-			pointSet.setHasChanged(false);
-		}
-		
 	}
 
 	@Override

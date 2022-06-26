@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
-public class StatusBar extends JPanel implements IPointSetObserver {
+public class StatusBar extends JPanel implements IStatusBar{
     
 	private JLabel numberLabel;
 	private int height = 18;
@@ -29,10 +29,12 @@ public class StatusBar extends JPanel implements IPointSetObserver {
 		add(numberLabel);
 		
 	}
-
+	
 	@Override
-	public void update(int number) {
-		String numberAsString = String.valueOf(number);
-		numberLabel.setText(numberAsString);
+	public void setNumberOfPoints(int number) {
+		String numberString = String.valueOf(number);
+		numberLabel.setText(numberString);
 	}
+    
+	
 }

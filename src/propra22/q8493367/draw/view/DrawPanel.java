@@ -52,8 +52,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	private boolean animationIsRunning = Settings.defaultAnimationIsShown;
 
 	// Zoom
-	private double scale = 1.0;
-	private final double scaleFactor = 1.08;
+	private double scale = 1.0f;
+	private final double scaleFactor = 1.08f;
 	private double zoomOffsetX = 0;
 	private double zoomOffsetY = 0;
 
@@ -245,13 +245,21 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	}
 
 	private void initializeScale() {
-		double xScale = (double) (getWidth() - 3 * Settings.radius)
-				/ (double) (pointSet.getMaxX() - pointSet.getMinX());
-		double yScale = (double) (getHeight() - 3 * Settings.radius)
-				/ (double) (pointSet.getMaxY() - pointSet.getMinY());
+		int xRange = (pointSet.getMaxX() - pointSet.getMinX());
+		double xScale = 1;
+		if(xRange != 0) {
+			 xScale = ((double)getWidth() - 3 * (double)Settings.radius)/(double)xRange;
+		}
+		
+		int yRange = (pointSet.getMaxY() - pointSet.getMinY());
+		double yScale = 1;
+		if(yRange != 0) {
+			yScale = (double) (getHeight() - 3 * Settings.radius)/(double)yRange;
+		}
 		scale = Math.min(xScale, yScale);
 	}
-
+    
+	// nochmals überarbeiten
 	private void initializeOffsets() {
 		offsetX = (int) (((double) getWidth() - (double) (pointSet.getMaxX() + 
 				pointSet.getMinX()) * scale) / (2 * scale));
