@@ -97,19 +97,20 @@ public class FileManager extends JFileChooser implements IFileManager {
 						int fileChooserOption = showSaveDialog(null);
 						if (fileChooserOption == JFileChooser.APPROVE_OPTION) {
 							approveSelection();
-							pointSet.clear();
-							filePath = null;
 						}
 					}
 				}
-				
 			}
-			
+
 			if (dialogOption != JOptionPane.CANCEL_OPTION) {
-					pointSet.clear();
-					filePath = null;
+				drawPanelController.disableAnimation();
+				pointSet.clear();
+				updateDrawPanelController();
+				pointSet.setHasChanged(false);
+				filePath = null;
+
 			}
-			
+
 			break;
 		}
 
@@ -133,9 +134,10 @@ public class FileManager extends JFileChooser implements IFileManager {
 
 			if (dialogOption != JOptionPane.CANCEL_OPTION) {
 				int fileChooserOption = showOpenDialog(null);
-				System.out.println("handleFileEvent Open fileChooserOption: " + fileChooserOption);
 				if (fileChooserOption == JFileChooser.APPROVE_OPTION) {
 					approveSelection();
+					updateDrawPanelController();
+					pointSet.setHasChanged(false);
 				}
 			}
 			break;
@@ -181,11 +183,14 @@ public class FileManager extends JFileChooser implements IFileManager {
 			if (dialogOption != JOptionPane.CANCEL_OPTION) {
 				System.exit(0);
 			}
-
 			break;
 		}
-
 		}
+	}
+
+	private void updateDrawPanelController() {
+		drawPanelController.updateModel();
+		drawPanelController.initializeView();
 	}
 
 	// Saves the data of the model into a file
@@ -247,10 +252,7 @@ public class FileManager extends JFileChooser implements IFileManager {
 
 	}
 
-	@Override
-	public boolean handlingWasCancelled() {
-		return handlingWasCancelled;
-	}
+	
 
 	@Override
 	public int showSaveToFileOptionPane() {
@@ -267,21 +269,18 @@ public class FileManager extends JFileChooser implements IFileManager {
 					JOptionPane.YES_NO_CANCEL_OPTION);
 			switch (result) {
 			case JOptionPane.YES_OPTION:
-	
-				// super.approveSelection();
 				savePointSet(selectedFile);
 				return;
 			case JOptionPane.CANCEL_OPTION:
-				//cancelSelection();
 				return;
 			default:
 				return;
 			}
 		} else if (selectedFile.exists() && getDialogType() == OPEN_DIALOG) {
+			drawPanelController.disableAnimation();
 			loadPointsToPointSet(selectedFile);
-			drawPanelController.updateModel();
-			drawPanelController.initializeView();
-			pointSet.setHasChanged(false);
+
+
 			filePath = selectedFile.getAbsolutePath();
 		}
 		super.approveSelection();

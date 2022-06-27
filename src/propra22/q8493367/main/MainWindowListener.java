@@ -14,7 +14,6 @@ import propra22.q8493367.draw.model.PointSet;
 import propra22.q8493367.file.FileEvent;
 import propra22.q8493367.file.FileManager;
 import propra22.q8493367.file.IFileManager;
-import propra22.q8493367.file.IParser;
 import propra22.q8493367.file.Parser;
 import propra22.q8493367.point.RandomPointsEvent;
 import propra22.q8493367.point.RandomPointsEventType;

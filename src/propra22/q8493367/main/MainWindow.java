@@ -48,7 +48,6 @@ public class MainWindow extends JFrame implements IMainWindow {
 	private IMainWindowListener mainWindowListener;
 	private JMenuItem redoItem;
 	private JMenuItem undoItem;
-	private int fileChooserOption = -1;
 	private JCheckBoxMenuItem convexHullItem;
 	private JCheckBoxMenuItem diameterItem;
 	private JCheckBoxMenuItem quadrangleItem;
@@ -94,44 +93,9 @@ public class MainWindow extends JFrame implements IMainWindow {
 	}
 
    
-	@Override
-	public String showSaveFileChooser() {
-		JFileChooser fileChooser = createFileChooser();
-		fileChooserOption = fileChooser.showSaveDialog(this);
-		File file = fileChooser.getSelectedFile();
-		if(file != null) {
-			String path = file.getAbsolutePath();
-			return path;
-		}
-		return null;
-	}
-
 	
 
-	@Override
-	public File showOpenFileChooser() {
-		JFileChooser fileChooser = createFileChooser();
-		int choice = fileChooser.showOpenDialog(this);
-		if(choice == 0) {
-			File file = fileChooser.getSelectedFile();
-			return file;
-		}
-		return null;	
-	}
-	
-	private JFileChooser createFileChooser() {
-		JFileChooser fileChooser = new JFileChooser(Settings.defaultFilePath);
-		FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("points file", "points");
-		fileChooser.setFileFilter(fileFilter);
-		return fileChooser;
-	}
-	
-	@Override
-	public int showSaveToFileOptionPane() {
-		int choice = JOptionPane.showConfirmDialog (null, "In Datei speichern?", 
-				"", JOptionPane.YES_NO_CANCEL_OPTION);
-		return choice;
-	}
+
 	
 	
 	@Override
@@ -402,10 +366,6 @@ public class MainWindow extends JFrame implements IMainWindow {
 		}
 	}
 	
-	@Override
-	public int getFileChooserOption() {
-		return fileChooserOption;
-	}
 	
 	@Override
 	public void setConvexHullIsShown(boolean b) {

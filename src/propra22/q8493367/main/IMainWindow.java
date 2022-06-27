@@ -10,12 +10,7 @@ import java.net.URL;
  */
 public interface IMainWindow {
 
-	/**
-	 * Shows the file chooser to save to a file.
-	 *
-	 * @return the string
-	 */
-	String showSaveFileChooser();
+	
 	
 	/**
 	 * Sets the main window listener.
@@ -24,20 +19,9 @@ public interface IMainWindow {
 	 */
 	void setMainWindowListener(IMainWindowListener mainWindowListener);
 	
-	/**
-	 * Shows the file chooser to open a file.
-	 *
-	 * @return the file
-	 */
-	File showOpenFileChooser();
 	
-	/**
-	 * Shows an option pane which gives the 
-	 * user the option to save to a file.
-	 *
-	 * @return the int
-	 */
-	int showSaveToFileOptionPane();
+	
+	
 	
 	/**
 	 * Sets the undo item in the edit menu 
@@ -64,14 +48,7 @@ public interface IMainWindow {
 	 */
 	void showManual(URL url);
 	
-	/**
-	 * Gets the file chooser option.
-	 *
-	 * @return JFileChooser.CANCEL_OPTION if user wants to cancel
-	 * or JFileChooser.APPROVE_OPTION if user approves to save or open
-	 * file.
-	 */
-	int getFileChooserOption();
+	
 	
 	
 	/**

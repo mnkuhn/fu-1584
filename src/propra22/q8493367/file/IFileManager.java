@@ -15,7 +15,6 @@ public interface IFileManager {
 	 */
 	void handleFileEvent(FileEvent e);
 
-	boolean handlingWasCancelled();
 
 	int showSaveToFileOptionPane();
 
