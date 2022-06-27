@@ -880,10 +880,4 @@ public class DrawPanelController implements IDrawPanelController {
 			observer.update(pointSet.getNumberOfPoints());
 		}
 	}
-
-	@Override
-	public void disableAnimation() {
-		view.setShowAnimation(false);
-		
-	}
 }

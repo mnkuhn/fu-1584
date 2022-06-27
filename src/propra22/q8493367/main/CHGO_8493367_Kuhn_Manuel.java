@@ -17,7 +17,10 @@ import propra22.q8493367.draw.model.Quadrangle;
 import propra22.q8493367.draw.view.DrawPanel;
 import propra22.q8493367.draw.view.DrawPanelListener;
 import propra22.q8493367.draw.view.IDrawPanelListener;
-
+import propra22.q8493367.file.FileManager;
+import propra22.q8493367.file.IFileManager;
+import propra22.q8493367.file.IFileManagerListener;
+import propra22.q8493367.file.Parser;
 import propra22.q8493367.status.StatusBar;
 import propra22.q8493367.status.StatusBarController;
 import propra22.q8493367.settings.Settings;
@@ -48,12 +51,18 @@ public class CHGO_8493367_Kuhn_Manuel {
 		IDrawPanelControllerObserver statusBarController = new StatusBarController(statusBar);
 		drawPanelController.addObserver(statusBarController);
 		
+		Parser parser = new Parser();
+		IFileManager fileManager = new FileManager((PointSet)pointSet, (DrawPanelController)drawPanelController, (Parser)parser);
+		
 		//Main window
 		MainWindow mainWindow = new MainWindow(drawPanel, statusBar);
 		mainWindow.setTitle(Settings.title);
-		IMainWindowListener mainWindowListner = new MainWindowListener(drawPanelController, pointSet, mainWindow);
-		mainWindow.setMainWindowListener(mainWindowListner);
+		IMainWindowListener mainWindowController = new MainWindowController(drawPanelController, pointSet, mainWindow, fileManager);
+		mainWindow.setMainWindowListener(mainWindowController);
 		mainWindow.setVisible(true);
+		
+		fileManager.addListener((IFileManagerListener)mainWindowController);
+		
 	}
 	
 	public static  void main(String[] args) {

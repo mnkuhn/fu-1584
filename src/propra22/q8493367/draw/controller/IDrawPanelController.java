@@ -279,8 +279,6 @@ public interface IDrawPanelController {
 
 
 
-	void disableAnimation();
-
 
 
 	

@@ -80,4 +80,10 @@ public interface IMainWindow {
      */
     void setTriangleIsShown(boolean b);
 
+
+
+
+
+	void setAnimationIsShown(boolean b);
+
 }

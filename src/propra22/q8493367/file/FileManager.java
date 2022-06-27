@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -16,6 +18,7 @@ import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.draw.model.PointSet;
 import propra22.q8493367.main.IMainWindow;
+import propra22.q8493367.main.IMainWindowListener;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.settings.Settings;
 
@@ -32,8 +35,10 @@ public class FileManager extends JFileChooser implements IFileManager {
 	private DrawPanelController drawPanelController;
 	private IPointSet pointSet;
 	private IParser parser;
+	private IMainWindowListener mainWindowListener;
 
 	private String suffix = ".points";
+	private List<IFileManagerListener> listeners = new ArrayList<>();
 
 	/** The draw panel controller. */
 	/*
@@ -103,11 +108,12 @@ public class FileManager extends JFileChooser implements IFileManager {
 			}
 
 			if (dialogOption != JOptionPane.CANCEL_OPTION) {
-				drawPanelController.disableAnimation();
+				drawPanelController.setShowAnimation(false);
 				pointSet.clear();
 				updateDrawPanelController();
 				pointSet.setHasChanged(false);
 				filePath = null;
+				fileEventOccured();
 
 			}
 
@@ -254,8 +260,8 @@ public class FileManager extends JFileChooser implements IFileManager {
 
 	
 
-	@Override
-	public int showSaveToFileOptionPane() {
+	
+	private int showSaveToFileOptionPane() {
 		int choice = JOptionPane.showConfirmDialog(null, "In Datei speichern?", "", JOptionPane.YES_NO_CANCEL_OPTION);
 		return choice;
 	}
@@ -277,12 +283,30 @@ public class FileManager extends JFileChooser implements IFileManager {
 				return;
 			}
 		} else if (selectedFile.exists() && getDialogType() == OPEN_DIALOG) {
-			drawPanelController.disableAnimation();
+			drawPanelController.setShowAnimation(false);
 			loadPointsToPointSet(selectedFile);
 
-
 			filePath = selectedFile.getAbsolutePath();
+			fileEventOccured();
 		}
 		super.approveSelection();
 	}
+	
+	@Override
+	public void addListener(IFileManagerListener observer) {
+		listeners.add(observer);
+	}
+	
+	@Override
+	public void removeListener(IFileManagerListener listener) {
+		listeners.remove(listener);
+	}
+	
+	@Override
+	public void fileEventOccured() {
+		for(IFileManagerListener listener : listeners) {
+			listener.update();
+		}
+	}
+	
 }

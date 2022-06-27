@@ -16,7 +16,14 @@ public interface IFileManager {
 	void handleFileEvent(FileEvent e);
 
 
-	int showSaveToFileOptionPane();
+
+	void addListener(IFileManagerListener observer);
+
+
+	void removeListener(IFileManagerListener observer);
+
+
+	void fileEventOccured();
 
 	
 }

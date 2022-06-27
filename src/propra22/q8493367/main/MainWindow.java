@@ -383,4 +383,15 @@ public class MainWindow extends JFrame implements IMainWindow {
 	public void setTriangleIsShown(boolean b) {
 		triangleItem.setSelected(b);
 		}
+
+
+
+
+
+
+
+	@Override
+	public void setAnimationIsShown(boolean b) {
+		animationItem.setSelected(false);	
+	}
 }
