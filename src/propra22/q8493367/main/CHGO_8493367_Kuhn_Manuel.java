@@ -51,6 +51,7 @@ public class CHGO_8493367_Kuhn_Manuel {
 		IDrawPanelControllerObserver statusBarController = new StatusBarController(statusBar);
 		drawPanelController.addObserver(statusBarController);
 		
+		//File manager
 		Parser parser = new Parser();
 		IFileManager fileManager = new FileManager((PointSet)pointSet, (DrawPanelController)drawPanelController, (Parser)parser);
 		
@@ -58,10 +59,11 @@ public class CHGO_8493367_Kuhn_Manuel {
 		MainWindow mainWindow = new MainWindow(drawPanel, statusBar);
 		mainWindow.setTitle(Settings.title);
 		IMainWindowListener mainWindowController = new MainWindowController(drawPanelController, pointSet, mainWindow, fileManager);
+		fileManager.addListener((IFileManagerListener)mainWindowController);
 		mainWindow.setMainWindowListener(mainWindowController);
 		mainWindow.setVisible(true);
 		
-		fileManager.addListener((IFileManagerListener)mainWindowController);
+		
 		
 	}
 	
