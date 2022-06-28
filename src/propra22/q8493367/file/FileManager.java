@@ -36,7 +36,7 @@ public class FileManager implements IFileManager {
 	private IPointSet pointSet;
 	private IParser parser;
 
-	private String suffix = ".points";
+	private String suffix = "points";
 	private List<IFileManagerListener> listeners = new ArrayList<>();
 
 	/** The draw panel controller. */
@@ -208,7 +208,10 @@ public class FileManager implements IFileManager {
 	 */
 
 	public void savePointSet(File file) {
-
+        if(!file.getName().endsWith("." + suffix)) {
+        	String path = file.getAbsolutePath() + "." + suffix;
+        	file = new File(path);
+        }
 		try {
 			FileWriter fileWriter = new FileWriter(file);
 			PrintWriter printWriter = new PrintWriter(fileWriter);

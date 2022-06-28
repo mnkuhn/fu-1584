@@ -9,6 +9,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class FileChooser extends JFileChooser {
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public FileChooser(String filePath) {
 		super(filePath);
 		FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("points file", "points");
@@ -21,11 +26,13 @@ public class FileChooser extends JFileChooser {
 		if(selecetedFile.exists() && getDialogType() == SAVE_DIALOG) {
 			int result = JOptionPane.showConfirmDialog(this,
 					"Die Datei " + selecetedFile.getName() +  
-					" existiert bereits. Soll sie überschrieben werden?", "",
+					" existiert bereits. Soll sie überschrieben werden?", "Datei existiert",
 					JOptionPane.YES_NO_OPTION);
 			switch (result) {
 			case JOptionPane.YES_OPTION:
-				super.approveSelection();
+				if(!selecetedFile.getName().endsWith(".points")) {
+					super.approveSelection();
+				}
 				return;	
 			case JOptionPane.NO_OPTION:
                 return;
@@ -35,6 +42,7 @@ public class FileChooser extends JFileChooser {
 		}
 		else {
 			super.approveSelection();
+			return;	
 		}
 	
 	}
