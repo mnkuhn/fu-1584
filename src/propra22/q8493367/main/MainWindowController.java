@@ -14,13 +14,13 @@ import propra22.q8493367.draw.model.PointSet;
 import propra22.q8493367.file.FileEvent;
 import propra22.q8493367.file.FileManager;
 import propra22.q8493367.file.IFileManager;
-import propra22.q8493367.file.IFileManagerListener;
+import propra22.q8493367.file.IFileManagerObserver;
 import propra22.q8493367.file.Parser;
 import propra22.q8493367.point.RandomPointsEvent;
 import propra22.q8493367.point.RandomPointsEventType;
 import propra22.q8493367.settings.Settings;
 
-public class MainWindowController implements IMainWindowListener, IFileManagerListener {
+public class MainWindowController implements IMainWindowListener, IFileManagerObserver {
 
 	private IDrawPanelController drawPanelController;
 	private IMainWindow view;

@@ -37,7 +37,7 @@ public class FileManager implements IFileManager {
 	private IParser parser;
 
 	private String suffix = "points";
-	private List<IFileManagerListener> listeners = new ArrayList<>();
+	private List<IFileManagerObserver> observers = new ArrayList<>();
 
 	/** The draw panel controller. */
 	/*
@@ -105,13 +105,11 @@ public class FileManager implements IFileManager {
 				}
 			}
 
-			drawPanelController.setShowAnimation(false);
 			pointSet.clear();
 			updateDrawPanelController();
 			pointSet.setHasChanged(false);
 			filePath = null;
-			fileEventOccured();
-
+			notifyObservers();
 			break;
 		}
 
@@ -130,6 +128,9 @@ public class FileManager implements IFileManager {
 							savePointSet(fileChooser.getSelectedFile());
 						}
 					}
+				}
+				if (dialogOption == JOptionPane.CANCEL_OPTION) {
+					break;
 				}
 			}
 
@@ -197,11 +198,6 @@ public class FileManager implements IFileManager {
 		drawPanelController.initializeView();
 	}
 
-	// Saves the data of the model into a file
-	private void saveFile(String path) {
-		savePointSet(new File(path));
-		filePath = path;
-	}
 
 	/**
 	 * Loads the data of a file into the model.
@@ -269,19 +265,19 @@ public class FileManager implements IFileManager {
 	
 	
 	@Override
-	public void addListener(IFileManagerListener observer) {
-		listeners.add(observer);
+	public void addObserver(IFileManagerObserver observer) {
+		observers.add(observer);
 	}
 	
 	@Override
-	public void removeListener(IFileManagerListener listener) {
-		listeners.remove(listener);
+	public void removeObserver(IFileManagerObserver observer) {
+		observers.remove(observer);
 	}
 	
 	@Override
-	public void fileEventOccured() {
-		for(IFileManagerListener listener : listeners) {
-			listener.update();
+	public void notifyObservers() {
+		for(IFileManagerObserver observer : observers) {
+			observer.update();
 		}
 	}
 	

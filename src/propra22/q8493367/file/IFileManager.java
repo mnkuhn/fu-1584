@@ -17,13 +17,13 @@ public interface IFileManager {
 
 
 
-	void addListener(IFileManagerListener observer);
+	void addObserver(IFileManagerObserver observer);
 
 
-	void removeListener(IFileManagerListener observer);
+	void removeObserver(IFileManagerObserver observer);
 
 
-	void fileEventOccured();
+	void notifyObservers();
 
 	
 }

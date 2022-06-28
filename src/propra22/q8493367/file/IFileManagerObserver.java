@@ -1,5 +1,5 @@
 package propra22.q8493367.file;
 
-public interface IFileManagerListener {
+public interface IFileManagerObserver {
 	void update();
 }
