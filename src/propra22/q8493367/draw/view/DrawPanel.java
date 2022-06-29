@@ -34,6 +34,10 @@ import propra22.q8493367.settings.Settings;
  */
 public class DrawPanel extends JPanel implements IDrawPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// the model
 	private IPointSet pointSet;
 	private volatile IHull hull;
@@ -53,9 +57,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 	// Zoom
 	private double scale = 1.0f;
-	private final double scaleFactor = 1.08f;
-	private double zoomOffsetX = 0;
-	private double zoomOffsetY = 0;
+	private double panelScale = 1d;
+	private final double scaleFactor = 1.08d;
+	
 
 	// Drag
 	private double initialDragX = 0;
@@ -63,19 +67,20 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 	private double mouseOffsetX = 0;
 	private double mouseOffsetY = 0;
-
-	private double dragOffsetX = 0;
-	private double dragOffsetY = 0;
+    
+	// Offset
+	private double outerOffsetX = 0;
+	private double outerOffsetY = 0;
 
 	// Offset (data)
-	private double offsetX = 0;
-	private double offsetY = 0;
+	private double innerOffsetX = 0;
+	private double innerOffsetY = 0;
 	
 	// Scale
 	private double originalWidth;
 	private double originalHeight;
 
-	private double panelScale = 1;
+	
 
 	/**
 	 * Instantiates a new draw panel.
@@ -132,8 +137,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 				} else if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown() && !e.isAltDown()) {
 					// panel drag ended
-					dragOffsetX += mouseOffsetX;
-					dragOffsetY += mouseOffsetY;
+					outerOffsetX += mouseOffsetX;
+					outerOffsetY += mouseOffsetY;
 					mouseOffsetX = 0;
 					mouseOffsetY = 0;
 				}
@@ -151,9 +156,11 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 							e.getSource(), translatedX, translatedY, scale * panelScale));
 				} else if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
 					// panel drag
-					mouseOffsetX = e.getX() - initialDragX;
-					mouseOffsetY = -(e.getY() - initialDragY);
-					repaint();
+					
+					mouseOffsetX = ((double)e.getX() - initialDragX)/panelScale;
+					mouseOffsetY = -((double)e.getY() - initialDragY)/panelScale;
+					
+					update();
 				}
 			}
 		});
@@ -168,15 +175,20 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					double rot = e.getPreciseWheelRotation();
 					double d = rot * scaleFactor;
 					d = rot > 0 ? 1 / d : -d;
+					
+					/*
 					double newzoomOffsetX = ((double) e.getX() / panelScale - zoomOffsetX - dragOffsetX - mouseOffsetX)
 							* (1 - d) + zoomOffsetX;
 					double newzoomOffsetY = (((double) getHeight() - 1d - (double) e.getY()) / panelScale - dragOffsetY
 							- mouseOffsetY - zoomOffsetY) * (1 - d) + zoomOffsetY;
-
-					zoomOffsetX = newzoomOffsetX;
-					zoomOffsetY = newzoomOffsetY;
+                    */
+					double newOuterOffsetX = ((double)e.getX()/panelScale)*(1-d) + outerOffsetX*d;
+					double newOuterOffsetY = ((double)getHeight() - 1d - (double)e.getY()/panelScale)*(1 - d) + outerOffsetY*d;
+					
+					outerOffsetX = newOuterOffsetX;
+					outerOffsetY = newOuterOffsetY;
 					scale = scale * d;
-					// adjust scale factor for tangents
+					
 					update();
 				}
 			}
@@ -190,14 +202,14 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			public void componentResized(ComponentEvent e) {
 				super.componentResized(e);
 				if (originalWidth != 0 && originalHeight != 0) {
-					panelScale = Math.min((double) getWidth() / (double) originalWidth,
+					double newPanelScale = Math.min((double) getWidth() / (double) originalWidth,
 							(double) getHeight() / (double) originalHeight);
+						panelScale = newPanelScale;
 				} else {
 					originalWidth = getWidth();
 					originalHeight = getHeight();
-					panelScale = 1;
 				}
-				// adjust scale factor for tangents
+				
 				update();
 			}
 		});
@@ -232,39 +244,40 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	}
 
 	private void setOffsetsToZero() {
-		zoomOffsetX = 0;
-		zoomOffsetY = 0;
+		
 		initialDragX = 0;
 		initialDragY = 0;
 		mouseOffsetX = 0;
 		mouseOffsetY = 0;
-		dragOffsetX = 0;
-		dragOffsetY = 0;
-		offsetX = 0;
-		offsetY = 0;
+		outerOffsetX = 0;
+		outerOffsetY = 0;
+		innerOffsetX = 0;
+		innerOffsetY = 0;
 	}
 
 	private void initializeScale() {
 		int xRange = (pointSet.getMaxX() - pointSet.getMinX());
-		double xScale = 1;
-		if(xRange != 0) {
-			 xScale = ((double)getWidth() - 3 * (double)Settings.radius)/(double)xRange;
-		}
-		
 		int yRange = (pointSet.getMaxY() - pointSet.getMinY());
-		double yScale = 1;
-		if(yRange != 0) {
-			yScale = (double) (getHeight() - 3 * Settings.radius)/(double)yRange;
+		if(xRange != 0 && yRange != 0) {
+			 double xScale = ((double)getWidth() - 4 * (double)Settings.radius)/(double)xRange;
+			 double yScale = (double) (getHeight() - 4 * Settings.radius)/(double)yRange;
+			 scale=  Math.min(xScale, yScale);
 		}
-		scale = Math.min(xScale, yScale);
+		// one radius as a margin
+	    if (xRange == 0 && yRange != 0) {
+	    	scale = (double) (getHeight() - 4 * Settings.radius)/(double)yRange;
+	    }
+	    if (xRange != 0 && yRange == 0) {
+	    	scale = ((double)getWidth() - 4 * (double)Settings.radius)/(double)xRange;
+	    }
+	    if (xRange == 0 && yRange == 0) {
+	    	scale = 1;
+	    }
 	}
     
-	// nochmals überarbeiten
 	private void initializeOffsets() {
-		offsetX = (int) (((double) getWidth() - (double) (pointSet.getMaxX() + 
-				pointSet.getMinX()) * scale) / (2 * scale));
-		offsetY = (int) (((double) getHeight() - (double) (pointSet.getMaxY() + 
-				pointSet.getMinY()) * scale)/ (2 * scale));
+		innerOffsetX = (double)getWidth()/(2*scale) - ((double)pointSet.getMinX() + (double)pointSet.getMaxX())/2;
+		innerOffsetY = ((double)getHeight()/2 - 1)/scale - ((double)pointSet.getMinY() + (double)pointSet.getMaxY())/2;
 	}
 
 	@Override
@@ -342,21 +355,23 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	}
 
 	private double translateXFromModelToView(int x) {
-		return (((double) x + offsetX) * scale + dragOffsetX + mouseOffsetX + zoomOffsetX) * panelScale;
+		return (((double) x + innerOffsetX) * scale + outerOffsetX + mouseOffsetX)*panelScale;
+	}
+	
+	private double translateXFromViewToModel(int x) {
+		return ((double) x / panelScale - outerOffsetX - mouseOffsetX)/scale - innerOffsetX;
 	}
 
 	private double translateYFromModelToView(int y) {
-		return ((double) getHeight() - 1d
-				- ((((double) y + offsetY)) * scale + dragOffsetY + mouseOffsetY + zoomOffsetY) * panelScale);
+		return  (double)getHeight() - 1 - (((double)y + innerOffsetY)*scale + outerOffsetY + mouseOffsetY)*panelScale;
 	}
 
-	private double translateXFromViewToModel(int x) {
-		return (((double) x / panelScale - dragOffsetX - mouseOffsetX - zoomOffsetX) / scale - offsetX);
-	}
+	
 
 	private double translateYFromViewToModel(int y) {
-		return ((((double) getHeight() - 1d - (double) y) / panelScale - dragOffsetY - mouseOffsetY - zoomOffsetY)
-				/ scale - offsetY);
+		
+		
+		return (((double)getHeight() - 1 - (double)y)/panelScale  - outerOffsetY - mouseOffsetY)/scale - innerOffsetY;
 	}
 
 	/**
