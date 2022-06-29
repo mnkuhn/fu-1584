@@ -7,8 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class FileChooser extends JFileChooser {
-	
-	
+
 	/**
 	 * 
 	 */
@@ -18,32 +17,32 @@ public class FileChooser extends JFileChooser {
 		super(filePath);
 		FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("points file", "points");
 		setFileFilter(fileFilter);
+		setAcceptAllFileFilterUsed(false);
 	}
-	
+
 	@Override
-	public  void approveSelection() {
-		File selecetedFile = getSelectedFile();
-		if(selecetedFile.exists() && getDialogType() == SAVE_DIALOG) {
+	public void approveSelection() {
+		File selectedFile = getSelectedFile();
+
+		if (selectedFile.exists() && getDialogType() == SAVE_DIALOG) {
 			int result = JOptionPane.showConfirmDialog(this,
-					"Die Datei " + selecetedFile.getName() +  
-					" existiert bereits. Soll sie überschrieben werden?", "Datei existiert",
-					JOptionPane.YES_NO_OPTION);
+					"Die Datei " + selectedFile.getName() + " existiert bereits. Soll sie überschrieben werden?",
+					"Datei existiert", JOptionPane.YES_NO_OPTION);
 			switch (result) {
 			case JOptionPane.YES_OPTION:
-				if(!selecetedFile.getName().endsWith(".points")) {
+				if (selectedFile.getName().endsWith(".points")) {
 					super.approveSelection();
 				}
-				return;	
+				return;
 			case JOptionPane.NO_OPTION:
-                return;
-            case JOptionPane.CLOSED_OPTION:
-                return;
+				return;
+			case JOptionPane.CLOSED_OPTION:
+				return;
 			}
-		}
-		else {
+		} else {
 			super.approveSelection();
-			return;	
+			return;
 		}
-	
+
 	}
 }

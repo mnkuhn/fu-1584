@@ -81,7 +81,7 @@ public class FileManager implements IFileManager {
 	 */
 	@Override
 	public void handleFileEvent(FileEvent e) {
-
+        
 		FileEventType type = e.getFileEventType();
 
 		switch (type) {
@@ -94,6 +94,7 @@ public class FileManager implements IFileManager {
 					
 						// filePath == null
 					} else {
+						fileChooser.setSelectedFile(new File(""));
 						int fileChooserOption = fileChooser.showSaveDialog(null);
 						if (fileChooserOption == JFileChooser.APPROVE_OPTION) {
 							savePointSet(fileChooser.getSelectedFile());
@@ -107,6 +108,7 @@ public class FileManager implements IFileManager {
 
 			pointSet.clear();
 			updateDrawPanelController();
+			// clear command list
 			pointSet.setHasChanged(false);
 			filePath = null;
 			notifyObservers();
@@ -123,6 +125,7 @@ public class FileManager implements IFileManager {
 
 					// filePath == null
 					} else {
+						fileChooser.setSelectedFile(new File(""));
 						int fileChooserOption = fileChooser.showSaveDialog(null);
 						if (fileChooserOption == JFileChooser.APPROVE_OPTION) {
 							savePointSet(fileChooser.getSelectedFile());
@@ -135,6 +138,7 @@ public class FileManager implements IFileManager {
 			}
 
 			if (dialogOption != JOptionPane.CANCEL_OPTION) {
+				fileChooser.setSelectedFile(new File(""));
 				int fileChooserOption = fileChooser.showOpenDialog(null);
 				if (fileChooserOption == JFileChooser.APPROVE_OPTION) {
 					File selectedFile = fileChooser.getSelectedFile();
@@ -152,6 +156,7 @@ public class FileManager implements IFileManager {
 			if (filePath != null) {
 				savePointSet(new File(filePath));
 			} else {
+				fileChooser.setSelectedFile(new File(""));
 				int fileChooserOption = fileChooser.showSaveDialog(null);
 				if (fileChooserOption == JFileChooser.APPROVE_OPTION) {
 					savePointSet(fileChooser.getSelectedFile());
@@ -161,6 +166,7 @@ public class FileManager implements IFileManager {
 		}
 
 		case SAVE_AS: {
+			fileChooser.setSelectedFile(new File(""));
 			int fileChooserOption = fileChooser.showSaveDialog(null);
 			if (fileChooserOption == JFileChooser.APPROVE_OPTION) {
 				savePointSet(fileChooser.getSelectedFile());
@@ -178,6 +184,7 @@ public class FileManager implements IFileManager {
 						savePointSet(new File(filePath));
 						System.exit(0);
 					} else {
+						fileChooser.setSelectedFile(new File(""));
 						int fileChooserOption = fileChooser.showSaveDialog(null);
 						if (fileChooserOption == JFileChooser.APPROVE_OPTION) {
 							savePointSet(fileChooser.getSelectedFile());
