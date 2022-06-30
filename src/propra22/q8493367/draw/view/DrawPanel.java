@@ -183,7 +183,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 							- mouseOffsetY - zoomOffsetY) * (1 - d) + zoomOffsetY;
                     */
 					double newOuterOffsetX = ((double)e.getX()/panelScale)*(1-d) + outerOffsetX*d;
-					double newOuterOffsetY = ((double)getHeight() - 1d - (double)e.getY()/panelScale)*(1 - d) + outerOffsetY*d;
+					double newOuterOffsetY = (((double)getHeight() - 1d - (double)e.getY())/panelScale)*(1 - d) + outerOffsetY*d;
 					
 					outerOffsetX = newOuterOffsetX;
 					outerOffsetY = newOuterOffsetY;

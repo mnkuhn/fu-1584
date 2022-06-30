@@ -1,6 +1,5 @@
 package propra22.q8493367.status;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
@@ -11,6 +10,10 @@ import javax.swing.border.BevelBorder;
 
 public class StatusBar extends JPanel implements IStatusBar{
     
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel numberLabel;
 	private int height = 18;
 	

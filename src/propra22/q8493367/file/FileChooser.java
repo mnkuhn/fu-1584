@@ -43,6 +43,5 @@ public class FileChooser extends JFileChooser {
 			super.approveSelection();
 			return;
 		}
-
 	}
 }
