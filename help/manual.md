@@ -1,5 +1,16 @@
 %Bedienungsanleitung
 
+## Inhaltsverzeichnis
+
+1. [Punkte](#punkte)
+2. [Zeichenfläche](#zeichenfläche)
+3. [Dateien](#dateien)
+4. [Befehle](#befehle)
+5. [Ansicht](#Ansicht)
+6. [Programm](#programm)
+
+
+
 ## Punkte
 
 **Punkt einfügen:** Drücken Sie die linke Maustaste.

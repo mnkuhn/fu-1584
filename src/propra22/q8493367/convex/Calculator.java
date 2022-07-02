@@ -5,7 +5,7 @@ import propra22.q8493367.point.IPoint;
 
 public class Calculator {
 	
-	
+	// den brauchen wir nicht mehr oder?
 
 	
 	public static long DFV(IPoint a, IPoint b, IPoint c) {
