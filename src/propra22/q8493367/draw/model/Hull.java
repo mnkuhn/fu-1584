@@ -3,6 +3,7 @@ package propra22.q8493367.draw.model;
 import java.util.ArrayList;
 import java.util.List;
 import propra22.q8493367.contour.SectionType;
+import propra22.q8493367.convex.IHull;
 import propra22.q8493367.point.IPoint;
 
 public class Hull implements IHull {

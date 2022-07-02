@@ -1,6 +1,6 @@
 package propra22.q8493367.animation;
 
-import propra22.q8493367.draw.model.IHull;
+import propra22.q8493367.convex.IHull;
 import propra22.q8493367.point.IPoint;
 /**
  * Interface for a pair of tangents of a convex hull

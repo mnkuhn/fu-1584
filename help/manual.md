@@ -6,7 +6,7 @@
 2. [Zeichenfläche](#zeichenfläche)
 3. [Dateien](#dateien)
 4. [Befehle](#befehle)
-5. [Ansicht](#Ansicht)
+5. [Ansicht](#ansicht)
 6. [Programm](#programm)
 
 

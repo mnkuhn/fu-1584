@@ -17,12 +17,12 @@ import propra22.q8493367.command.RemovePointCommand;
 import propra22.q8493367.contour.ContourPolygonCalculator;
 
 import propra22.q8493367.convex.DiameterCalculator;
+import propra22.q8493367.convex.IHull;
 import propra22.q8493367.convex.QuadrangleCalculator;
 import propra22.q8493367.convex.ConvexHullCalculator;
 
 
 import propra22.q8493367.draw.model.IDiameter;
-import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.draw.model.IQuadrangle;
 

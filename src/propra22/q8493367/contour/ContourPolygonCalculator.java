@@ -1,7 +1,7 @@
 package propra22.q8493367.contour;
 
 
-import propra22.q8493367.draw.model.IHull;
+import propra22.q8493367.convex.IHull;
 import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.point.IPoint;
 

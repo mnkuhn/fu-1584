@@ -2,7 +2,7 @@ package propra22.q8493367.animation;
 
 import java.util.List;
 
-import propra22.q8493367.draw.model.IHull;
+import propra22.q8493367.convex.IHull;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 

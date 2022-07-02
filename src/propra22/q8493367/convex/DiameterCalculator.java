@@ -2,7 +2,6 @@ package propra22.q8493367.convex;
 
 import propra22.q8493367.draw.model.Diameter;
 import propra22.q8493367.draw.model.IDiameter;
-import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IHullIterator;
 import propra22.q8493367.draw.model.IQuadrangle;
 import propra22.q8493367.draw.model.Quadrangle;
