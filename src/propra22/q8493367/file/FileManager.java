@@ -184,12 +184,14 @@ public class FileManager implements IFileManager {
 				if (dialogOption == JOptionPane.OK_OPTION) {
 					if (filePath != null) {
 						savePointSet(new File(filePath));
-						System.exit(0);
 					} else {
 						fileChooser.setSelectedFile(new File(""));
 						int fileChooserOption = fileChooser.showSaveDialog(null);
 						if (fileChooserOption == JFileChooser.APPROVE_OPTION) {
 							savePointSet(fileChooser.getSelectedFile());
+						}
+						if(fileChooserOption == JFileChooser.CANCEL_OPTION) {
+							dialogOption = JOptionPane.CANCEL_OPTION;
 						}
 					}
 				}
@@ -207,16 +209,6 @@ public class FileManager implements IFileManager {
 		}
 	}
     
-	/*
-	private void updateDrawPanelController() {
-		drawPanelController.updateModel();
-		drawPanelController.initializeView();
-	}
-    */
-
-	/**
-	 * Loads the data of a file into the model.
-	 */
 
 	public void savePointSet(File file) {
         if(!file.getName().endsWith("." + suffix)) {
