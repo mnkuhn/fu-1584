@@ -1,33 +1,30 @@
 package propra22.q8493367.draw.controller;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JPanel;
+
 
 import propra22.q8493367.animation.ITangentPair;
+import propra22.q8493367.command.CommandManager;
 import propra22.q8493367.command.DragPointCommand;
 import propra22.q8493367.command.ICommand;
 import propra22.q8493367.command.InsertPointCommand;
 import propra22.q8493367.command.InsertRandomPointsCommand;
 import propra22.q8493367.command.RemovePointCommand;
 import propra22.q8493367.contour.ContourPolygonCalculator;
-import propra22.q8493367.contour.SectionType;
+
 import propra22.q8493367.convex.DiameterAndQuadrangleCalculator;
 import propra22.q8493367.convex.ConvexHullCalculator;
-import propra22.q8493367.draw.model.Diameter;
-import propra22.q8493367.draw.model.Hull;
+
+
 import propra22.q8493367.draw.model.IDiameter;
 import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.draw.model.IQuadrangle;
-import propra22.q8493367.draw.model.Quadrangle;
+
 import propra22.q8493367.draw.view.DrawPanel;
 import propra22.q8493367.draw.view.IDrawPanel;
 import propra22.q8493367.metric.IMetric;
@@ -50,7 +47,6 @@ public class DrawPanelController implements IDrawPanelController {
 	private IPointSet pointSet;
 
 	/** The hull */
-	// should be an argument of the controller constructor
 	private IHull hull;
 
 	/** The diameter */
@@ -59,13 +55,8 @@ public class DrawPanelController implements IDrawPanelController {
 	/** The quadrangle */
 	private IQuadrangle quadrangle;
 	
+	/** The pair of tangents for the animation */
 	private ITangentPair tangentPair;
-
-	/** The draw panel reference width to which all calculations refer. */
-	private int drawPanelReferenceWidth = 800;
-
-	/** The draw panel reference height to which all calculations refer. */
-	private int drawPanelReferenceHeight = 500;
 
 	// Dragging points
 	/** The point which is selected for dragging. */
@@ -89,10 +80,7 @@ public class DrawPanelController implements IDrawPanelController {
 
 	// commands
 	/** The command list. */
-	private List<ICommand> commandList = new ArrayList<>();
-
-	/** The actual position in the command list */
-	private int commandIndex = -1;
+	private CommandManager commandManager = new CommandManager();
 
 	// calculations
 	/** The contour polygon calculator. */
@@ -104,7 +92,7 @@ public class DrawPanelController implements IDrawPanelController {
 	/** The calculator for the diameter. */
 	private DiameterAndQuadrangleCalculator diameterAndQuadrangleCalulator;
 	
-    
+	/** The observers . */
 	private List<IDrawPanelControllerObserver> observers = new ArrayList<>();
 	
 
@@ -128,8 +116,7 @@ public class DrawPanelController implements IDrawPanelController {
 		this.contourPolygonCalculator = new ContourPolygonCalculator(drawPanelModel, hull);
 		this.convexHullCalculator = new ConvexHullCalculator(hull);
 		this.diameterAndQuadrangleCalulator = new DiameterAndQuadrangleCalculator(hull);
-		this.drawPanelReferenceWidth = drawPanel.getPreferredSize().width;
-		this.drawPanelReferenceHeight = drawPanel.getPreferredSize().height;
+		
 	}
 
 	/**
@@ -242,7 +229,7 @@ public class DrawPanelController implements IDrawPanelController {
 	
 	@Override
 	public void reset() {
-		clearCommands();
+		commandManager.clear();
 		updateModel();
 		initializeView();	
 	}
@@ -407,161 +394,59 @@ public class DrawPanelController implements IDrawPanelController {
 		return pointSet.isEmpty();
 	}
 
-	/**
-	 * Saves all points which are registered in the draw panel model to disc.
-	 *
-	 * @param path - the path of the file
-	 */
-	
-	/*
-	@Override
-	
-	public void savePointSet(String path) {
-
-		if (pointSet.hasChangedSinceLastSave()) {
-			File file = new File(path);
-			try {
-				FileWriter fileWriter = new FileWriter(file);
-				PrintWriter printWriter = new PrintWriter(fileWriter);
-				for (int i = 0; i < pointSet.getNumberOfPoints(); i++) {
-					IPoint point = pointSet.getPointAt(i);
-					printWriter.println(point.toString());
-				}
-				printWriter.close();
-				pointSet.setHasChangedSinceLastSave(false);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	*/
-
-	/**
-	 * Loads points from a file into the draw panel model.
-	 *
-	 * @param file - the file from which the points are loaded.
-	 */
-	
-	/*
-	@Override
-	public void loadPointsToPointSet(File file) {
-
-		try {
-			FileReader fileReader = new FileReader(file);
-			BufferedReader reader = new BufferedReader(fileReader);
-
-			String line;
-			pointSet.clear();
-			while ((line = reader.readLine()) != null) {
-				IPoint point = parser.parseLine(line);
-				if (point != null) {
-					pointSet.addPoint(point);
-				}
-			}
-			reader.close();
-			pointSet.setHasChangedSinceLastSave(false);
-        // for FileReader(file)
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		// for readLine()
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-	
-	*/
-
-	/**
-	 * Returns true, if points where added or deleted or if the coordinated of a
-	 * point changed.
-	 *
-	 * @return true, if points where added or deleted or if the coordinated of a
-	 *         point changed.
-	 */
-	/*
-	public boolean dataHasChangedSinceLastSave() {
-		return dataChangedSinceLastSave;
-	}
-	*/
-
-	/**
-	 * Adds a command to command list.
-	 *
-	 * @param command - the command which is added to the command list
-	 */
-	// Commands
-	
-	
-	private void addCommandToCommandList(ICommand command) {
-		commandList.add(command);
-		commandIndex++;
-	}
 
 	/**
 	 * Undoes a command.
 	 */
 	@Override
 	public void undoCommand() {
-		if (commandIndex >= 0 && commandIndex < commandList.size()) {
-			ICommand lastCommand = commandList.get(commandIndex);
-			lastCommand.unexecute();
-			commandIndex--;
+		if(commandManager.hasUndoableCommands()) {
+			commandManager.undoCommand();
 			updateModel();
 			updateView();
-		}
+		}	
 	}
+	
 
 	/**
 	 * Redoes command.
 	 */
+	
+	
 	@Override
 	public void redoCommand() {
-		if (commandIndex >= -1 && commandIndex < commandList.size() - 1) {
-			ICommand lastCommand = commandList.get(commandIndex + 1);
-			lastCommand.execute();
-			commandIndex++;
+		if(commandManager.hasRedoableCommands()) {
+			commandManager.redoCommand();
 			updateModel();
 			updateView();
-		}
+		}	
 	}
+	
 
 	/**
 	 * Undo is enabled.
 	 *
 	 * @return true, if there are commands which can be undone.
 	 */
+	
 	@Override
 	public boolean undoIsEnabled() {
-		if (commandIndex >= 0 && commandIndex < commandList.size()) {
-			return true;
-		}
-		return false;
+		return commandManager.hasUndoableCommands();
 	}
+	
 
 	/**
 	 * Redo is enabled.
 	 *
 	 * @return true, if there are commands which can be redone.
 	 */
+	
 	@Override
 	public boolean redoIsEnabled() {
-		if (commandIndex >= -1 && commandIndex < commandList.size() - 1) {
-			return true;
-		}
-		return false;
+		return commandManager.hasRedoableCommands();
 	}
-
-	/**
-	 * Removes the all comands after command index. This method is used when one ore
-	 * more command have been undone an a new command is executed.
-	 */
-	private void removeAllComandsAfterCommandIndex() {
-		for (int i = commandIndex + 1; i < commandList.size(); i++) {
-			commandList.remove(i);
-		}
-	}
+    
+	
 
 	/**
 	 * Inserts a number of random points into the draw panel model which all fit
@@ -571,18 +456,13 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public void insertRandomPoints(int number, int minX, int minY, int maxX, int maxY) {
-		if (commandIndex != commandList.size() - 1) {
-			removeAllComandsAfterCommandIndex();
-		}
 	    
 		ICommand insertRandomPointsCommand = new InsertRandomPointsCommand(number, minX, minY, maxX, maxY, pointSet);
+		commandManager.add(insertRandomPointsCommand);
 		insertRandomPointsCommand.execute();
-		addCommandToCommandList(insertRandomPointsCommand);
-
-		updateModel();
-		updateView();
-
 		pointSet.setHasChanged(true);
+		updateModel();
+		updateView();	
 	}
 
 	/**
@@ -594,15 +474,14 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public void insertPointToPointSetByUserInput(int x, int y) {
-		if (commandIndex != commandList.size() - 1) {
-			removeAllComandsAfterCommandIndex();
-		}
+		
 		ICommand insertPointCommand = new InsertPointCommand(x, y, pointSet);
-		insertPointCommand.execute();
-		addCommandToCommandList(insertPointCommand);
+		commandManager.add(insertPointCommand);
+	    insertPointCommand.execute();
+		pointSet.setHasChanged(true);
 		updateModel();
 		updateView();
-		pointSet.setHasChanged(true);
+		
 	}
 
 	/**
@@ -629,15 +508,13 @@ public class DrawPanelController implements IDrawPanelController {
 		IPoint closest = getClosestPointToMouse(mouseX, mouseY, new ManhattanDistance());
 		if (closest != null) {
 			if (pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanDistance(), Settings.mouseRadius/totalScale)) {
-				if (commandIndex != commandList.size() - 1) {
-					removeAllComandsAfterCommandIndex();
-				}
 				ICommand removePointCommand = new RemovePointCommand(closest, pointSet);
+				commandManager.add(removePointCommand);
 				removePointCommand.execute();
-				addCommandToCommandList(removePointCommand);
+				pointSet.setHasChanged(true);
 				updateModel();
 				updateView();
-				pointSet.setHasChanged(true);
+				
 			}
 		}
 	}
@@ -701,17 +578,12 @@ public class DrawPanelController implements IDrawPanelController {
 		int dx = mouseX - startMouseX;
 		int dy = mouseY - startMouseY;
 
-		if (commandIndex != commandList.size() - 1) {
-			removeAllComandsAfterCommandIndex();
-		}
 		ICommand dragPointCommand = new DragPointCommand(dx, dy, forDragSelected);
-		addCommandToCommandList(dragPointCommand);
-		forDragSelected = null;
-		// a lot to do here..
+		commandManager.add(dragPointCommand);
+		pointSet.setHasChanged(true);
 		updateModel();
 		updateView();
-
-		pointSet.setHasChanged(true);
+		forDragSelected = null;	
 	}
 
 	/**
@@ -892,11 +764,9 @@ public class DrawPanelController implements IDrawPanelController {
 			observer.update(pointSet.getNumberOfPoints());
 		}
 	}
+
 	
 	
 
-	private void clearCommands() {
-		commandList.clear();
-		commandIndex = -1;
-	}
+	
 }

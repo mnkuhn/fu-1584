@@ -203,7 +203,6 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					originalWidth = getWidth();
 					originalHeight = getHeight();
 				}
-				
 				update();
 			}
 		});

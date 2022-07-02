@@ -33,7 +33,9 @@ public class PointSet implements IPointSet {
 	
 	@Override
 	public void addPoint(IPoint point) {
-		if(!hasPoint(point)) {points.add(point);}
+		if(!hasPoint(point)) {
+			points.add(point);
+		}
 		checkForNewBounds(point);
 		hasChanged = true;
 	}
