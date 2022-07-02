@@ -1,6 +1,8 @@
 package propra22.q8493367.main;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -92,9 +94,13 @@ public class MainWindowController implements IMainWindowListener, IFileManagerOb
 	public void showManualEventOccured() {
 		File file = new File(Settings.defaultManualPath);
 		try {
-			URL url = file.toURI().toURL();
-			view.showManual(url);
+			Desktop.getDesktop().browse(file.toURI());
+			
+			
+			//view.showManual(url);
 		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}	
 	}

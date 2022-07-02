@@ -1,16 +1,219 @@
-<html>
-<h1>Bedienungsanleitung</h1>
-<p><span style="text-decoration:underline;">Punkt einfügen</span>: <span> Linke Maustaste </span></p>
-<p><span style="text-decoration:underline;">Punkt löschen</span>: <span> Rechte Maustaste </span></p>
-<p><span style="text-decoration:underline;">Punkt verschieben</span>: <span> CTRL + Rechte Maustaste </span></p>
-<p><span style="text-decoration:underline;">Datei öfnnen</span>: <span> Datei -> Öffnen </span></p>
-<p><span style="text-decoration:underline;">In Datei speichern</span>: <span> Datei -> Speichern unter </span></p>
-<p><span style="text-decoration:underline;">In Datei speichern</span>: <span> Datei -> Speichern </span></p>
-<p><span style="text-decoration:underline;">Befehl rückgängig machen</span>: <span> Bearbeiten-> Rückgängig </span></p>
-<p><span style="text-decoration:underline;">Befehl wiederherstellen</span>: <span> Bearbeiten-> Wiederherstellen</span></p>
-<p><span style="text-decoration:underline;">10 Punkte einfügen</span>: <span> Bearbeiten-> 10 Punkte einfügen </span></p>
-<p><span style="text-decoration:underline;">50 Punkte einfügen</span>: <span> Bearbeiten-> 50 Punkte einfügen </span></p>
-<p><span style="text-decoration:underline;">100 Punkte einfügen</span>: <span> Bearbeiten-> 100 Punkte einfügen </span></p>
-<p><span style="text-decoration:underline;">500 Punkte einfügen</span>: <span> Bearbeiten-> 500 Punkte einfügen </span></p>
-<p><span style="text-decoration:underline;">1000 Punkte einfügen</span>: <span> Bearbeiten-> 1000 Punkte einfügen </span></p>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Bedienungsanleitung</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Bedienungsanleitung</h1>
+</header>
+<h2 id="punkte">Punkte</h2>
+<p><strong>Punkt einfügen:</strong> Drücken Sie die linke Maustaste.</p>
+<p><strong>Punkt löschen:</strong> Bewegen Sie den Mauszeiger in die
+Nähe des Punktes, welchen Sie löschen möchten. Drücken Sie nun die
+rechte Maustaste, um den Punkt zu löschen.</p>
+<p><strong>Punkt verschieben:</strong> Bewegen Sie den Mauszeiger auf
+bzw. in die Nähe des Punktes, welchen Sie verschieben möchten. Drücken
+Sie dann <code>Alt</code> und die linke Maustaste. Nun können Sie den
+Punkt verschieben.</p>
+<p><strong>Zufallspunkte einfügen:</strong> Sie können 10, 50, 100, 500
+oder 1000 Zufallspunkte in den sichtbaren Bereich der Zeichenfläche
+einfügen. Wählen Sie <em>Bearbeiten</em> und dann den entsprechenden
+Eintrag.</p>
+<h2 id="zeichenfläche">Zeichenfläche</h2>
+<p><strong>Neue Zeichenfläche erzeugen:</strong> Wählen Sie
+<em>Datei</em> → <em>Neu</em>.</p>
+<p><strong>Zeichenfläche verschieben</strong>: Drücken Sie
+<code>Ctrl</code> und die linke Maustaste. Nun können Sie die
+Zeichenfläche durch Bewegen der Maus verschieben.</p>
+<p><strong>Zoom:</strong> Drücken Sie <code>Ctrl</code>. Nun können Sie
+durch Drehen des Mausrades hinein- bzw. hinauszoomen.</p>
+<h2 id="dateien">Dateien</h2>
+<p><strong>Datei öffnen:</strong> Wählen Sie <em>Datei</em> →
+<em>Öffnen</em>. Nun können Sie die gewünschte Datei auswählen und
+öffnen.</p>
+<p><strong>Datei speichern:</strong> Falls Sie die Punktemenge in einer
+neuen Datei speichern möchten, wählen Sie <em>Datei</em> → <em>Speichern
+unter</em>. Nun können Sie einen Dateinamen eingeben und die Punktemenge
+unter diesem Dateinamen in einer Datei ablegen. Wählen Sie
+<em>Datei</em> → <em>Speichern</em>, falls Sie zuvor die Punktemenge mit
+<em>Datei</em> → <em>Öffnen</em> geladen haben.</p>
+<h2 id="befehle">Befehle</h2>
+<p><strong>Befehl rückgängig machen:</strong> Wählen Sie
+<em>Bearbeiten</em> → <em>Rückgängig</em>.</p>
+<p><strong>Rückgängig gemachten Befehl wiederherstellen:</strong> Wählen
+Sie <em>Bearbeiten</em> → <em>Wiederherstellen</em>.</p>
+<h2 id="ansicht">Ansicht</h2>
+<p><strong>Konturpolygon anzeigen:</strong> Setzen Sie das Häkchen bei
+<em>Ansicht</em> → <em>Konturpolygon</em>.</p>
+<p><strong>Durchmesser anzeigen:</strong> Setzen Sie das Häkchen bei
+<em>Ansicht</em> → <em>Durchmesser</em>.</p>
+<p><strong>Grösstes Viereck anzeigen:</strong> Setzen Sie das Häkchen
+bei <em>Ansicht</em> → <em>Grösstes Viereck</em>.</p>
+<p><strong>Grösstes Dreieck anzeigen:</strong> Setzen Sie das Häkchen
+bei <em>Ansicht</em> → <em>Grösstes Dreieck</em>.</p>
+<p><strong>Animation anzeigen:</strong> Setzen Sie das Häkchen bei
+<em>Ansicht</em> → <em>Animation</em>. Dieses Häkchen wird beim <a
+href="#zeichenfläche">Erzeugen einer neuen Zeichenfläche</a> oder beim
+<a href="#dateien">Öffnen einer neuen Datei</a> deaktiviert.</p>
+<h2 id="programm">Programm</h2>
+<p><strong>Programm beenden:</strong> Wählen Sie <em>Datei</em> →
+<em>Beenden</em> oder klicken Sie auf das Kreuz oben rechts im
+Programmfenster.</p>
+</body>
 </html>
