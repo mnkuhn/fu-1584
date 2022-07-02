@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import propra22.interfaces.IHullCalculator;
-import propra22.q8493367.convex.DiameterAndQuadrangleCalculator;
+import propra22.q8493367.convex.DiameterCalculator;
 import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.controller.IDrawPanelController;
 import propra22.q8493367.draw.model.PointSet;

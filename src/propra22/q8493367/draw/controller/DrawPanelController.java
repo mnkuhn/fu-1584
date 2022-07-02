@@ -16,7 +16,8 @@ import propra22.q8493367.command.InsertRandomPointsCommand;
 import propra22.q8493367.command.RemovePointCommand;
 import propra22.q8493367.contour.ContourPolygonCalculator;
 
-import propra22.q8493367.convex.DiameterAndQuadrangleCalculator;
+import propra22.q8493367.convex.DiameterCalculator;
+import propra22.q8493367.convex.QuadrangleCalculator;
 import propra22.q8493367.convex.ConvexHullCalculator;
 
 
@@ -90,7 +91,7 @@ public class DrawPanelController implements IDrawPanelController {
 	private ConvexHullCalculator convexHullCalculator;
 
 	/** The calculator for the diameter. */
-	private DiameterAndQuadrangleCalculator diameterAndQuadrangleCalulator;
+	private DiameterCalculator diameterAndQuadrangleCalulator;
 	
 	/** The observers . */
 	private List<IDrawPanelControllerObserver> observers = new ArrayList<>();
@@ -115,7 +116,7 @@ public class DrawPanelController implements IDrawPanelController {
 		
 		this.contourPolygonCalculator = new ContourPolygonCalculator(drawPanelModel, hull);
 		this.convexHullCalculator = new ConvexHullCalculator(hull);
-		this.diameterAndQuadrangleCalulator = new DiameterAndQuadrangleCalculator(hull);
+		this.diameterAndQuadrangleCalulator = new DiameterCalculator(hull, new QuadrangleCalculator());
 		
 	}
 
@@ -137,9 +138,9 @@ public class DrawPanelController implements IDrawPanelController {
 		this.view = null;
 		
 		
-		contourPolygonCalculator = new ContourPolygonCalculator(pointSet, hull);
-		convexHullCalculator = new ConvexHullCalculator(hull);
-		diameterAndQuadrangleCalulator = new DiameterAndQuadrangleCalculator(hull);
+		this.contourPolygonCalculator = new ContourPolygonCalculator(pointSet, hull);
+		this.convexHullCalculator = new ConvexHullCalculator(hull);
+		this.diameterAndQuadrangleCalulator = new DiameterCalculator(hull, new QuadrangleCalculator());
 	}
 
 	/**
