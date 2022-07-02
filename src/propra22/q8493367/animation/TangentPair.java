@@ -2,18 +2,40 @@ package propra22.q8493367.animation;
 
 import java.util.List;
 
-import propra22.q8493367.contour.SectionType;
-import propra22.q8493367.draw.model.Hull;
 import propra22.q8493367.draw.model.IHull;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
 public class TangentPair implements ITangentPair {
-    private double angle;
+    /**
+     * The angle of the tangent as radian with respect to 
+     * the vertical line going through the connection point
+     * measured counterclockwise.
+     */
+	private double angle;
+	
+	/**
+	 * The value in radian, by which the angle is increased when
+	 * performing a step.
+	 */
     private final double diff = Math.PI / 500;
-	private Tangent tangent1;
-	private Tangent tangent2;
-	private float length;
+	
+    /**
+     * The first tangent
+     * @see Tangent
+     */
+    private Tangent tangent1;
+	
+    /**
+     * The second Tangent
+     * @see Tangent
+     */
+    private Tangent tangent2;
+	
+    /**
+     * The length of the tangent in pixels
+     */
+    private float length;
 	private List<IPoint> hullAsList;
 	
 	

@@ -234,6 +234,18 @@ public class DrawPanelController implements IDrawPanelController {
 		}
 		notifyObservers();
 	}
+	
+	public void update() {
+		updateModel();
+		updateView();
+	}
+	
+	@Override
+	public void reset() {
+		clearCommands();
+		updateModel();
+		initializeView();	
+	}
 
 	/**
 	 * Paints the points, the convex hull und was noch alles kommt on the draw
@@ -879,5 +891,12 @@ public class DrawPanelController implements IDrawPanelController {
 		for(IDrawPanelControllerObserver observer : observers) {
 			observer.update(pointSet.getNumberOfPoints());
 		}
+	}
+	
+	
+
+	private void clearCommands() {
+		commandList.clear();
+		commandIndex = -1;
 	}
 }

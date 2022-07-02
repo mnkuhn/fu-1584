@@ -107,10 +107,11 @@ public class FileManager implements IFileManager {
 			}
 
 			pointSet.clear();
-			updateDrawPanelController();
+			//updateDrawPanelController();
 			// clear command list
 			pointSet.setHasChanged(false);
 			filePath = null;
+			drawPanelController.reset();
 			notifyObservers();
 			break;
 		}
@@ -144,8 +145,9 @@ public class FileManager implements IFileManager {
 					File selectedFile = fileChooser.getSelectedFile();
 					if(selectedFile != null) {
 						loadPointsToPointSet(selectedFile);
-						updateDrawPanelController();
+						//updateDrawPanelController();
 						pointSet.setHasChanged(false);
+						drawPanelController.reset();
 					}
 				}
 			}
@@ -175,9 +177,9 @@ public class FileManager implements IFileManager {
 		}
 
 		case EXIT: {
-			int dialogOption = JOptionPane.YES_OPTION;
+	        // point set has changed since the last save
 			if (pointSet.hasChanged()) {
-				dialogOption = JOptionPane.showConfirmDialog(null, "Datei speichern?", "",
+				int dialogOption = JOptionPane.showConfirmDialog(null, "Datei speichern?", "",
 						JOptionPane.YES_NO_CANCEL_OPTION);
 				if (dialogOption == JOptionPane.OK_OPTION) {
 					if (filePath != null) {
@@ -191,20 +193,26 @@ public class FileManager implements IFileManager {
 						}
 					}
 				}
+				if (dialogOption != JOptionPane.CANCEL_OPTION) {
+					System.exit(0);
+				}
+			
 			}
-			if (dialogOption != JOptionPane.CANCEL_OPTION) {
+			// point set has not changed since the last save
+			else {
 				System.exit(0);
 			}
 			break;
 		}
 		}
 	}
-
+    
+	/*
 	private void updateDrawPanelController() {
 		drawPanelController.updateModel();
 		drawPanelController.initializeView();
 	}
-
+    */
 
 	/**
 	 * Loads the data of a file into the model.

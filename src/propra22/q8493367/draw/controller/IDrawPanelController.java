@@ -279,6 +279,10 @@ public interface IDrawPanelController {
 
 
 
+	void reset();
+
+
+
 
 
 	
