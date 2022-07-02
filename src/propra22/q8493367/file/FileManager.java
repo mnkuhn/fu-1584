@@ -107,8 +107,6 @@ public class FileManager implements IFileManager {
 			}
 
 			pointSet.clear();
-			//updateDrawPanelController();
-			// clear command list
 			pointSet.setHasChanged(false);
 			filePath = null;
 			drawPanelController.reset();

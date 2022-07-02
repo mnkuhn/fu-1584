@@ -13,6 +13,7 @@ public class Settings {
 	public static String defaultFilePath = "../ProPra-SS22-Basis/data";
 	
 	// Default file path for the manual
+	// is this ok? It is a relative path isnt it?
 	public static String defaultManualPath = "help/manual.html";
 	
 	//Colors
