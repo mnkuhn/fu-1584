@@ -9,7 +9,7 @@ import java.awt.Graphics;
  */
 public class DrawPanelEvent implements IDrawPanelEvent {
 	
-	/** The type of the draw panel event */
+	/**  The type of the draw panel event. */
 	private DrawPanelEventType type;
 	/** The source. */
     private Object source;
@@ -17,19 +17,21 @@ public class DrawPanelEvent implements IDrawPanelEvent {
 	/** The x coordinate of the mouse. */
 	private int mouseX;
 	
-	/** The y coordinate of the mouse */
+	/**  The y coordinate of the mouse. */
 	private int mouseY;
+	 
 	
+	/** The total scale which is the product of the scale and the panel scale. */
 	private double totalScale;
 	
 	/**
 	 * Instantiates a new draw panel event.
 	 *
-	 * @param type - the type of the draw panel event
-	 * @param source - the source object of the draw panel event
-	 * @param mouseX - the x coordinate of the mouse
-	 * @param mouseY - the y coordinate of the mouse
-	 * @param g - the graphics object
+	 * @param type  the type of the draw panel event
+	 * @param source  the source object of the draw panel event
+	 * @param mouseX  the x coordinate of the mouse
+	 * @param mouseY  the y coordinate of the mouse
+	 * @param totalScale the product of scale and panel scale. This paramater is needed for....
 	 */
 	public DrawPanelEvent(DrawPanelEventType type, Object source, int mouseX, int mouseY, double totalScale) {
 		this.type = type;
@@ -42,7 +44,7 @@ public class DrawPanelEvent implements IDrawPanelEvent {
 	}
     
 	/**
-	 * Gets the type of the event
+	 * Gets the type of the event.
 	 *
 	 * @return the type of the event
 	 */
@@ -52,7 +54,7 @@ public class DrawPanelEvent implements IDrawPanelEvent {
 	}
 
 	/**
-	 * Gets the source of the event
+	 * Gets the source of the event.
 	 *
 	 * @return the source of the event
 	 */
@@ -62,7 +64,7 @@ public class DrawPanelEvent implements IDrawPanelEvent {
 	}
 
 	/**
-	 * Gets the x coordinate of the mouse
+	 * Gets the x coordinate of the mouse.
 	 *
 	 * @return the x coordinate of the mouse
 	 */
@@ -72,7 +74,7 @@ public class DrawPanelEvent implements IDrawPanelEvent {
 	}
 
 	/**
-	 * Gets the y coordinate of the mouse
+	 * Gets the y coordinate of the mouse.
 	 *
 	 * @return the y coordinate of the mouse
 	 */
@@ -80,7 +82,13 @@ public class DrawPanelEvent implements IDrawPanelEvent {
 	public int getMouseY() {
 		return mouseY;
 	}
-
+     
+	/**
+	 * Gets the total scale which is the product of the scale
+	 * and the panel scale. This method is needed for...
+	 *
+	 * @return the total scale
+	 */
 	@Override
 	public double getTotalScale() {
 		

@@ -13,13 +13,19 @@ import propra22.q8493367.point.IPoint;
 public class DragPointCommand implements ICommand {
     
 	
-	// New x coordinate minus old x coordinate for the whole drag operation
+	/**
+	 * New x coordinate minus old x coordinate for the drag operation
+	 */
 	private int dx;
 	
-	// New y coordinate minus old y coordinate for the whole drag operation
+	/**
+	 * New y coordinate minus old y coordinate for the whole drag operation
+	 */
 	private int dy;
 	
-	// Point which is dragged
+	/**
+	 * Point which is dragged
+	 */
 	private IPoint point;
 	
 	

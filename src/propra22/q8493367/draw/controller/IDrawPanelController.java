@@ -71,11 +71,6 @@ public interface IDrawPanelController {
 	/**
 	 * Inserts a number of random points into the draw panel model which all
 	 * fit onto the visible part of the draw panel.
-	 *
-	 * @param number -  the number of random points to be inserted
-	 * @param d the d
-	 * @param e the e
-	 * @param dimension the dimension
 	 */
 	//public void insertRandomPoints(int number, int x, int y, Dimension dimension);
 	
@@ -124,7 +119,7 @@ public interface IDrawPanelController {
 	 *
 	 * @param mouseX the mouse X
 	 * @param mouseY the mouse Y
-	 * @param d 
+	 * @param totalScale the total scale
 	 */
 	void deletePointFromPointSetByUserInput(int mouseX, int mouseY, double totalScale);
 
@@ -132,11 +127,11 @@ public interface IDrawPanelController {
 	/**
 	 * Initializes a point drag.
 	 *
-	 * @param mouseX - the x coordinate of the mouse which is the starting x coordinate of the 
+	 * @param mouseX the x coordinate of the mouse which is the starting x coordinate of the
 	 * drag 
-	 * @param mouseY - the y coordinate of the mouse which is the starting y coordinate of the 
+	 * @param mouseY the y coordinate of the mouse which is the starting y coordinate of the
 	 * drag
-	 * @param d 
+	 * @param totalScale the total scale
 	 */
 	void initializePointDrag(int mouseX, int mouseY, double totalScale);
 
@@ -144,8 +139,8 @@ public interface IDrawPanelController {
 	/**
 	 * Drags a point after the point drag has been initialized.
 	 *
-	 * @param mouseX - the x coordinate of the mouse
-	 * @param mouseY - the y coordinate of the mouse
+	 * @param mouseX the x coordinate of the mouse
+	 * @param mouseY the y coordinate of the mouse
 	 */
 	void dragPoint(int mouseX, int mouseY);
 
@@ -153,46 +148,15 @@ public interface IDrawPanelController {
 	/**
 	 * Terminates a point drag.
 	 *
-	 * @param mouseX - the x coordinate of the mouse
-	 * @param mouseY - the y coordinate of the mouse
+	 * @param mouseX the x coordinate of the mouse
+	 * @param mouseY the y coordinate of the mouse
 	 */
 	void terminatePointDrag(int mouseX, int mouseY);
 
 
 	/**
-	 * Paints the draw panel.
-	 *
-	 * @param g the g
-	 */
-	//void paintDrawPanel(Graphics g);
-
-
-    
-	/**
-	 * Saves all points which are registered in the point set
-	 * to disc.
-	 *
-	 * @return true, if successful
-	 */
-	
-	/*
-	void savePointSet(String path);
-    */
-
-
-	/**
-	 * Loads points from a file into the point set.
-	 *
-	 * @param file - the file from which the points are loaded.
-	 */
-	
-	/*
-	void loadPointsToPointSet(File file);
-	*/
-
-
-	/**
-	 * Convex hull is shown.
+	 * Returns true, if the convex hull is shown, 
+	 * false otherwise.
 	 *
 	 * @return true, if the user chose to display the 
 	 * convex hull on the draw panel.
@@ -200,7 +164,8 @@ public interface IDrawPanelController {
 	boolean convexHullIsShown();
 	
 	/**
-	 * Diameter is shown.
+	 * Returns true, if the diameter is shown, 
+	 * false otherwise.
 	 *
 	 * @return true, if the user chose to display the 
 	 * diameter on the draw panel.
@@ -208,7 +173,8 @@ public interface IDrawPanelController {
 	boolean diameterIsShown();
 	
 	/**
-	 * Quadrangle is shown.
+	 * Returns true, if the quadrangle is shown, 
+	 * false otherwise.
 	 *
 	 * @return true, if the user chose to display the 
 	 * quadrangle on the draw panel.
@@ -216,7 +182,8 @@ public interface IDrawPanelController {
 	boolean quadrangleIsShown();
 	
 	/**
-	 * Triangle is shown.
+	 * Returns true, if the triangle is shown,
+	 * false otherwise.
 	 *
 	 * @return true, if the user chose to display the 
 	 * triangle on the draw panel.
@@ -224,10 +191,18 @@ public interface IDrawPanelController {
 	boolean triangleIsShown();
 	
 	/**
+	 * Returns true, if the animation is shown,
+	 * false otherwise.
+	 *
+	 * @return true, if successful
+	 */
+	boolean animationIsShown();
+	
+	/**
 	 * Determines, if the convex hull
 	 * should be shown.
 	 *
-	 * @param b - true, if the convex hull should 
+	 * @param b  true, if the convex hull should 
 	 * be shown. False otherwise.
 	 */
 	void setShowConvexHull(boolean b);
@@ -235,82 +210,88 @@ public interface IDrawPanelController {
 	/**
 	 * Determines whether the diameter is to be shown.
 	 *
-	 * @param b the new show diameter
+	 * @param b true, if the diameter should 
+	 * be shown. False otherwise.
 	 */
 	void setShowDiameter(boolean b);
 	
 	/**
 	 * Determines whether the quadrangle is to be shown.
 	 *
-	 * @param b the new show quadrangle
+	 * @param b true, if the convex hull should 
+	 * be shown. False otherwise.
 	 */
 	void setShowQuadrangle(boolean b);
 	
 	/**
 	 * Determines whether the triangle is to be shown.
 	 *
-	 * @param b the new show triangle
+	 * @param b true, if the triangle should 
+	 * be shown. False otherwise.
 	 */
 	void setShowTriangle(boolean b);
 
-    void setShowAnimation(boolean animationIsShown);
+    
+	
+	/**
+	 * Determines whether the animation is to be running.
+	 *
+	 * @param animationIsShown true if the animation should
+	 * be shown.False otherwise
+	 */
+	void setShowAnimation(boolean animationIsShown);
 
-	public void initializeView();
+	/**
+	 * Initializes  the view
+	 */
+	void initializeView();
 
 
 
+	/**
+	 * Insert random points.
+	 *
+	 * @param number the number of random points to be inserted
+	 * @param minX the minimum x coordinate which the points are allowed to have
+	 * @param minY the minimum y coordinate which the points are allowed to have
+	 * @param maxX the maximum x coordinate which the points are allowed to have
+	 * @param maxY the maximum y coordinate which the points are allowed to have
+	 */
 	public void insertRandomPoints(int number, int minX, int minY, int maxX, int maxY);
 
 
 
-	boolean animationIsShown();
-
-
-
+	/**
+	 * Adds an observer.
+	 *
+	 * @param observer the observer which is added
+	 */
 	void addObserver(IDrawPanelControllerObserver observer);
 
 
 
+	/**
+	 * Removes an observer.
+	 *
+	 * @param observer the observer which is removed
+	 */
 	void removeObserver(IDrawPanelControllerObserver observer);
 
 
 
+	/**
+	 * Notifies all observers.
+	 */
 	void notifyObservers();
 
 
 
+	/**
+	 * Reset the draw panel controller.
+	 * This method is used, if a new point set
+	 * is loaded from a file or if a new draw
+	 * panel is created.
+	 */
 	void reset();
-
-
-
-
-
-	
-
-
-
-	
-
-
-
-	/**
-	 * Inserts a number of random points into the draw panel model which all fit
-	 * onto the reference draw panel (the 'unzoomed' draw panel).
-	 *
-	 * @param number the number
-	 */
-	
-
-
-
-	/**
-	 * Inserts a number of random points into the draw panel model which all fit
-	 * onto the reference draw panel (the 'unzoomed' draw panel).
-	 *
-	 * @param number the number
-	 */
-
-
-	
 
 }

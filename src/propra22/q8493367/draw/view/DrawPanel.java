@@ -34,58 +34,118 @@ import propra22.q8493367.settings.Settings;
  */
 public class DrawPanel extends JPanel implements IDrawPanel {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
 	// the model
+	/** The point set. */
 	private IPointSet pointSet;
+	
+	/** The hull. */
 	private volatile IHull hull;
+	
+	/** The diameter. */
 	private IDiameter diameter;
+	
+	/** The quadrangle. */
 	private IQuadrangle quadrangle;
+	
+	/** The tangent pair. */
 	private volatile ITangentPair tangentPair;
 
-	// Draw panel listener.
+	
+	//Listener
+	/** The draw panel listener. */
 	private IDrawPanelListener drawPanelListener;
 
-	// Which shape is shown
+	//Display
+	/** True, if the convexHull is shown*/
 	private boolean convexHullIsShown = Settings.defaultConvexHullIsShown;
+	
+	/** True, if diameter is shown. */
 	private boolean diameterIsShown = Settings.defaultDiameterIsShown;
+	
+	/** True, if the quadrangle is shown. */
 	private boolean quadrangleIsShown = Settings.defaultQuadrangleIsShown;
+	
+	/** True, if the triangle is shown. */
 	private boolean triangleIsShown = Settings.defaultTriangleIsShown;
+	
+	/** True, if the animation is running. */
 	private boolean animationIsRunning = Settings.defaultAnimationIsShown;
-
-	// Zoom
+    
+	
+	//Zoom and Dragging
+	/** The scale for the zoom. */
 	private double scale = 1.0f;
+	
+	/** The scale of the draw panel */
 	private double panelScale = 1d;
+	
+	/** The scale factor. */
 	private final double scaleFactor = 1.08d;
 	
-
-	// Drag
+	/** The x coordinate of the mouse when dragging starts. */
 	private double initialDragX = 0;
+	
+	/** The y coordinate of the mouse when dragging starts. */
 	private double initialDragY = 0;
 
+	/** The x coordinate of the mouse minus initialDragX */
 	private double mouseOffsetX = 0;
+	
+	/** The y coordinate of the mouse minus initialDragY */
 	private double mouseOffsetY = 0;
     
-	// Offset
+	/** The outerOffsetX which is used for zooming and dragging
+	 * the panel (after dragging the panel, the mouseOffsetX is
+	 * added to the outerOffsetX and then set to 0). 
+	 */
 	private double outerOffsetX = 0;
+	
+	/** The outerOffsetY which is used for zooming and dragging
+	 * the panel (after dragging the panel, the mouseOffsetY is
+	 * added to the outerOffsetY and then set to 0). 
+	 */
 	private double outerOffsetY = 0;
 
-	// Offset (data)
+	/** The innerOffsetX is used to center a set of
+	 * points which is loaded from a file
+	 * on the draw panel.
+	 */
 	private double innerOffsetX = 0;
+	
+	/** The innerOffsetY is used to center a set of
+	 * points which is loaded from a file
+	 * on the draw panel.
+	 */
 	private double innerOffsetY = 0;
 	
-	// Scale
+	/** The original width is the reference width of the 
+	 * draw panel. It us used to calculate the value of the 
+	 * panelScale, when the user changes the size of
+	 * the main window.
+	 */
 	private double originalWidth;
+	
+	/** The original height is the reference width of the 
+	 * draw panel. It us used to calculate the value of the 
+	 * panelScale, when the user changes the size of
+	 * the main window.
+	 */
 	private double originalHeight;
 
 	
 
+	
 	/**
 	 * Instantiates a new draw panel.
-	 * 
-	 * @param tangentPair
+	 *
+	 * @param pointSet - the point set
+	 * @param hull - the convex hull
+	 * @param diameter - the diameter
+	 * @param quadrangle - the biggest quadrangle
+	 * @param tangentPair - the tangent pair for the animation
 	 */
 	public DrawPanel(IPointSet pointSet, IHull hull, IDiameter diameter, IQuadrangle quadrangle,
 			ITangentPair tangentPair) {
@@ -156,7 +216,6 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 							e.getSource(), translatedX, translatedY, scale * panelScale));
 				} else if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
 					// panel drag
-					
 					mouseOffsetX = ((double)e.getX() - initialDragX)/panelScale;
 					mouseOffsetY = -((double)e.getY() - initialDragY)/panelScale;
 					
@@ -194,6 +253,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 			@Override
 			public void componentResized(ComponentEvent e) {
+				// window size changed
 				super.componentResized(e);
 				if (originalWidth != 0 && originalHeight != 0) {
 					double newPanelScale = Math.min((double) getWidth() / (double) originalWidth,
@@ -211,9 +271,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	
 
 	/**
-	 * Sets the draw panel listener to the draw panel.
-	 *
-	 * @param drawPanelListener - the new draw panel listener
+	 *  {@inheritDoc}
 	 */
 	@Override
 	public void setDrawPanelListener(IDrawPanelListener drawPanelListener) {
@@ -221,7 +279,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	}
 
 	/**
-	 * Updates the draw panel
+	 *  {@inheritDoc}
 	 */
 	@Override
 	public void initialize() {
@@ -236,6 +294,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		repaint();
 	}
 
+	/**
+	 * Sets the offsets to zero.
+	 */
 	private void setOffsetsToZero() {
 		
 		initialDragX = 0;
@@ -248,6 +309,10 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		innerOffsetY = 0;
 	}
 
+	/**
+	 * Initializes scale so that the point set loaded from a file
+	 * is displayed centered on the draw panel.
+	 */
 	private void initializeScale() {
 		int xRange = (pointSet.getMaxX() - pointSet.getMinX());
 		int yRange = (pointSet.getMaxY() - pointSet.getMinY());
@@ -268,11 +333,18 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	    }
 	}
     
+	/**
+	 * Initializes the offsets so that the point set loaded from a file 
+	 * is displayed centered on the draw panel.
+	 */
 	private void initializeOffsets() {
 		innerOffsetX = (double)getWidth()/(2*scale) - ((double)pointSet.getMinX() + (double)pointSet.getMaxX())/2;
 		innerOffsetY = ((double)getHeight()/2 - 1)/scale - ((double)pointSet.getMinY() + (double)pointSet.getMaxY())/2;
 	}
 
+	/**
+	 *  {@inheritDoc}
+	 */
 	@Override
 	public void update() {
 		if (originalWidth == 0 || originalHeight == 0) {
@@ -282,27 +354,19 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		repaint();
 	}
 
-	/**
-	 * Returns the minimum size of the draw panel
-	 *
-	 * @return the minimum size
-	 */
-	@Override
-	public Dimension getMinimumSize() {
-		return super.getPreferredSize();
-	}
 
 	/**
-	 * The overwritten paintComponent method from JPanel
-	 *
-	 * @param g - the Graphics object on which the painting is done
+	 *  {@inheritDoc}
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (!pointSet.isEmpty()) {
 			Graphics2D g2 = (Graphics2D) g;
+			
+			// set anti aliasing for a nicer presentation of the points and lines
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			
 			drawPoints(g2);
 			if (convexHullIsShown) {
 				drawHull(g2, Settings.convexHullColor);
@@ -321,9 +385,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	}
 
 	/**
-	 * Draws all points from the point set onto the draw panel.
-	 *
-	 * @param g2 - the Graphics2D Object which is used for painting
+	 *  {@inheritDoc}
 	 */
 	private void drawPoints(Graphics2D g2) {
 
@@ -335,43 +397,86 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		}
 	}
 
+	/**
+	 * Translate point from model to view.
+	 *
+	 * @param point the point whose coordinates are translated
+	 * @return a new point with the translated coordinates
+	 */
 	private IPoint translatePointFromModelToView(IPoint point) {
 		int x = (int) Math.round(translateXFromModelToView(point.getX()));
 		int y = (int) Math.round(translateYFromModelToView(point.getY()));
 		return new Point(x, y);
 	}
 
+	/**
+	 * Translate point from view to model.
+	 *
+	 * @param x the x coordinate to be translated
+	 * @param y the y coordinate to be translated
+	 * @return a new point with the translated coordinates
+	 */
 	private IPoint translatePointFromViewToModel(int x, int y) {
 		int translatedX = (int) Math.round(translateXFromViewToModel(x));
 		int translatedY = (int) Math.round(translateYFromViewToModel(y));
 		return new Point(translatedX, translatedY);
 	}
+	
+	/**
+	 * {@inheritDoc}                         
+	 */
+	@Override
+	public IPoint getViewPointTranslatedToModelPoint(IPoint point) {
+		return translatePointFromViewToModel(point.getX(), point.getY());
+	}                                                                                        // braucht es diese Methode?
 
+	/**
+	 * Translates an x coordinate from the model to the view.
+	 *
+	 * @param x the x coordinate to be translated
+	 * @return the translated x coordinate
+	 */
 	private double translateXFromModelToView(int x) {
 		return (((double) x + innerOffsetX) * scale + outerOffsetX + mouseOffsetX)*panelScale;
 	}
 	
+	/**
+	 * Translates an x coordinate from the view to the model.
+	 *
+	 * @param x the x coordinate to be translated
+	 * @return the translated y coordinate
+	 */
 	private double translateXFromViewToModel(int x) {
 		return ((double) x / panelScale - outerOffsetX - mouseOffsetX)/scale - innerOffsetX;
 	}
 
+	/**
+	 * Translate an y coordinate form the model to the view
+	 *
+	 * @param y the y coordinate to be translated
+	 * @return the translated y coordinate
+	 */
 	private double translateYFromModelToView(int y) {
 		return  (double)getHeight() - 1 - (((double)y + innerOffsetY)*scale + outerOffsetY + mouseOffsetY)*panelScale;
 	}
 
 	
 
+	/**
+	 * Translates an y coordinate from the view to the model
+	 *
+	 * @param y the y coordinate to be translated
+	 * @return the translated y coordinate
+	 */
 	private double translateYFromViewToModel(int y) {
-		
-		
 		return (((double)getHeight() - 1 - (double)y)/panelScale  - outerOffsetY - mouseOffsetY)/scale - innerOffsetY;
 	}
 
 	/**
 	 * Draws the convex hull.
 	 *
-	 * @param g2    - the Graphics2D Object which is used for painting
-	 * @param color - the color for the hull
+	 * @param g2    the Graphics2D Object which is used for painting
+	 * @param color the color for the hull
 	 */
 	private void drawHull(Graphics2D g2, Color color) {
 		g2.setColor(color);
@@ -415,8 +520,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	/**
 	 * Draw diameter.
 	 *
-	 * @param g2    the g 2
-	 * @param color the color
+	 * @param g2    the Graphics2D Object which is used for painting
+	 * @param color the color for the diameter
 	 */
 	private void drawDiameter(Graphics2D g2, Color color) {
 		if (diameter != null) {
@@ -433,8 +538,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	/**
 	 * Draw quadrangle.
 	 *
-	 * @param g2    the g 2
-	 * @param color the color
+	 * @param g2    the Graphics2D Object which is used for painting
+	 * @param color the color for the quadrangle
 	 */
 	private void drawQuadrangle(Graphics2D g2, Color color) {
 		if (quadrangle != null) {
@@ -457,6 +562,11 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		}
 	}
 
+	/**
+	 * Draw coordinate system.
+	 *
+	 * @param g2 the Graphics2D Object which is used for painting
+	 */
 	private void drawCoordinateSystem(Graphics2D g2) {
 		Graphics2D g2d = (Graphics2D) g2.create();
 		g2d.setColor(Settings.CoordinateSystemColor);
@@ -471,6 +581,11 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 	}
 
+	/**
+	 * Draw animation.
+	 *
+	 * @param g2 the Graphics2D Object which is used for painting
+	 */
 	private void drawAnimation(Graphics2D g2) {
 		// try and catch in case the tangent pair is not initialized yet
 		try {
@@ -478,8 +593,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			 IPoint[] tangent1 = tangentPair.getTangent1(); 
 			 IPoint[] tangent2 = tangentPair.getTangent2();
 			 
-			 extend(tangent1);
-			 extend(tangent2);
+			 extendTangent(tangent1);
+			 extendTangent(tangent2);
 			 
 			 // draw first tangent
 			 
@@ -515,7 +630,13 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		 
 	}
 
-	private void extend(IPoint[] tangent) {
+	/**
+	 * Extends the tangent so that it is longer than twice the diameter of the 
+	 * draw panel in pixels
+	 *
+	 * @param tangent the tangent
+	 */
+	private void extendTangent(IPoint[] tangent) {
 		
 		double length =  Math.sqrt(Point.qaudraticDistance(tangent[0], tangent[2]))*scale*panelScale;
 		double stretch = 2*panelDiagonal()/length;
@@ -530,52 +651,79 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	}
 
 
+	/**
+	 * Returns the length of diagonal of the 
+	 * draw panel in pixels.
+	 *
+	 * @return the double
+	 */
 	private double panelDiagonal() {
 		return Math.sqrt(getWidth() * getWidth() + getHeight() * getHeight());
 	}
 
 
 
+	/**
+	 *  {@inheritDoc}
+	 */
 	@Override
 	public void setConvexHullIsShown(boolean convexHullIsShown) {
 		this.convexHullIsShown = convexHullIsShown;
 	}
 
+	/**
+	 *  {@inheritDoc}
+	 */
 	@Override
 	public void setDiameterIsShown(boolean diameterIsShown) {
 		this.diameterIsShown = diameterIsShown;
 	}
 
+	/**
+	 *  {@inheritDoc}
+	 */
 	@Override
 	public void setQuadrangleIsShown(boolean quadrangleIsShown) {
 		this.quadrangleIsShown = quadrangleIsShown;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setTriangleIsShown(boolean b) {
 		triangleIsShown = b;
 	}
 
+	/**
+	 *  {@inheritDoc}
+	 */
 	@Override
 	public boolean convexHullIsShown() {
 		return convexHullIsShown;
 	}
 
+	/**
+	 *  {@inheritDoc}
+	 */
 	@Override
 	public boolean diameterIsShown() {
 		return diameterIsShown;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean quadrangleIsShown() {
 		return quadrangleIsShown;
 	}
 
-	@Override
-	public IPoint getViewPointTranslatedToModelPoint(IPoint point) {
-		return translatePointFromViewToModel(point.getX(), point.getY());
-	}
+	
 
+	/**
+	  {@inheritDoc}
+	 */
 	@Override
 	public void setShowAnimation(boolean animationRequested) {
 		if ((animationIsRunning == false) && animationRequested) {
@@ -585,6 +733,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		}
 	}
 
+	/**
+	 * Runs the animation.
+	 */
 	private void runAnimation() {
 		animationIsRunning = true;
 		
@@ -640,11 +791,17 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		animationThread.start();	
 	}
 
+	/**
+	 *  {@inheritDoc}
+	 */
 	@Override
 	public boolean animationISRunning() {
 		return animationIsRunning;
 	}
 
+	/**
+	 *  {@inheritDoc}
+	 */
 	@Override
 	public boolean triangleIsShown() {
 		return triangleIsShown;

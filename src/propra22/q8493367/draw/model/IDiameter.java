@@ -2,8 +2,9 @@ package propra22.q8493367.draw.model;
 
 import propra22.q8493367.point.IPoint;
 
+// TODO: Auto-generated Javadoc
 /**
- * The Interface for a diameter
+ * The Interface for a diameter.
  */
 public interface IDiameter {
 
@@ -41,7 +42,18 @@ public interface IDiameter {
 	 * @return the length of the diameter as double.
 	 */
 	double length();
-
+    
+	
+	/**
+	 * Returns the Diameter as an 2x2 array.
+	 *
+	 * @return the 2x2 array, containing the coordinates of the 
+	 * two end points of the diameter:
+	 * [0][0] - the first end points x coordinate.
+	 * [0][1] - the first end points y coordinate.
+	 * [1][0] - the second end points x coordinate.
+	 * [1][1] - the second end points y coordinate.
+	 */
 	int[][] asArray();
 
 }

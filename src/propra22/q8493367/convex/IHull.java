@@ -78,17 +78,7 @@ public interface IHull {
 	
 	
 	
-	/**
-	 * Returns all points as an array with n rows and 2 columns 
-	 * where n is the number of points and
-	 * the two integers in each row represent the x coordinate and the
-	 * y coordinate of a point. The points are inserted into the array 
-	 * counterclockwise.
-	 *
-	 * @return the int array of the points following the points of the 
-	 * hull counterclockwise.
-	 */
-	int[][] toArray();
+	
 	
 	/**
 	 * Gets the index of right most point.
@@ -148,6 +138,19 @@ public interface IHull {
 	 * @return the section
 	 */
 	SectionType getSection(IPoint p);
-
+	
+	/**
+	 * Returns all points as an array with n rows and 2 columns 
+	 * where n is the number of points and
+	 * the two integers in each row represent the x coordinate and the
+	 * y coordinate of a point. The points are inserted into the array 
+	 * counterclockwise.
+	 *
+	 * @return the int array of the points following the points of the 
+	 * hull counterclockwise.
+	 */
+	int[][] toArray();
+	
+	
 	List<IPoint> toList();
 }

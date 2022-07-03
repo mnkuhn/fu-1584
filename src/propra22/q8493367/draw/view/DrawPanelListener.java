@@ -9,7 +9,7 @@ import propra22.q8493367.point.Point;
  * The class that is interested in processing a drawPanel
  * event implements this interface, and the object created
  * with that class is registered with a component using the
- * component's <code>addDrawPanelListener<code> method. When
+ * component's addDrawPanelListener method. When
  * the drawPanel event occurs, that object's appropriate
  * method is invoked.
  *

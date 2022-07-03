@@ -29,8 +29,19 @@ import propra22.tester.Tester;
 
 
 
+
+/**
+ * The Class CHGO_8493367_Kuhn_Manuel is the 
+ * class which contains the entry point of 
+ * the program i.e. the public static void main(String[])
+ * method. This function can also invoke the test 
+ * environement if it takes the argument -t.
+ */
 public class CHGO_8493367_Kuhn_Manuel {
 	
+	/**
+	 * Creates the and show GUI.
+	 */
 	private static void createAndShowGUI() {
 		
 		//Model of the draw panel
@@ -51,7 +62,7 @@ public class CHGO_8493367_Kuhn_Manuel {
 		IDrawPanelControllerObserver statusBarController = new StatusBarController(statusBar);
 		drawPanelController.addObserver(statusBarController);
 		
-		//File manager
+		//File manager and parser
 		Parser parser = new Parser();
 		IFileManager fileManager = new FileManager((PointSet)pointSet, (DrawPanelController)drawPanelController, (Parser)parser);
 		
@@ -67,6 +78,11 @@ public class CHGO_8493367_Kuhn_Manuel {
 		
 	}
 	
+	/**
+	 * The entry point of the program.
+	 *
+	 * @param args the arguments
+	 */
 	public static  void main(String[] args) {
         if(args.length > 0  && "-t".equals(args[0])) {
         	IHullCalculator calculator = new HullCalculator();

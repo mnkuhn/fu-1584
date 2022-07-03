@@ -135,7 +135,6 @@ public class Hull implements IHull {
 
 	@Override
 	public void clear() {
-		//System.out.println("Hull -> clear");
 		lowerLeftSection.clear();
 		upperLeftSection.clear();
 		lowerRightSection.clear();
@@ -273,6 +272,7 @@ public class Hull implements IHull {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 
     
 	

@@ -11,9 +11,6 @@ import propra22.q8493367.point.RandomPointsEvent;
  * The listener interface for receiving file events, command
  * events and random point events.
  *
- * @see IFileEvent
- * @see ICommandEvent
- * @see IRandomPointsEvent
  */
 public interface IMainWindowListener {
      

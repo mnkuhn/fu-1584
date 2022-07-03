@@ -9,7 +9,10 @@ import propra22.q8493367.point.IPoint;
 public class Diameter implements IDiameter {
 	
 	
+	/** The first end point of the diameter*/
 	private IPoint a;
+	
+	/** The second end point of the diameter */
 	private IPoint b;
 	
 	/**
@@ -32,18 +35,33 @@ public class Diameter implements IDiameter {
 	}
 	
 	
+	/**
+	 * Gets the first end point of the diameter.
+	 *
+	 * @return the first end point.
+	 */
 	@Override
 	public IPoint getA() {
 		return a;
 	}
 	
 	
+	/**
+	 * Gets the second end point of the diameter.
+	 *
+	 * @return the second end point.
+	 */
 	@Override
 	public IPoint getB() {
 		return b;
 	}
     
 	
+	/**
+	 * Sets the first end point of the diameter.
+	 *
+	 * @param a - the first end point
+	 */
 	@Override
 	public void setA(IPoint a) {
 		this.a = a;
@@ -51,6 +69,11 @@ public class Diameter implements IDiameter {
 	}
     
 	
+	/**
+	 * Sets the second end point of the diameter.
+	 *
+	 * @param b - the second end point.
+	 */
 	@Override
 	public void setB(IPoint b) {
 		this.b = b;
@@ -58,6 +81,11 @@ public class Diameter implements IDiameter {
 	}
 
 	
+	/**
+	 * Returns the length of the diameter in
+	 * pixels.
+	 * @return the the of the diameter in pixels.
+	 */
 	@Override
 	public double length() {
 		double dx = a.getX() - b.getX();
@@ -65,6 +93,11 @@ public class Diameter implements IDiameter {
 		return Math.sqrt( dx*dx + dy*dy );
 	}
 	
+	/**
+	 * As array.
+	 *
+	 * @return the int[][]
+	 */
 	@Override
 	public int[][] asArray(){
 		int[][] diameterArr = new int[2][2];

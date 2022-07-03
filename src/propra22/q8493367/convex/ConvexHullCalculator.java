@@ -16,6 +16,10 @@ import propra22.q8493367.point.Point;
 public class ConvexHullCalculator implements ISectionCalculator {
 	
 	
+	/** The hull which is the contour polygon in the beginning.
+	 * After the calculation of the convex hull calculator the
+	 * hull is the convex hull.
+	 */
 	private IHull hull;
 
 	/**
@@ -76,45 +80,32 @@ public class ConvexHullCalculator implements ISectionCalculator {
 		}
 	}
 		
+	/**
+	 * Signed triangle area.
+	 *
+	 * @param base - the base point. This point is the first point of the bas line
+	 * of the triangle, whose area is calculated.
+	 * @param next - this points represents the tip of the triangle, whose
+	 * area is calculated.
+	 * @param sectionType the section type
+	 * @return the long
+	 */
 	private long signedTriangleArea(int base, int next, SectionType sectionType) {
 		return sectionType.getSign() * Point.signedTriangleArea(
+				//the first point of the baseline
 				hull.getPointFromSection(base, sectionType), 
+				//The second point of the baseline following the first base point in 
+				//the direction of increasing index.
 				hull.getPointFromSection(base + 1, sectionType),  
+				//The tip of the triangle
 				hull.getPointFromSection(next, sectionType));
 	}
 	
 	
 	/**
-	 * This is the DFV function which calculates the signed area of a triangle. Depending
-	 * on the calculated section, area is positive or negative, if the tip of the triangle is
-	 * above or below line which goes through the baseline of the triangle. 
-	 *
-	 * @param base - base point of the triangle which induces the other base point indexed by base + 1
-	 * @param next - tip of the triangle
-	 * @param sectionType - the section type which determines the sign for the calculated area
-	 * @return signed area of the triangle
+	 * Calculates the convex hull outgoing from the 
+	 * contour polygon.
 	 */
-	
-	/*
-	private long DFV(int base, int next, SectionType sectionType) {
-		
-		IPoint a = hull.getPointFromSection(base, sectionType);
-		IPoint b = hull.getPointFromSection(base + 1, sectionType);
-		IPoint c = hull.getPointFromSection(next, sectionType);	
-		
-		long summand1 = (long)a.getX()*((long)b.getY() - (long)c.getY());
-		long summand2 = (long)b.getX()*((long)c.getY() - (long)a.getY());
-		long summand3 = (long)c.getX()*((long)a.getY() - (long)b.getY());
-		
-		return sectionType.getSign() * (summand1 + summand2 + summand3);
-	}
-
-	*/
-	
-	/**
-	 * updates all four sections of the draw panel model.
-	 */
-	
 	public void calculateConvexHull() {
 		for(SectionType sectionType : SectionType.values()) {
 			calculateSection(sectionType);

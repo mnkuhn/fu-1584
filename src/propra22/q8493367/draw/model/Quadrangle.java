@@ -1,7 +1,6 @@
 package propra22.q8493367.draw.model;
 
 
-import propra22.q8493367.convex.Calculator;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
@@ -113,7 +112,7 @@ public class Quadrangle implements IQuadrangle {
 	 */
 	public long area() {
 		if(a != null && b != null && c != null && d != null) {
-			return Calculator.DFV(a, b, c) + Calculator.DFV(a, c, d);
+			return Point.signedTriangleArea(a, b, c) + Point.signedTriangleArea(a, c, d);
 		}
 		else {
 			return -1;

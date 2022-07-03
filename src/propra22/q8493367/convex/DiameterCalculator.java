@@ -10,13 +10,14 @@ import propra22.q8493367.point.Point;
 
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class DiameterAndQuadrangleCalculator provides a calculator, which takes a convex hull
  * as an argument and calculates the diameter and the quadrangle with maximum area.
  */
 public class DiameterCalculator implements IDiameterCalculator {
 
-	/** The hull. */
+	/**  The convex hull. */
 	private IHull convexHull;
 	
 	/** The iterator which represents the point b in the quadrangle  
@@ -26,13 +27,17 @@ public class DiameterCalculator implements IDiameterCalculator {
 	/** The iterator which represents the point d in the quadrangle  
 	 * where a, b, c and d are the 4 points of the quadrangle listed counterclockwise. */
 	private IHullIterator dIt;
-
+    
+	
+	/** The calculator for the biggest quadrangle. */
 	private IQuadrangleCalculator quadrangleCalculator;
 
 	/**
 	 * Instantiates a new diameter and quadrangle calculator.
 	 *
-	 * @param The convex hull
+	 * @param convexHull - The convex hull
+	 * @param quadrangleCalculator - The calculator for the biggest quadrangle which can be used directly in the algorithm
+	 * for the calculation of the diameter.
 	 */
 	public DiameterCalculator(IHull convexHull, IQuadrangleCalculator quadrangleCalculator) {
 		this.convexHull = convexHull;
@@ -43,14 +48,14 @@ public class DiameterCalculator implements IDiameterCalculator {
 
 	/**
 	 * Calculate the diameter and the quadrangle with the biggest area.
-	 *
-	 * @param diameter the diameter
-	 * @param inQuadrangle the quadrangle
+	 * @param diameter  - the diameter object
+	 * @param quadrangle  - the quadrangle object
 	 */
-	public void calculate(IDiameter diameter, IQuadrangle inQuadrangle) {
+	public void calculate(IDiameter diameter, IQuadrangle quadrangle) {
 		IPoint diameterPoint1 = null;
 		IPoint diameterPoint2 = null;
 		
+		// Quadrangle with maximal area for comparison within the algorithm.
 		Quadrangle maxQuadrangle = null;
 		
 		// Set iterators with limits
@@ -60,6 +65,7 @@ public class DiameterCalculator implements IDiameterCalculator {
 		IHullIterator cIt = convexHull.getIterator(convexHull.getIndexOfRightMostPoint());
 		cIt.setLimit(1);
 		
+		// Set iterators
 		bIt = convexHull.getIterator(1);
 		bIt.setLimit(convexHull.getIndexOfRightMostPoint() + 2);
 		
@@ -101,9 +107,9 @@ public class DiameterCalculator implements IDiameterCalculator {
 					diameterPoint2 = cIt.getPoint();	
 				}
 				
-				Quadrangle quadrangle = quadrangleCalculator.calculateQuadrangle(aIt, bIt, cIt, dIt);
-				if(quadrangle.area() > maxQuadrangle.area()) {
-					maxQuadrangle = quadrangle;
+				Quadrangle tmpQuadrangle = quadrangleCalculator.calculateQuadrangle(aIt, bIt, cIt, dIt);
+				if(tmpQuadrangle.area() > maxQuadrangle.area()) {
+					maxQuadrangle = tmpQuadrangle;
 				}
 				
 				long angleComparisonTestResult = AngleComparisonTest(aIt, cIt);
@@ -125,11 +131,11 @@ public class DiameterCalculator implements IDiameterCalculator {
 							diameterPoint2 = cIt.getPoint();
 
 							aIt.next();
-							quadrangle = quadrangleCalculator.calculateQuadrangle(aIt, bIt, cIt, dIt);
+							tmpQuadrangle = quadrangleCalculator.calculateQuadrangle(aIt, bIt, cIt, dIt);
 							aIt.previous();
 							
-							if(quadrangle.area() > maxQuadrangle.area()) {
-								maxQuadrangle = quadrangle;
+							if(tmpQuadrangle.area() > maxQuadrangle.area()) {
+								maxQuadrangle = tmpQuadrangle;
 							}	
 						}
 						cIt.next();
@@ -140,11 +146,11 @@ public class DiameterCalculator implements IDiameterCalculator {
 							diameterPoint2 = cIt.getNextPoint();
 							
 							cIt.next();
-							quadrangle = quadrangleCalculator.calculateQuadrangle(aIt, bIt, cIt, dIt);
+							tmpQuadrangle = quadrangleCalculator.calculateQuadrangle(aIt, bIt, cIt, dIt);
 							cIt.previous();
 							
-							if(quadrangle.area() > maxQuadrangle.area()) {
-								maxQuadrangle = quadrangle;
+							if(tmpQuadrangle.area() > maxQuadrangle.area()) {
+								maxQuadrangle = tmpQuadrangle;
 							}		
 						}
 						aIt.next();
@@ -152,42 +158,16 @@ public class DiameterCalculator implements IDiameterCalculator {
 				}
 			}
 		}
-		inQuadrangle.setA(maxQuadrangle.getA());
-		inQuadrangle.setB(maxQuadrangle.getB());
-		inQuadrangle.setC(maxQuadrangle.getC());
-		inQuadrangle.setD(maxQuadrangle.getD());
+		quadrangle.setA(maxQuadrangle.getA());
+		quadrangle.setB(maxQuadrangle.getB());
+		quadrangle.setC(maxQuadrangle.getC());
+		quadrangle.setD(maxQuadrangle.getD());
 		
 		diameter.setA(diameterPoint1);
 		diameter.setB(diameterPoint2);
 	}
 	
 	
-	/**
-	 * Calculate quadrangle.
-	 *
-	 * @param aIterator - the iterator which represents the point a in the quadrangle  where a, b, c and d are the 4 points of the quadrangle listed counterclockwise.
-	 * @param cIterator - the iterator which represents the point c in the quadrangle  where a, b, c and d are the 4 points of the quadrangle listed counterclockwise.
-	 * @return the quadrangle
-	 */
-	
-	/*
-	private Quadrangle calculateQuadrangle(IHullIterator aIterator, IHullIterator cIterator) {
-		
-		while(Point.isHigher(cIterator.getPoint(), aIterator.getPoint(), bIt.getNextPoint(), bIt.getPoint())) {
-			bIt.next();	
-		}
-		
-		while(Point.isHigher(aIterator.getPoint(), cIterator.getPoint(), dIt.getNextPoint(), dIt.getPoint())) {
-			dIt.next();	
-		}
-	
-		return new Quadrangle(aIterator.getPoint(), bIt.getPoint(), cIterator.getPoint(), dIt.getPoint());    
-	}
-	
-	*/
-	
-	// The angle comparison test
-	// TODO Javadoc
 	/**
 	 * Angle comparison test.
 	 *
