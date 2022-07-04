@@ -6,20 +6,37 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+
+
+/**
+ * The Class FileChooser extends JFileChooser. It
+ * provides some extra functionality by which the user is asked
+ * if he wants to overwrite an existing file.
+ */
 public class FileChooser extends JFileChooser {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
-	public FileChooser(String filePath) {
-		super(filePath);
+	/**
+	 * Instantiates a new file chooser.
+	 *
+	 * @param folderPath the path of the folder, which is opened 
+	 * by the file chooser
+	 */
+	public FileChooser(String folderPath) {
+		super(folderPath);
 		FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("points file", "points");
 		setFileFilter(fileFilter);
 		setAcceptAllFileFilterUsed(false);
 	}
 
+	/**
+	 * The overwritten method of the JFileChooser.
+	 * A JOptionPane informs the user during a save operation, that 
+	 * existing file will be overwritten, if the user chooses an existing
+	 * file.
+	 */
 	@Override
 	public void approveSelection() {
 		File selectedFile = getSelectedFile();

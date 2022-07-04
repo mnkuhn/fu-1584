@@ -50,14 +50,6 @@ public interface IHullIterator {
 	 */
 	boolean hasReachedLimit();
 	
-	/**
-	 * Gets the index of the point in the hull 
-	 * referenced by the iterator.
-	 *
-	 * @return the index of the point in the hull
-	 * referenced by the iterator.
-	 */
-	int getIndex();
     
 	/**
 	 * Sets the limit of the iterator.

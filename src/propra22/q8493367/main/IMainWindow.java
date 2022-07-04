@@ -81,9 +81,12 @@ public interface IMainWindow {
     void setTriangleIsShown(boolean b);
 
 
-
-
-
+     
+    /**
+     * Sets the animation running or not running.
+     *
+     * @param b true to make the animation running; false to stop it running.
+     */
 	void setAnimationIsShown(boolean b);
 
 }

@@ -53,7 +53,9 @@ public interface IMainWindowListener {
 	/**
 	 * A view event has occured.
 	 * 
-	 * @param viewEvent
+	 * @param viewEvent the view event which has occured. 
+	 * This event determines, which shapes (contour polygon, diameter, quadrangle, triangle)
+	 * are shown and if the animation should be running.
 	 */
 	void viewEventOccured(ViewEvent viewEvent);
 	

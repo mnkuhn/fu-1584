@@ -132,7 +132,7 @@ public interface IHull {
 	
 	/**
 	 * Gets the section in which the point p
-	 * is located
+	 * is located.
 	 *
 	 * @param p - the point
 	 * @return the section
@@ -152,5 +152,10 @@ public interface IHull {
 	int[][] toArray();
 	
 	
+	/**
+	 * Returns the hull as a list.
+	 *
+	 * @return the hull as a list
+	 */
 	List<IPoint> toList();
 }

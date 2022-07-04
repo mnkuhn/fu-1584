@@ -86,7 +86,6 @@ public class MainWindowController implements IMainWindowListener, IFileManagerOb
 		drawPanelController.setShowTriangle(viewEvent.TriangleIsDisplayed());
 		drawPanelController.setShowAnimation(viewEvent.animationIsShown());
 		
-		//drawPanelController.updateModel();
 		drawPanelController.updateView();
 	}
 

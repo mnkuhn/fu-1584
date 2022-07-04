@@ -21,20 +21,23 @@ public class InsertRandomPointsCommand implements ICommand {
 	/** The inserted points. */
 	private IPoint[] points;
 	
-	/** The number of the inserted points */
+	/**  The number of the inserted points. */
 	private int number;
 	
 	/** The drawPanelModel in which the points are inserted. */
 	private IPointSet pointSet;
 	
 	
+	
 	/**
 	 * Instantiates a new insert random points command.
 	 *
-	 * @param number - number the insert points
-	 * @param maxX - the maximal x coordinate a point is allowed to have
-	 * @param maxY - the maximal y coordinate a point is allowed to have
-	 * @param pointSet - the DrawPanelModel, in which the points are inserted.
+	 * @param number the number
+	 * @param minX the minimum x coordinate for all the random points
+	 * @param minY the minimum y coordinate for all the random points
+	 * @param maxX the maximum x coordinate for all the random points
+	 * @param maxY the maximum y coordinate for all the random points
+	 * @param pointSet the point set
 	 */
 	public InsertRandomPointsCommand(int number, int minX, int minY, int maxX, int maxY, IPointSet pointSet) {
 		this.points = new IPoint[number];
@@ -50,7 +53,7 @@ public class InsertRandomPointsCommand implements ICommand {
 	}
 	
 	/**
-	 * Execute the command
+	 * Execute the command.
 	 */
 	@Override
 	public void execute() {
@@ -60,7 +63,7 @@ public class InsertRandomPointsCommand implements ICommand {
 	}
 
 	/**
-	 * Unexecute the command
+	 * Unexecute the command.
 	 */
 	@Override
 	public void unexecute() {

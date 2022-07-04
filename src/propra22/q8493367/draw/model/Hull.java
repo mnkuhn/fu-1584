@@ -6,18 +6,40 @@ import propra22.q8493367.contour.SectionType;
 import propra22.q8493367.convex.IHull;
 import propra22.q8493367.point.IPoint;
 
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Hull represents a contour polygon or a convex hull.
+ */
 public class Hull implements IHull {
 
+	/** The points of the hull in clockwise direction in a standard
+	 * cartesian coordinate system
+	 */
 	private  List<IPoint> pointList = new ArrayList<>();
 
+	/** The lower left section. */
 	private  List<IPoint> lowerLeftSection = new ArrayList<>();
+	
+	/** The upper left section. */
 	private  List<IPoint> upperLeftSection = new ArrayList<>();
+	
+	/** The lower right section. */
 	private  List<IPoint> lowerRightSection = new ArrayList<>();
+	
+	/** The upper right section. */
 	private  List<IPoint> upperRightSection = new ArrayList<>();
 
+	/** The index of the right most point in the point list. */
 	private int rightMost;
 	
 
+	/**
+	 * Adds a point to a section.
+	 *
+	 * @param point the point added
+	 * @param sectionType the type of the section
+	 */
 	@Override
 	public void addPointToSection(IPoint point, SectionType sectionType) {
 		switch (sectionType) {
@@ -43,6 +65,9 @@ public class Hull implements IHull {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public IPoint getPointFromSection(int index, SectionType sectionType) {
 		switch (sectionType) {
@@ -64,6 +89,9 @@ public class Hull implements IHull {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void removePointFromSection(int index, SectionType sectionType) {
 		switch (sectionType) {
@@ -89,6 +117,9 @@ public class Hull implements IHull {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean sectionIsEmpty(SectionType sectionType) {
 		switch (sectionType) {
@@ -111,6 +142,9 @@ public class Hull implements IHull {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getSizeOfSection(SectionType sectionType) {
 		switch (sectionType) {
@@ -133,6 +167,9 @@ public class Hull implements IHull {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void clear() {
 		lowerLeftSection.clear();
@@ -142,6 +179,9 @@ public class Hull implements IHull {
 		pointList.clear();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void removePointFromSection(IPoint point, SectionType sectionType) {
 		switch (sectionType) {
@@ -164,6 +204,9 @@ public class Hull implements IHull {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int[][] toArray() {
 		int[][] array = new int[pointList.size()][2];
@@ -174,12 +217,18 @@ public class Hull implements IHull {
 		return array;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<IPoint> toList(){
 		return pointList;
 	}
 
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void createList() {
 		//System.out.println("Hull -> createList()");
@@ -241,32 +290,50 @@ public class Hull implements IHull {
 	}
 
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getIndexOfRightMostPoint() {
 		return rightMost;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int size() {
 		return pointList.size();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public IPoint get(int index) {
 		return pointList.get(index);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public IHullIterator getIterator(int index) {
 		return new HullIterator(index);
 	}
 	
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public boolean contains(IPoint p) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public SectionType getSection(IPoint p) {
 		// TODO Auto-generated method stub
@@ -276,14 +343,37 @@ public class Hull implements IHull {
 
     
 	
+	/**
+	 * The Class HullIterator provides an Iterator for the 
+	 * hull. A limit can be set and it can iterate in both
+	 * directions (clockwise and counterclockwise) on the hull.
+	 */
 	private class HullIterator implements IHullIterator {
+		
+		/** The index of the current element */
 		int index;
+		
+		/** The limit of the iterator. */
 		int limit;
 
+		/**
+		 * Instantiates a new hull iterator.
+		 *
+		 * @param index the index of the element
+		 * on which the iterator starts.
+		 */
 		public HullIterator(int index) {
 			this.index = index;
 		}
 		
+		/**
+		 * Sets a limit to the iterator. The
+		 * iterator can still continue to iterate
+		 * but the method hasReachedLimit() returns
+		 * true if the limit was reached.
+		 *
+		 * @param limit the limit
+		 */
 		@Override
 		public void setLimit(int limit) {
 			while (index > limit) {
@@ -292,44 +382,58 @@ public class Hull implements IHull {
 			this.limit = limit;
 		}
 
+		/**
+		 * Gets the point which is represented
+		 * by the actual position of the iterator.
+		 *
+		 * @return the point
+		 */
 		@Override
 		public IPoint getPoint() {
 			int size = pointList.size();
 			return pointList.get(index % size);
 		}
 
+		/**
+		 * Gets the point after the actual 
+		 * position of the iterator.
+		 *
+		 * @return the point after the actual position
+		 * of the iterator
+		 */
 		@Override
 		public IPoint getNextPoint() {
 			int size = pointList.size();
 			return pointList.get((index + 1) % size);
 		}
 
+		/**
+		 * Moves the iterator to the next position.
+		 */
 		@Override
 		public void next() {
 			index++;
 		}
 		
+		/**
+		 * Moves the iterator to the previous position.
+		 */
 		@Override
 		public void previous() {
 			index--;
 		}
 
+		/**
+		 * Checks for reached limit.
+		 *
+		 * @return true, if if the iterator has reached 
+		 * the limit, false otherwise.
+		 */
 		@Override
 		public boolean hasReachedLimit() {
 			return index >= limit;
 		}
-
-		@Override
-		public int getIndex() {
-			int size = pointList.size();
-			return index % size;
-		}
-	}
-
-
-
 	
-
-
+	}
 	
 }

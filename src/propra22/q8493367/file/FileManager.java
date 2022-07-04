@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import propra22.q8493367.draw.controller.DrawPanelController;
+import propra22.q8493367.draw.controller.IDrawPanelController;
 import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.draw.model.PointSet;
 import propra22.q8493367.main.IMainWindow;
@@ -22,62 +23,54 @@ import propra22.q8493367.main.IMainWindowListener;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.settings.Settings;
 
+
 /**
  * The Class FileManager handles all tasks related to creating a new file,
  * opening a file, saving a file and saving a file before terminating the
  * program.
  */
 public class FileManager implements IFileManager {
-	/**
-	 * 
-	 */
 	
-	private DrawPanelController drawPanelController;
+	/** The draw panel controller. */
+	private IDrawPanelController drawPanelController;
+	
+	/** The point set. */
 	private IPointSet pointSet;
+	
+	/** The parser which is used for reading a file */
 	private IParser parser;
 
+	/** The suffix of the files used by this application. */
 	private String suffix = "points";
+	
+	/** The file manager observers. */
 	private List<IFileManagerObserver> observers = new ArrayList<>();
 
-	/** The draw panel controller. */
-	/*
-	 * IDrawPanelController drawPanelController;
-	 */
-
-	/**
-	 * The parser for /* IParser parser = new Parser();
-	 * 
-	 * /** The main view.
-	 */
-	IMainWindow mainWindow = null;
-
-	/** The file path. */
+	/** The file path of the currently opened file. */
 	private String filePath = null;
 
+	/** The file chooser. */
 	private FileChooser fileChooser = new FileChooser(Settings.defaultFilePath);
 
+	
 	/**
-	 * Instantiates a new fileManager.
+	 * Instantiates a new file manager.
 	 *
-	 * @param the controller of the drawPanel
-	 * @param the main window
+	 * @param pointSet the point set
+	 * @param drawPanelController the draw panel controller
+	 * @param parser the parser which is used for reading a file
 	 */
-	public FileManager(PointSet pointSet, DrawPanelController drawPanelController, Parser parser) {
+	public FileManager(IPointSet pointSet, IDrawPanelController drawPanelController, IParser parser) {
 		
 		this.pointSet = pointSet;
 		this.drawPanelController = drawPanelController;
 		this.parser = parser;
 	}
+	
 
-	public FileManager(IPointSet pointSet, IParser parser) {
-		this.pointSet = pointSet;
-		this.parser = parser;
-	}
-
+	
 	/**
-	 * Handles a FileEvent
-	 * 
-	 * @param e - the handled FileEvent
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void handleFileEvent(FileEvent e) {
@@ -208,6 +201,11 @@ public class FileManager implements IFileManager {
 	}
     
 
+	/**
+	 * Saves the point set to a file.
+	 *
+	 * @param file the file in which the point set will be saved.
+	 */
 	public void savePointSet(File file) {
         if(!file.getName().endsWith("." + suffix)) {
         	String path = file.getAbsolutePath() + "." + suffix;
@@ -228,6 +226,11 @@ public class FileManager implements IFileManager {
 
 	}
 
+	/**
+	 * Loads the points from a file to the point set.
+	 *
+	 * @param file the file, from which the points are loaded
+	 */
 	public void loadPointsToPointSet(File file) {
 
 		try {
@@ -262,6 +265,13 @@ public class FileManager implements IFileManager {
 	
 
 	
+	/**
+	 * Shows an option pane by which the user is asked
+	 * if he wants to save the points of the point set 
+	 * into a file.
+	 *
+	 * @return the option chosen by the user (yes or no).
+	 */
 	private int showSaveToFileOptionPane() {
 		int choice = JOptionPane.showConfirmDialog(null, "In Datei speichern?", "", JOptionPane.YES_NO_CANCEL_OPTION);
 		return choice;
@@ -269,16 +279,25 @@ public class FileManager implements IFileManager {
 
 	
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void addObserver(IFileManagerObserver observer) {
 		observers.add(observer);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void removeObserver(IFileManagerObserver observer) {
 		observers.remove(observer);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void notifyObservers() {
 		for(IFileManagerObserver observer : observers) {
