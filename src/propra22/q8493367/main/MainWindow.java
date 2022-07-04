@@ -8,24 +8,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.event.MenuEvent;
-import javax.swing.filechooser.FileNameExtensionFilter;
+
 
 import propra22.q8493367.command.CommandEvent;
 import propra22.q8493367.command.CommandEventType;
@@ -42,21 +42,65 @@ import propra22.q8493367.settings.Settings;
 
 
 
+/**
+ * The Class MainWindow represents the main window of the 
+ * application
+ */
 public class MainWindow extends JFrame implements IMainWindow {
 	
 	
+	/** The main window listener. */
 	private IMainWindowListener mainWindowListener;
+	
+	/** The redo menu item. By this item the user can 
+	 * redo an undone command
+	 */
 	private JMenuItem redoItem;
+	
+	/** The undo menu item. By this item the user can
+	 * undo a command
+	 */
 	private JMenuItem undoItem;
+	
+	/** The convex hull item. By this item the user
+	 * can choose if the convex hull should be shown.
+	 */
 	private JCheckBoxMenuItem convexHullItem;
+	
+	/** The diameter item. By this item the user
+	 * can choose, if the diameter should be shown.
+	 */
 	private JCheckBoxMenuItem diameterItem;
+	
+	/** The quadrangle item. By this item the user
+	 * can choose, if the quadrangle should be shown
+	 */
 	private JCheckBoxMenuItem quadrangleItem;
+	
+	/** The triangle item. By this item the user
+	 * can choose, if the triangle should be 
+	 * shown. 
+	 */
 	private JCheckBoxMenuItem triangleItem;
+	
+	/** The animation item. By this item, the user
+	 * can choose, if the animation should be shown
+	 */
 	private JCheckBoxMenuItem animationItem;
+	
+	/** The draw panel. */
 	private IDrawPanel drawPanel;
+	
+	/** The status bar. */
 	private JPanel statusBar;
 	
 
+	/**
+	 * Instantiates a new main window.
+	 *
+	 * @param drawPanel the draw panel
+	 * @param statusBar the status bar
+	 */
 	public MainWindow(DrawPanel drawPanel, JPanel statusBar) {
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -98,11 +142,17 @@ public class MainWindow extends JFrame implements IMainWindow {
 
 	
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setUndoEnabled(boolean b) {
 		undoItem.setEnabled(b);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setRedoEnabled(boolean b) {
 		redoItem.setEnabled(b);
@@ -110,6 +160,11 @@ public class MainWindow extends JFrame implements IMainWindow {
 	
 
 	
+	/**
+	 * Creates the file menu.
+	 *
+	 * @param menuBar the menu bar
+	 */
 	private void createFileMenu(JMenuBar menuBar) {
 		JMenu fileMenu = new JMenu("Datei");
 		
@@ -168,6 +223,11 @@ public class MainWindow extends JFrame implements IMainWindow {
 	
 	
 	
+	/**
+	 * Creates the edit menu.
+	 *
+	 * @param menuBar the menu bar
+	 */
 	private void createEditMenu(JMenuBar menuBar) {
 		JMenu editMenu = new JMenu("Bearbeiten");
 		editMenu.addMenuListener(new MenuAdapter() {
@@ -276,6 +336,11 @@ public class MainWindow extends JFrame implements IMainWindow {
 		menuBar.add(editMenu);
 	}
 	
+	/**
+	 * Creates the view menu.
+	 *
+	 * @param menuBar the menu bar
+	 */
 	private void createViewMenu(JMenuBar menuBar) {
 		JMenu viewMenu = new JMenu("Ansicht");
 		
@@ -325,6 +390,11 @@ public class MainWindow extends JFrame implements IMainWindow {
 	
 	
 	
+	/**
+	 * Creates the help menu.
+	 *
+	 * @param menuBar the menu bar
+	 */
 	private void createHelpMenu(JMenuBar menuBar) {
 		JMenu helpMenu = new JMenu("Hilfe");
 		JMenuItem manualItem = new JMenuItem("Anleitung");
@@ -339,12 +409,18 @@ public class MainWindow extends JFrame implements IMainWindow {
 		menuBar.add(helpMenu);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setMainWindowListener(IMainWindowListener mainWindowListener) {
 		this.mainWindowListener = mainWindowListener;
 	}
 
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void showManual(URL url) {
 		JFrame frame = new JFrame();
@@ -367,29 +443,42 @@ public class MainWindow extends JFrame implements IMainWindow {
 	}
 	
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setConvexHullIsShown(boolean b) {
 		convexHullItem.setSelected(b);
 		}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setDiameterIsShown(boolean b) {
 		diameterItem.setSelected(b);
 		}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setQuadrangleIsShown(boolean b) {
 		quadrangleItem.setSelected(b);
 		}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setTriangleIsShown(boolean b) {
 		triangleItem.setSelected(b);
 		}
 
 
-
-
-
-
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setAnimationIsShown(boolean b) {
 		animationItem.setSelected(false);	

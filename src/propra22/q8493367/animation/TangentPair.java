@@ -6,6 +6,12 @@ import propra22.q8493367.convex.IHull;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
+
+/**
+ * The Class TangentPair represents a pair of tangents. 
+ * These two tangents stand at a constant angle to each other. In this
+ * application the constant angle is pi, so the tangents are parallel.
+ */
 public class TangentPair implements ITangentPair {
     /**
      * The angle of the tangent as radian with respect to 
@@ -21,20 +27,16 @@ public class TangentPair implements ITangentPair {
     private final double diff = Math.PI / 500;
 	
     /**
-     * The first tangent
-     * @see Tangent
+     * The first tangent.
      */
     private Tangent tangent1;
 	
     /**
-     * The second Tangent
-     * @see Tangent
+     * The second Tangent.
      */
     private Tangent tangent2;
 	
-    /**
-     * The length of the tangent in pixels
-     */
+    /** The length of the tangent in pixels. */
     private float length;
     
     /**
@@ -67,19 +69,7 @@ public class TangentPair implements ITangentPair {
 		tangent2 = new Tangent(hull.getIndexOfRightMostPoint(), Math.PI);	
 	}
 	
-	/**
-	 * Returns true, if for the next angle (angle + diff)
-	 * the tangent is still preserving the tangent invariant: 
-	 * One or two points lie on the tangent, the rest of the
-	 * points, if they exist, all together on one side of 
-	 * the tangent. 
-	 * @param tangent - The tangent
-	 * @return - True, if the tangent invariant is maintained
-	 * false otherwise
-	 */
-	private boolean nextAngleOfTangentIsValid(Tangent tangent) {
-		return tangent.nextAngleIsValid();
-	}
+	
 	
 	/**
 	 * {@inheritDoc}
@@ -103,12 +93,6 @@ public class TangentPair implements ITangentPair {
 
 	}
 	
-	/**
-	 * Increases the angle by the constant diff
-	 */
-	private void increaseAngle() {
-		angle += diff;
-	}
     
 	/**
 	 * {@inheritDoc}
@@ -132,6 +116,28 @@ public class TangentPair implements ITangentPair {
 	@Override
 	public void setLength(float length) {
 		this.length = length;
+	}
+	
+	/**
+	 * Returns true, if for the next angle (angle + diff)
+	 * the tangent is still preserving the tangent invariant: 
+	 * One or two points lie on the tangent, the rest of the
+	 * points, if they exist, all together on one side of 
+	 * the tangent. 
+	 * @param tangent - The tangent
+	 * @return - True, if the tangent invariant is maintained
+	 * false otherwise
+	 */
+	private boolean nextAngleOfTangentIsValid(Tangent tangent) {
+		return tangent.nextAngleIsValid();
+	}
+	
+
+	/**
+	 * Increases the angle by the constant diff.
+	 */
+	private void increaseAngle() {
+		angle += diff;
 	}
 
     /**
@@ -192,7 +198,8 @@ public class TangentPair implements ITangentPair {
 		}
 
 		/**
-		 * Gets the contact point of the tangent
+		 * Gets the contact point of the tangent.
+		 *
 		 * @return - The contact point
 		 */
 		public IPoint getCenter() {
@@ -201,7 +208,8 @@ public class TangentPair implements ITangentPair {
 
 	
 		/**
-		 * Gets the length of the tangent in pixels
+		 * Gets the length of the tangent in pixels.
+		 *
 		 * @return - The length
 		 */
 		public float getLength() {
@@ -232,6 +240,8 @@ public class TangentPair implements ITangentPair {
 		
 		/**
 		 * Gets end B of the tangent as a point for angle + pDiff.
+		 *
+		 * @param pDiff the diff
 		 * @return - One end of the tangent
 		 */
 		private IPoint getNextB(double pDiff) {
@@ -242,6 +252,8 @@ public class TangentPair implements ITangentPair {
 		
 		/**
 		 * Gets end A of the tangent as a point for angle + pDiff.
+		 *
+		 * @param pDiff the diff
 		 * @return - One end of the tangent
 		 */
 		private IPoint getNextA(double pDiff) {

@@ -4,11 +4,15 @@ import propra22.q8493367.draw.model.IHullIterator;
 import propra22.q8493367.draw.model.Quadrangle;
 import propra22.q8493367.point.Point;
 
+/**
+ * The Class QuadrangleCalculator is responsible for the calculation
+ * of the biggest quadrangle.
+ */
 public class QuadrangleCalculator implements IQuadrangleCalculator {
-   
-	
 
-	
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public Quadrangle calculateQuadrangle(
 			IHullIterator aIt, 

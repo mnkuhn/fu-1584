@@ -8,15 +8,26 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
+
+
+/**
+ * The Class StatusBar.
+ */
 public class StatusBar extends JPanel implements IStatusBar{
     
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The label which displays the number of points in the point set */
 	private JLabel numberLabel;
+	
+	/** The height of the status bar in pixels */
 	private int height = 18;
 	
+	/**
+	 * Instantiates a new status bar.
+	 */
 	public StatusBar() {
 		setBorder(new BevelBorder(BevelBorder.LOWERED));
 		setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -33,11 +44,12 @@ public class StatusBar extends JPanel implements IStatusBar{
 		
 	}
 	
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void setNumberOfPoints(int number) {
 		String numberString = String.valueOf(number);
 		numberLabel.setText(numberString);
 	}
-    
-	
 }

@@ -65,12 +65,19 @@ public interface IQuadrangle {
 	void setD(IPoint d);
     
 	/**
-	 * The area of the quadrangle
+	 * The area of the quadrangle.
 	 *
 	 * @return the area of the quadrangle
 	 */
 	long area();
-
+    
+	/**
+	 * Return the point set as an nX2 array, where n is the number of points.
+	 * array[i][0] is the x coordinate of point i, array[i][1] is the y
+	 * coordinate of point i. 
+	 *
+	 * @return the int[][]
+	 */
 	int[][] asArray();
 
 }

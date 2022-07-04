@@ -29,8 +29,10 @@ import propra22.q8493367.settings.Settings;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class DrawPanel extends JPanel. It shows all the graphical
- * representations like points, the convex hull, triangles and rectangles.
+ * This Class represents the draw panel. The points and all
+ * the shapes like the convex hull, the diameter, the quadrangle,
+ * the triangle and the animation are displayed on the draw panel.
+ * It also provides a panning and a zoom functionality.
  */
 public class DrawPanel extends JPanel implements IDrawPanel {
 
@@ -79,7 +81,11 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	/** The scale for the zoom. */
 	private double scale = 1.0f;
 	
-	/** The scale of the draw panel */
+	/** The scale of the draw panel. This
+	 * scale is used to adapt the size of the 
+	 * content, when the size of the 
+	 * draw panel is changed by the user.
+	 */
 	private double panelScale = 1d;
 	
 	/** The scale factor. */
@@ -569,7 +575,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 */
 	private void drawCoordinateSystem(Graphics2D g2) {
 		Graphics2D g2d = (Graphics2D) g2.create();
-		g2d.setColor(Settings.CoordinateSystemColor);
+		g2d.setColor(Settings.axisColor);
 		int x = (int) Math.round(translateXFromModelToView(0));
 		int y = (int) Math.round(translateYFromModelToView(0));
 		// ordinate
@@ -597,10 +603,6 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			 extendTangent(tangent2);
 			 
 			 // draw first tangent
-			 
-			 //System.out.println("Tangent1 A x in view -> drawAnimation:" + (int)Math.round(translateXFromModelToView(tangent1[0].getX())));
-			 //System.out.println("Tangent1 A y in view -> drawAnimation" + (int)Math.round(translateYFromModelToView(tangent1[0].getY())));
-
 			 g2.drawLine(
 					 (int)Math.round(translateXFromModelToView(tangent1[0].getX())),
 					 (int)Math.round(translateYFromModelToView(tangent1[0].getY())), 
@@ -614,8 +616,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					 (int)Math.round(translateXFromModelToView(tangent2[2].getX())), 
 					 (int)Math.round(translateYFromModelToView(tangent2[2].getY())));
 			 
-			 // draw connection of the centers i.e. the connection between the points 
-			 // of the antipodal pair
+			 /* draw connection of the centers i.e. the connection between the points 
+			 of the antipodal pair */
 			 g2.drawLine(
 					 (int)Math.round(translateXFromModelToView(tangent1[1].getX())),
 					 (int)Math.round(translateYFromModelToView(tangent1[1].getY())), 

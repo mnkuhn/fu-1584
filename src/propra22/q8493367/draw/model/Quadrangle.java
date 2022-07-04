@@ -4,15 +4,23 @@ package propra22.q8493367.draw.model;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Quadrangle represents a quadrangle.
  */
 public class Quadrangle implements IQuadrangle {
      
 	
+	/** The first of the four points of the quadrangle*/
 	private IPoint a;
+	
+	/** The second of the four points of the quadrangle*/
 	private IPoint b;
+	
+	/** The third of the four points of the quadrangle*/
 	private IPoint c;
+	
+	/** The fourth of the four points of the quadrangle*/
 	private IPoint d;
 
 	/**
@@ -42,74 +50,57 @@ public class Quadrangle implements IQuadrangle {
 	
 
 	/**
-	 * Gets the point a.
-	 *
-	 * @return the point a
+	 *{@inheritDoc}
 	 */
 	@Override
 	public IPoint getA() {return a;}
 	
 	/**
-	 * Gets the point b.
-	 *
-	 * @return the point b
+	 *{@inheritDoc}
 	 */
 	@Override
 	public IPoint getB() {return b;}
 	
 	/**
-	 * Gets the point c.
-	 *
-	 * @return the point c
+	 *{@inheritDoc}
 	 */
 	@Override
 	public IPoint getC() {return c;}
 	
 	/**
-	 * Gets the point d.
-	 *
-	 * @return the point d
+	 *{@inheritDoc}
 	 */
 	@Override
 	public IPoint getD() {return d;}
 	
 	/**
-	 * Sets the point a.
-	 *
-	 * @param a - the  point a
+	 *{@inheritDoc}
 	 */
 	@Override
 	public void setA(IPoint a) {this.a = a;}
 	
 	/**
-	 * Sets the point b.
-	 *
-	 * @param b - the  point b
+	 *{@inheritDoc}
 	 */
 	@Override
 	public void setB(IPoint b) {this.b = b;}
 	
 	/**
-	 * Sets the c.
-	 *
-	 * @param c the point c
+	 *{@inheritDoc}
 	 */
 	@Override
 	public void setC(IPoint c) {this.c = c;}
 	
 	/**
-	 * Sets the d.
-	 *
-	 * @param d the point d
+	 *{@inheritDoc}
 	 */
 	@Override
 	public void setD(IPoint d) {this.d = d;}
 	
 	/**
-	 * Gets the area of the quadrangle.
-	 *
-	 * @return The area of the quadrangle
+	 *{@inheritDoc}
 	 */
+	@Override
 	public long area() {
 		if(a != null && b != null && c != null && d != null) {
 			return Point.signedTriangleArea(a, b, c) + Point.signedTriangleArea(a, c, d);
@@ -119,6 +110,9 @@ public class Quadrangle implements IQuadrangle {
 		}	
 	}
 	
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public int [][] asArray(){
 		int[][] quadrangleAsArray = new int[4][2];

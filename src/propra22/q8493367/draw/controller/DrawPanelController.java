@@ -29,7 +29,7 @@ import propra22.q8493367.draw.model.IQuadrangle;
 import propra22.q8493367.draw.view.DrawPanel;
 import propra22.q8493367.draw.view.IDrawPanel;
 import propra22.q8493367.metric.IMetric;
-import propra22.q8493367.metric.ManhattanDistance;
+import propra22.q8493367.metric.ManhattanMetric;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 import propra22.q8493367.settings.Settings;
@@ -364,9 +364,9 @@ public class DrawPanelController implements IDrawPanelController {
 	public void deletePointFromPointSetByUserInput(int mouseX, int mouseY, double totalScale) {
 		System.out.println("in drawPanel, deletePointFromPointSetByUserInput, totalScale: " + totalScale + "\n \n \n");
 		
-		IPoint closest = getClosestPointToMouse(mouseX, mouseY, new ManhattanDistance());
+		IPoint closest = getClosestPointToMouse(mouseX, mouseY, new ManhattanMetric());
 		if (closest != null) {
-			if (pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanDistance(), Settings.mouseRadius/totalScale)) {
+			if (pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanMetric(), Settings.mouseRadius/totalScale)) {
 				ICommand removePointCommand = new RemovePointCommand(closest, pointSet);
 				commandManager.add(removePointCommand);
 				removePointCommand.execute();
@@ -383,9 +383,9 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public void initializePointDrag(int mouseX, int mouseY, double totalScale) {
-		IPoint closest = getClosestPointToMouse(mouseX, mouseY, new ManhattanDistance());
+		IPoint closest = getClosestPointToMouse(mouseX, mouseY, new ManhattanMetric());
 		if (closest != null) {
-			if (pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanDistance(), Settings.mouseRadius/totalScale)) {
+			if (pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanMetric(), Settings.mouseRadius/totalScale)) {
 				startMouseX = mouseX;
 				startMouseY = mouseY;
 				previousMouseX = mouseX;

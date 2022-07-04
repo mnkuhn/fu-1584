@@ -31,13 +31,13 @@ public interface ITangentPair {
     
 	/**
 	 * Initializes the tangent pair.
-	 * @param hull
+	 * @param hull the convex hull
 	 */
 	void initialize(IHull hull);
      
 	/**
 	 * Sets the length of the tangents
-	 * @param lenght
+	 * @param lenght the length of the tangent in pixels
 	 */
 	void setLength(float lenght);
 

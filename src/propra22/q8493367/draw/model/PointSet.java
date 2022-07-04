@@ -9,28 +9,43 @@ import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
 // TODO: Auto-generated Javadoc
-/**
- * This class implements the interface IDrawPanelModel. It provides methods to 
- */
+/** The Class PointSet represents a set of points. */
 public class PointSet implements IPointSet {
 	
-	// the points
+	
+	/** The points*/
 	private List<IPoint> points = new ArrayList<>();
 	
+	/** True, if the point set was changed since a defined
+	 * moment. False otherwise.
+	 */
 	private boolean hasChanged = false;
 	
+	/** The minimum x coordinate of all the points in the point set.*/
 	private int minX = 0;
+	
+	/** The maximum x coordinate of all the points in the point set.*/
 	private int maxX = 0;
+	
+	/** The minimum y coordinate of all the points in the point set.*/
 	private int minY = 0;
+	
+	/** The maximum y coordinate of all the points in the point set.*/
 	private int maxY = 0;
 	
 	
 	
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public  boolean hasPoint(IPoint point) {
 		return searchPoint(point) >= 0;
 	}
 	
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void addPoint(IPoint point) {
 		if(!hasPoint(point)) {
@@ -40,6 +55,11 @@ public class PointSet implements IPointSet {
 		hasChanged = true;
 	}
 
+	/**
+	 * Check for new bounds.
+	 *
+	 * @param point the point
+	 */
 	private void checkForNewBounds(IPoint point) {
 		if (points.size() == 0) {
 			minX = 0;
@@ -63,6 +83,9 @@ public class PointSet implements IPointSet {
 		}
 	}
 	
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void removePoint(IPoint point) {
 		points.remove(point);
@@ -70,6 +93,9 @@ public class PointSet implements IPointSet {
 	}
 	
 	
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void removePoint(int x, int y) {
 		int index = searchPoint(new Point(x, y));
@@ -80,32 +106,56 @@ public class PointSet implements IPointSet {
 	}
 	
 	
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void lexSort() {
 		Collections.sort(points);
 	}
 
 	
+	/**
+	 * Returns the index of the point, if the point
+	 * list contains the point. If the point list
+	 * does not contain the point a negative
+	 * number is returned.
+	 *
+	 * @param point the point whose presence in this list is to be tested
+	 * @return the int
+	 */
 	private int searchPoint(IPoint point) {
 		return Collections.binarySearch(points, point);
 	}
 	
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public int getNumberOfPoints() {
 		return points.size();
 	}
 	
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public IPoint getPointAt(int index) throws IndexOutOfBoundsException {
 		return points.get(index);
 	}
 	
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public boolean isEmpty() {
 		return points.isEmpty();
 	}
 		
 	
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
@@ -115,6 +165,9 @@ public class PointSet implements IPointSet {
 		return stringBuilder.toString();
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
     public void clear() {
 		points.clear();
@@ -123,36 +176,57 @@ public class PointSet implements IPointSet {
 		
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public boolean hasChanged() {
 		return hasChanged;
 	}
 	
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public void setHasChanged(boolean b) {
 		hasChanged = b;
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public int getMinX() {
 		return minX;
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public int getMaxX() {
 		return maxX;
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public int getMinY() {
 		return minY;
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public int getMaxY() {
 		return maxY;
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
 	@Override
 	public int size() {
 		return points.size();

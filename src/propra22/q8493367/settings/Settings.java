@@ -2,42 +2,68 @@ package propra22.q8493367.settings;
 
 import java.awt.Color;
 
+
+/**
+ * The Class Settings keeps the global settings variables
+ */
 public class Settings {
 	
 	
 
-	// Title
-	public static String title = new String("Convex Hull Calculator - Manuel Kuhn - 8493367");	
+	/** The title of the application */
+	public static final String title = new String("Convex Hull Calculator - Manuel Kuhn - 8493367");	
 	
-	// Default file path
-	public static String defaultFilePath = "../ProPra-SS22-Basis/data";
+	/** The default file path */
+	public static final String defaultFilePath = "../ProPra-SS22-Basis/data";
 	
-	// Default file path for the manual
-	// is this ok? It is a relative path isnt it?
-	public static String defaultManualPath = "help/manual.html";
+	
+	/** The default manual path */
+	public static final String defaultManualPath = "help/manual.html";
+	
 	
 	//Colors
-	public static Color convexHullColor = new Color(255, 0, 0, 255);             	// red
-	public static Color diameterColor = new Color(0, 0, 255, 255);   				// blue
-	public static Color quadrangleColor = new Color(0, 255, 0, 40);  				// green
-	public static Color triangleColor = new Color(255, 255, 0, 255); 				// yellow
-	public static final Color CoordinateSystemColor = new Color(112,128,144, 115); 	// slategray
+	/** The color used for the convex hull */
+	public static final Color convexHullColor = new Color(255, 0, 0, 255);             	// red
 	
-	// Radius of a point
-	public static int radius =  3;
+	/** The color for the diameter */
+	public static final Color diameterColor = new Color(0, 0, 255, 255);   				// blue
 	
-	// Point to be selected has to be within the mouse radius
-	public static int mouseRadius = 5;
+	/** The color used for the quadrangle */
+	public static final Color quadrangleColor = new Color(0, 255, 0, 40);  				// green
 	
-	// Screen
-	public static double panelToScreenWidhtRatio = 0.6;
-	public static double panelToScreenHeightRatio = 0.6;
+	/** The color used for the triangle*/
+	public static final Color triangleColor = new Color(255, 255, 0, 255); 				// yellow
+	
+	/** The color used for the x and y axis */
+	public static final Color axisColor = new Color(112,128,144, 115); 		// slategray
+	
+	/** The radius of a point in pixels */
+	public static final int radius =  3;
+	
+	/** The maximum distance a point needs to have from the mouse to be selected*/
+	public static final int mouseRadius = 5;
+	
+	/** The panel to screen widht ratio.*/
+	public static final double panelToScreenWidhtRatio = 0.6;
+	
+	/** The panel to screen height ratio. */
+	public static final double panelToScreenHeightRatio = 0.6;
     
+	
 	// Display shapes
-	public static boolean defaultConvexHullIsShown = true;
-	public static boolean defaultDiameterIsShown = false;
-	public static boolean defaultQuadrangleIsShown = false;
-	public static boolean defaultTriangleIsShown = false;
-	public static boolean defaultAnimationIsShown = false;
+	/** The default setting for the display of the convex hull */
+	public static final boolean defaultConvexHullIsShown = true;
+	
+	/** The default setting for the display of the diameter */
+	public static final boolean defaultDiameterIsShown = false;
+	
+	/** The default setting for the display of the quadrangle  */
+	public static final boolean defaultQuadrangleIsShown = false;
+	
+	/** The default setting for showing the triangle */
+	public static final boolean defaultTriangleIsShown = false;
+	
+	/** The default setting for the display of the animation */
+	public static final boolean defaultAnimationIsShown = false;
 	
 }

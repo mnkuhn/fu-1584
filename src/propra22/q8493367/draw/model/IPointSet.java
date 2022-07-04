@@ -1,8 +1,7 @@
 package propra22.q8493367.draw.model;
 
-import propra22.q8493367.contour.SectionType;
-import propra22.q8493367.point.IPoint;
 
+import propra22.q8493367.point.IPoint;
 
 
 // TODO: Auto-generated Javadoc
@@ -74,31 +73,73 @@ public interface IPointSet {
 
 	/**
 	 * Checks if the point set contains a point with the same
-	 * coordinates as p
+	 * coordinates as p.
 	 *
 	 * @param p - the point
 	 * @return true, if the point set contains the point p or a point
 	 */
 	boolean hasPoint(IPoint p);
     
-	/*
-	boolean hasChangedSinceLastSave();
+	
 
-	void setHasChangedSinceLastSave(boolean hasChangedSinceLastSave);
-	*/
-
+	/**
+	 * Returns true, if the point set has changed since
+	 * a defined moment. Returns false otherwise.
+	 *
+	 * @return true, the point set has changed since 
+	 * a defined moment. False otherwise.
+	 */
 	public boolean hasChanged();
 
+	/**
+	 *Sets the point set to 'has changed' if b is true.
+	 *If b is false, the point set is set to 'has not changed'.
+	 *
+	 * @param b the boolean value, which determines if the point
+	 * set is set to 'has changed' or to 'has not changed'
+	 */
 	void setHasChanged(boolean b);
 	
+	/**
+	 * Gets the minimum x coordinate of all the points
+	 * in the point set.
+	 *
+	 * @return the minimum x coordinate
+	 */
 	int getMinX();
 
+	/**
+	 * Gets the maximum x coordinate of all the points
+	 * in the point set.
+	 *
+	 * @return the maximum x coordinate of all the points
+	 * in the point set.
+	 */
 	int getMaxX();
 
+	/**
+	 * Gets the minimum y coordinate of all the points
+	 * in the point set.
+	 *
+	 * @return the minimum y coordinate.
+	 */
 	int getMinY();
 
+	/**
+	 * Gets the maximum y coordinate of all the points
+	 * in the point set.
+	 *
+	 * @return the maximum y coordinate of all the points
+	 * in the point set.
+	 */
 	int getMaxY();
 
+	/**
+	 * Returns the number of points in the point set.
+	 *
+	 * @return the number of points in the point
+	 * set.
+	 */
 	public int size();
 
 
