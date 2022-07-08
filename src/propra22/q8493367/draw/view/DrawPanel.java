@@ -27,7 +27,7 @@ import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 import propra22.q8493367.settings.Settings;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * This Class represents the draw panel. The points and all
  * the shapes like the convex hull, the diameter, the quadrangle,
@@ -500,21 +500,21 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 							translatedSecond.getY());
 				}
 			}
-			sectionSize = hull.getSizeOfSection(SectionType.LOWERLEFT);
-			IPoint lastLeft = hull.getPointFromSection(sectionSize - 1, SectionType.LOWERLEFT);
+			sectionSize = hull.getSizeOfSection(SectionType.NEWUPPERLEFT);
+			IPoint lastLeft = hull.getPointFromSection(sectionSize - 1, SectionType.NEWUPPERLEFT);
 			IPoint translatedLastLeft = translatePointFromModelToView(lastLeft);
 
-			sectionSize = hull.getSizeOfSection(SectionType.LOWERRIGHT);
-			IPoint lastRight = hull.getPointFromSection(sectionSize - 1, SectionType.LOWERRIGHT);
+			sectionSize = hull.getSizeOfSection(SectionType.NEWUPPERRIGHT);
+			IPoint lastRight = hull.getPointFromSection(sectionSize - 1, SectionType.NEWUPPERRIGHT);
 			IPoint translatedLastRight = translatePointFromModelToView(lastRight);
 			g2.drawLine(translatedLastLeft.getX(), translatedLastLeft.getY(), translatedLastRight.getX(),
 					translatedLastRight.getY());
 
-			sectionSize = hull.getSizeOfSection(SectionType.UPPERLEFT);
-			lastLeft = hull.getPointFromSection(sectionSize - 1, SectionType.UPPERLEFT);
+			sectionSize = hull.getSizeOfSection(SectionType.NEWLOWERLEFT);
+			lastLeft = hull.getPointFromSection(sectionSize - 1, SectionType.NEWLOWERLEFT);
 			translatedLastLeft = translatePointFromModelToView(lastLeft);
-			sectionSize = hull.getSizeOfSection(SectionType.UPPERRIGHT);
-			lastRight = hull.getPointFromSection(sectionSize - 1, SectionType.UPPERRIGHT);
+			sectionSize = hull.getSizeOfSection(SectionType.NEWLOWERRIGHT);
+			lastRight = hull.getPointFromSection(sectionSize - 1, SectionType.NEWLOWERRIGHT);
 			translatedLastRight = translatePointFromModelToView(lastRight);
 			g2.drawLine(translatedLastLeft.getX(), translatedLastLeft.getY(), translatedLastRight.getX(),
 					translatedLastRight.getY());

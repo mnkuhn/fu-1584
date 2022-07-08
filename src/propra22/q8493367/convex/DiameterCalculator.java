@@ -59,36 +59,36 @@ public class DiameterCalculator implements IDiameterCalculator {
 		Quadrangle maxQuadrangle = null;
 		
 		// Set iterators with limits
-		IHullIterator aIt = convexHull.getIterator(0);
-		aIt.setLimit(convexHull.getIndexOfRightMostPoint() + 1);
+		IHullIterator aIt = convexHull.getLeftIt();
+		IPoint left = aIt.getPoint();
 		
-		IHullIterator cIt = convexHull.getIterator(convexHull.getIndexOfRightMostPoint());
-		cIt.setLimit(1);
+		IHullIterator cIt = convexHull.getRightIt();
+		IPoint right = cIt.getPoint();
 		
 		// Set iterators
-		bIt = convexHull.getIterator(1);
-		bIt.setLimit(convexHull.getIndexOfRightMostPoint() + 2);
+		bIt = convexHull.getLeftIt();
 		
-		dIt = convexHull.getIterator(convexHull.getIndexOfRightMostPoint() + 1);
-		dIt.setLimit(2);
+		dIt = convexHull.getRightIt();
+
 		
 		
 		// Hull has only one point
-		if (convexHull.size() == 1 ) {
+		if(convexHull.empty()) {
+			diameter = null;
+			quadrangle = null;
+			return;
+		}
+		// convex hull has one point
+		else if (aIt.getPoint() == cIt.getPoint() ) {
 			
 			diameterPoint1 = aIt.getPoint();
 			diameterPoint2 = aIt.getPoint();
 			maxQuadrangle = new Quadrangle(aIt.getPoint(), aIt.getPoint(), aIt.getPoint(), aIt.getPoint());
 		
-		// Hull has two points
-		} else if (convexHull.size() == 2) {
-			
-			diameterPoint1 = aIt.getPoint();
-			diameterPoint2 = cIt.getPoint();
-			maxQuadrangle = new Quadrangle(aIt.getPoint(), aIt.getPoint(), cIt.getPoint(), cIt.getPoint());
+		// convex hull has two or more points
+		} else 
 		
-		// Hull has more than 2 points
-		} else if (convexHull.size() >= 3) {
+		 {
 		    
 			// first diameter
 		    diameterPoint1 = aIt.getPoint();
@@ -100,7 +100,7 @@ public class DiameterCalculator implements IDiameterCalculator {
 			aIt.next();
 			cIt.next();
             
-			while ((!aIt.hasReachedLimit()) || (!cIt.hasReachedLimit())) {
+			while (!(aIt.getPoint() == right) || !(cIt.getPoint() == left)) {
 				
 				if (Point.isLonger(aIt.getPoint(), cIt.getPoint(), diameterPoint1, diameterPoint2)) {
 					diameterPoint1 = aIt.getPoint();

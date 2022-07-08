@@ -27,6 +27,8 @@ public interface IHullIterator {
 	 * position.
 	 */
 	IPoint getNextPoint();
+	
+	IPoint getPreviousPoint();
 
 	/**
 	 * Moves the iterator to the next
@@ -41,22 +43,12 @@ public interface IHullIterator {
 	 */
 	void previous();
 
-	/**
-	 * Returns true if the iterator has 
-	 * reached the limit.
-	 *
-	 * @return true if the iterator has reached the limit.
-	 * False otherwise.
-	 */
-	boolean hasReachedLimit();
+	
+
+	
 	
     
-	/**
-	 * Sets the limit of the iterator.
-	 *
-	 * @param limit - the limit
-	 */
-	void setLimit(int limit);
+	
     
 	
 

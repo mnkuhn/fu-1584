@@ -141,8 +141,6 @@ public class MainWindowController implements IMainWindowListener, IFileManagerOb
 		try {
 			Desktop.getDesktop().browse(file.toURI());
 			
-			
-			//view.showManual(url);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

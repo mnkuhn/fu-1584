@@ -19,16 +19,16 @@ public class Hull implements IHull {
 	private  List<IPoint> pointList = new ArrayList<>();
 
 	/** The lower left section. */
-	private  List<IPoint> lowerLeftSection = new ArrayList<>();
+	private  List<IPoint> newUpperLeft = new ArrayList<>();
 	
 	/** The upper left section. */
-	private  List<IPoint> upperLeftSection = new ArrayList<>();
+	private  List<IPoint> newLowerLeft = new ArrayList<>();
 	
 	/** The lower right section. */
-	private  List<IPoint> lowerRightSection = new ArrayList<>();
+	private  List<IPoint> newUpperRight = new ArrayList<>();
 	
 	/** The upper right section. */
-	private  List<IPoint> upperRightSection = new ArrayList<>();
+	private  List<IPoint> newLowerRight = new ArrayList<>();
 
 	/** The index of the right most point in the point list. */
 	private int rightMost;
@@ -43,20 +43,20 @@ public class Hull implements IHull {
 	@Override
 	public void addPointToSection(IPoint point, SectionType sectionType) {
 		switch (sectionType) {
-		case LOWERLEFT: {
-			lowerLeftSection.add(point);
+		case NEWUPPERLEFT: {
+			newUpperLeft.add(point);
 			break;
 		}
-		case UPPERLEFT: {
-			upperLeftSection.add(point);
+		case NEWLOWERLEFT: {
+			newLowerLeft.add(point);
 			break;
 		}
-		case LOWERRIGHT: {
-			lowerRightSection.add(point);
+		case NEWUPPERRIGHT: {
+			newUpperRight.add(point);
 			break;
 		}
-		case UPPERRIGHT: {
-			upperRightSection.add(point);
+		case NEWLOWERRIGHT: {
+			newLowerRight.add(point);
 			break;
 		}
 		default: {
@@ -71,17 +71,17 @@ public class Hull implements IHull {
 	@Override
 	public IPoint getPointFromSection(int index, SectionType sectionType) {
 		switch (sectionType) {
-			case LOWERLEFT: {
-				return lowerLeftSection.get(index);
+			case NEWUPPERLEFT: {
+				return newUpperLeft.get(index);
 			}
-			case UPPERLEFT: {
-				return upperLeftSection.get(index);
+			case NEWLOWERLEFT: {
+				return newLowerLeft.get(index);
 			}
-			case LOWERRIGHT: {
-				return lowerRightSection.get(index);
+			case NEWUPPERRIGHT: {
+				return newUpperRight.get(index);
 			}
-			case UPPERRIGHT: {
-				return upperRightSection.get(index);
+			case NEWLOWERRIGHT: {
+				return newLowerRight.get(index);
 			}
 			default: {
 				return null;
@@ -95,20 +95,20 @@ public class Hull implements IHull {
 	@Override
 	public void removePointFromSection(int index, SectionType sectionType) {
 		switch (sectionType) {
-		case LOWERLEFT: {
-			lowerLeftSection.remove(index);
+		case NEWUPPERLEFT: {
+			newUpperLeft.remove(index);
 			break;
 		}
-		case UPPERLEFT: {
-			upperLeftSection.remove(index);
+		case NEWLOWERLEFT: {
+			newLowerLeft.remove(index);
 			break;
 		}
-		case LOWERRIGHT: {
-			lowerRightSection.remove(index);
+		case NEWUPPERRIGHT: {
+			newUpperRight.remove(index);
 			break;
 		}
-		case UPPERRIGHT: {
-			upperRightSection.remove(index);
+		case NEWLOWERRIGHT: {
+			newLowerRight.remove(index);
 			break;
 		}
 		default: {
@@ -123,17 +123,17 @@ public class Hull implements IHull {
 	@Override
 	public boolean sectionIsEmpty(SectionType sectionType) {
 		switch (sectionType) {
-		case LOWERLEFT: {
-			return lowerLeftSection.isEmpty();
+		case NEWUPPERLEFT: {
+			return newUpperLeft.isEmpty();
 			}
-		case UPPERLEFT: {
-			return upperLeftSection.isEmpty();
+		case NEWLOWERLEFT: {
+			return newLowerLeft.isEmpty();
 			}
-		case LOWERRIGHT: {
-			return lowerRightSection.isEmpty();
+		case NEWUPPERRIGHT: {
+			return newUpperRight.isEmpty();
 			}
-		case UPPERRIGHT: {
-			return upperRightSection.isEmpty();
+		case NEWLOWERRIGHT: {
+			return newLowerRight.isEmpty();
 
 			}
 		default: {
@@ -148,17 +148,17 @@ public class Hull implements IHull {
 	@Override
 	public int getSizeOfSection(SectionType sectionType) {
 		switch (sectionType) {
-		case LOWERLEFT: {
-			return lowerLeftSection.size();
+		case NEWUPPERLEFT: {
+			return newUpperLeft.size();
 			}
-		case UPPERLEFT: {
-			return upperLeftSection.size();
+		case NEWLOWERLEFT: {
+			return newLowerLeft.size();
 			}
-		case LOWERRIGHT: {
-			return lowerRightSection.size();
+		case NEWUPPERRIGHT: {
+			return newUpperRight.size();
 			}
-		case UPPERRIGHT: {
-			return upperRightSection.size();
+		case NEWLOWERRIGHT: {
+			return newLowerRight.size();
 
 			}
 		default: {
@@ -172,10 +172,10 @@ public class Hull implements IHull {
 	 */
 	@Override
 	public void clear() {
-		lowerLeftSection.clear();
-		upperLeftSection.clear();
-		lowerRightSection.clear();
-		upperRightSection.clear();
+		newUpperLeft.clear();
+		newLowerLeft.clear();
+		newUpperRight.clear();
+		newLowerRight.clear();
 		pointList.clear();
 	}
 
@@ -185,17 +185,17 @@ public class Hull implements IHull {
 	@Override
 	public void removePointFromSection(IPoint point, SectionType sectionType) {
 		switch (sectionType) {
-		case LOWERLEFT: {
-			lowerLeftSection.remove(point);
+		case NEWUPPERLEFT: {
+			newUpperLeft.remove(point);
 		}
-		case UPPERLEFT: {
-			upperLeftSection.remove(point);
+		case NEWLOWERLEFT: {
+			newLowerLeft.remove(point);
 		}
-		case LOWERRIGHT: {
-			lowerRightSection.remove(point);
+		case NEWUPPERRIGHT: {
+			newUpperRight.remove(point);
 		}
-		case UPPERRIGHT: {
-			upperRightSection.remove(point);
+		case NEWLOWERRIGHT: {
+			newLowerRight.remove(point);
 
 		}
 		default: {
@@ -209,26 +209,35 @@ public class Hull implements IHull {
 	 */
 	@Override
 	public int[][] toArray() {
-		int[][] array = new int[pointList.size()][2];
-		for (int i = 0; i < pointList.size(); i++) {
-			array[i][0] = pointList.get(i).getX();
-			array[i][1] = pointList.get(i).getY();
-		}
-		return array;
+		 List<IPoint> pointList = toList();
+		 int[][] pointArr = new int[pointList.size()][2];
+		 for(int i = 0; i < pointList.size(); i++) {
+			 pointArr[i][0] = pointList.get(i).getX();
+			 pointArr[i][1] = pointList.get(i).getY(); 
+		 }
+		 return pointArr;
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<IPoint> toList(){
+	public List<IPoint> toList() {
+		List<IPoint> pointList = new ArrayList<>();
+		IHullIterator it = getLeftIt();
+		IPoint start = it.getPoint();
+		do {
+			pointList.add(it.getPoint());
+			it.next();
+		} while (it.getPoint() != start);
 		return pointList;
 	}
-
 
 	/**
 	 * {@inheritDoc}
 	 */
+	
+	/*
 	@Override
 	public void createList() {
 		//System.out.println("Hull -> createList()");
@@ -237,25 +246,25 @@ public class Hull implements IHull {
 		int index = 0;
 		int i = 0;
 		// One point only
-		if (getPointFromSection(0, SectionType.LOWERLEFT) == getPointFromSection(0, SectionType.UPPERRIGHT)) {
-			pointList.add(getPointFromSection(0, SectionType.LOWERLEFT));
+		if (getPointFromSection(0, SectionType.NEWUPPERLEFT) == getPointFromSection(0, SectionType.NEWLOWERRIGHT)) {
+			pointList.add(getPointFromSection(0, SectionType.NEWUPPERLEFT));
 			// More than one point
 		} else {
-			while (i < getSizeOfSection(SectionType.LOWERLEFT)) {
-				lastPoint = getPointFromSection(i++, SectionType.LOWERLEFT);
+			while (i < getSizeOfSection(SectionType.NEWUPPERLEFT)) {
+				lastPoint = getPointFromSection(i++, SectionType.NEWUPPERLEFT);
 				pointList.add(lastPoint);
 				index++;
 			}
 
 			int gap = 1;
-			int sizeOfLowerRight = getSizeOfSection(SectionType.LOWERRIGHT);
-			IPoint nextPoint = getPointFromSection(sizeOfLowerRight - 1, SectionType.LOWERRIGHT);
+			int sizeOfLowerRight = getSizeOfSection(SectionType.NEWUPPERRIGHT);
+			IPoint nextPoint = getPointFromSection(sizeOfLowerRight - 1, SectionType.NEWUPPERRIGHT);
 			if (lastPoint.equals(nextPoint)) {
 				gap = 2;
 			}
 			i = sizeOfLowerRight - gap;
 			while (i >= 0) {
-				lastPoint = getPointFromSection(i--, SectionType.LOWERRIGHT);
+				lastPoint = getPointFromSection(i--, SectionType.NEWUPPERRIGHT);
 				pointList.add(lastPoint);
 				index++;
 			}
@@ -264,31 +273,41 @@ public class Hull implements IHull {
 
 			i = 1;
 
-			while (i < getSizeOfSection(SectionType.UPPERRIGHT)) {
-				lastPoint = getPointFromSection(i++, SectionType.UPPERRIGHT);
+			while (i < getSizeOfSection(SectionType.NEWLOWERRIGHT)) {
+				lastPoint = getPointFromSection(i++, SectionType.NEWLOWERRIGHT);
 				pointList.add(lastPoint);
 				index++;
 			}
 
 			gap = 1;
-			int sizeOfUpperLeft = getSizeOfSection(SectionType.UPPERLEFT);
-			nextPoint = getPointFromSection(sizeOfUpperLeft - 1, SectionType.UPPERLEFT);
+			int sizeOfUpperLeft = getSizeOfSection(SectionType.NEWLOWERLEFT);
+			nextPoint = getPointFromSection(sizeOfUpperLeft - 1, SectionType.NEWLOWERLEFT);
 			if (lastPoint.equals(nextPoint)) {
 				gap = 2;
 			}
 			i = sizeOfUpperLeft - gap;
 			while (i > 0) {
-				lastPoint = getPointFromSection(i--, SectionType.UPPERLEFT);
+				lastPoint = getPointFromSection(i--, SectionType.NEWLOWERLEFT);
 				pointList.add(lastPoint);
 				index++;
 			}
-			IPoint firstPoint = getPointFromSection(0, SectionType.UPPERLEFT);
+			IPoint firstPoint = getPointFromSection(0, SectionType.NEWLOWERLEFT);
 			if (lastPoint.equals(firstPoint)) {
 				pointList.remove(index - 1);
 			}
 		}
 	}
-
+    */
+	
+	@Override
+	public void createList() {
+		IHullIterator it = getLeftIt();
+		IPoint start = it.getPoint();
+		while(it.getPoint() != start) {
+			pointList.add(it.getPoint());
+			it.next();
+		}
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -302,8 +321,8 @@ public class Hull implements IHull {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int size() {
-		return pointList.size();
+	public boolean empty() {
+		return getSizeOfSection(SectionType.NEWUPPERLEFT) == 0;
 	}
 
 	/**
@@ -318,8 +337,12 @@ public class Hull implements IHull {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public IHullIterator getIterator(int index) {
-		return new HullIterator(index);
+	public IHullIterator getLeftIt() {
+		return new HullIterator(0);
+	}
+	
+	public IHullIterator getRightIt() {
+		return new HullIterator(1);
 	}
 	
 	/**
@@ -352,9 +375,10 @@ public class Hull implements IHull {
 		
 		/** The index of the current element */
 		int index;
+		int tmpIndex;
 		
-		/** The limit of the iterator. */
-		int limit;
+		SectionType sectionType;
+		SectionType tmpSectionType;
 
 		/**
 		 * Instantiates a new hull iterator.
@@ -362,25 +386,18 @@ public class Hull implements IHull {
 		 * @param index the index of the element
 		 * on which the iterator starts.
 		 */
-		public HullIterator(int index) {
-			this.index = index;
+		public HullIterator(int type) {
+			if(type == 0) {
+				sectionType = SectionType.NEWUPPERLEFT;
+				index = 0;
+			}
+			if(type == 1) {
+				sectionType = SectionType.NEWLOWERRIGHT;
+				index = 0;
+			}
 		}
 		
-		/**
-		 * Sets a limit to the iterator. The
-		 * iterator can still continue to iterate
-		 * but the method hasReachedLimit() returns
-		 * true if the limit was reached.
-		 *
-		 * @param limit the limit
-		 */
-		@Override
-		public void setLimit(int limit) {
-			while (index > limit) {
-				limit = limit + pointList.size();
-			}
-			this.limit = limit;
-		}
+		
 
 		/**
 		 * Gets the point which is represented
@@ -390,8 +407,7 @@ public class Hull implements IHull {
 		 */
 		@Override
 		public IPoint getPoint() {
-			int size = pointList.size();
-			return pointList.get(index % size);
+			return getPointFromSection(index, sectionType);
 		}
 
 		/**
@@ -401,10 +417,28 @@ public class Hull implements IHull {
 		 * @return the point after the actual position
 		 * of the iterator
 		 */
+		
+		// clockwise!!
 		@Override
 		public IPoint getNextPoint() {
-			int size = pointList.size();
-			return pointList.get((index + 1) % size);
+			tmpIndex = index;
+			tmpSectionType = sectionType; 
+			goNext();
+		     while(getPointFromSection(tmpIndex, tmpSectionType) == getPointFromSection(index, sectionType)) {
+		    	 goNext();
+		     }
+		     return getPointFromSection(tmpIndex, tmpSectionType);
+		}
+		
+		@Override
+		public IPoint getPreviousPoint() {
+			tmpIndex = index;
+			tmpSectionType = sectionType; 
+			goPrevious();
+		     while(getPointFromSection(tmpIndex, tmpSectionType) == getPointFromSection(index, sectionType)) {
+		    	 goPrevious();
+		     }
+		     return getPointFromSection(tmpIndex, tmpSectionType);
 		}
 
 		/**
@@ -412,7 +446,58 @@ public class Hull implements IHull {
 		 */
 		@Override
 		public void next() {
-			index++;
+			if(getPointFromSection(0, SectionType.NEWUPPERLEFT) != getPointFromSection(0, SectionType.NEWLOWERRIGHT)) {
+				tmpIndex = index;
+				tmpSectionType = sectionType; 
+				goNext();
+				while(getPointFromSection(tmpIndex, tmpSectionType) == getPointFromSection(index, sectionType)) {
+					goNext();
+				}
+				index = tmpIndex;
+				sectionType = tmpSectionType;
+			}	
+		}
+		
+		private void goNext(){
+			switch(tmpSectionType) {
+				case NEWUPPERLEFT : {
+					if(tmpIndex + 1 < getSizeOfSection(tmpSectionType)) {
+						tmpIndex++;
+					} else {
+						tmpIndex = getSizeOfSection(SectionType.NEWUPPERRIGHT) - 1;
+					    tmpSectionType = SectionType.NEWUPPERRIGHT;
+					}
+					break;
+				}
+				case NEWUPPERRIGHT: {
+					if(tmpIndex > 0) {
+						tmpIndex--;
+					} else {
+						tmpIndex = 0;
+						tmpSectionType = SectionType.NEWLOWERRIGHT;
+					}
+					break;
+				}
+				case NEWLOWERRIGHT: {
+					if(tmpIndex + 1 < getSizeOfSection(sectionType)) {
+						tmpIndex++;
+					} else {
+						tmpIndex = getSizeOfSection(SectionType.NEWLOWERLEFT) - 1;
+						tmpSectionType = SectionType.NEWLOWERLEFT;
+					}
+					break;
+				}
+				case NEWLOWERLEFT : {
+					if(tmpIndex > 0) {
+						tmpIndex--;
+					}
+					else {
+						tmpIndex = 0;
+						tmpSectionType = SectionType.NEWUPPERLEFT;
+					}
+					break;
+				}
+			}
 		}
 		
 		/**
@@ -420,7 +505,58 @@ public class Hull implements IHull {
 		 */
 		@Override
 		public void previous() {
-			index--;
+			if(getPointFromSection(0, SectionType.NEWUPPERLEFT) != getPointFromSection(0, SectionType.NEWLOWERRIGHT)) {
+				tmpIndex = index;
+				tmpSectionType = sectionType;
+				goPrevious();
+				while(getPointFromSection(tmpIndex, tmpSectionType) == getPointFromSection(index, sectionType)) {
+					goPrevious();
+				}
+				index = tmpIndex;
+				sectionType = tmpSectionType;	
+			}
+		}
+		
+		private void goPrevious() {
+			switch(tmpSectionType) {
+				case NEWUPPERLEFT : {
+					if(tmpIndex > 0) {
+						tmpIndex--;
+					} else {
+						tmpIndex = 0;
+					    tmpSectionType = SectionType.NEWLOWERLEFT;
+					}
+					break;
+				}
+				case NEWUPPERRIGHT: {
+					if(tmpIndex + 1 < getSizeOfSection(tmpSectionType)) {
+						tmpIndex++;
+					} else {
+						tmpIndex = getSizeOfSection(SectionType.NEWUPPERLEFT) - 1;
+						tmpSectionType = SectionType.NEWUPPERLEFT;
+					}
+					break;
+				}
+				case NEWLOWERRIGHT: {
+					if(tmpIndex > 0) {
+						tmpIndex--;
+					} else {
+						tmpIndex = 0;
+						tmpSectionType = SectionType.NEWUPPERRIGHT;
+					}
+					break;
+				}
+				case NEWLOWERLEFT : {
+					if(tmpIndex + 1< getSizeOfSection(tmpSectionType)) {
+						tmpIndex++;
+					}
+					else {
+						tmpIndex = getSizeOfSection(SectionType.NEWLOWERRIGHT) - 1;
+						tmpSectionType = SectionType.NEWLOWERRIGHT;
+					}
+					break;
+				}
+			}
 		}
 
 		/**
@@ -429,10 +565,10 @@ public class Hull implements IHull {
 		 * @return true, if if the iterator has reached 
 		 * the limit, false otherwise.
 		 */
-		@Override
-		public boolean hasReachedLimit() {
-			return index >= limit;
-		}
+	}
+	
+	public static void main(String[] args) {
+		IHull hull = new Hull();
 	
 	}
 	

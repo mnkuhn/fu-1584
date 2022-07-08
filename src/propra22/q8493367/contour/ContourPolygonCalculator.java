@@ -38,20 +38,20 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	public void calculateSection(SectionType sectionType) {
 		
 		switch (sectionType) {
-			case LOWERLEFT: {
+			case NEWUPPERLEFT: {
 				calculateLowerLeftSection();
 				break;
 			}
-			case UPPERLEFT: {
+			case NEWLOWERLEFT: {
 				calculateUpperLeftSection();
 				break;
 			}
-			case LOWERRIGHT: {
+			case NEWUPPERRIGHT: {
 				calculateLowerRightSection();
 				break;
 			}
 			
-			case UPPERRIGHT: {
+			case NEWLOWERRIGHT: {
 				calculateUpperRightSection();
 				break;
 			}
@@ -64,7 +64,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	 */
 	private void calculateLowerLeftSection() {
 		IPoint point = pointSet.getPointAt(0);
-		hull.addPointToSection(point, SectionType.LOWERLEFT);
+		hull.addPointToSection(point, SectionType.NEWUPPERLEFT);
 		
 		int minYSoFar = point.getY();
 		int pointY;
@@ -74,7 +74,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 			pointY = point.getY();
 			if(pointY > minYSoFar) {
 				minYSoFar = pointY;
-				hull.addPointToSection(point, SectionType.LOWERLEFT);
+				hull.addPointToSection(point, SectionType.NEWUPPERLEFT);
 			}
 		}
 	}
@@ -85,7 +85,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
      */
     private void calculateUpperLeftSection() {
 		IPoint point = pointSet.getPointAt(0);
-		hull.addPointToSection(point, SectionType.UPPERLEFT);
+		hull.addPointToSection(point, SectionType.NEWLOWERLEFT);
 		
 		int maxYSoFar = point.getY();
 		int pointY;
@@ -95,7 +95,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 			pointY = point.getY();
 			if(pointY < maxYSoFar) {
 				maxYSoFar = pointY;
-				hull.addPointToSection(point, SectionType.UPPERLEFT);
+				hull.addPointToSection(point, SectionType.NEWLOWERLEFT);
 			}
 		}
 	}
@@ -106,7 +106,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	 */
 	private void calculateLowerRightSection() {
 		IPoint point = pointSet.getPointAt(pointSet.getNumberOfPoints() - 1);
-		hull.addPointToSection(point, SectionType.LOWERRIGHT);	
+		hull.addPointToSection(point, SectionType.NEWUPPERRIGHT);	
 		
 		int minYSoFar = point.getY();
 		int pointY;
@@ -117,7 +117,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 			
 			if(pointY > minYSoFar) {
 				minYSoFar = pointY;
-				hull.addPointToSection(point, SectionType.LOWERRIGHT);
+				hull.addPointToSection(point, SectionType.NEWUPPERRIGHT);
 			}
 		}
 	}
@@ -128,7 +128,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	 */
 	private void calculateUpperRightSection() {
 		IPoint point = pointSet.getPointAt(pointSet.getNumberOfPoints() - 1);
-		hull.addPointToSection(point, SectionType.UPPERRIGHT);		
+		hull.addPointToSection(point, SectionType.NEWLOWERRIGHT);		
 		
 		int maxYSoFar = point.getY();
 		int pointY;
@@ -138,7 +138,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 			pointY = point.getY();
 			if(pointY < maxYSoFar) {
 				maxYSoFar = pointY;
-				hull.addPointToSection(point, SectionType.UPPERRIGHT);
+				hull.addPointToSection(point, SectionType.NEWLOWERRIGHT);
 			}
 		}
 	}

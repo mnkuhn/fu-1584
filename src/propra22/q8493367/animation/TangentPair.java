@@ -1,8 +1,11 @@
 package propra22.q8493367.animation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import propra22.q8493367.convex.IHull;
+import propra22.q8493367.draw.model.Diameter;
+import propra22.q8493367.draw.model.IHullIterator;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
@@ -25,6 +28,10 @@ public class TangentPair implements ITangentPair {
 	 * performing a step.
 	 */
     private final double diff = Math.PI / 500;
+    
+    //private final double offSet = Math.PI;
+    
+    private int index;
 	
     /**
      * The first tangent.
@@ -37,13 +44,17 @@ public class TangentPair implements ITangentPair {
     private Tangent tangent2;
 	
     /** The length of the tangent in pixels. */
-    private float length;
+    private double length = 400;
     
     /**
      * The points of the convex
      * hull in a list.
      */
 	private List<IPoint> hullAsList;
+	
+	
+	IHullIterator aIt;
+	IHullIterator cIt;
 	
 	/**
 	 * The constructor sets angle to 0 with respect to 
@@ -52,9 +63,10 @@ public class TangentPair implements ITangentPair {
 	 * tangent turns counterclockwise.
 	 */
 	
+	private List<IPoint[]> antipodalPairs = new ArrayList<>(); 
+	
 	public TangentPair() {
-		angle = 0;
-		length = 400;
+		
 		
 	}
 	
@@ -63,37 +75,83 @@ public class TangentPair implements ITangentPair {
 	 */
 	@Override
 	public void initialize(IHull hull){
-		this.angle = 0;
-		this.hullAsList = hull.toList();
+		hullAsList = hull.toList();
+		
+		aIt = hull.getLeftIt();
+		cIt = hull.getRightIt();
 		tangent1 = new Tangent(0, 0);
-		tangent2 = new Tangent(hull.getIndexOfRightMostPoint(), Math.PI);	
+		tangent2 = new Tangent(1, Math.PI);
+		index = 0;
+		angle = 0;
 	}
 	
 	
 	
+	// als static in die Hülle?
+	private  long AngleComparisonTest(IHullIterator aIterator, IHullIterator bIterator) {
+		long xTip = (long) aIterator.getPoint().getX() + (long) bIterator.getPoint().getX() - (long) bIterator.getNextPoint().getX();
+		long yTip = (long) aIterator.getPoint().getY() + (long) bIterator.getPoint().getY() - (long) bIterator.getNextPoint().getY();
+		IPoint tip = new Point((int) xTip, (int) yTip);
+		return Point.signedTriangleArea(aIterator.getPoint(), aIterator.getNextPoint(), tip);
+	}
+
+	
+
+	private  double  getAngle(IPoint a, IPoint b) {
+		double dx = b.getX() - a.getX();
+		double dy = a.getY() - b.getY();
+		return Math.atan2(dx, dy);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void step() {
-		
-		if(nextAngleOfTangentIsValid(tangent1) && nextAngleOfTangentIsValid(tangent2)){
+		//System.out.println("center Tangent1: " + tangent1.getCenter()+ " center Tangent2: " + tangent2.getCenter());
+		if(nextAngleIsValid(tangent1) && nextAngleIsValid(tangent2)){
 			increaseAngle();
 		}
 		else {
-			while(!nextAngleOfTangentIsValid(tangent1)) {
-				tangent1.stepToPreviousHullPoint();
-				}
-			
-			while(!nextAngleOfTangentIsValid(tangent2)) {
-				tangent2.stepToPreviousHullPoint();
-			}
-			increaseAngle();
+			findPreviousAntipodalPair();
+			calculateAngle();
 		}
+		
 
 	}
 	
     
+	private void findPreviousAntipodalPair() {
+		if(hullAsList.size() >= 3 ) {
+			long angleComparisonTestResult = AngleComparisonTest(aIt, cIt);
+			if(angleComparisonTestResult > 0) {
+				aIt.next();
+			}else if(angleComparisonTestResult < 0) {
+				cIt.next();
+			}
+			else {
+				if (Point.isShorter(aIt.getPoint(), aIt.getNextPoint(), cIt.getPoint(), cIt.getNextPoint())) {
+					aIt.next();
+				}
+				else {
+					cIt.next();
+				}
+			}
+		}	
+	}
+
+	private void calculateAngle() {
+		double angle1 = tangent1.calculateAngle();
+		double angle2 = tangent2.calculateAngle();
+		if(angle1 > angle2) {
+			angle = angle1;
+		}
+		else {
+			angle = angle2;
+		}
+		
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -128,8 +186,8 @@ public class TangentPair implements ITangentPair {
 	 * @return - True, if the tangent invariant is maintained
 	 * false otherwise
 	 */
-	private boolean nextAngleOfTangentIsValid(Tangent tangent) {
-		return tangent.nextAngleIsValid();
+	private boolean nextAngleIsValid(Tangent tangent) {
+		return tangent.nextAngleIsValid() < 0;
 	}
 	
 
@@ -139,6 +197,9 @@ public class TangentPair implements ITangentPair {
 	private void increaseAngle() {
 		angle += diff;
 	}
+	
+	
+	
 
     /**
      * This class represents one tangent. The angle is part
@@ -149,7 +210,7 @@ public class TangentPair implements ITangentPair {
 		 * This index represents the index of the point of the convex hull, 
 		 * which is the point of contact.
 		 */
-		private int centerIndex;
+		int id;
         
 		/**
 		 * The angleOffset is added to the angle. In our case this is PI, 
@@ -163,12 +224,20 @@ public class TangentPair implements ITangentPair {
 		 * @param centerIndex - The index in the hull for the contact point
 		 * @param angleOffset - The offset for the angle
 		 */
-		public Tangent(int centerIndex, double angleOffset) {
+		public Tangent(int id, double angleOffset) {
 			
-			this.centerIndex = centerIndex;
+			this.id = id;
 			this.angleOffset = angleOffset;
 		}
 		
+		
+
+		public double calculateAngle() {
+			return getAngle(getCenter(), getPreviousHullPoint()) - angleOffset;	
+		}
+		
+		
+
 		/**
 		 * Moves the contact point to the previous point in
 		 * the convex hull. We need to take the previous point 
@@ -176,10 +245,7 @@ public class TangentPair implements ITangentPair {
 		 * and we want to use a standard cartesian coordinate 
 		 * system in the GUI.
 		 */
-		private void stepToPreviousHullPoint() {
-			centerIndex = Math.floorMod(centerIndex - 1, hullAsList.size());
-			
-		}
+		
 		
 		
         /**
@@ -191,10 +257,12 @@ public class TangentPair implements ITangentPair {
          * characteristic of the tangent described above.
          * False otherwise.
          */
-		private boolean nextAngleIsValid() {
-			long result = Point.signedTriangleArea(getCenter(), getNextB(diff), getPreviousHullPoint());
-			// ist <=0 richtig?
-			return result <= 0;
+		private long nextAngleIsValid() {
+			IPoint center = getCenter();
+			IPoint nextB = getNextB();
+			IPoint previousHullPoint = getPreviousHullPoint();
+			long result = Point.signedTriangleArea(center, nextB, previousHullPoint);
+			return result;
 		}
 
 		/**
@@ -203,7 +271,25 @@ public class TangentPair implements ITangentPair {
 		 * @return - The contact point
 		 */
 		public IPoint getCenter() {
-			return hullAsList.get(centerIndex % hullAsList.size());
+			return antipodalPairs.get(Math.floorMod(index, antipodalPairs.size()) )[id];
+		}
+		
+		public IPoint getPreviousHullPoint() {
+			int i = 1;
+			int lindex = Math.floorMod(index - i, antipodalPairs.size()) ;
+			while(antipodalPairs.get( lindex )[id] == getCenter()) {
+				i--;
+				lindex = Math.floorMod(index - i, antipodalPairs.size()) ;
+			}
+			return  antipodalPairs.get(Math.floorMod(index - i, antipodalPairs.size()) )[id];
+		}
+		
+		public IPoint getNextHullPoint() {
+			int i = 1;
+			while(antipodalPairs.get(Math.floorMod(index + i, antipodalPairs.size()) )[id] == getCenter()) {
+				i++;
+			}
+			return  antipodalPairs.get(Math.floorMod(index + i, antipodalPairs.size()) )[id];
 		}
 
 	
@@ -212,7 +298,7 @@ public class TangentPair implements ITangentPair {
 		 *
 		 * @return - The length
 		 */
-		public float getLength() {
+		public double getLength() {
 			return length;
 		}
 
@@ -222,8 +308,8 @@ public class TangentPair implements ITangentPair {
 		 * @return - One end of the tangent
 		 */
 		public IPoint getA() {
-			int x = (int)Math.round(getCenter().getX() - length/2 * Math.sin(angle + angleOffset));
-			int y = (int)Math.round(getCenter().getY() + length/2 * Math.cos(angle + angleOffset));
+			int x = (int)Math.round(antipodalPairs.get(index)[id].getX() - length/2 * Math.sin(angle + angleOffset));
+			int y = (int)Math.round(antipodalPairs.get(index)[id].getY() + length/2 * Math.cos(angle + angleOffset));
 			return new Point(x, y);
 		} 
 		
@@ -233,8 +319,8 @@ public class TangentPair implements ITangentPair {
 		 */
 		public IPoint getB() {
 		
-			int x = (int)Math.round(getCenter().getX() + length/2 * Math.sin(angle + angleOffset));
-			int y = (int)Math.round(getCenter().getY() - length/2 * Math.cos(angle + angleOffset));
+			int x = (int)Math.round(antipodalPairs.get(index)[id].getX() + length/2 * Math.sin(angle + angleOffset));
+			int y = (int)Math.round(antipodalPairs.get(index)[id].getY() - length/2 * Math.cos(angle + angleOffset));
 			return new Point(x, y);
 		}
 		
@@ -244,9 +330,11 @@ public class TangentPair implements ITangentPair {
 		 * @param pDiff the diff
 		 * @return - One end of the tangent
 		 */
-		private IPoint getNextB(double pDiff) {
-			int x = (int)Math.round(getCenter().getX() + length/2 * Math.sin(angle + angleOffset + pDiff));
-			int y = (int)Math.round(getCenter().getY() - length/2 * Math.cos(angle + angleOffset + pDiff));
+		private IPoint getNextB() {
+			int xc = antipodalPairs.get(index)[id].getX();
+			double sin =  Math.sin(angle + angleOffset + diff);
+			int x = (int)Math.round(antipodalPairs.get(index)[id].getX() + length/2 * Math.sin(angle + angleOffset + diff));
+			int y = (int)Math.round(antipodalPairs.get(index)[id].getY() - length/2 * Math.cos(angle + angleOffset + diff));
 			return new Point(x, y);
 		}
 		
@@ -257,8 +345,8 @@ public class TangentPair implements ITangentPair {
 		 * @return - One end of the tangent
 		 */
 		private IPoint getNextA(double pDiff) {
-			int x = (int)Math.round(getCenter().getX() - length/2 * Math.sin(angle + angleOffset + pDiff));
-			int y = (int)Math.round(getCenter().getY() + length/2 * Math.cos(angle + angleOffset + pDiff));
+			int x = (int)Math.round(antipodalPairs.get(index)[id].getX() - length/2 * Math.sin(angle + angleOffset + pDiff));
+			int y = (int)Math.round(antipodalPairs.get(index)[id].getY() + length/2 * Math.cos(angle + angleOffset + pDiff));
 			return new Point(x, y);
 		}
 		
@@ -268,21 +356,14 @@ public class TangentPair implements ITangentPair {
 		 * @return - The next point in the convex hull
 		 * 
 		 */
-		private IPoint getNextHullPoint() {
-			
-			return hullAsList.get(Math.floorMod(centerIndex + 1, hullAsList.size()));
-		}
 		
-		/**
-		 * Gets the next point in the convex hull turning
-		 * counterclockwise, since the GUI is based on a standard
-		 * cartesian coordinate system.
-		 *
-		 * @return - The next point in the convex hull
-		 */
-		private IPoint getPreviousHullPoint() {
-			int index = Math.floorMod(centerIndex - 1, hullAsList.size());
-			return hullAsList.get(index);
-		}	
-	}
+		
+		
+		private long angeComparisonTest(IPoint a, IPoint afterA, IPoint c, IPoint afterC) {
+			long xTip = (long) a.getX() + (long) c.getX() - (long) afterC.getX();
+			long yTip = (long) a.getY() + (long) c.getY() - (long) afterC.getY();
+			IPoint tip = new Point((int)xTip, (int)yTip);
+			return Point.signedTriangleArea(a, afterA, tip);
+		}
+	}	
 }

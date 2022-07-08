@@ -2,6 +2,7 @@ package propra22.q8493367.convex;
 
 import propra22.q8493367.draw.model.IHullIterator;
 import propra22.q8493367.draw.model.Quadrangle;
+import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
 /**
@@ -19,6 +20,11 @@ public class QuadrangleCalculator implements IQuadrangleCalculator {
 			IHullIterator bIt, 
 			IHullIterator cIt, 
 			IHullIterator dIt) {
+		
+		IPoint c = cIt.getPoint();
+		IPoint a = aIt.getPoint();
+		IPoint bNext = bIt.getNextPoint();
+		IPoint b = bIt.getPoint();
 		
 		while(Point.isHigher(cIt.getPoint(), aIt.getPoint(), bIt.getNextPoint(), bIt.getPoint())) {
 			bIt.next();	

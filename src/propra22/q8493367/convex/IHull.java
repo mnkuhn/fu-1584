@@ -87,12 +87,8 @@ public interface IHull {
 	 */
 	int getIndexOfRightMostPoint();
 	
-	/**
-	 * Gets the number of points in the hull.
-	 *
-	 * @return the number of points in the hull.
-	 */
-	int size();
+	
+	boolean empty();
 	
 	/**
 	 * Gets the point with index i.
@@ -109,13 +105,6 @@ public interface IHull {
 	 */
 	void createList();
     
-	/**
-	 * Gets the iterator.
-	 *
-	 * @param index - the index from which the iterator starts
-	 * @return the iterator
-	 */
-	IHullIterator getIterator(int index);
 	
 	
 	/**
@@ -158,4 +147,11 @@ public interface IHull {
 	 * @return the hull as a list
 	 */
 	List<IPoint> toList();
+
+	/**
+	 * {@inheritDoc}
+	 */
+	IHullIterator getLeftIt();
+	
+	IHullIterator getRightIt();
 }
