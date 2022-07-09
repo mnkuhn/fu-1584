@@ -79,5 +79,7 @@ public interface IQuadrangle {
 	 * @return the int[][]
 	 */
 	int[][] asArray();
+	
+	void copy(IQuadrangle quadrangle);
 
 }

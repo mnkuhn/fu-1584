@@ -55,5 +55,7 @@ public interface IDiameter {
 	 * [1][1] - the second end points y coordinate.
 	 */
 	int[][] asArray();
+	
+	void copy(IDiameter diameter);
 
 }

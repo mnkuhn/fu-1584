@@ -119,7 +119,7 @@ public class DrawPanelController implements IDrawPanelController {
 		
 		this.contourPolygonCalculator = new ContourPolygonCalculator(pointSet, convexHull);
 		this.convexHullCalculator = new ConvexHullCalculator(convexHull);
-		this.diameterAndQuadrangleCalulator = new DiameterCalculator(convexHull, new QuadrangleCalculator());
+		this.diameterAndQuadrangleCalulator = new DiameterCalculator(convexHull);
 		
 	}
 
@@ -144,7 +144,7 @@ public class DrawPanelController implements IDrawPanelController {
 		
 		this.contourPolygonCalculator = new ContourPolygonCalculator(pointSet, hull);
 		this.convexHullCalculator = new ConvexHullCalculator(hull);
-		this.diameterAndQuadrangleCalulator = new DiameterCalculator(hull, new QuadrangleCalculator());
+		this.diameterAndQuadrangleCalulator = new DiameterCalculator(hull);
 	}
 
 	/**

@@ -31,20 +31,17 @@ public class DiameterCalculator implements IDiameterCalculator {
 	 */
 	private IHullIterator dIt;
 
-	/** The calculator for the biggest quadrangle. */
-	private IQuadrangleCalculator quadrangleCalculator;
-
 	/**
 	 * Instantiates a new diameter and quadrangle calculator.
 	 *
-	 * @param convexHull           - The convex hull
-	 * @param quadrangleCalculator - The calculator for the biggest quadrangle which
+	 * @param convexHull           The convex hull
+	 * @param quadrangleCalculator The calculator for the biggest quadrangle which
 	 *                             can be used directly in the algorithm for the
 	 *                             calculation of the diameter.
+	 * 
 	 */
-	public DiameterCalculator(IHull convexHull, IQuadrangleCalculator quadrangleCalculator) {
+	public DiameterCalculator(IHull convexHull) {
 		this.convexHull = convexHull;
-		this.quadrangleCalculator = quadrangleCalculator;
 	}
 
 	/**
@@ -54,120 +51,110 @@ public class DiameterCalculator implements IDiameterCalculator {
 	 * @param quadrangle - the quadrangle object
 	 */
 	public void calculate(IDiameter diameter, IQuadrangle quadrangle) {
-		IPoint diameterPoint1 = null;
-		IPoint diameterPoint2 = null;
 
-		// Quadrangle with maximal area for comparison within the algorithm.
-		Quadrangle maxQuadrangle = null;
-
-		// Set iterators with limits
-		IHullIterator aIt = convexHull.getLeftIt();
-		IPoint left = aIt.getPoint();
-
-		IHullIterator cIt = convexHull.getRightIt();
-		IPoint right = cIt.getPoint();
-
-		// Set iterators
+		// Set iterators for the calculation of the quadrangle
 		bIt = convexHull.getLeftIt();
-
 		dIt = convexHull.getRightIt();
 
-		// Hull has only one point
+		// Convex hull is empty
 		if (convexHull.empty()) {
 			diameter = null;
 			quadrangle = null;
 			return;
 		}
-		// convex hull has one point
-		else if (aIt.getPoint() == cIt.getPoint()) {
 
-			diameterPoint1 = aIt.getPoint();
-			diameterPoint2 = aIt.getPoint();
-			maxQuadrangle = new Quadrangle(aIt.getPoint(), aIt.getPoint(), aIt.getPoint(), aIt.getPoint());
+		// Iterators for the diameter and quadrangel calculation
+		IHullIterator aIt = convexHull.getLeftIt();
+		IHullIterator cIt = convexHull.getRightIt();
+		
+		// convex hull has one or two points
+		if ((aIt.getPoint() == cIt.getPoint()) || (aIt.getNextPoint() == cIt.getPoint())) {
+			diameter.setA(aIt.getPoint());
+			diameter.setB(cIt.getPoint());
+			quadrangle.setA(aIt.getPoint());
+			quadrangle.setB(aIt.getPoint());
+			quadrangle.setC(cIt.getPoint());
+			quadrangle.setD(cIt.getPoint());
 
-			// convex hull has two points
-		} else if (aIt.getNextPoint() == cIt.getPoint()) {
-			diameterPoint1 = aIt.getPoint();
-			diameterPoint2 = cIt.getPoint();
-
-			maxQuadrangle = new Quadrangle(aIt.getPoint(), aIt.getPoint(), cIt.getPoint(), cIt.getPoint());
+		// convex hull has more than 2 points 
 		} else {
 
 			// first diameter
-			diameterPoint1 = aIt.getPoint();
-			diameterPoint2 = cIt.getPoint();
-
-			// first biggest quadrangle
-			maxQuadrangle = new Quadrangle(aIt.getPoint(), bIt.getPoint(), cIt.getPoint(), dIt.getPoint());
-
-			// aIt.next();
-			// cIt.next();
-
+			IDiameter maxDiameter = new Diameter(aIt.getPoint(), cIt.getPoint());
+			Diameter tmpDiameter = new Diameter(aIt.getPoint(), cIt.getPoint());
+			
+			// first  quadrangle
+			IQuadrangle maxQuadrangle = new Quadrangle(aIt.getPoint(), bIt.getPoint(), cIt.getPoint(), dIt.getPoint());
+			Quadrangle tmpQuadrangle = new Quadrangle(aIt.getPoint(), bIt.getPoint(), cIt.getPoint(), dIt.getPoint());
+            
+			// limits for the iterators
+			IPoint left = aIt.getPoint();
+			IPoint right = cIt.getPoint();
 			while (!(aIt.getPoint() == right) || !(cIt.getPoint() == left)) {
-
-				if (Point.isLonger(aIt.getPoint(), cIt.getPoint(), diameterPoint1, diameterPoint2)) {
-					diameterPoint1 = aIt.getPoint();
-					diameterPoint2 = cIt.getPoint();
-				}
-
-				Quadrangle tmpQuadrangle = quadrangleCalculator.calculateQuadrangle(aIt, bIt, cIt, dIt);
-				if (tmpQuadrangle.area() > maxQuadrangle.area()) {
-					maxQuadrangle = tmpQuadrangle;
-				}
 
 				long angleComparisonTestResult = AngleComparisonTest(aIt, cIt);
 
 				// angleComparisonResult > 0
 				if (angleComparisonTestResult > 0) {
 					aIt.next();
+					tmpDiameter.setA(aIt.getPoint());
+					tmpDiameter.setB(cIt.getPoint());
+					tmpQuadrangle = calculateQuadrangle(aIt.getPoint(), bIt, cIt.getPoint(), dIt);
 
-					// angleComparisonResult < 0
+				// angleComparisonResult < 0
 				} else if (angleComparisonTestResult < 0) {
 					cIt.next();
+					tmpDiameter.setA(aIt.getPoint());
+					tmpDiameter.setB(cIt.getPoint());
+					tmpQuadrangle = calculateQuadrangle(aIt.getPoint(), bIt, cIt.getPoint(), dIt);
 				}
 
 				// angleComparisonResult == 0
 				else {
 					if (Point.isShorter(aIt.getPoint(), aIt.getNextPoint(), cIt.getPoint(), cIt.getNextPoint())) {
-						if (Point.isLonger(aIt.getNextPoint(), cIt.getPoint(), diameterPoint1, diameterPoint2)) {
-							diameterPoint1 = aIt.getNextPoint();
-							diameterPoint2 = cIt.getPoint();
+						tmpDiameter.setA(aIt.getNextPoint());
+						tmpDiameter.setB(cIt.getPoint());
+						if (tmpDiameter.length() > maxDiameter.length()) {maxDiameter.copy(tmpDiameter);}
 
-							aIt.next();
-							tmpQuadrangle = quadrangleCalculator.calculateQuadrangle(aIt, bIt, cIt, dIt);
-							aIt.previous();
+						tmpQuadrangle = calculateQuadrangle(aIt.getNextPoint(), bIt, cIt.getPoint(), dIt);
+						if (tmpQuadrangle.area() > maxQuadrangle.area()) {maxQuadrangle.copy(tmpQuadrangle);}
 
-							if (tmpQuadrangle.area() > maxQuadrangle.area()) {
-								maxQuadrangle = tmpQuadrangle;
-							}
-						}
 						cIt.next();
 
 					} else {
-						if (Point.isLonger(aIt.getPoint(), cIt.getNextPoint(), diameterPoint1, diameterPoint2)) {
-							diameterPoint1 = aIt.getPoint();
-							diameterPoint2 = cIt.getNextPoint();
 
-							cIt.next();
-							tmpQuadrangle = quadrangleCalculator.calculateQuadrangle(aIt, bIt, cIt, dIt);
-							cIt.previous();
+						tmpDiameter.setA(aIt.getPoint());
+						tmpDiameter.setB(cIt.getNextPoint());
+						if (tmpDiameter.length() > maxDiameter.length()) {maxDiameter.copy(tmpDiameter);}
+						
+						tmpQuadrangle = calculateQuadrangle(aIt.getPoint(), bIt, cIt.getNextPoint(), dIt);
+						if (tmpQuadrangle.area() > maxQuadrangle.area()) {maxQuadrangle.copy(tmpQuadrangle);}
 
-							if (tmpQuadrangle.area() > maxQuadrangle.area()) {
-								maxQuadrangle = tmpQuadrangle;
-							}
-						}
 						aIt.next();
+						
 					}
 				}
-			}
-		}
-		quadrangle.setA(maxQuadrangle.getA());
-		quadrangle.setB(maxQuadrangle.getB());
-		quadrangle.setC(maxQuadrangle.getC());
-		quadrangle.setD(maxQuadrangle.getD());
+				if (tmpDiameter.length() > maxDiameter.length()) {
+					maxDiameter.copy(tmpDiameter);
+				}
 
-		diameter.setA(diameterPoint1);
-		diameter.setB(diameterPoint2);
+				if (tmpQuadrangle.area() > maxQuadrangle.area()) {
+					maxQuadrangle.copy(tmpQuadrangle);
+				}
+			}
+            if(quadrangle != null) {
+            	quadrangle.copy(maxQuadrangle);
+            }
+            else {
+            	quadrangle = maxQuadrangle;
+            }
+            if(diameter != null) {
+            	diameter.copy(maxDiameter);
+            }
+            else {
+            	diameter = maxDiameter;
+            }
+		}
 	}
 
 	/**
@@ -183,6 +170,23 @@ public class DiameterCalculator implements IDiameterCalculator {
 		long yTip = (long) aIterator.getPoint().getY() + (long) bIterator.getPoint().getY()
 				- (long) bIterator.getNextPoint().getY();
 		IPoint tip = new Point((int) xTip, (int) yTip);
-		return Point.signedTriangleArea(aIterator.getPoint(), aIterator.getNextPoint(), tip);
+		return  Point.signedTriangleArea(aIterator.getPoint(), aIterator.getNextPoint(), tip);
+	}
+
+	private Quadrangle calculateQuadrangle(IPoint a, IHullIterator bIt, IPoint c, IHullIterator dIt) {
+		/*
+		 * IPoint c = cIt.getPoint(); IPoint a = aIt.getPoint(); IPoint bNext =
+		 * bIt.getNextPoint(); IPoint b = bIt.getPoint();
+		 */
+
+		while (Point.isHigher(c, a, bIt.getNextPoint(), bIt.getPoint())) {
+			bIt.next();
+		}
+
+		while (Point.isHigher(a, c, dIt.getNextPoint(), dIt.getPoint())) {
+			dIt.next();
+		}
+
+		return new Quadrangle(a, bIt.getPoint(), c, dIt.getPoint());
 	}
 }

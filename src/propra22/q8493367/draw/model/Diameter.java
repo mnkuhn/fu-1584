@@ -107,4 +107,12 @@ public class Diameter implements IDiameter {
 		diameterArr[1][1] = b.getY();
 		return diameterArr;
 	}
+	
+	@Override
+	public void copy(IDiameter diameter) {
+		this.a = diameter.getA();
+		this.b = diameter.getB();
+		
+	}
+	
 }

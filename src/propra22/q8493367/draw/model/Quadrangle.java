@@ -131,4 +131,13 @@ public class Quadrangle implements IQuadrangle {
 		
 		return quadrangleAsArray;
 	}
+
+	@Override
+	public void copy(IQuadrangle quadrangle) {
+		this.a = quadrangle.getA();
+		this.b = quadrangle.getB();
+		this.c = quadrangle.getC();
+		this.d = quadrangle.getD();
+		
+	}
 }
