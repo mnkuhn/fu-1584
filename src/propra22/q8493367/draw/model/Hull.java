@@ -479,7 +479,7 @@ public class Hull implements IHull {
 					break;
 				}
 				case NEWLOWERRIGHT: {
-					if(tmpIndex + 1 < getSizeOfSection(sectionType)) {
+					if(tmpIndex + 1 < getSizeOfSection(tmpSectionType)) {
 						tmpIndex++;
 					} else {
 						tmpIndex = getSizeOfSection(SectionType.NEWLOWERLEFT) - 1;
