@@ -4,7 +4,7 @@ package propra22.q8493367.draw.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
 
 import propra22.q8493367.animation.ITangentPair;
 import propra22.q8493367.command.CommandManager;
@@ -15,9 +15,9 @@ import propra22.q8493367.command.InsertRandomPointsCommand;
 import propra22.q8493367.command.RemovePointCommand;
 import propra22.q8493367.contour.ContourPolygonCalculator;
 
-import propra22.q8493367.convex.DiameterCalculator;
+import propra22.q8493367.convex.DiameterAndQuadrangleCalculator;
 import propra22.q8493367.convex.IHull;
-import propra22.q8493367.convex.QuadrangleCalculator;
+
 import propra22.q8493367.convex.ConvexHullCalculator;
 
 
@@ -89,7 +89,7 @@ public class DrawPanelController implements IDrawPanelController {
 	private ConvexHullCalculator convexHullCalculator;
 
 	/** The calculator for the diameter */
-	private DiameterCalculator diameterAndQuadrangleCalulator;
+	private DiameterAndQuadrangleCalculator diameterAndQuadrangleCalulator;
 	
 	/** The observers */
 	private List<IDrawPanelControllerObserver> observers = new ArrayList<>();
@@ -118,7 +118,7 @@ public class DrawPanelController implements IDrawPanelController {
 		
 		this.contourPolygonCalculator = new ContourPolygonCalculator(pointSet, convexHull);
 		this.convexHullCalculator = new ConvexHullCalculator(convexHull);
-		this.diameterAndQuadrangleCalulator = new DiameterCalculator(convexHull);
+		this.diameterAndQuadrangleCalulator = new DiameterAndQuadrangleCalculator(convexHull);
 		
 	}
 
@@ -143,7 +143,7 @@ public class DrawPanelController implements IDrawPanelController {
 		
 		this.contourPolygonCalculator = new ContourPolygonCalculator(pointSet, hull);
 		this.convexHullCalculator = new ConvexHullCalculator(hull);
-		this.diameterAndQuadrangleCalulator = new DiameterCalculator(hull);
+		this.diameterAndQuadrangleCalulator = new DiameterAndQuadrangleCalculator(hull);
 	}
 
 	/**

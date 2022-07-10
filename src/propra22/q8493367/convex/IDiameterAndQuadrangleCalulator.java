@@ -7,7 +7,7 @@ import propra22.q8493367.draw.model.IQuadrangle;
  * The Interface IDiameterCalculator provides a method
  * which calculates the diameter of a convex hull.
  */
-public interface IDiameterCalculator {
+public interface IDiameterAndQuadrangleCalulator {
 	
 	/**
 	 * Calculates the diameter of the convex hull.

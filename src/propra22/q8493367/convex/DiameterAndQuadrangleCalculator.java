@@ -14,7 +14,7 @@ import propra22.q8493367.point.Point;
  * a convex hull as an argument and calculates the diameter and the quadrangle
  * with maximum area.
  */
-public class DiameterCalculator implements IDiameterCalculator {
+public class DiameterAndQuadrangleCalculator implements IDiameterAndQuadrangleCalulator {
 
 	/** The convex hull. */
 	private IHull convexHull;
@@ -40,7 +40,7 @@ public class DiameterCalculator implements IDiameterCalculator {
 	 *                             calculation of the diameter.
 	 * 
 	 */
-	public DiameterCalculator(IHull convexHull) {
+	public DiameterAndQuadrangleCalculator(IHull convexHull) {
 		this.convexHull = convexHull;
 	}
 
