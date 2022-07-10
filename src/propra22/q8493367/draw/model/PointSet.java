@@ -39,8 +39,8 @@ public class PointSet implements IPointSet {
 	 *{@inheritDoc}
 	 */
 	@Override
-	public  boolean hasPoint(IPoint point) {
-		return searchPoint(point) >= 0;
+	public  int hasPoint(IPoint point) {
+		return searchPoint(point);
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class PointSet implements IPointSet {
 	 */
 	@Override
 	public void addPoint(IPoint point) {
-		if(!hasPoint(point)) {
+		if(!(hasPoint(point) >= 0)) {
 			points.add(point);
 		}
 		checkForNewBounds(point);

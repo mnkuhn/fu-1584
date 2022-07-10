@@ -146,7 +146,12 @@ public interface IDrawPanelController {
 
 
 	/**
-	 * Terminates a point drag.
+	 * Terminates a point drag. Called, when the
+	 * user releases the mouse or the alt button.
+	 * If the point set contains a point with the 
+	 * same coordinates as the dragged point after
+	 * dragging, this point is deleted from 
+	 * the point set.
 	 *
 	 * @param mouseX the x coordinate of the mouse
 	 * @param mouseY the y coordinate of the mouse

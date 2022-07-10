@@ -47,8 +47,8 @@ public class DiameterCalculator implements IDiameterCalculator {
 	/**
 	 * Calculate the diameter and the quadrangle with the biggest area.
 	 * 
-	 * @param diameter   - the diameter object
-	 * @param quadrangle - the quadrangle object
+	 * @param diameter   the diameter object
+	 * @param quadrangle the quadrangle object
 	 */
 	public void calculate(IDiameter diameter, IQuadrangle quadrangle) {
 
@@ -67,7 +67,7 @@ public class DiameterCalculator implements IDiameterCalculator {
 		IHullIterator aIt = convexHull.getLeftIt();
 		IHullIterator cIt = convexHull.getRightIt();
 		
-		// convex hull has one or two points
+		// Convex hull has one or two points
 		if ((aIt.getPoint() == cIt.getPoint()) || (aIt.getNextPoint() == cIt.getPoint())) {
 			diameter.setA(aIt.getPoint());
 			diameter.setB(cIt.getPoint());
@@ -76,7 +76,7 @@ public class DiameterCalculator implements IDiameterCalculator {
 			quadrangle.setC(cIt.getPoint());
 			quadrangle.setD(cIt.getPoint());
 
-		// convex hull has more than 2 points 
+		// Convex hull has more than 2 points 
 		} else {
 
 			// first diameter

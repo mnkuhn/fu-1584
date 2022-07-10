@@ -76,9 +76,11 @@ public interface IPointSet {
 	 * coordinates as p.
 	 *
 	 * @param p - the point
-	 * @return true, if the point set contains the point p or a point
+	 * @return the index of the point in the pointset if 
+	 * the point set contains the point. A negative
+	 * value otherwise.
 	 */
-	boolean hasPoint(IPoint p);
+	int hasPoint(IPoint p);
     
 	
 
