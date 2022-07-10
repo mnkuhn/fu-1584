@@ -416,39 +416,42 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 
 	/**
-	 *{@inheritDoc}
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void terminatePointDrag(int mouseX, int mouseY) {
-		//Deltas of the mouse movement
-		int dx = mouseX - startMouseX;
-		int dy = mouseY - startMouseY;
-		
-		// Remove dragged point from point set
-		pointSet.removePoint(forDragSelected);
-		
-		/*Check if another point with same coordinates
-		as the dragged point exists. Remove the point
-		if so.
-		*/
-		IPoint removedPoint = null;
-		int pointIndex = pointSet.hasPoint(forDragSelected);
-		if(pointIndex >= 0) {
-			removedPoint = pointSet.getPointAt(pointIndex);
-			pointSet.removePoint(removedPoint);
-		}
-		
-		pointSet.addPoint(forDragSelected);
+		if (forDragSelected != null) {
+			// Deltas of the mouse movement
+			int dx = mouseX - startMouseX;
+			int dy = mouseY - startMouseY;
 
-		//Create command and put it into the command list
-		ICommand dragPointCommand = new DragPointCommand(dx, dy, forDragSelected, removedPoint, pointSet);
-		commandManager.add(dragPointCommand);
-		
-		//Various updates
-		pointSet.setHasChanged(true);
-		updateModel();
-		updateView();
-		forDragSelected = null;	
+			// Remove dragged point from point set
+			pointSet.removePoint(forDragSelected);
+
+			/*
+			 * Check if another point with same coordinates as the dragged point exists.
+			 * Remove the point if so.
+			 */
+			IPoint removedPoint = null;
+			int pointIndex = pointSet.hasPoint(forDragSelected);
+			if (pointIndex >= 0) {
+				removedPoint = pointSet.getPointAt(pointIndex);
+				pointSet.removePoint(removedPoint);
+			}
+
+			pointSet.addPoint(forDragSelected);
+
+			// Create command and put it into the command list
+			ICommand dragPointCommand = new DragPointCommand(dx, dy, forDragSelected, removedPoint, pointSet);
+			commandManager.add(dragPointCommand);
+
+			// Various updates
+			pointSet.setHasChanged(true);
+			updateModel();
+			updateView();
+			forDragSelected = null;
+
+		}
 	}
 
 	/**
