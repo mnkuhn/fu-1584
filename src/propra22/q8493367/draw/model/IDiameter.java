@@ -56,6 +56,14 @@ public interface IDiameter {
 	 */
 	int[][] asArray();
 	
+    
+	/**
+	 * Copies the attributes of the 
+	 * arguments into the caller.
+	 *
+	 * @param diameter the diameter whose attributes
+	 * are copied into this.
+	 */
 	void copy(IDiameter diameter);
 
 }

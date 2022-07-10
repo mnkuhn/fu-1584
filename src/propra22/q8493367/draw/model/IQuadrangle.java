@@ -80,6 +80,16 @@ public interface IQuadrangle {
 	 */
 	int[][] asArray();
 	
+	
+	
+	/**
+	 * Copies the attributes of the 
+	 * arguments into the caller.
+	 *
+	 * @param quadrangle the quadrangle
+	 * whose attributes are copied
+	 * into this.
+	 */
 	void copy(IQuadrangle quadrangle);
 
 }

@@ -50,7 +50,7 @@ public class TangentPair implements ITangentPair {
      * The points of the convex
      * hull in a list.
      */
-	private List<IPoint> hullAsList;
+	private IHull hull;
 	
 	
 	IHullIterator aIt;
@@ -75,14 +75,12 @@ public class TangentPair implements ITangentPair {
 	 */
 	@Override
 	public void initialize(IHull hull){
-		hullAsList = hull.toList();
+		this.hull = hull;
 		
 		aIt = hull.getLeftIt();
 		cIt = hull.getRightIt();
-		tangent1 = new Tangent(0, 0);
-		tangent2 = new Tangent(1, Math.PI);
-		index = 0;
-		angle = 0;
+		
+		// calculate angles
 	}
 	
 	
@@ -113,8 +111,8 @@ public class TangentPair implements ITangentPair {
 			increaseAngle();
 		}
 		else {
-			findPreviousAntipodalPair();
-			calculateAngle();
+			// calculate next antipodal pair
+			// calculate angle
 		}
 		
 
@@ -122,22 +120,7 @@ public class TangentPair implements ITangentPair {
 	
     
 	private void findPreviousAntipodalPair() {
-		if(hullAsList.size() >= 3 ) {
-			long angleComparisonTestResult = AngleComparisonTest(aIt, cIt);
-			if(angleComparisonTestResult > 0) {
-				aIt.next();
-			}else if(angleComparisonTestResult < 0) {
-				cIt.next();
-			}
-			else {
-				if (Point.isShorter(aIt.getPoint(), aIt.getNextPoint(), cIt.getPoint(), cIt.getNextPoint())) {
-					aIt.next();
-				}
-				else {
-					cIt.next();
-				}
-			}
-		}	
+		
 	}
 
 	private void calculateAngle() {
