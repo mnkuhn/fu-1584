@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import propra22.q8493367.convex.IHull;
-import propra22.q8493367.draw.model.Diameter;
+
 import propra22.q8493367.draw.model.IHullIterator;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
@@ -29,9 +29,6 @@ public class TangentPair implements ITangentPair {
 	 */
     private final double diff = Math.PI / 500;
     
-    //private final double offSet = Math.PI;
-    
-    private int index;
 	
     /**
      * The first tangent.
@@ -43,18 +40,26 @@ public class TangentPair implements ITangentPair {
      */
     private Tangent tangent2;
 	
-    /** The length of the tangent in pixels. */
+    /** The initial length of the tangent in pixels. */
     private double length = 400;
     
     /**
      * The points of the convex
      * hull in a list.
      */
-	private IHull hull;
+	private IHull convexHull;
 	
+	/**
+	 * Iterator representing the one point 
+	 * of the antipodal pair
+	 */
+	private IHullIterator aIt;
 	
-	IHullIterator aIt;
-	IHullIterator cIt;
+	/**
+	 * Iterator representing the other point 
+	 * of the antipodal pair
+	 */
+	private IHullIterator cIt;
 	
 	/**
 	 * The constructor sets angle to 0 with respect to 
@@ -63,7 +68,6 @@ public class TangentPair implements ITangentPair {
 	 * tangent turns counterclockwise.
 	 */
 	
-	private List<IPoint[]> antipodalPairs = new ArrayList<>(); 
 	
 	public TangentPair() {
 		
@@ -75,31 +79,18 @@ public class TangentPair implements ITangentPair {
 	 */
 	@Override
 	public void initialize(IHull hull){
-		this.hull = hull;
+		this.convexHull = hull;
 		
 		aIt = hull.getLeftIt();
 		cIt = hull.getRightIt();
 		
+		this.tangent1 = new Tangent(aIt, 0);
+		this.tangent2 = new Tangent(cIt, Math.PI);
+		
 		// calculate angles
 	}
 	
-	
-	
-	// als static in die Hülle?
-	private  long AngleComparisonTest(IHullIterator aIterator, IHullIterator bIterator) {
-		long xTip = (long) aIterator.getPoint().getX() + (long) bIterator.getPoint().getX() - (long) bIterator.getNextPoint().getX();
-		long yTip = (long) aIterator.getPoint().getY() + (long) bIterator.getPoint().getY() - (long) bIterator.getNextPoint().getY();
-		IPoint tip = new Point((int) xTip, (int) yTip);
-		return Point.signedTriangleArea(aIterator.getPoint(), aIterator.getNextPoint(), tip);
-	}
 
-	
-
-	private  double  getAngle(IPoint a, IPoint b) {
-		double dx = b.getX() - a.getX();
-		double dy = a.getY() - b.getY();
-		return Math.atan2(dx, dy);
-	}
 
 	/**
 	 * {@inheritDoc}
@@ -111,29 +102,62 @@ public class TangentPair implements ITangentPair {
 			increaseAngle();
 		}
 		else {
-			// calculate next antipodal pair
-			// calculate angle
+			//Only one tangent center changes
+			IPoint tangent1PreviousCentre = aIt.getPoint();
+			setIteratorsToPreviousAntipodalPair();
+			if(tangent1PreviousCentre != aIt.getPoint()) {
+				angle = tangent1.calculateAngle();
+			} else {
+				angle = tangent2.calculateAngle();
+			}
 		}
-		
+	}
+	
+	private void setIteratorsToNextAntipodalPair() {
 
+		long angleComparisonTestResult = Point.angleComparisonTest(aIt.getPoint(), aIt.getNextPoint(), cIt.getPoint(), cIt.getNextPoint());
+		// angleComparisonResult > 0
+		if (angleComparisonTestResult > 0) {
+			aIt.next();
+		// angleComparisonResult < 0
+		} else if (angleComparisonTestResult < 0) {
+			cIt.next();
+		}
+		// angleComparisonResult == 0
+		else {
+			if (Point.isShorter(aIt.getPoint(), aIt.getNextPoint(), cIt.getPoint(), cIt.getNextPoint())) {
+				cIt.next();
+			} else {
+				aIt.next();	
+			}
+		}	
 	}
 	
     
-	private void findPreviousAntipodalPair() {
+	private void setIteratorsToPreviousAntipodalPair() {
 		
+		long angleComparisonTestResult = Point.angleComparisonTest(aIt.getPoint(), aIt.getPreviousPoint(), cIt.getPoint(), cIt.getPreviousPoint());
+		// angleComparisonResult > 0
+		if (angleComparisonTestResult < 0) {
+			aIt.previous();
+		// angleComparisonResult < 0
+		} else if (angleComparisonTestResult > 0) {
+			cIt.previous();
+		}
+		// angleComparisonResult == 0
+		else {
+			if (Point.isShorter(aIt.getPoint(), aIt.getNextPoint(), cIt.getPoint(), cIt.getNextPoint())) {
+				cIt.previous();
+			} else {
+				aIt.previous();	
+			}
+		}	
 	}
 
-	private void calculateAngle() {
-		double angle1 = tangent1.calculateAngle();
-		double angle2 = tangent2.calculateAngle();
-		if(angle1 > angle2) {
-			angle = angle1;
-		}
-		else {
-			angle = angle2;
-		}
-		
-	}
+	
+	
+
+	
 
 	/**
 	 * {@inheritDoc}
@@ -193,13 +217,13 @@ public class TangentPair implements ITangentPair {
 		 * This index represents the index of the point of the convex hull, 
 		 * which is the point of contact.
 		 */
-		int id;
+		private IHullIterator it;
         
 		/**
 		 * The angleOffset is added to the angle. In our case this is PI, 
 		 * so it is guaranteed that both tangents of the tangent pair are parallel.
 		 */
-		double angleOffset;
+		private double angleOffset;
 		
 		/**
 		 * The constructor of a tangent takes the center index for
@@ -207,19 +231,34 @@ public class TangentPair implements ITangentPair {
 		 * @param centerIndex - The index in the hull for the contact point
 		 * @param angleOffset - The offset for the angle
 		 */
-		public Tangent(int id, double angleOffset) {
-			
-			this.id = id;
+		public Tangent(IHullIterator it, double angleOffset) {
+		    this.it = it;
 			this.angleOffset = angleOffset;
 		}
 		
 		
 
+	
+		
+		// vielleicht funktionales Interface für die Richtung?
+
 		public double calculateAngle() {
-			return getAngle(getCenter(), getPreviousHullPoint()) - angleOffset;	
+			return getAngle(it.getPoint(), it.getNextPoint()) - angleOffset;
 		}
 		
 		
+		private  double  getAngle(IPoint center, IPoint previous) {
+			double dx = center.getX() - previous.getX();
+			double dy = previous.getY() - center.getY();
+			double result =  Math.atan2(dx, dy);
+			return result;
+		}
+
+
+
+
+
+
 
 		/**
 		 * Moves the contact point to the previous point in
@@ -240,11 +279,13 @@ public class TangentPair implements ITangentPair {
          * characteristic of the tangent described above.
          * False otherwise.
          */
+		
+		// Auch hier: funktionales Interface
 		private long nextAngleIsValid() {
 			IPoint center = getCenter();
 			IPoint nextB = getNextB();
-			IPoint previousHullPoint = getPreviousHullPoint();
-			long result = Point.signedTriangleArea(center, nextB, previousHullPoint);
+			
+			long result = Point.signedTriangleArea(center, nextB, it.getPreviousPoint());
 			return result;
 		}
 
@@ -254,26 +295,10 @@ public class TangentPair implements ITangentPair {
 		 * @return - The contact point
 		 */
 		public IPoint getCenter() {
-			return antipodalPairs.get(Math.floorMod(index, antipodalPairs.size()) )[id];
+			return it.getPoint();
 		}
 		
-		public IPoint getPreviousHullPoint() {
-			int i = 1;
-			int lindex = Math.floorMod(index - i, antipodalPairs.size()) ;
-			while(antipodalPairs.get( lindex )[id] == getCenter()) {
-				i--;
-				lindex = Math.floorMod(index - i, antipodalPairs.size()) ;
-			}
-			return  antipodalPairs.get(Math.floorMod(index - i, antipodalPairs.size()) )[id];
-		}
 		
-		public IPoint getNextHullPoint() {
-			int i = 1;
-			while(antipodalPairs.get(Math.floorMod(index + i, antipodalPairs.size()) )[id] == getCenter()) {
-				i++;
-			}
-			return  antipodalPairs.get(Math.floorMod(index + i, antipodalPairs.size()) )[id];
-		}
 
 	
 		/**
@@ -291,8 +316,8 @@ public class TangentPair implements ITangentPair {
 		 * @return - One end of the tangent
 		 */
 		public IPoint getA() {
-			int x = (int)Math.round(antipodalPairs.get(index)[id].getX() - length/2 * Math.sin(angle + angleOffset));
-			int y = (int)Math.round(antipodalPairs.get(index)[id].getY() + length/2 * Math.cos(angle + angleOffset));
+			int x = (int)Math.round(it.getPoint().getX() - length/2 * Math.sin(angle + angleOffset));
+			int y = (int)Math.round(it.getPoint().getY() + length/2 * Math.cos(angle + angleOffset));
 			return new Point(x, y);
 		} 
 		
@@ -302,8 +327,8 @@ public class TangentPair implements ITangentPair {
 		 */
 		public IPoint getB() {
 		
-			int x = (int)Math.round(antipodalPairs.get(index)[id].getX() + length/2 * Math.sin(angle + angleOffset));
-			int y = (int)Math.round(antipodalPairs.get(index)[id].getY() - length/2 * Math.cos(angle + angleOffset));
+			int x = (int)Math.round(it.getPoint().getX() + length/2 * Math.sin(angle + angleOffset));
+			int y = (int)Math.round(it.getPoint().getY() - length/2 * Math.cos(angle + angleOffset));
 			return new Point(x, y);
 		}
 		
@@ -314,10 +339,9 @@ public class TangentPair implements ITangentPair {
 		 * @return - One end of the tangent
 		 */
 		private IPoint getNextB() {
-			int xc = antipodalPairs.get(index)[id].getX();
-			double sin =  Math.sin(angle + angleOffset + diff);
-			int x = (int)Math.round(antipodalPairs.get(index)[id].getX() + length/2 * Math.sin(angle + angleOffset + diff));
-			int y = (int)Math.round(antipodalPairs.get(index)[id].getY() - length/2 * Math.cos(angle + angleOffset + diff));
+			
+			int x = (int)Math.round(it.getPoint().getX() + length/2 * Math.sin(angle + angleOffset + diff));
+			int y = (int)Math.round(it.getPoint().getY() - length/2 * Math.cos(angle + angleOffset + diff));
 			return new Point(x, y);
 		}
 		
@@ -328,8 +352,8 @@ public class TangentPair implements ITangentPair {
 		 * @return - One end of the tangent
 		 */
 		private IPoint getNextA(double pDiff) {
-			int x = (int)Math.round(antipodalPairs.get(index)[id].getX() - length/2 * Math.sin(angle + angleOffset + pDiff));
-			int y = (int)Math.round(antipodalPairs.get(index)[id].getY() + length/2 * Math.cos(angle + angleOffset + pDiff));
+			int x = (int)Math.round(it.getPoint().getX() - length/2 * Math.sin(angle + angleOffset + pDiff));
+			int y = (int)Math.round(it.getPoint().getY() + length/2 * Math.cos(angle + angleOffset + pDiff));
 			return new Point(x, y);
 		}
 		
@@ -342,11 +366,5 @@ public class TangentPair implements ITangentPair {
 		
 		
 		
-		private long angeComparisonTest(IPoint a, IPoint afterA, IPoint c, IPoint afterC) {
-			long xTip = (long) a.getX() + (long) c.getX() - (long) afterC.getX();
-			long yTip = (long) a.getY() + (long) c.getY() - (long) afterC.getY();
-			IPoint tip = new Point((int)xTip, (int)yTip);
-			return Point.signedTriangleArea(a, afterA, tip);
-		}
 	}	
 }

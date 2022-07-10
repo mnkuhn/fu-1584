@@ -80,4 +80,6 @@ public interface IPoint extends Comparable<IPoint> {
 	 * false otherwise.
 	 */
 	public boolean equals(IPoint p);
+
+	
 }

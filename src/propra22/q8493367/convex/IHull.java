@@ -149,9 +149,19 @@ public interface IHull {
 	List<IPoint> toList();
 
 	/**
-	 * {@inheritDoc}
+	 * Gets an iterator starting from the left most
+	 * point (lowest x coordinate and highest y coordinate)
 	 */
 	IHullIterator getLeftIt();
 	
+	
+	/**
+	 * 
+	 * Gets an iterator starting from the right most
+	 * point (highes x coordinate and lowest y coordinate)
+	 *
+	 */
 	IHullIterator getRightIt();
+    
+	
 }

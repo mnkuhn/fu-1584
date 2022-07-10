@@ -92,7 +92,8 @@ public class DiameterAndQuadrangleCalculator implements IDiameterAndQuadrangleCa
 			IPoint right = cIt.getPoint();
 			while (!(aIt.getPoint() == right) || !(cIt.getPoint() == left)) {
 
-				long angleComparisonTestResult = AngleComparisonTest(aIt, cIt);
+				//long angleComparisonTestResult = convexHull.AngleComparisonTest(aIt, cIt);
+				long angleComparisonTestResult = Point.angleComparisonTest(aIt.getPoint(), aIt.getNextPoint(), cIt.getPoint(), cIt.getNextPoint());
 
 				// angleComparisonResult > 0
 				if (angleComparisonTestResult > 0) {
@@ -164,6 +165,8 @@ public class DiameterAndQuadrangleCalculator implements IDiameterAndQuadrangleCa
 	 * @param bIterator the b iterator
 	 * @return the long
 	 */
+	
+	/*
 	private long AngleComparisonTest(IHullIterator aIterator, IHullIterator bIterator) {
 		long xTip = (long) aIterator.getPoint().getX() + (long) bIterator.getPoint().getX()
 				- (long) bIterator.getNextPoint().getX();
@@ -172,6 +175,8 @@ public class DiameterAndQuadrangleCalculator implements IDiameterAndQuadrangleCa
 		IPoint tip = new Point((int) xTip, (int) yTip);
 		return  Point.signedTriangleArea(aIterator.getPoint(), aIterator.getNextPoint(), tip);
 	}
+	
+	*/
 
 	private Quadrangle calculateQuadrangle(IPoint a, IHullIterator bIt, IPoint c, IHullIterator dIt) {
 		/*

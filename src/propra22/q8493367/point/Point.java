@@ -196,6 +196,14 @@ public class Point  implements IPoint {
 		return signedTriangleArea(sum, d2, d1) > 0;	
 	}
 	
+	
+	public  static long angleComparisonTest(IPoint a, IPoint afterA, IPoint b, IPoint afterB) {
+		long xTip = (long) a.getX() + (long) b.getX() - (long) afterB.getX();
+		long yTip = (long) a.getY() + (long) b.getY() - (long) afterB.getY();
+		IPoint tip = new Point((int) xTip, (int) yTip);
+		return  Point.signedTriangleArea(a, afterA, tip);
+	}
+	
 }
 
 

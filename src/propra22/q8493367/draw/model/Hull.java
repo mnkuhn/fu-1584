@@ -5,6 +5,7 @@ import java.util.List;
 import propra22.q8493367.contour.SectionType;
 import propra22.q8493367.convex.IHull;
 import propra22.q8493367.point.IPoint;
+import propra22.q8493367.point.Point;
 
 
 // TODO: Auto-generated Javadoc
@@ -567,9 +568,17 @@ public class Hull implements IHull {
 		 */
 	}
 	
-	public static void main(String[] args) {
-		IHull hull = new Hull();
-	
+	/*
+	@Override
+	public  long AngleComparisonTest(IHullIterator aIterator, IHullIterator bIterator) {
+		long xTip = (long) aIterator.getPoint().getX() + (long) bIterator.getPoint().getX()
+				- (long) bIterator.getNextPoint().getX();
+		long yTip = (long) aIterator.getPoint().getY() + (long) bIterator.getPoint().getY()
+				- (long) bIterator.getNextPoint().getY();
+		IPoint tip = new Point((int) xTip, (int) yTip);
+		return  Point.signedTriangleArea(aIterator.getPoint(), aIterator.getNextPoint(), tip);
 	}
+	*/
+	
 	
 }
