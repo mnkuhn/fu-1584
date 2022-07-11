@@ -61,7 +61,7 @@ public class CommandManager {
 	 * more than one commands have been undone an a new command is executed.
 	 */
 	private void removeAllComandsAfterCommandIndex() {
-		for (int i = commandIndex + 1; i < commandList.size(); i++) {
+		for (int i = commandList.size() - 1; i > commandIndex; i--) {
 			commandList.remove(i);
 		}
 	}
