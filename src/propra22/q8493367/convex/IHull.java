@@ -88,6 +88,11 @@ public interface IHull {
 	int getIndexOfRightMostPoint();
 	
 	
+	/**
+	 * Empty.
+	 *
+	 * @return true, if successful
+	 */
 	boolean empty();
 	
 	/**
@@ -148,18 +153,20 @@ public interface IHull {
 	 */
 	List<IPoint> toList();
 
+	
 	/**
 	 * Gets an iterator starting from the left most
 	 * point (lowest x coordinate and highest y coordinate)
+	 * @return the hull iterator on the left most point
 	 */
 	IHullIterator getLeftIt();
 	
 	
 	/**
-	 * 
 	 * Gets an iterator starting from the right most
-	 * point (highes x coordinate and lowest y coordinate)
+	 * point (highes x coordinate and lowest y coordinate).
 	 *
+	 * @return the hull iterator on the right most point
 	 */
 	IHullIterator getRightIt();
     

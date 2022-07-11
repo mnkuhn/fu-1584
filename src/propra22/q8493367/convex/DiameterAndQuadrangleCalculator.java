@@ -35,9 +35,6 @@ public class DiameterAndQuadrangleCalculator implements IDiameterAndQuadrangleCa
 	 * Instantiates a new diameter and quadrangle calculator.
 	 *
 	 * @param convexHull           The convex hull
-	 * @param quadrangleCalculator The calculator for the biggest quadrangle which
-	 *                             can be used directly in the algorithm for the
-	 *                             calculation of the diameter.
 	 * 
 	 */
 	public DiameterAndQuadrangleCalculator(IHull convexHull) {
@@ -158,26 +155,17 @@ public class DiameterAndQuadrangleCalculator implements IDiameterAndQuadrangleCa
 		}
 	}
 
-	/**
-	 * Angle comparison test.
-	 *
-	 * @param aIterator the a iterator
-	 * @param bIterator the b iterator
-	 * @return the long
-	 */
 	
-	/*
-	private long AngleComparisonTest(IHullIterator aIterator, IHullIterator bIterator) {
-		long xTip = (long) aIterator.getPoint().getX() + (long) bIterator.getPoint().getX()
-				- (long) bIterator.getNextPoint().getX();
-		long yTip = (long) aIterator.getPoint().getY() + (long) bIterator.getPoint().getY()
-				- (long) bIterator.getNextPoint().getY();
-		IPoint tip = new Point((int) xTip, (int) yTip);
-		return  Point.signedTriangleArea(aIterator.getPoint(), aIterator.getNextPoint(), tip);
-	}
-	
-	*/
 
+	/**
+	 * Calculates the quadrangle over the antipodal pair given by the points a and c.
+	 *
+	 * @param a the point a
+	 * @param bIt the hull iterator representing the point b
+	 * @param c the point c
+	 * @param dIt the hull iterator representing the point d
+	 * @return the quadrangle
+	 */
 	private Quadrangle calculateQuadrangle(IPoint a, IHullIterator bIt, IPoint c, IHullIterator dIt) {
 		/*
 		 * IPoint c = cIt.getPoint(); IPoint a = aIt.getPoint(); IPoint bNext =

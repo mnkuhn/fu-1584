@@ -3,15 +3,16 @@ package propra22.q8493367.point;
 
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Point represents a point in a cartesian coordinate system.
  */
 public class Point  implements IPoint {
 
-	/** The x coordinate of the point*/
+	/**  The x coordinate of the point. */
 	private int x;
 	
-	/** The y coordinate of the point*/
+	/**  The y coordinate of the point. */
 	private int y;
 	
 	/**
@@ -197,6 +198,15 @@ public class Point  implements IPoint {
 	}
 	
 	
+	/**
+	 * Angle comparison test. 
+	 *
+	 * @param a the point a
+	 * @param afterA the point following a in the convex hull
+	 * @param b the point b
+	 * @param afterB the point following b in the convex hull
+	 * @return the result of the angle comparison test as described in the specification
+	 */
 	public  static long angleComparisonTest(IPoint a, IPoint afterA, IPoint b, IPoint afterB) {
 		long xTip = (long) a.getX() + (long) b.getX() - (long) afterB.getX();
 		long yTip = (long) a.getY() + (long) b.getY() - (long) afterB.getY();

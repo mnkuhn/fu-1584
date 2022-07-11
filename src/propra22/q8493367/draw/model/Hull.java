@@ -14,9 +14,7 @@ import propra22.q8493367.point.Point;
  */
 public class Hull implements IHull {
 
-	/** The points of the hull in clockwise direction in a standard
-	 * cartesian coordinate system
-	 */
+	/**  The points of the hull in clockwise direction in a standard cartesian coordinate system. */
 	private  List<IPoint> pointList = new ArrayList<>();
 
 	/** The lower left section. */
@@ -342,6 +340,11 @@ public class Hull implements IHull {
 		return new HullIterator(0);
 	}
 	
+	/**
+	 * Gets the right it.
+	 *
+	 * @return the right it
+	 */
 	public IHullIterator getRightIt() {
 		return new HullIterator(1);
 	}
@@ -374,18 +377,25 @@ public class Hull implements IHull {
 	 */
 	private class HullIterator implements IHullIterator {
 		
-		/** The index of the current element */
+		/**  The index of the current element. */
 		int index;
+		
+		
+		/** The temporary index is used for the iterator functionality*/
 		int tmpIndex;
 		
+		/** The section type. */
 		SectionType sectionType;
+		
+		/** The temporary section type is used for the iterator functionality*/
 		SectionType tmpSectionType;
 
 		/**
 		 * Instantiates a new hull iterator.
 		 *
-		 * @param index the index of the element
-		 * on which the iterator starts.
+		 * @param type represents the type of the iterator.
+		 * 0 stands for the iterator starting on the left most point
+		 * 1 stands for the iterator starting on the right most point
 		 */
 		public HullIterator(int type) {
 			if(type == 0) {
@@ -431,6 +441,11 @@ public class Hull implements IHull {
 		     return getPointFromSection(tmpIndex, tmpSectionType);
 		}
 		
+		/**
+		 * Gets the previous point.
+		 *
+		 * @return the previous point
+		 */
 		@Override
 		public IPoint getPreviousPoint() {
 			tmpIndex = index;
@@ -459,6 +474,9 @@ public class Hull implements IHull {
 			}	
 		}
 		
+		/**
+		 * Go next.
+		 */
 		private void goNext(){
 			switch(tmpSectionType) {
 				case NEWUPPERLEFT : {
@@ -518,6 +536,9 @@ public class Hull implements IHull {
 			}
 		}
 		
+		/**
+		 * Go previous.
+		 */
 		private void goPrevious() {
 			switch(tmpSectionType) {
 				case NEWUPPERLEFT : {

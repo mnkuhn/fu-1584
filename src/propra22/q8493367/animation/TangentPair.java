@@ -10,6 +10,7 @@ import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TangentPair represents a pair of tangents. 
  * These two tangents stand at a constant angle to each other. In this
@@ -49,16 +50,10 @@ public class TangentPair implements ITangentPair {
      */
 	private IHull convexHull;
 	
-	/**
-	 * Iterator representing the one point 
-	 * of the antipodal pair
-	 */
+	/** Iterator representing the one point  of the antipodal pair. */
 	private IHullIterator aIt;
 	
-	/**
-	 * Iterator representing the other point 
-	 * of the antipodal pair
-	 */
+	/** Iterator representing the other point  of the antipodal pair. */
 	private IHullIterator cIt;
 	
 	/**
@@ -113,6 +108,13 @@ public class TangentPair implements ITangentPair {
 		}
 	}
 	
+	
+	
+	
+	/**
+	 * Sets the iterators to the next antipodal pair (moving in clockwise direction
+	 * in a standard cartesian coordinate system)
+	 */
 	private void setIteratorsToNextAntipodalPair() {
 
 		long angleComparisonTestResult = Point.angleComparisonTest(aIt.getPoint(), aIt.getNextPoint(), cIt.getPoint(), cIt.getNextPoint());
@@ -134,6 +136,10 @@ public class TangentPair implements ITangentPair {
 	}
 	
     
+	/**
+	 * Sets the iterators to previous antipodal pair (moving in counter clockwise direction
+	 * in a standard cartesian coordinate system)
+	 */
 	private void setIteratorsToPreviousAntipodalPair() {
 		
 		long angleComparisonTestResult = Point.angleComparisonTest(aIt.getPoint(), aIt.getPreviousPoint(), cIt.getPoint(), cIt.getPreviousPoint());
@@ -228,7 +234,8 @@ public class TangentPair implements ITangentPair {
 		/**
 		 * The constructor of a tangent takes the center index for
 		 * the contact point and the offset for the angle.
-		 * @param centerIndex - The index in the hull for the contact point
+		 *
+		 * @param it the it
 		 * @param angleOffset - The offset for the angle
 		 */
 		public Tangent(IHullIterator it, double angleOffset) {
@@ -242,11 +249,23 @@ public class TangentPair implements ITangentPair {
 		
 		// vielleicht funktionales Interface für die Richtung?
 
+		/**
+		 * Calculate angle.
+		 *
+		 * @return the double
+		 */
 		public double calculateAngle() {
 			return getAngle(it.getPoint(), it.getNextPoint()) - angleOffset;
 		}
 		
 		
+		/**
+		 * Gets the angle.
+		 *
+		 * @param center the center
+		 * @param previous the previous
+		 * @return the angle
+		 */
 		private  double  getAngle(IPoint center, IPoint previous) {
 			double dx = center.getX() - previous.getX();
 			double dy = previous.getY() - center.getY();
@@ -266,6 +285,8 @@ public class TangentPair implements ITangentPair {
 		 * because we want the tangents to turn counterclockwise
 		 * and we want to use a standard cartesian coordinate 
 		 * system in the GUI.
+		 *
+		 * @return the long
 		 */
 		
 		
@@ -335,7 +356,6 @@ public class TangentPair implements ITangentPair {
 		/**
 		 * Gets end B of the tangent as a point for angle + pDiff.
 		 *
-		 * @param pDiff the diff
 		 * @return - One end of the tangent
 		 */
 		private IPoint getNextB() {

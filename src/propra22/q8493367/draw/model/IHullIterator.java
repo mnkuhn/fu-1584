@@ -21,13 +21,22 @@ public interface IHullIterator {
 
 	/**
 	 * Gets the next point referenced by the actual iterator
-	 * position.
+	 * position (clockwise direction in a standard 
+	 * cartesian coordinate system).
 	 *
-	 * @return the next point referenced by the actual iterator
+	 * @return the next point of the point referenced by the actual iterator
 	 * position.
 	 */
 	IPoint getNextPoint();
 	
+	/**
+	 * Gets the previous point referenced by the actual iterator
+	 * position (counterclockwise direction in a standard 
+	 * cartesian coordinate system).
+	 *
+	 * @return the previous point of the point referenced by the actual iterator
+	 * position.
+	 */
 	IPoint getPreviousPoint();
 
 	/**
