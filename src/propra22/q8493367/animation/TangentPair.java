@@ -159,10 +159,7 @@ public class TangentPair implements ITangentPair {
 		}	
 	}
 
-	
-	
 
-	
 
 	/**
 	 * {@inheritDoc}
@@ -194,8 +191,8 @@ public class TangentPair implements ITangentPair {
 	 * One or two points lie on the tangent, the rest of the
 	 * points, if they exist, all together on one side of 
 	 * the tangent. 
-	 * @param tangent - The tangent
-	 * @return - True, if the tangent invariant is maintained
+	 * @param tangent The tangent
+	 * @return True, if the tangent invariant is maintained
 	 * false otherwise
 	 */
 	private boolean nextAngleIsValid(Tangent tangent) {
@@ -244,9 +241,6 @@ public class TangentPair implements ITangentPair {
 		
 		
 
-	
-		
-		// vielleicht funktionales Interface für die Richtung?
 
 		/**
 		 * Calculate angle.
@@ -273,21 +267,6 @@ public class TangentPair implements ITangentPair {
 		}
 
 
-
-
-
-
-
-		/**
-		 * Moves the contact point to the previous point in
-		 * the convex hull. We need to take the previous point 
-		 * because we want the tangents to turn counterclockwise
-		 * and we want to use a standard cartesian coordinate 
-		 * system in the GUI.
-		 *
-		 * @return the long
-		 */
-		
 		
 		
         /**
@@ -300,7 +279,7 @@ public class TangentPair implements ITangentPair {
          * False otherwise.
          */
 		
-		// Auch hier: funktionales Interface
+		
 		private long nextAngleIsValid() {
 			IPoint center = getCenter();
 			IPoint nextB = getNextB();
@@ -333,17 +312,29 @@ public class TangentPair implements ITangentPair {
 		
 		/**
 		 * Gets end A of the tangent as a point.
-		 * @return - One end of the tangent
+		 * @return One end of the tangent
 		 */
 		public IPoint getA() {
 			int x = (int)Math.round(it.getPoint().getX() - length/2 * Math.sin(angle + angleOffset));
 			int y = (int)Math.round(it.getPoint().getY() + length/2 * Math.cos(angle + angleOffset));
 			return new Point(x, y);
-		} 
+		}
+		
+		/**
+		 * Gets end A of the tangent as a point for angle + pDiff.
+		 *
+		 * @param pDiff the diff
+		 * @return One end of the tangent
+		 */
+		private IPoint getNextA(double pDiff) {
+			int x = (int)Math.round(it.getPoint().getX() - length/2 * Math.sin(angle + angleOffset + pDiff));
+			int y = (int)Math.round(it.getPoint().getY() + length/2 * Math.cos(angle + angleOffset + pDiff));
+			return new Point(x, y);
+		}
 		
 		/**
 		 * Gets end B of the tangent as a point.
-		 * @return - One end of the tangent
+		 * @return One end of the tangent
 		 */
 		public IPoint getB() {
 		
@@ -355,7 +346,7 @@ public class TangentPair implements ITangentPair {
 		/**
 		 * Gets end B of the tangent as a point for angle + pDiff.
 		 *
-		 * @return - One end of the tangent
+		 * @return One end of the tangent
 		 */
 		private IPoint getNextB() {
 			
@@ -363,25 +354,6 @@ public class TangentPair implements ITangentPair {
 			int y = (int)Math.round(it.getPoint().getY() - length/2 * Math.cos(angle + angleOffset + diff));
 			return new Point(x, y);
 		}
-		
-		/**
-		 * Gets end A of the tangent as a point for angle + pDiff.
-		 *
-		 * @param pDiff the diff
-		 * @return - One end of the tangent
-		 */
-		private IPoint getNextA(double pDiff) {
-			int x = (int)Math.round(it.getPoint().getX() - length/2 * Math.sin(angle + angleOffset + pDiff));
-			int y = (int)Math.round(it.getPoint().getY() + length/2 * Math.cos(angle + angleOffset + pDiff));
-			return new Point(x, y);
-		}
-		
-		/**
-		 * Gets the next point in the convex hull turning clockwise 
-		 * since the GUI is based on a standard cartesian coordinate system.
-		 * @return - The next point in the convex hull
-		 * 
-		 */
 		
 		
 		
