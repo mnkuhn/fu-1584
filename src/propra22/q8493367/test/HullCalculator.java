@@ -4,18 +4,18 @@ import java.io.File;
 import java.io.IOException;
 
 import propra22.interfaces.IHullCalculator;
-import propra22.q8493367.convex.IHull;
+import propra22.q8493367.contour.IDiameter;
+import propra22.q8493367.contour.IHull;
+import propra22.q8493367.contour.IPointSet;
+import propra22.q8493367.contour.IQuadrangle;
 import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.model.PointSet;
-import propra22.q8493367.draw.model.Quadrangle;
 import propra22.q8493367.file.FileManager;
 import propra22.q8493367.file.IParser;
 import propra22.q8493367.file.Parser;
-import propra22.q8493367.draw.model.Diameter;
-import propra22.q8493367.draw.model.Hull;
-import propra22.q8493367.draw.model.IDiameter;
-import propra22.q8493367.draw.model.IPointSet;
-import propra22.q8493367.draw.model.IQuadrangle;
+import propra22.q8493367.shape.Diameter;
+import propra22.q8493367.shape.Hull;
+import propra22.q8493367.shape.Quadrangle;
 
 
 

@@ -16,13 +16,13 @@ import java.awt.event.MouseWheelListener;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import propra22.q8493367.animation.ITangentPair;
+import propra22.q8493367.animation.AnimationThread;
 import propra22.q8493367.animation.TangentPair;
-import propra22.q8493367.contour.SectionType;
-import propra22.q8493367.convex.IHull;
-import propra22.q8493367.draw.model.IDiameter;
-import propra22.q8493367.draw.model.IPointSet;
-import propra22.q8493367.draw.model.IQuadrangle;
+import propra22.q8493367.contour.IDiameter;
+import propra22.q8493367.contour.IHull;
+import propra22.q8493367.contour.IPointSet;
+import propra22.q8493367.contour.IQuadrangle;
+import propra22.q8493367.contour.ContourType;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 import propra22.q8493367.settings.Settings;
@@ -52,9 +52,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	/** The quadrangle. */
 	private IQuadrangle quadrangle;
 	
-	/** The tangent pair. */
-	private volatile ITangentPair tangentPair;
-
+	private TangentPair tangentPair;
 	
 	//Listener
 	/** The draw panel listener. */
@@ -74,7 +72,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	private boolean triangleIsShown = Settings.defaultTriangleIsShown;
 	
 	/** True, if the animation is running. */
-	private boolean animationIsRunning = Settings.defaultAnimationIsShown;
+	private boolean animationIsShown = Settings.defaultAnimationIsShown;
     
 	
 	//Zoom and Dragging
@@ -154,7 +152,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * @param tangentPair - the tangent pair for the animation
 	 */
 	public DrawPanel(IPointSet pointSet, IHull hull, IDiameter diameter, IQuadrangle quadrangle,
-			ITangentPair tangentPair) {
+			TangentPair tangentPair) {
 
 		this.pointSet = pointSet;
 		this.hull = hull;
@@ -384,8 +382,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 				drawQuadrangle(g2, Settings.quadrangleColor);
 			}
 			drawCoordinateSystem(g2);
-			if (animationIsRunning) {
-				drawAnimation(g2);
+			if (animationIsShown) {
+				drawTangentPair(g2);
 			}
 		}
 	}
@@ -477,7 +475,10 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	private double translateYFromViewToModel(int y) {
 		return (((double)getHeight() - 1 - (double)y)/panelScale  - outerOffsetY - mouseOffsetY)/scale - innerOffsetY;
 	}
-
+     
+	
+	// TODO now with iterators!
+	
 	/**
 	 * Draws the convex hull.
 	 *
@@ -487,7 +488,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	private void drawHull(Graphics2D g2, Color color) {
 		g2.setColor(color);
 
-		for (SectionType sectionType : SectionType.values()) {
+		for (ContourType sectionType : ContourType.values()) {
 			int sectionSize = hull.getSizeOfSection(sectionType);
 			if (sectionSize > 1) {
 				for (int i = 0; i < sectionSize - 1; i++) {
@@ -500,21 +501,21 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 							translatedSecond.getY());
 				}
 			}
-			sectionSize = hull.getSizeOfSection(SectionType.NEWUPPERLEFT);
-			IPoint lastLeft = hull.getPointFromSection(sectionSize - 1, SectionType.NEWUPPERLEFT);
+			sectionSize = hull.getSizeOfSection(ContourType.NEWUPPERLEFT);
+			IPoint lastLeft = hull.getPointFromSection(sectionSize - 1, ContourType.NEWUPPERLEFT);
 			IPoint translatedLastLeft = translatePointFromModelToView(lastLeft);
 
-			sectionSize = hull.getSizeOfSection(SectionType.NEWUPPERRIGHT);
-			IPoint lastRight = hull.getPointFromSection(sectionSize - 1, SectionType.NEWUPPERRIGHT);
+			sectionSize = hull.getSizeOfSection(ContourType.NEWUPPERRIGHT);
+			IPoint lastRight = hull.getPointFromSection(sectionSize - 1, ContourType.NEWUPPERRIGHT);
 			IPoint translatedLastRight = translatePointFromModelToView(lastRight);
 			g2.drawLine(translatedLastLeft.getX(), translatedLastLeft.getY(), translatedLastRight.getX(),
 					translatedLastRight.getY());
 
-			sectionSize = hull.getSizeOfSection(SectionType.NEWLOWERLEFT);
-			lastLeft = hull.getPointFromSection(sectionSize - 1, SectionType.NEWLOWERLEFT);
+			sectionSize = hull.getSizeOfSection(ContourType.NEWLOWERLEFT);
+			lastLeft = hull.getPointFromSection(sectionSize - 1, ContourType.NEWLOWERLEFT);
 			translatedLastLeft = translatePointFromModelToView(lastLeft);
-			sectionSize = hull.getSizeOfSection(SectionType.NEWLOWERRIGHT);
-			lastRight = hull.getPointFromSection(sectionSize - 1, SectionType.NEWLOWERRIGHT);
+			sectionSize = hull.getSizeOfSection(ContourType.NEWLOWERRIGHT);
+			lastRight = hull.getPointFromSection(sectionSize - 1, ContourType.NEWLOWERRIGHT);
 			translatedLastRight = translatePointFromModelToView(lastRight);
 			g2.drawLine(translatedLastLeft.getX(), translatedLastLeft.getY(), translatedLastRight.getX(),
 					translatedLastRight.getY());
@@ -592,7 +593,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 *
 	 * @param g2 the Graphics2D Object which is used for painting
 	 */
-	private void drawAnimation(Graphics2D g2) {
+	private void drawTangentPair(Graphics2D g2) {
 		// try and catch in case the tangent pair is not initialized yet
 		try {
 			 // get the tangents from the tangent pair
@@ -727,30 +728,32 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	  {@inheritDoc}
 	 */
 	@Override
-	public void setShowAnimation(boolean animationRequested) {
-		if ((animationIsRunning == false) && animationRequested) {
-			runAnimation();
-		} else if ((animationIsRunning == true) && (animationRequested == false)) {
-			animationIsRunning = false;
+	public void setShowAnimation(boolean b) {
+		if(b == true) {
+			//animationIsShown.update(convexHull);
 		}
+		
+		animationIsShown = b;
 	}
 
 	/**
 	 * Runs the animation.
 	 */
+	
+	/*
 	private void runAnimation() {
-		animationIsRunning = true;
+		animationIsShown = true;
 		
 		Thread animationThread = new Thread(new Runnable() {
              
 			@Override
 			public void run() {
-				Thread.currentThread().setName("Animation Thread");
+				Thread.currentThread().setName("AnimationThread");
 				System.out.println("Hello Animation Thread");
 				boolean tangentPairInitialized = false;
 				int tries = 0;
 				int MAXTRIES = 10;
-				while(animationIsRunning && !tangentPairInitialized && tries < MAXTRIES) {
+				while(animationIsShown && !tangentPairInitialized && tries < MAXTRIES) {
 					try {
 						tangentPair.initialize(hull);
 						tangentPairInitialized = true;
@@ -765,7 +768,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					}	
 				}
 				
-				while(animationIsRunning) {
+				while(animationIsShown) {
 					update();
 					try {
 						tangentPair.step();
@@ -792,13 +795,15 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		});
 		animationThread.start();	
 	}
+	
+	*/
 
 	/**
 	 *  {@inheritDoc}
 	 */
 	@Override
-	public boolean animationISRunning() {
-		return animationIsRunning;
+	public boolean animationIsShown() {
+		return animationIsShown;
 	}
 
 	/**

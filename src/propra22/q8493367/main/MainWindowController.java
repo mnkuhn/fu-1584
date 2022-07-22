@@ -9,8 +9,8 @@ import java.net.MalformedURLException;
 
 import propra22.q8493367.command.CommandEvent;
 import propra22.q8493367.command.CommandEventType;
+import propra22.q8493367.contour.IPointSet;
 import propra22.q8493367.draw.controller.IDrawPanelController;
-import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.file.FileEvent;
 import propra22.q8493367.file.IFileManager;
 import propra22.q8493367.file.IFileManagerObserver;
@@ -122,13 +122,22 @@ public class MainWindowController implements IMainWindowListener, IFileManagerOb
 	 */
 	@Override
 	public void viewEventOccured(ViewEvent viewEvent) {
-		drawPanelController.setShowConvexHull(viewEvent.convexHullIsDisplayed());
-		drawPanelController.setShowDiameter(viewEvent.DiameterIsDisplayed());
-		drawPanelController.setShowQuadrangle(viewEvent.QuadrangleIsDisplayed());
-		drawPanelController.setShowTriangle(viewEvent.TriangleIsDisplayed());
-		drawPanelController.setShowAnimation(viewEvent.animationIsShown());
 		
-		drawPanelController.updateView();
+		if(viewEvent != null) {
+			drawPanelController.setShowConvexHull(viewEvent.convexHullIsDisplayed());
+			drawPanelController.setShowDiameter(viewEvent.DiameterIsDisplayed());
+			drawPanelController.setShowQuadrangle(viewEvent.QuadrangleIsDisplayed());
+			drawPanelController.setShowTriangle(viewEvent.TriangleIsDisplayed());
+			drawPanelController.setShowAnimation(viewEvent.animationIsShown());
+			
+			drawPanelController.updateView();
+		} else {
+			view.setConvexHullIsShown(drawPanelController.getConvexHullIsShown());
+			view.setDiameterIsShown(drawPanelController.getDiameterIsShown());
+			view.setQuadrangleIsShown(drawPanelController.getQuadrangleIsShown());
+			view.setAnimationIsShown(drawPanelController.getAnimationIsShown());
+		}
+		
 	}
 
 	/**
@@ -155,6 +164,6 @@ public class MainWindowController implements IMainWindowListener, IFileManagerOb
 	 */
 	@Override
 	public void update() {
-		view.setAnimationIsShown(false);
+		drawPanelController.setShowAnimation(false);
 	}	
 }

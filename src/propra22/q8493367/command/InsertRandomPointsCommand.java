@@ -2,7 +2,7 @@ package propra22.q8493367.command;
 
 import java.util.Random;
 
-import propra22.q8493367.draw.model.IPointSet;
+import propra22.q8493367.contour.IPointSet;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 

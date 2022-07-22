@@ -14,9 +14,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import propra22.q8493367.contour.IPointSet;
 import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.controller.IDrawPanelController;
-import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.draw.model.PointSet;
 import propra22.q8493367.main.IMainWindow;
 import propra22.q8493367.main.IMainWindowListener;
@@ -136,7 +136,6 @@ public class FileManager implements IFileManager {
 					File selectedFile = fileChooser.getSelectedFile();
 					if(selectedFile != null) {
 						loadPointsToPointSet(selectedFile);
-						//updateDrawPanelController();
 						pointSet.setHasChanged(false);
 						drawPanelController.reset();
 					}

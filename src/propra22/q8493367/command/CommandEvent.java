@@ -15,7 +15,7 @@ public class CommandEvent  {
 	/**
 	 * Instantiates a new command event.
 	 *
-	 * @param type - the type of the commandEvent
+	 * @param type the type of the command event
 	 */
 	public CommandEvent(CommandEventType type) {
 		this.type = type;

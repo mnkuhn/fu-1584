@@ -14,6 +14,6 @@ public interface ISectionCalculator {
 	 *
 	 * @param sectionType the section type
 	 */
-	void calculateSection(SectionType sectionType);
+	void calculateSection(ContourType sectionType);
 
 }

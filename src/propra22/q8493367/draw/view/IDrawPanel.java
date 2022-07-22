@@ -91,7 +91,7 @@ public interface IDrawPanel  {
 	 *
 	 * @return true, if the animation is running.
 	 */
-	boolean animationISRunning();
+	boolean animationIsShown();
 	
     
 	/**

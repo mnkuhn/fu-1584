@@ -2,18 +2,15 @@ package propra22.q8493367.main;
 import javax.swing.SwingUtilities;
 
 import propra22.interfaces.IHullCalculator;
-import propra22.q8493367.animation.ITangentPair;
+
 import propra22.q8493367.animation.TangentPair;
-import propra22.q8493367.convex.IHull;
+import propra22.q8493367.contour.IDiameter;
+import propra22.q8493367.contour.IHull;
+import propra22.q8493367.contour.IPointSet;
+import propra22.q8493367.contour.IQuadrangle;
 import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.controller.IDrawPanelControllerObserver;
-import propra22.q8493367.draw.model.Diameter;
-import propra22.q8493367.draw.model.Hull;
-import propra22.q8493367.draw.model.IDiameter;
-import propra22.q8493367.draw.model.IPointSet;
-import propra22.q8493367.draw.model.IQuadrangle;
 import propra22.q8493367.draw.model.PointSet;
-import propra22.q8493367.draw.model.Quadrangle;
 import propra22.q8493367.draw.view.DrawPanel;
 import propra22.q8493367.draw.view.DrawPanelListener;
 import propra22.q8493367.draw.view.IDrawPanelListener;
@@ -24,6 +21,9 @@ import propra22.q8493367.file.Parser;
 import propra22.q8493367.status.StatusBar;
 import propra22.q8493367.status.StatusBarController;
 import propra22.q8493367.settings.Settings;
+import propra22.q8493367.shape.Diameter;
+import propra22.q8493367.shape.Hull;
+import propra22.q8493367.shape.Quadrangle;
 import propra22.q8493367.test.HullCalculator;
 import propra22.tester.Tester;
 
@@ -35,7 +35,7 @@ import propra22.tester.Tester;
  * class which contains the entry point of 
  * the program i.e. the public static void main(String[])
  * method. This function can also invoke the test 
- * environement if it takes the argument -t.
+ * environment if it takes the argument -t.
  */
 public class CHGO_8493367_Kuhn_Manuel {
 	
@@ -49,7 +49,7 @@ public class CHGO_8493367_Kuhn_Manuel {
 		IHull hull = new Hull();
 		IDiameter diameter = new Diameter();
 		IQuadrangle quadrangle = new Quadrangle();
-		ITangentPair tangentPair = new TangentPair();
+		TangentPair tangentPair = new TangentPair();
 		
 		//Draw panel and controller of the draw panel
 		DrawPanel drawPanel = new DrawPanel(pointSet, hull, diameter, quadrangle, tangentPair);

@@ -4,7 +4,7 @@ import propra22.q8493367.draw.controller.IDrawPanelControllerObserver;
 
 
 /**
- * The controller for the stauts bar.
+ * The controller for the status bar.
  */
 public class StatusBarController implements IDrawPanelControllerObserver{
 	

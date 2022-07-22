@@ -299,4 +299,20 @@ public interface IDrawPanelController {
 	 */
 	void reset();
 
+
+
+	public boolean getConvexHullIsShown();
+
+
+
+	public boolean getDiameterIsShown();
+
+
+
+	public boolean getQuadrangleIsShown();
+
+
+
+	public boolean getAnimationIsShown();
+
 }

@@ -1,8 +1,6 @@
 package propra22.q8493367.contour;
 
 
-import propra22.q8493367.convex.IHull;
-import propra22.q8493367.draw.model.IPointSet;
 import propra22.q8493367.point.IPoint;
 
 // TODO: Auto-generated Javadoc
@@ -16,6 +14,9 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	
 	/** The contour polygon. */
 	private IHull hull;
+	
+	private int highestYFound;
+    private int lowestYFound;
 	
 	/**
 	 * Instantiates a new contour polygon calculator.
@@ -35,24 +36,24 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	 * @param sectionType the section type
 	 */
 	@Override
-	public void calculateSection(SectionType sectionType) {
+	public void calculateSection(ContourType sectionType) {
 		
 		switch (sectionType) {
 			case NEWUPPERLEFT: {
-				calculateLowerLeftSection();
+				calculateUpperLeft();
 				break;
 			}
 			case NEWLOWERLEFT: {
-				calculateUpperLeftSection();
+				calculateLowerLeft();
 				break;
 			}
 			case NEWUPPERRIGHT: {
-				calculateLowerRightSection();
+				calculateUpperRight();
 				break;
 			}
 			
 			case NEWLOWERRIGHT: {
-				calculateUpperRightSection();
+				calculateLowerRight();
 				break;
 			}
 		}
@@ -60,85 +61,91 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 
     
 	/**
-	 * Calculate lower left section.
+	 * Calculate lower left section. This function has to be called before
+	 * calculateUpperRight because HighestYFound has to be set.
 	 */
-	private void calculateLowerLeftSection() {
+	private void calculateUpperLeft() {
 		IPoint point = pointSet.getPointAt(0);
-		hull.addPointToSection(point, SectionType.NEWUPPERLEFT);
+		hull.addPointToSection(point, ContourType.NEWUPPERLEFT);
 		
-		int minYSoFar = point.getY();
+		int maxYSoFar = point.getY();
 		int pointY;
 
 		for(int i = 1; i < pointSet.getNumberOfPoints(); i++) {
 			point = pointSet.getPointAt(i);
 			pointY = point.getY();
-			if(pointY > minYSoFar) {
-				minYSoFar = pointY;
-				hull.addPointToSection(point, SectionType.NEWUPPERLEFT);
+			if(pointY > maxYSoFar) {
+				maxYSoFar = pointY;
+				hull.addPointToSection(point, ContourType.NEWUPPERLEFT);
 			}
 		}
+		highestYFound = maxYSoFar;
 	}
 	
 	
     /**
-     * Calculate upper left section.
+     * Calculate upper left section. This function has to be called before
+     * calculateLowerRight because the LowestYFound has to be set.
      */
-    private void calculateUpperLeftSection() {
+    private void calculateLowerLeft() {
 		IPoint point = pointSet.getPointAt(0);
-		hull.addPointToSection(point, SectionType.NEWLOWERLEFT);
+		hull.addPointToSection(point, ContourType.NEWLOWERLEFT);
 		
-		int maxYSoFar = point.getY();
+		int minYSoFar = point.getY();
 		int pointY;
 
 		for(int i = 1; i < pointSet.getNumberOfPoints(); i++) {
 			point = pointSet.getPointAt(i);
 			pointY = point.getY();
-			if(pointY < maxYSoFar) {
-				maxYSoFar = pointY;
-				hull.addPointToSection(point, SectionType.NEWLOWERLEFT);
-			}
-		}
-	}
-	
-	
-	/**
-	 * Calculate lower right section.
-	 */
-	private void calculateLowerRightSection() {
-		IPoint point = pointSet.getPointAt(pointSet.getNumberOfPoints() - 1);
-		hull.addPointToSection(point, SectionType.NEWUPPERRIGHT);	
-		
-		int minYSoFar = point.getY();
-		int pointY;
-	
-		for(int i = pointSet.getNumberOfPoints() - 2; i >= 0; i--) {
-			point = pointSet.getPointAt(i);
-			pointY = point.getY();
-			
-			if(pointY > minYSoFar) {
+			if(pointY < minYSoFar) {
 				minYSoFar = pointY;
-				hull.addPointToSection(point, SectionType.NEWUPPERRIGHT);
+				hull.addPointToSection(point, ContourType.NEWLOWERLEFT);
 			}
 		}
+		lowestYFound = minYSoFar;
 	}
 	
 	
 	/**
-	 * Calculate upper right section.
+	 * Calculate lower right section. This function has to be called before
+	 * calculateUpperLeft() because the highestYFound has to be set. 
 	 */
-	private void calculateUpperRightSection() {
+	private void calculateUpperRight() {
 		IPoint point = pointSet.getPointAt(pointSet.getNumberOfPoints() - 1);
-		hull.addPointToSection(point, SectionType.NEWLOWERRIGHT);		
+		hull.addPointToSection(point, ContourType.NEWUPPERRIGHT);	
 		
 		int maxYSoFar = point.getY();
 		int pointY;
-	
-		for(int i = pointSet.getNumberOfPoints() - 2; i >= 0; i--) {
-			point = pointSet.getPointAt(i);
+	    int i = pointSet.getNumberOfPoints() - 2;
+		while(maxYSoFar != highestYFound) {
+			point = pointSet.getPointAt(i--);
 			pointY = point.getY();
-			if(pointY < maxYSoFar) {
+			
+			if(pointY > maxYSoFar) {
 				maxYSoFar = pointY;
-				hull.addPointToSection(point, SectionType.NEWLOWERRIGHT);
+				hull.addPointToSection(point, ContourType.NEWUPPERRIGHT);
+			}
+		}
+	}
+	
+	
+	/**
+	 * Calculate upper right section. This function has to be called after 
+	 * calculateLowerLeft() because the lowestYFound has to be set.
+	 */
+	private void calculateLowerRight() {
+		IPoint point = pointSet.getPointAt(pointSet.getNumberOfPoints() - 1);
+		hull.addPointToSection(point, ContourType.NEWLOWERRIGHT);		
+		
+		int minYSoFar = point.getY();
+		int pointY;
+		int i = pointSet.getNumberOfPoints() - 2;
+		while(minYSoFar != lowestYFound) {
+			point = pointSet.getPointAt(i--);
+			pointY = point.getY();
+			if(pointY < minYSoFar) {
+				minYSoFar = pointY;
+				hull.addPointToSection(point, ContourType.NEWLOWERRIGHT);
 			}
 		}
 	}
@@ -151,8 +158,9 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	 */
 	public void calculateContourPolygon() {
 		hull.clear();
-		for(SectionType sectionType : SectionType.values()) {
-			calculateSection(sectionType);
-		}
+		calculateUpperLeft();
+		calculateLowerLeft();
+		calculateUpperRight();
+		calculateLowerRight();
 	}	
 }

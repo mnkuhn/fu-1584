@@ -5,8 +5,8 @@ package propra22.q8493367.draw.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import propra22.q8493367.animation.ITangentPair;
+import propra22.q8493367.animation.AnimationThread;
+import propra22.q8493367.animation.TangentPair;
 import propra22.q8493367.command.CommandManager;
 import propra22.q8493367.command.DragPointCommand;
 import propra22.q8493367.command.ICommand;
@@ -14,17 +14,12 @@ import propra22.q8493367.command.InsertPointCommand;
 import propra22.q8493367.command.InsertRandomPointsCommand;
 import propra22.q8493367.command.RemovePointCommand;
 import propra22.q8493367.contour.ContourPolygonCalculator;
-
-import propra22.q8493367.convex.DiameterAndQuadrangleCalculator;
-import propra22.q8493367.convex.IHull;
-
-import propra22.q8493367.convex.ConvexHullCalculator;
-
-
-import propra22.q8493367.draw.model.IDiameter;
-import propra22.q8493367.draw.model.IPointSet;
-import propra22.q8493367.draw.model.IQuadrangle;
-
+import propra22.q8493367.contour.ConvexHullCalculator;
+import propra22.q8493367.contour.DiameterAndQuadrangleCalculator;
+import propra22.q8493367.contour.IDiameter;
+import propra22.q8493367.contour.IHull;
+import propra22.q8493367.contour.IPointSet;
+import propra22.q8493367.contour.IQuadrangle;
 import propra22.q8493367.draw.view.DrawPanel;
 import propra22.q8493367.draw.view.IDrawPanel;
 import propra22.q8493367.metric.IMetric;
@@ -57,7 +52,7 @@ public class DrawPanelController implements IDrawPanelController {
 	private IQuadrangle quadrangle;
 	
 	/**  The pair of tangents for the animation. */
-	private ITangentPair tangentPair;
+	//private TangentPair tangentPair;
 
 	// Dragging points
 	/** The point which is selected for dragging */
@@ -91,6 +86,10 @@ public class DrawPanelController implements IDrawPanelController {
 	/** The calculator for the diameter */
 	private DiameterAndQuadrangleCalculator diameterAndQuadrangleCalulator;
 	
+	private AnimationThread animationThread;
+	
+	private TangentPair tangentPair;
+	
 	/** The observers */
 	private List<IDrawPanelControllerObserver> observers = new ArrayList<>();
 	
@@ -107,7 +106,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param tangentPair the tangent pair
 	 * @param drawPanel the draw panel
 	 */
-	public DrawPanelController(IPointSet pointSet, IHull convexHull, IDiameter diameter, IQuadrangle quadrangle, ITangentPair tangentPair,  DrawPanel drawPanel) {
+	public DrawPanelController(IPointSet pointSet, IHull convexHull, IDiameter diameter, IQuadrangle quadrangle, TangentPair tangentPair,  DrawPanel drawPanel) {
 		this.pointSet = pointSet;
 		this.hull = convexHull;
 		this.diameter = diameter;
@@ -137,7 +136,6 @@ public class DrawPanelController implements IDrawPanelController {
 		this.hull = hull;
 		this.diameter = diameter;
 		this.quadrangle = quadrangle;
-		tangentPair = null;
 		this.view = null;
 		
 		
@@ -494,7 +492,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public boolean animationIsShown() {
-		return view.animationISRunning();
+		return view.animationIsShown();
 	}
 	
 
@@ -545,9 +543,27 @@ public class DrawPanelController implements IDrawPanelController {
 	 *{@inheritDoc}
 	 */
 	@Override
-	public void setShowAnimation(boolean b) {
-		view.setShowAnimation(b);
+	public void setShowAnimation(boolean animationRequested) {
+		view.setShowAnimation(animationRequested);
+		if(view.animationIsShown() == true) {
+			if(animationThread == null || (animationThread != null && !animationThread.isAlive())) {
+				if(!hull.empty()) {
+					tangentPair.updateAntipodalPairs(hull);
+					tangentPair.fitToAngle();
+					animationThread = new AnimationThread(tangentPair, view);
+					animationThread.start();
+				}
+			}			
+		}
 		
+		if(animationRequested == false) {
+			try {
+			animationThread.terminate();
+			animationThread.join();
+			} catch (InterruptedException e) {
+			e.printStackTrace();
+			}
+		}
 	}
 	
 	/**
@@ -620,6 +636,26 @@ public class DrawPanelController implements IDrawPanelController {
 
 	public int[][] hullAsArray() {
 		return hull.toArray();
+	}
+
+	@Override
+	public boolean getConvexHullIsShown() {
+		return view.convexHullIsShown();
+	}
+
+	@Override
+	public boolean getDiameterIsShown() {
+		return view.diameterIsShown();
+	}
+
+	@Override
+	public boolean getQuadrangleIsShown() {
+		return view.quadrangleIsShown();
+	}
+
+	@Override
+	public boolean getAnimationIsShown() {
+		return view.animationIsShown();
 	}
 
 }

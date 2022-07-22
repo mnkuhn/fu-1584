@@ -343,6 +343,12 @@ public class MainWindow extends JFrame implements IMainWindow {
 	 */
 	private void createViewMenu(JMenuBar menuBar) {
 		JMenu viewMenu = new JMenu("Ansicht");
+		viewMenu.addMenuListener(new MenuAdapter() {
+			@Override
+			public void menuSelected(MenuEvent e) {
+				mainWindowListener.viewEventOccured(null);
+			}
+		});
 		
 		ActionListener viewActionListener = new ActionListener() {
 			@Override
@@ -357,23 +363,21 @@ public class MainWindow extends JFrame implements IMainWindow {
 	    };
 	    
 		convexHullItem = new JCheckBoxMenuItem("Konvexe Hülle");
-	    convexHullItem.setSelected(Settings.defaultConvexHullIsShown);
 	    convexHullItem.addActionListener(viewActionListener);
+	    
 	   
 		diameterItem = new JCheckBoxMenuItem("Durchmesser");
-		diameterItem.setSelected(Settings.defaultDiameterIsShown);
 		diameterItem.addActionListener(viewActionListener);
 		
+	
 		quadrangleItem = new JCheckBoxMenuItem("Grösstes Rechteck");
-		quadrangleItem.setSelected(Settings.defaultQuadrangleIsShown);
 		quadrangleItem.addActionListener(viewActionListener);
 		
+		
 		triangleItem = new JCheckBoxMenuItem("Grösstes Dreieck");
-		triangleItem.setSelected(Settings.defaultTriangleIsShown);
 		triangleItem.addActionListener(viewActionListener);
 		
 		animationItem = new JCheckBoxMenuItem("Animation");
-		animationItem.setSelected(false);
 		animationItem.addActionListener(viewActionListener);
 		
 		viewMenu.add(convexHullItem);
@@ -481,6 +485,6 @@ public class MainWindow extends JFrame implements IMainWindow {
 	 */
 	@Override
 	public void setAnimationIsShown(boolean b) {
-		animationItem.setSelected(false);	
+		animationItem.setSelected(b);	
 	}
 }
