@@ -579,7 +579,7 @@ public class DrawPanelController implements IDrawPanelController {
 	@Override
 	public void setShowAnimation(boolean animationRequested) {
 		view.setShowAnimation(animationRequested);
-		if(view.animationIsShown() == true) {
+		if(animationRequested == true) {
 			if(animationThread == null || (animationThread != null && !animationThread.isAlive())) {
 				if(!hull.empty()) {
 					tangentPair.updateAntipodalPairs(hull);
@@ -588,22 +588,26 @@ public class DrawPanelController implements IDrawPanelController {
 					animationThread.start();
 				}
 				else {
-					animationThread.terminate();
-					try {
-						animationThread.join();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+					if(animationThread != null) {
+						animationThread.terminate();
+						try {
+							animationThread.join();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}	
 					}
 				}
 			}			
 		}
 		
 		if(animationRequested == false) {
-			try {
-				animationThread.terminate();
-				animationThread.join();
-			} catch (InterruptedException e) {
-				
+			if(animationThread != null) {
+				try {
+					animationThread.terminate();
+					animationThread.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
