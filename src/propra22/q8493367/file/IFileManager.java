@@ -17,27 +17,5 @@ public interface IFileManager {
 	void handleFileEvent(FileEvent e);
 
 
-    
-	/**
-	 * Adds a file manager observer.
-	 *
-	 * @param observer the observer which is added.
-	 */
-	void addObserver(IFileManagerObserver observer);
-
-
-	/**
-	 * Removes a file manager observer.
-	 *
-	 * @param observer the observer which is removed.
-	 */
-	void removeObserver(IFileManagerObserver observer);
-
-
-	/**
-	 * Notifies all file manager observers.
-	 */
-	void notifyObservers();
-
 	
 }

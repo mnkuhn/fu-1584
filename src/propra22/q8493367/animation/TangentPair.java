@@ -91,11 +91,13 @@ public class TangentPair {
 	}
 	
 	public void fitToAngle() {
-		System.out.println(tangent1.getA());
-		System.out.println(tangent1.getB());
-		while(!angleIsValid()){
-			antipodalPairs.next();
+		//If diameter it not zero, it might be necessary to calulcate a new antipodal pair.
+		if(!antipodalPairs.diameterIsZero()) {
+			while(!angleIsValid()){
+				antipodalPairs.next();
+			}
 		}
+		//If diameter is zero, angle can be kept anyway.
 	}
 	
 	public boolean angleIsValid() {
@@ -229,13 +231,17 @@ public class TangentPair {
 		
 		
 		private boolean nextAngleIsValid() {
-			IPoint center = getCenter();
-			IPoint nextB = getNextB();
-			IPoint previousHullPoint = antipodalPairs.getHullPointBefore(antipodalPoint);
-			
-			
-			long result = Point.signedTriangleArea(center, nextB, previousHullPoint);
-			return result <= 0;
+			if(antipodalPairs.diameterIsZero()) {
+				return true;
+			}
+			else {
+				IPoint center = getCenter();
+				IPoint nextB = getNextB();
+				IPoint previousHullPoint = antipodalPairs.getHullPointBefore(antipodalPoint);
+
+				long result = Point.signedTriangleArea(center, nextB, previousHullPoint);
+				return result <= 0;
+			}
 		}
 		
 		private boolean angleIsValid() {

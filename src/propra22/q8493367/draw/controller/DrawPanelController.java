@@ -34,14 +34,16 @@ import propra22.q8493367.settings.Settings;
  * panel.
  */
 public class DrawPanelController implements IDrawPanelController {
-	// view
+	// View
 	/** The view */
 	private IDrawPanel view;
 
-	// model
+	//Model
 	/**  The point set */
 	private IPointSet pointSet;
 
+	
+	// Shapes
 	/**  The hull */
 	private IHull hull;
 
@@ -72,11 +74,11 @@ public class DrawPanelController implements IDrawPanelController {
 	/** The y coordinate of the mouse when the dragging ended */
 	private int startMouseY;
 
-	// commands
+	// Commands
 	/** The command list */
 	private CommandManager commandManager = new CommandManager();
 
-	// calculations
+	// Calculations
 	/** The contour polygon calculator */
 	private ContourPolygonCalculator contourPolygonCalculator;
 
@@ -86,6 +88,7 @@ public class DrawPanelController implements IDrawPanelController {
 	/** The calculator for the diameter */
 	private DiameterAndQuadrangleCalculator diameterAndQuadrangleCalulator;
 	
+	/** The thread for the animation */
 	private AnimationThread animationThread;
 	
 	private TangentPair tangentPair;
@@ -219,10 +222,41 @@ public class DrawPanelController implements IDrawPanelController {
 			diameterAndQuadrangleCalulator.calculate(diameter, quadrangle);
 			end = System.currentTimeMillis();
 			System.out.println("Durchmesser und Viereck berechen: " + (end - start) + " ms \n \n");
+			
+			
 		}
+		updateAnimation();
 		notifyObservers();
 	}
 	
+	private void updateAnimation() {
+		if(pointSet.isEmpty() && animationThread != null) {
+			if(animationThread.isAlive()) {
+				animationThread.terminate();
+				try {
+					animationThread.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}	
+		} else if(!pointSet.isEmpty() && view.animationIsShown()) {
+			if(animationThread != null) {
+				if(animationThread.isAlive()) {
+					animationThread.terminate();
+					try {
+						animationThread.join();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			tangentPair.updateAntipodalPairs(hull);
+			tangentPair.fitToAngle();
+			animationThread = new AnimationThread(tangentPair, view);
+			animationThread.start();
+		}
+	}
+
 	/**
 	 * Updates the model and the view
 	 */
@@ -553,15 +587,23 @@ public class DrawPanelController implements IDrawPanelController {
 					animationThread = new AnimationThread(tangentPair, view);
 					animationThread.start();
 				}
+				else {
+					animationThread.terminate();
+					try {
+						animationThread.join();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 			}			
 		}
 		
 		if(animationRequested == false) {
 			try {
-			animationThread.terminate();
-			animationThread.join();
+				animationThread.terminate();
+				animationThread.join();
 			} catch (InterruptedException e) {
-			e.printStackTrace();
+				
 			}
 		}
 	}

@@ -43,8 +43,6 @@ public class FileManager implements IFileManager {
 	/** The suffix of the files used by this application. */
 	private String suffix = "points";
 	
-	/** The file manager observers. */
-	private List<IFileManagerObserver> observers = new ArrayList<>();
 
 	/** The file path of the currently opened file. */
 	private String filePath = null;
@@ -103,7 +101,6 @@ public class FileManager implements IFileManager {
 			pointSet.setHasChanged(false);
 			filePath = null;
 			drawPanelController.reset();
-			notifyObservers();
 			break;
 		}
 
@@ -276,32 +273,4 @@ public class FileManager implements IFileManager {
 		return choice;
 	}
 
-	
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void addObserver(IFileManagerObserver observer) {
-		observers.add(observer);
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void removeObserver(IFileManagerObserver observer) {
-		observers.remove(observer);
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void notifyObservers() {
-		for(IFileManagerObserver observer : observers) {
-			observer.update();
-		}
-	}
-	
 }

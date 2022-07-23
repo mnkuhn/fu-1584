@@ -22,7 +22,7 @@ import propra22.q8493367.settings.Settings;
 /**
  * The Class MainWindowController is the controller for the main window.
  */
-public class MainWindowController implements IMainWindowListener, IFileManagerObserver {
+public class MainWindowController implements IMainWindowListener {
 
 	/** The  controller for the draw panel . */
 	private IDrawPanelController drawPanelController;
@@ -157,13 +157,4 @@ public class MainWindowController implements IMainWindowListener, IFileManagerOb
 		}	
 	}
 
-	/**
-	 * This class is a observer for the filemanager.
-	 * This method is called, when the observer is notified
-	 * by the file manager.
-	 */
-	@Override
-	public void update() {
-		drawPanelController.setShowAnimation(false);
-	}	
 }
