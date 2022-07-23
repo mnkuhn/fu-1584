@@ -16,7 +16,6 @@ import propra22.q8493367.draw.view.DrawPanelListener;
 import propra22.q8493367.draw.view.IDrawPanelListener;
 import propra22.q8493367.file.FileManager;
 import propra22.q8493367.file.IFileManager;
-import propra22.q8493367.file.IFileManagerObserver;
 import propra22.q8493367.file.Parser;
 import propra22.q8493367.status.StatusBar;
 import propra22.q8493367.status.StatusBarController;

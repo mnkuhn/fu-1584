@@ -13,7 +13,6 @@ import propra22.q8493367.contour.IPointSet;
 import propra22.q8493367.draw.controller.IDrawPanelController;
 import propra22.q8493367.file.FileEvent;
 import propra22.q8493367.file.IFileManager;
-import propra22.q8493367.file.IFileManagerObserver;
 import propra22.q8493367.point.RandomPointsEvent;
 import propra22.q8493367.point.RandomPointsEventType;
 import propra22.q8493367.settings.Settings;
