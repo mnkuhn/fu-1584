@@ -370,14 +370,16 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public void insertPointToPointSetByUserInput(int x, int y) {
-		
-		ICommand insertPointCommand = new InsertPointCommand(x, y, pointSet);
-		commandManager.add(insertPointCommand);
-	    insertPointCommand.execute();
-		pointSet.setHasChanged(true);
-		updateModel();
-		updateView();
-		
+		IPoint point = new Point(x, y);
+		//If the point is not in the point set, create command and continue.
+		if(pointSet.hasPoint(point) < 0) {
+			ICommand insertPointCommand = new InsertPointCommand(point, pointSet);
+			commandManager.add(insertPointCommand);
+		    insertPointCommand.execute();
+			pointSet.setHasChanged(true);
+			updateModel();
+			updateView();
+		}	
 	}
 
 	/**

@@ -25,8 +25,8 @@ public class InsertPointCommand implements ICommand {
 	 * @param y - the y coordinate of the point
 	 * @param pointSet - the point set.
 	 */
-	public InsertPointCommand(int x, int y, IPointSet pointSet) {
-	      point = new Point(x, y);
+	public InsertPointCommand(IPoint point, IPointSet pointSet) {
+	      this.point = point;
 	      this.pointSet = pointSet;
 	}
 	

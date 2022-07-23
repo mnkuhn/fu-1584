@@ -2,7 +2,6 @@ package propra22.q8493367.main;
 import javax.swing.SwingUtilities;
 
 import propra22.interfaces.IHullCalculator;
-
 import propra22.q8493367.animation.TangentPair;
 import propra22.q8493367.contour.IDiameter;
 import propra22.q8493367.contour.IHull;
