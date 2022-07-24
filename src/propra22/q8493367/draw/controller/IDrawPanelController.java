@@ -315,4 +315,12 @@ public interface IDrawPanelController {
 
 	public boolean getAnimationIsShown();
 
+
+
+	public void setMouseCoordinates(int mouseX, int mouseY);
+
+
+
+	public void setMousePositionIsOverPanel(boolean b);
+
 }

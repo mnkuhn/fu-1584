@@ -44,4 +44,5 @@ public interface IDrawPanelEvent {
 	 */
 	double getTotalScale();
 
+
 }

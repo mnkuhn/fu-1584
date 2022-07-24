@@ -12,5 +12,5 @@ public interface IDrawPanelControllerObserver {
 	 *
 	 * @param number the number of points in the point set
 	 */
-	public void update(int number);
+	public void update(String numberOfPoints, String mouseX, String mouseY, String selectedX, String selectedY);
 }

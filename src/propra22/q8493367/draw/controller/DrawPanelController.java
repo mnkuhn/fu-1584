@@ -95,6 +95,12 @@ public class DrawPanelController implements IDrawPanelController {
 	
 	/** The observers */
 	private List<IDrawPanelControllerObserver> observers = new ArrayList<>();
+
+	private boolean mousePositionIsOverPanel;
+
+	private int currentMouseX;
+
+	private int currentMouseY;
 	
 
 
@@ -196,7 +202,7 @@ public class DrawPanelController implements IDrawPanelController {
 		view.update();
 	}
 	
-	
+	// TODO es wird nicht nur das Model upgedated -> Kein guter Name
 
 	/**
 	 * Updates the draw panel model.
@@ -636,7 +642,19 @@ public class DrawPanelController implements IDrawPanelController {
 	@Override
 	public void notifyObservers() {
 		for(IDrawPanelControllerObserver observer : observers) {
-			observer.update(pointSet.getNumberOfPoints());
+			
+			String mouseXasString;
+			String mouseYasString;
+			if(mousePositionIsOverPanel) {
+				mouseXasString = String.valueOf(currentMouseX);
+				mouseYasString = String.valueOf(currentMouseY);
+			}
+			else {
+				mouseXasString = "";
+				mouseYasString = "";
+			}
+
+			observer.update(String.valueOf(pointSet.getNumberOfPoints()), mouseXasString, mouseYasString, "", "");
 		}
 	}
 
@@ -704,6 +722,19 @@ public class DrawPanelController implements IDrawPanelController {
 	@Override
 	public boolean getAnimationIsShown() {
 		return view.animationIsShown();
+	}
+
+	@Override
+	public void setMouseCoordinates(int mouseX, int mouseY) {
+		currentMouseX = mouseX;
+		currentMouseY = mouseY;
+		notifyObservers();
+	}
+
+	@Override
+	public void setMousePositionIsOverPanel(boolean b) {
+		mousePositionIsOverPanel = b;
+		
 	}
 
 }

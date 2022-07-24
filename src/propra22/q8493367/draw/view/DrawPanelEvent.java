@@ -31,7 +31,7 @@ public class DrawPanelEvent implements IDrawPanelEvent {
 	 * @param source  the source object of the draw panel event
 	 * @param mouseX  the x coordinate of the mouse
 	 * @param mouseY  the y coordinate of the mouse
-	 * @param totalScale the product of scale and panel scale. This paramater is needed for....
+	 * @param totalScale the product of scale and panel scale. This parameter is needed for....
 	 */
 	public DrawPanelEvent(DrawPanelEventType type, Object source, int mouseX, int mouseY, double totalScale) {
 		this.type = type;
@@ -94,7 +94,6 @@ public class DrawPanelEvent implements IDrawPanelEvent {
 		
 		return totalScale;
 	}
-	
 	
 
 }

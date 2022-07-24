@@ -17,5 +17,11 @@ public enum DrawPanelEventType {
 	/** Dragging of the point has ended */
 	DRAG_POINT_ENDED, 
 	/** The panel is painted */
-	PAINT;
+	PAINT, 
+	/** The mouse was moved */
+	MOUSE_MOVED, 
+	/** The mouse has left the draw panel */
+	MOUSE_EXCITED, 
+	/** The mouse has entered the draw panel */
+	MOUSE_ENTERED;
 }

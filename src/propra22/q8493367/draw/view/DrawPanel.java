@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.util.List;
+
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -138,6 +140,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * the main window.
 	 */
 	private double originalHeight;
+	
 
 	
 
@@ -161,6 +164,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		this.tangentPair = tangentPair;
 
 		addMouseListener(new MouseAdapter() {
+
 
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -207,6 +211,22 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					mouseOffsetY = 0;
 				}
 			}
+			
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				int translatedX = (int) Math.round(translateXFromViewToModel(e.getX()));
+				int translatedY = (int) Math.round(translateYFromViewToModel(e.getY()));
+				drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.MOUSE_ENTERED, 
+						e.getSource(), translatedX, translatedY, scale * panelScale));
+			}
+			
+			public void mouseExited(MouseEvent e) {
+				int translatedX = (int) Math.round(translateXFromViewToModel(e.getX()));
+				int translatedY = (int) Math.round(translateYFromViewToModel(e.getY()));
+				drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.MOUSE_EXCITED, 
+						e.getSource(), translatedX, translatedY, scale * panelScale));
+			}
 		});
 
 		addMouseMotionListener(new MouseMotionAdapter() {
@@ -226,6 +246,15 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					update();
 				}
 			}
+			
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				
+					int translatedX = (int) Math.round(translateXFromViewToModel(e.getX()));
+					int translatedY = (int) Math.round(translateYFromViewToModel(e.getY()));
+					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.MOUSE_MOVED, 
+							e.getSource(), translatedX, translatedY, scale*panelScale));
+				}
 		});
 
 		addMouseWheelListener(new MouseWheelListener() {

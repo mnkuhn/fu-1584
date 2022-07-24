@@ -32,7 +32,7 @@ public class DrawPanelListener implements IDrawPanelListener {
 	/**
 	 * Draw panel event occured.
 	 *
-	 * @param e - the e draw panel event
+	 * @param e  the e draw panel event
 	 */
 	public void drawPanelEventOccured(IDrawPanelEvent e) {
 		DrawPanelEventType type = e.getType();
@@ -57,12 +57,22 @@ public class DrawPanelListener implements IDrawPanelListener {
 			controller.terminatePointDrag(e.getMouseX(), e.getMouseY());
 			break;
 		}
-		/*
-		case PAINT: {
-			controller.paintDrawPanel(e.getGraphicsObject());
+		
+		case MOUSE_MOVED: {
+			controller.setMouseCoordinates(e.getMouseX(), e.getMouseY());
 			break;
 		}
-		*/
+		
+		case MOUSE_EXCITED: {
+			controller.setMousePositionIsOverPanel(false);
+			break;
+		}
+		
+		case MOUSE_ENTERED: {
+			controller.setMousePositionIsOverPanel(true);
+			break;
+		}
+		
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + e);
 		}

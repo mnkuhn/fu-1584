@@ -14,6 +14,12 @@ public interface IStatusBar {
 	 * @param number the number of points in the point set
 	 * 
 	 */
-	void setNumberOfPoints(int number);
+	void setNumberOfPoints(String number);
+
+	void setCoordinates(String x, String y);
+
+
+	void setSelected(String x, String y);
+
 
 }
