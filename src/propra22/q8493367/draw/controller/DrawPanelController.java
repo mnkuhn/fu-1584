@@ -231,7 +231,11 @@ public class DrawPanelController implements IDrawPanelController {
 			
 			
 		}
-		updateAnimation();
+		
+		if(view != null) {
+			updateAnimation();
+		}
+		
 		notifyObservers();
 	}
 	
