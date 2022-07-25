@@ -438,7 +438,11 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		g2.setColor(color);
 		int x = point.getX() - Settings.radius - 3;
 		int y = point.getY() - Settings.radius - 3;
-		int length = 2*Settings.radius + 6 - 1;
+		
+		/* -1 because the height and the width of drawRect seems to 
+		 * be the difference between highest pixel and lowest and not the number of pixels
+		 */
+		int length = 2*Settings.radius + 6 - 1; 
 		g2.drawRect(x, y, length, length);
 		g2.setColor(Color.BLACK);	
 	}

@@ -745,6 +745,7 @@ public class DrawPanelController implements IDrawPanelController {
 	@Override
 	public void setMousePositionIsOverPanel(boolean b) {
 		mousePositionIsOverPanel = b;
+		notifyObservers();
 		
 	}
 

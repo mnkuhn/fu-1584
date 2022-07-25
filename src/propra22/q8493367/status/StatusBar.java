@@ -38,7 +38,7 @@ public class StatusBar extends JPanel implements IStatusBar{
 		setLayout(new BorderLayout());
 		
 		JPanel left = new JPanel();
-		JLabel number = new JLabel("Anzahl Punkte:");
+		JLabel number = new JLabel("Anzahl Punkte:", SwingConstants.LEFT);
 		number.setOpaque(true);
 		numberLabel = new JLabel("", SwingConstants.LEFT);
 		numberLabel.setPreferredSize(new Dimension(120, height));
@@ -48,7 +48,7 @@ public class StatusBar extends JPanel implements IStatusBar{
 		
 		JLabel coordinates = new JLabel("Maus-Koordinaten:", SwingConstants.LEFT);
 		coordinates.setOpaque(true);
-		mouseCoordinates = new JLabel("", SwingConstants.LEFT);
+		mouseCoordinates = new JLabel("", SwingConstants.CENTER);
 		mouseCoordinates.setPreferredSize(new Dimension(120, height));
 		mouseCoordinates.setOpaque(true);
 		
@@ -64,7 +64,7 @@ public class StatusBar extends JPanel implements IStatusBar{
 		
 		JLabel selectedLabel = new JLabel("Gewählter Punkt:", SwingConstants.LEFT);
 		selectedLabel.setOpaque(true);
-		selectedPointCoordinates = new JLabel("", SwingConstants.LEFT);
+		selectedPointCoordinates = new JLabel("", SwingConstants.CENTER);
 		selectedPointCoordinates.setPreferredSize(new Dimension(120, height));
 		selectedPointCoordinates.setOpaque(true);
 		
@@ -93,10 +93,12 @@ public class StatusBar extends JPanel implements IStatusBar{
 	
 	@Override
 	public void setMouseCoordinates(String x, String y) {
-		String coordinates = x + " | " + y;
+		String coordinates = "";
+		if(x != "" && y != "") {
+			coordinates = x + " | " + y;
+		}
 		
 		mouseCoordinates.setText(coordinates);
-		//mouseCoordinatesY.setText(y);
 	}
 	
 	
