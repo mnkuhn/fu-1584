@@ -7,19 +7,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import propra22.q8493367.contour.IPointSet;
-import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.controller.IDrawPanelController;
-import propra22.q8493367.draw.model.PointSet;
-import propra22.q8493367.main.IMainWindow;
-import propra22.q8493367.main.IMainWindowListener;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.settings.Settings;
 
@@ -90,6 +83,9 @@ public class FileManager implements IFileManager {
 						if (fileChooserOption == JFileChooser.APPROVE_OPTION) {
 							savePointSet(fileChooser.getSelectedFile());
 						}
+						if(fileChooserOption == JFileChooser.CANCEL_OPTION) {
+							break;
+						}
 					}
 				}
 				if (dialogOption == JOptionPane.CANCEL_OPTION) {
@@ -105,19 +101,21 @@ public class FileManager implements IFileManager {
 		}
 
 		case OPEN: {
-			int dialogOption = JOptionPane.DEFAULT_OPTION;
 			if (!pointSet.isEmpty() && pointSet.hasChanged()) {
-				dialogOption = showSaveToFileOptionPane();
+				int dialogOption = showSaveToFileOptionPane();
 				if (dialogOption == JOptionPane.OK_OPTION) {
 					if (filePath != null) {
 						savePointSet(new File(filePath));
 
-					// filePath == null
+						// filePath == null
 					} else {
 						fileChooser.setSelectedFile(new File(""));
 						int fileChooserOption = fileChooser.showSaveDialog(null);
 						if (fileChooserOption == JFileChooser.APPROVE_OPTION) {
 							savePointSet(fileChooser.getSelectedFile());
+						}
+						if (fileChooserOption == JFileChooser.CANCEL_OPTION) {
+							break;
 						}
 					}
 				}
@@ -126,16 +124,14 @@ public class FileManager implements IFileManager {
 				}
 			}
 
-			if (dialogOption != JOptionPane.CANCEL_OPTION) {
-				fileChooser.setSelectedFile(new File(""));
-				int fileChooserOption = fileChooser.showOpenDialog(null);
-				if (fileChooserOption == JFileChooser.APPROVE_OPTION) {
-					File selectedFile = fileChooser.getSelectedFile();
-					if(selectedFile != null) {
-						loadPointsToPointSet(selectedFile);
-						pointSet.setHasChanged(false);
-						drawPanelController.reset();
-					}
+			fileChooser.setSelectedFile(new File(""));
+			int fileChooserOption = fileChooser.showOpenDialog(null);
+			if (fileChooserOption == JFileChooser.APPROVE_OPTION) {
+				File selectedFile = fileChooser.getSelectedFile();
+				if (selectedFile != null) {
+					loadPointsToPointSet(selectedFile);
+					pointSet.setHasChanged(false);
+					drawPanelController.reset();
 				}
 			}
 			break;

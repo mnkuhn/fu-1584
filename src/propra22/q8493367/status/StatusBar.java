@@ -45,7 +45,7 @@ public class StatusBar extends JPanel implements IStatusBar{
 		left.add(number);
 		left.add(numberLabel);
 		
-		JLabel coordinates = new JLabel("Maus-Koordinaten:", SwingConstants.LEFT);
+		JLabel coordinates = new JLabel("Maus:", SwingConstants.LEFT);
 		coordinates.setOpaque(true);
 		mouseCoordinates = new JLabel("", SwingConstants.CENTER);
 		mouseCoordinates.setPreferredSize(new Dimension(120, height));

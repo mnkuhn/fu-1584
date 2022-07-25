@@ -1,7 +1,7 @@
 package propra22.q8493367.draw.view;
 
 import java.awt.Color;
-import java.awt.Dimension;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
@@ -13,12 +13,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.util.List;
-
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import propra22.q8493367.animation.AnimationThread;
 import propra22.q8493367.animation.TangentPair;
 import propra22.q8493367.contour.IDiameter;
 import propra22.q8493367.contour.IHull;
