@@ -9,13 +9,13 @@ import java.awt.Color;
 public class Settings {
 	
 	
-
 	/** The title of the application */
 	public static final String title = new String("Convex Hull Calculator - Manuel Kuhn - 8493367");	
 	
+	
+	//Paths
 	/** The default file path */
 	public static final String defaultFilePath = "../ProPra-SS22-Basis/data";
-	
 	
 	/** The default manual path */
 	public static final String defaultManualPath = "help/manual.html";
@@ -35,15 +35,19 @@ public class Settings {
 	public static final Color triangleColor = new Color(255, 255, 0, 255); 				// yellow
 	
 	/** The color used for the x and y axis */
-	public static final Color axisColor = new Color(112,128,144, 115); 		// slategray
+	public static final Color axisColor = new Color(112,128,144, 115); 					// slate gray
 	
 	/** The color used for the marking of the selected point */
-	public static final Color markingColor = new Color(67,70,75, 255);       // dark steel gray
+	public static final Color markingColor = new Color(67,70,75, 255);      			// dark steel gray
 	
-	/** The radius of a point in pixels */
+	
+	//Distances and ratios
+	/** The radius of a point in pixels in the view*/
 	public static final int radius =  3;
 	
-	/** The maximum distance a point needs to have from the mouse to be selected*/
+	/** The maximum distance in pixels in the view a point needs to have 
+	 * from the mouse to be selected.
+	 */
 	public static final int mouseRadius = 16;
 	
 	/** The panel to screen widht ratio.*/

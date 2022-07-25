@@ -45,10 +45,14 @@ public class InsertRandomPointsCommand implements ICommand {
 		this.pointSet = pointSet;
 		Random random = new Random();
 		for(int i = 0; i < number; i++) {
-			int x = random.nextInt(maxX - minX) + minX;
-			int y = random.nextInt(maxY - minY) + minY;
+			IPoint point;
+			do {
+				int x = random.nextInt(maxX - minX) + minX;
+				int y = random.nextInt(maxY - minY) + minY;
+				point = new Point(x, y);
+			}while(pointSet.hasPoint(point) >= 0);
 
-			points[i] = new Point(x, y);	
+			points[i] = point;	
 		}
 	}
 	
