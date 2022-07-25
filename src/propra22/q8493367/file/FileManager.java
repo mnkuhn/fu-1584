@@ -92,7 +92,7 @@ public class FileManager implements IFileManager {
 					break;
 				}
 			}
-
+			
 			pointSet.clear();
 			pointSet.setHasChanged(false);
 			filePath = null;
@@ -245,13 +245,11 @@ public class FileManager implements IFileManager {
 			System.out.println("Punktmenge von Datei einlesen: " + (end - start) + " ms");
 			// for FileReader(file)
 		} catch (FileNotFoundException e) {
-			// show dialog
 			e.printStackTrace();
 			// for readLine()
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	

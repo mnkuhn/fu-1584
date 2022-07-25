@@ -40,7 +40,6 @@ public class FileChooser extends JFileChooser {
 	@Override
 	public void approveSelection() {
 		File selectedFile = getSelectedFile();
-
 		if (selectedFile.exists() && getDialogType() == SAVE_DIALOG) {
 			int result = JOptionPane.showConfirmDialog(this,
 					"Die Datei " + selectedFile.getName() + " existiert bereits. Soll sie überschrieben werden?",
@@ -57,8 +56,14 @@ public class FileChooser extends JFileChooser {
 				return;
 			}
 		} else {
-			super.approveSelection();
-			return;
+		    if(!selectedFile.getAbsolutePath().endsWith(".points")) {
+		    	JOptionPane.showMessageDialog(this, "Bitte wählen Sie nur Dateien mit der Endung 'points'.", "Falsches Dateiformat", JOptionPane.ERROR_MESSAGE);
+		    } else if(!selectedFile.exists()) {
+		    	JOptionPane.showMessageDialog(this, "Die Datei konnte nicht gefunden werden.", "", JOptionPane.ERROR_MESSAGE);
+		    } else {
+		    	super.approveSelection();
+		    	return;
+		    }	
 		}
 	}
 }
