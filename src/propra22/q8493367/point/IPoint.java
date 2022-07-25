@@ -80,6 +80,10 @@ public interface IPoint extends Comparable<IPoint> {
 	 * false otherwise.
 	 */
 	public boolean equals(IPoint p);
+	
+	public void setSelected(boolean b);
+
+	public boolean isSelected();
 
 	
 }

@@ -16,10 +16,10 @@ public interface IStatusBar {
 	 */
 	void setNumberOfPoints(String number);
 
-	void setCoordinates(String x, String y);
+	void setMouseCoordinates(String x, String y);
 
 
-	void setSelected(String x, String y);
+	void setCoordindatesOfSelectedPoint(String x, String y);
 
 
 }

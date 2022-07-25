@@ -58,7 +58,7 @@ public class DrawPanelController implements IDrawPanelController {
 
 	// Dragging points
 	/** The point which is selected for dragging */
-	private IPoint forDragSelected = null;
+	private IPoint selected = null;
 
 	/**  The previous x coordinate of the mouse */
 	private int previousMouseX;
@@ -98,9 +98,9 @@ public class DrawPanelController implements IDrawPanelController {
 
 	private boolean mousePositionIsOverPanel;
 
-	private int currentMouseX;
+	private int mouseX;
 
-	private int currentMouseY;
+	private int mouseY;
 	
 
 
@@ -165,8 +165,8 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	
 	
-	private boolean pointIsWithinMouseRadius(IPoint point, int mouseX, int mouseY, IMetric norm, double radius) {
-		return norm.distance(point.getX(), point.getY(), mouseX, mouseY) <= radius;
+	private boolean pointIsWithinMouseRadius(IPoint point, int mouseX, int mouseY, IMetric metric, double radius) {
+		return metric.distance(point.getX(), point.getY(), mouseX, mouseY) <= radius;
 	}
 
 	/**
@@ -367,6 +367,9 @@ public class DrawPanelController implements IDrawPanelController {
 		commandManager.add(insertRandomPointsCommand);
 		insertRandomPointsCommand.execute();
 		pointSet.setHasChanged(true);
+		
+		//in case the mouse pointer is close to a randomly generated point
+		
 		updateModel();
 		updateView();	
 	}
@@ -383,6 +386,13 @@ public class DrawPanelController implements IDrawPanelController {
 			commandManager.add(insertPointCommand);
 		    insertPointCommand.execute();
 			pointSet.setHasChanged(true);
+			
+			if(selected != null) {
+				selected.setSelected(false);
+			}
+			point.setSelected(true);
+			selected = point;
+			
 			updateModel();
 			updateView();
 		}	
@@ -401,18 +411,17 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public void deletePointFromPointSetByUserInput(int mouseX, int mouseY, double totalScale) {
-		System.out.println("in drawPanel, deletePointFromPointSetByUserInput, totalScale: " + totalScale + "\n \n \n");
-		
-		IPoint closest = getClosestPointToMouse(mouseX, mouseY, new ManhattanMetric());
-		if (closest != null) {
-			if (pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanMetric(), Settings.mouseRadius/totalScale)) {
-				ICommand removePointCommand = new RemovePointCommand(closest, pointSet);
+		if (selected != null) {
+			if (pointIsWithinMouseRadius(selected, mouseX, mouseY, new ManhattanMetric(), Settings.mouseRadius/totalScale)) {
+				ICommand removePointCommand = new RemovePointCommand(selected, pointSet);
 				commandManager.add(removePointCommand);
 				removePointCommand.execute();
 				pointSet.setHasChanged(true);
-				updateModel();
-				updateView();
 				
+				setSelectedPoint(totalScale);
+				
+				updateModel();
+				updateView();	
 			}
 		}
 	}
@@ -422,15 +431,11 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public void initializePointDrag(int mouseX, int mouseY, double totalScale) {
-		IPoint closest = getClosestPointToMouse(mouseX, mouseY, new ManhattanMetric());
-		if (closest != null) {
-			if (pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanMetric(), Settings.mouseRadius/totalScale)) {
-				startMouseX = mouseX;
-				startMouseY = mouseY;
-				previousMouseX = mouseX;
-				previousMouseY = mouseY;
-				forDragSelected = closest;
-			}
+		if (selected != null) {
+			startMouseX = mouseX;
+			startMouseY = mouseY;
+			previousMouseX = mouseX;
+			previousMouseY = mouseY;
 		}
 	}
 
@@ -439,17 +444,19 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public void dragPoint(int mouseX, int mouseY) {
-		if (forDragSelected != null) {
+		if (selected != null) {
 			int dx = mouseX - previousMouseX;
 			int dy = mouseY - previousMouseY;
 
-			forDragSelected.translate(dx, dy);
+			selected.translate(dx, dy);
 			pointSet.lexSort();
 
 			previousMouseX = mouseX;
 			previousMouseY = mouseY;
 
-			// a lot to do here..
+			/* TODO: check if point is within convex hull 
+			 * -> no new convex hull calculation needed
+			 */
 			updateModel();
 			updateView();
 		}
@@ -460,36 +467,36 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public void terminatePointDrag(int mouseX, int mouseY) {
-		if (forDragSelected != null) {
+		if (selected != null) {
 			// Deltas of the mouse movement
 			int dx = mouseX - startMouseX;
 			int dy = mouseY - startMouseY;
 
 			// Remove dragged point from point set
-			pointSet.removePoint(forDragSelected);
+			pointSet.removePoint(selected);
 
 			/*
 			 * Check if another point with same coordinates as the dragged point exists.
 			 * Remove the point if so.
 			 */
 			IPoint removedPoint = null;
-			int pointIndex = pointSet.hasPoint(forDragSelected);
+			int pointIndex = pointSet.hasPoint(selected);
 			if (pointIndex >= 0) {
 				removedPoint = pointSet.getPointAt(pointIndex);
 				pointSet.removePoint(removedPoint);
 			}
 
-			pointSet.addPoint(forDragSelected);
+			pointSet.addPoint(selected);
 
 			// Create command and put it into the command list
-			ICommand dragPointCommand = new DragPointCommand(dx, dy, forDragSelected, removedPoint, pointSet);
+			ICommand dragPointCommand = new DragPointCommand(dx, dy, selected, removedPoint, pointSet);
 			commandManager.add(dragPointCommand);
 
 			// Various updates
 			pointSet.setHasChanged(true);
+			
 			updateModel();
 			updateView();
-			forDragSelected = null;
 
 		}
 	}
@@ -643,18 +650,22 @@ public class DrawPanelController implements IDrawPanelController {
 	public void notifyObservers() {
 		for(IDrawPanelControllerObserver observer : observers) {
 			
-			String mouseXasString;
-			String mouseYasString;
+			String mouseXasString = "";
+			String mouseYasString = "";
 			if(mousePositionIsOverPanel) {
-				mouseXasString = String.valueOf(currentMouseX);
-				mouseYasString = String.valueOf(currentMouseY);
+				mouseXasString = String.valueOf(mouseX);
+				mouseYasString = String.valueOf(mouseY);
 			}
-			else {
-				mouseXasString = "";
-				mouseYasString = "";
-			}
-
-			observer.update(String.valueOf(pointSet.getNumberOfPoints()), mouseXasString, mouseYasString, "", "");
+			
+			String selectedXasString = "";
+			String selectedYasString = "";
+			if(selected != null) {
+				selectedXasString = String.valueOf(selected.getX());
+				selectedYasString = String.valueOf(selected.getY());
+			}	
+			
+			observer.update(String.valueOf(pointSet.getNumberOfPoints()), mouseXasString, mouseYasString,
+					selectedXasString, selectedYasString);
 		}
 	}
 
@@ -724,11 +735,11 @@ public class DrawPanelController implements IDrawPanelController {
 		return view.animationIsShown();
 	}
 
-	@Override
-	public void setMouseCoordinates(int mouseX, int mouseY) {
-		currentMouseX = mouseX;
-		currentMouseY = mouseY;
-		notifyObservers();
+	
+	private void setMouseCoordinates(int mouseX, int mouseY) {
+		this.mouseX = mouseX;
+		this.mouseY = mouseY;
+		//notifyObservers();
 	}
 
 	@Override
@@ -737,4 +748,47 @@ public class DrawPanelController implements IDrawPanelController {
 		
 	}
 
+	private void setSelectedPoint(double totalScale) {
+		if(mousePositionIsOverPanel) {
+			IPoint closest = getClosestPointToMouse(mouseX, mouseY, new ManhattanMetric());
+			if(closest != null) {
+				if(pointIsWithinMouseRadius(closest, mouseX, mouseY, new ManhattanMetric(), Settings.mouseRadius/totalScale)) {
+					if(selected != null) {
+						if(selected != closest) {
+							selected.setSelected(false);
+							closest.setSelected(true);
+							selected = closest;
+							view.update();
+						}
+					}
+					else {
+						closest.setSelected(true);
+						selected = closest;
+						view.update();
+					}
+				}
+				else {
+					if(selected != null){
+						selected.setSelected(false);
+					}
+					selected = null;
+					view.update();
+				}
+			}
+			else {
+				if(selected != null){
+					selected.setSelected(false);
+				}
+				selected = null;
+				view.update();
+			}
+		}
+	}
+
+	@Override
+	public void updateMouseData(int mouseX, int mouseY, double totalScale) {
+		setMouseCoordinates(mouseX, mouseY);
+		setSelectedPoint(totalScale);
+		notifyObservers();
+	}
 }

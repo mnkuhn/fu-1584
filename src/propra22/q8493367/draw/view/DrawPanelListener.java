@@ -59,7 +59,7 @@ public class DrawPanelListener implements IDrawPanelListener {
 		}
 		
 		case MOUSE_MOVED: {
-			controller.setMouseCoordinates(e.getMouseX(), e.getMouseY());
+			controller.updateMouseData(e.getMouseX(), e.getMouseY(), e.getTotalScale());
 			break;
 		}
 		

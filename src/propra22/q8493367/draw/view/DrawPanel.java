@@ -427,8 +427,22 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			IPoint translatedPoint = translatePointFromModelToView(p);
 			g2.fillOval(translatedPoint.getX() - Settings.radius, translatedPoint.getY() - Settings.radius,
 					2 * Settings.radius, 2 * Settings.radius);
+			if(p.isSelected()) {
+				drawMarking(translatedPoint, g2, Settings.markingColor);
+			}
 		}
 	}
+
+	private void drawMarking(IPoint point, Graphics2D g2, Color color) {
+		g2.setColor(color);
+		int x = point.getX() - Settings.radius - 3;
+		int y = point.getY() - Settings.radius - 3;
+		int length = 2*Settings.radius + 6;
+		g2.drawRect(x, y, length, length);
+		g2.setColor(Color.BLACK);	
+	}
+
+
 
 	/**
 	 * Translate point from model to view.

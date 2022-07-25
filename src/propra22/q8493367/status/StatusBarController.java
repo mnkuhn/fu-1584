@@ -28,7 +28,7 @@ public class StatusBarController implements IDrawPanelControllerObserver{
 	@Override
 	public void update(String numberOfPoints, String mouseX, String mouseY, String selectedX, String selectedY) {
 		statusBar.setNumberOfPoints(numberOfPoints);	
-		statusBar.setCoordinates(mouseX, mouseY);
-		statusBar.setSelected(selectedX, selectedY);
+		statusBar.setMouseCoordinates(mouseX, mouseY);
+		statusBar.setCoordindatesOfSelectedPoint(selectedX, selectedY);
 	}
 }

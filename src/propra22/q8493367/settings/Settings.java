@@ -37,6 +37,9 @@ public class Settings {
 	/** The color used for the x and y axis */
 	public static final Color axisColor = new Color(112,128,144, 115); 		// slategray
 	
+	/** The color used for the marking of the selected point */
+	public static final Color markingColor = new Color(67,70,75, 255);       // dark steel gray
+	
 	/** The radius of a point in pixels */
 	public static final int radius =  3;
 	
@@ -65,5 +68,7 @@ public class Settings {
 	
 	/** The default setting for the display of the animation */
 	public static final boolean defaultAnimationIsShown = false;
+
+	
 	
 }

@@ -15,12 +15,15 @@ public class Point  implements IPoint {
 	/**  The y coordinate of the point. */
 	private int y;
 	
+	
+	private boolean selected;
+	
 	/**
 	 * Instantiates a new point.
 	 *
 	 * @param x the x coordinate
 	 * @param y the y coordinate
-	 */
+	 */	
 	public Point(int x, int y)  {
 		 this.x = x;
 		 this.y = y;
@@ -212,6 +215,18 @@ public class Point  implements IPoint {
 		long yTip = (long) a.getY() + (long) b.getY() - (long) afterB.getY();
 		IPoint tip = new Point((int) xTip, (int) yTip);
 		return  Point.signedTriangleArea(a, afterA, tip);
+	}
+	
+	
+	@Override
+	public void setSelected(boolean b) {
+		selected = b;
+	}
+
+	@Override
+	public boolean isSelected() {
+		return selected;
+		
 	}
 	
 }
