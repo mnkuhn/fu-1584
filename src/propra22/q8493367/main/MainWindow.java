@@ -351,13 +351,14 @@ public class MainWindow extends JFrame implements IMainWindow {
 		});
 		
 		ActionListener viewActionListener = new ActionListener() {
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainWindowListener.viewEventOccured(new ViewEvent(e.getSource(), 
 						convexHullItem.isSelected(), 
 						diameterItem.isSelected(), 
 						quadrangleItem.isSelected(), 
-						triangleItem.isSelected(), 
+						false, 
 						animationItem.isSelected()));	
 			}	
 	    };
@@ -370,7 +371,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 		diameterItem.addActionListener(viewActionListener);
 		
 	
-		quadrangleItem = new JCheckBoxMenuItem("Grösstes Rechteck");
+		quadrangleItem = new JCheckBoxMenuItem("Grösstes Viereck");
 		quadrangleItem.addActionListener(viewActionListener);
 		
 		
@@ -383,7 +384,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 		viewMenu.add(convexHullItem);
 		viewMenu.add(diameterItem);
 		viewMenu.add(quadrangleItem);
-		viewMenu.add(triangleItem);
+		//viewMenu.add(triangleItem);
 		
 		viewMenu.addSeparator();
 		
@@ -474,11 +475,13 @@ public class MainWindow extends JFrame implements IMainWindow {
 	/**
 	 * {@inheritDoc}
 	 */
+	/*
 	@Override
+	
 	public void setTriangleIsShown(boolean b) {
 		triangleItem.setSelected(b);
 		}
-
+    */
 
 	/**
 	 * {@inheritDoc}

@@ -78,7 +78,8 @@ public interface IMainWindow {
      *
      * @param b - true to make the triangle visible; false to make it invisible.
      */
-    void setTriangleIsShown(boolean b);
+    
+	//void setTriangleIsShown(boolean b);
 
 
      

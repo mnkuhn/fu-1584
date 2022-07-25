@@ -132,14 +132,14 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * panelScale, when the user changes the size of
 	 * the main window.
 	 */
-	private double originalWidth;
+	private double referenceWidth = 0;
 	
 	/** The original height is the reference width of the 
 	 * draw panel. It us used to calculate the value of the 
 	 * panelScale, when the user changes the size of
 	 * the main window.
 	 */
-	private double originalHeight;
+	private double referenceHeight = 0 ;
 	
 
 	
@@ -286,19 +286,25 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 			@Override
 			public void componentResized(ComponentEvent e) {
-				// window size changed
 				super.componentResized(e);
-				if (originalWidth != 0 && originalHeight != 0) {
-					double newPanelScale = Math.min((double) getWidth() / (double) originalWidth,
-							(double) getHeight() / (double) originalHeight);
-						panelScale = newPanelScale;
-				} else {
-					originalWidth = getWidth();
-					originalHeight = getHeight();
+				if(referenceWidth == 0 && referenceHeight == 0) {
+					referenceWidth = ((JPanel)e.getSource()).getWidth();
+					referenceHeight = ((JPanel)e.getSource()).getHeight();
+				}
+				else {
+					panelScale = Math.min((double) getWidth() / (double) referenceWidth,
+							(double) getHeight() / (double) referenceHeight);
 				}
 				update();
 			}
-		});
+			
+			@Override
+			public void componentShown(ComponentEvent e) {
+				super.componentShown(e);
+				referenceWidth = ((JPanel)e.getSource()).getWidth();
+				referenceHeight = ((JPanel)e.getSource()).getHeight();
+			}
+		});	
 	}
 	
 	
@@ -316,9 +322,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 */
 	@Override
 	public void initialize() {
-		originalWidth = getWidth();
-		originalHeight = getHeight();
-		panelScale = 1;
+		//referenceWidth = getWidth();
+		//referenceHeight = getHeight();
+		//panelScale = 1;
 		setOffsetsToZero();
 		if (!pointSet.isEmpty()) {
 			initializeScale();
@@ -380,10 +386,6 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 */
 	@Override
 	public void update() {
-		if (originalWidth == 0 || originalHeight == 0) {
-			originalWidth = getWidth();
-			originalHeight = getHeight();
-		}
 		repaint();
 	}
 
@@ -394,12 +396,12 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+		// set anti aliasing for a nicer presentation of the points and lines
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		drawCoordinateSystem(g2);
 		if (!pointSet.isEmpty()) {
-			Graphics2D g2 = (Graphics2D) g;
-			
-			// set anti aliasing for a nicer presentation of the points and lines
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			
 			drawPoints(g2);
 			if (convexHullIsShown) {
 				drawHull(g2, Settings.convexHullColor);
@@ -410,7 +412,6 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			if (quadrangleIsShown) {
 				drawQuadrangle(g2, Settings.quadrangleColor);
 			}
-			drawCoordinateSystem(g2);
 			if (animationIsShown) {
 				drawTangentPair(g2);
 			}
@@ -437,7 +438,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		g2.setColor(color);
 		int x = point.getX() - Settings.radius - 3;
 		int y = point.getY() - Settings.radius - 3;
-		int length = 2*Settings.radius + 6;
+		int length = 2*Settings.radius + 6 - 1;
 		g2.drawRect(x, y, length, length);
 		g2.setColor(Color.BLACK);	
 	}
@@ -475,7 +476,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	@Override
 	public IPoint getViewPointTranslatedToModelPoint(IPoint point) {
 		return translatePointFromViewToModel(point.getX(), point.getY());
-	}                                                                                        // braucht es diese Methode?
+	}                                                                                        
 
 	/**
 	 * Translates an x coordinate from the model to the view.
@@ -628,7 +629,6 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		g2d.drawLine(0, y, getWidth() - 1, y);
 
 		g2d.dispose();
-
 	}
 
 	/**

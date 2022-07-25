@@ -52,7 +52,7 @@ public class MainWindowController implements IMainWindowListener {
         view.setConvexHullIsShown(drawPanelController.convexHullIsShown());
         view.setDiameterIsShown(drawPanelController.diameterIsShown());
         view.setQuadrangleIsShown(drawPanelController.quadrangleIsShown());
-        view.setTriangleIsShown(drawPanelController.triangleIsShown());
+        //view.setTriangleIsShown(drawPanelController.triangleIsShown());
     }
 	
     /**
