@@ -47,10 +47,6 @@ public class DiameterAndQuadrangleCalculator  {
 	 */
 	public void calculate(IDiameter diameter, IQuadrangle quadrangle) {
 
-		// Set iterators for the calculation of the quadrangle
-		bIt = convexHull.getLeftIt();
-		dIt = convexHull.getRightIt();
-
 		// Convex hull is empty
 		if (convexHull.empty()) {
 			diameter = null;
@@ -63,7 +59,7 @@ public class DiameterAndQuadrangleCalculator  {
 		IHullIterator cIt = convexHull.getRightIt();
 		
 		// Convex hull has one or two points
-		if ((aIt.getPoint() == cIt.getPoint()) || (aIt.getNextPoint() == cIt.getPoint())) {
+		if ( (aIt.getPoint() == cIt.getPoint() ) || ( (aIt.getNextPoint() == cIt.getPoint()) && (aIt.getPoint() == cIt.getNextPoint() ) ) ) {
 			diameter.setA(aIt.getPoint());
 			diameter.setB(cIt.getPoint());
 			quadrangle.setA(aIt.getPoint());
@@ -77,6 +73,10 @@ public class DiameterAndQuadrangleCalculator  {
 			// first diameter
 			IDiameter maxDiameter = new Diameter(aIt.getPoint(), cIt.getPoint());
 			Diameter tmpDiameter = new Diameter(aIt.getPoint(), cIt.getPoint());
+			
+			// Set iterators for the calculation of the quadrangle
+			bIt = convexHull.getLeftIt();
+			dIt = convexHull.getRightIt();
 			
 			// first  quadrangle
 			IQuadrangle maxQuadrangle = new Quadrangle(aIt.getPoint(), bIt.getPoint(), cIt.getPoint(), dIt.getPoint());

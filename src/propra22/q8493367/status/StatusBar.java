@@ -2,7 +2,6 @@ package propra22.q8493367.status;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -52,15 +51,9 @@ public class StatusBar extends JPanel implements IStatusBar{
 		mouseCoordinates.setPreferredSize(new Dimension(120, height));
 		mouseCoordinates.setOpaque(true);
 		
-		/*
-		mouseCoordinatesY = new JLabel("", SwingConstants.LEFT);
-		mouseCoordinatesY.setPreferredSize(new Dimension(60, height));
-		mouseCoordinatesY.setOpaque(true);
-		*/
 		JPanel right = new JPanel();
 		right.add(coordinates);
 		right.add(mouseCoordinates);
-		//add(mouseCoordinatesY);
 		
 		JLabel selectedLabel = new JLabel("Gewählter Punkt:", SwingConstants.LEFT);
 		selectedLabel.setOpaque(true);
@@ -68,15 +61,8 @@ public class StatusBar extends JPanel implements IStatusBar{
 		selectedPointCoordinates.setPreferredSize(new Dimension(120, height));
 		selectedPointCoordinates.setOpaque(true);
 		
-		
-		/*
-		selectedPointY = new JLabel("", SwingConstants.LEFT);
-		selectedPointY.setPreferredSize(new Dimension(60, height));
-		selectedPointY.setOpaque(true);
-		*/
 		right.add(selectedLabel);
 		right.add(selectedPointCoordinates);
-		//add(selectedPointY);	
 		
 		add(left, BorderLayout.WEST);
 		add(right, BorderLayout.EAST);
@@ -111,6 +97,5 @@ public class StatusBar extends JPanel implements IStatusBar{
 		}
 		
 		selectedPointCoordinates.setText(coordinates);
-		//selectedPointY.setText(y);
 	}
 }
