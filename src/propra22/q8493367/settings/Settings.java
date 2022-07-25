@@ -44,7 +44,7 @@ public class Settings {
 	public static final int radius =  3;
 	
 	/** The maximum distance a point needs to have from the mouse to be selected*/
-	public static final int mouseRadius = 5;
+	public static final int mouseRadius = 16;
 	
 	/** The panel to screen widht ratio.*/
 	public static final double panelToScreenWidhtRatio = 0.6;
