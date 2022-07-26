@@ -1,7 +1,7 @@
 package propra22.q8493367.animation;
 
 
-import propra22.q8493367.contour.IHull;
+
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
@@ -32,13 +32,15 @@ public class TangentPair {
      */
     private Tangent tangent1;
     private Tangent tangent2;
+    
+    
 	
     /** The initial length of the tangent in pixels. */
     private double length = 400;
     
     
 
-	private AntipodalPairs antipodalPairs;
+	private QuadrangleSequence quadrangleSequence;
 	
 	/**
 	 * The constructor sets angle to 0 with respect to 
@@ -48,16 +50,13 @@ public class TangentPair {
 	 */
 	
 	
-	public TangentPair() {
+	public TangentPair(QuadrangleSequence quadrangleSequence) {
 		
-		antipodalPairs = new AntipodalPairs();
-		tangent1 = new Tangent(0, 0);
-		tangent2 = new Tangent(Math.PI, 1);
+		this.quadrangleSequence = quadrangleSequence;
+		tangent1 = new Tangent(0, QuadranglePoint.A);
+		tangent2 = new Tangent(Math.PI, QuadranglePoint.C);
 	}
 	
-	
-	
-
 
 	/**
      * Calculates the new slope of the tangent lines 
@@ -68,7 +67,7 @@ public class TangentPair {
 			increaseAngle();
 		}
 		else {
-			antipodalPairs.previous();
+			quadrangleSequence.previous();
 			calculateAngle();	
 		}
 	}
@@ -78,19 +77,12 @@ public class TangentPair {
 		return tangent1.nextAngleIsValid() && tangent2.nextAngleIsValid();
 	}
 
-
-
-
-
-	public void updateAntipodalPairs(IHull convexHull) {
-		antipodalPairs.update(convexHull);
-	}
 	
 	public void fitToAngle() {
 		//If diameter it not zero, it might be necessary to calulcate a new antipodal pair.
-		if(!antipodalPairs.diameterIsZero()) {
+		if(!quadrangleSequence.diameterIsZero()) {
 			while(!angleIsValid()){
-				antipodalPairs.next();
+				quadrangleSequence.next();
 			}
 		}
 		//If diameter is zero, angle can be kept anyway.
@@ -161,7 +153,7 @@ public class TangentPair {
 		 * This index represents the index of the point of the convex hull, 
 		 * which is the point of contact.
 		 */
-		int antipodalPoint;
+		QuadranglePoint quadranglePoint;
         
 		/**
 		 * The angleOffset is added to the angle. In our case this is PI, 
@@ -177,14 +169,12 @@ public class TangentPair {
 		 * @param angleOffset - The offset for the angle
 		 * @throws Exception 
 		 */
-		public Tangent(double angleOffset, int antipodalPoint) {
+		public Tangent(double angleOffset, QuadranglePoint quadranglePoint) {
 			this.angleOffset = angleOffset;
-			this.antipodalPoint = antipodalPoint;
+			this.quadranglePoint = quadranglePoint;
 		}
 		
 		
-
-
 		/**
 		 * Calculate angle.
 		 *
@@ -196,8 +186,7 @@ public class TangentPair {
 			return getAngle(getCenter(), getNextHullPoint()) - angleOffset;
 		}
 		
-		
-		
+
 		/**
 		 * Gets the angle.
 		 *
@@ -227,13 +216,13 @@ public class TangentPair {
 		
 		
 		private boolean nextAngleIsValid() {
-			if(antipodalPairs.diameterIsZero()) {
+			if(quadrangleSequence.diameterIsZero()) {
 				return true;
 			}
 			else {
 				IPoint center = getCenter();
 				IPoint nextB = getNextB();
-				IPoint previousHullPoint = antipodalPairs.getHullPointBefore(antipodalPoint);
+				IPoint previousHullPoint = quadrangleSequence.getHullPointBefore(quadranglePoint);
 
 				long result = Point.signedTriangleArea(center, nextB, previousHullPoint);
 				return result <= 0;
@@ -246,8 +235,8 @@ public class TangentPair {
 			IPoint a = getA();
 			IPoint b = getB();
 			
-			IPoint previousHullPoint = antipodalPairs.getHullPointBefore(antipodalPoint);
-			IPoint nextHullPoint = antipodalPairs.getHullPointAfter(antipodalPoint);
+			IPoint previousHullPoint = quadrangleSequence.getHullPointBefore(quadranglePoint);
+			IPoint nextHullPoint = quadrangleSequence.getHullPointAfter(quadranglePoint);
 			
 			
 			long result1 = Point.signedTriangleArea(center, b, previousHullPoint);
@@ -266,11 +255,11 @@ public class TangentPair {
 		 * @return - The contact point
 		 */
 		public IPoint getCenter() {
-			return antipodalPairs.getHullPoint(antipodalPoint);
+			return quadrangleSequence.getHullPoint(quadranglePoint);
 		}
 		
 		public IPoint getNextHullPoint() {
-			return antipodalPairs.getHullPointAfter(antipodalPoint);
+			return quadrangleSequence.getHullPointAfter(quadranglePoint);
 		}
 		
 		

@@ -40,30 +40,37 @@ public class FileChooser extends JFileChooser {
 	@Override
 	public void approveSelection() {
 		File selectedFile = getSelectedFile();
-		if (selectedFile.exists() && getDialogType() == SAVE_DIALOG) {
-			int result = JOptionPane.showConfirmDialog(this,
-					"Die Datei " + selectedFile.getName() + " existiert bereits. Soll sie überschrieben werden?",
-					"Datei existiert", JOptionPane.YES_NO_OPTION);
-			switch (result) {
-			case JOptionPane.YES_OPTION:
-				if (selectedFile.getName().endsWith(".points")) {
-					super.approveSelection();
+		if (getDialogType() == SAVE_DIALOG) {
+			if (selectedFile.exists()) {
+				int result = JOptionPane.showConfirmDialog(this,
+						"Die Datei " + selectedFile.getName() + " existiert bereits. Soll sie überschrieben werden?",
+						"Datei existiert", JOptionPane.YES_NO_OPTION);
+				switch (result) {
+				case JOptionPane.YES_OPTION:
+					if (selectedFile.getName().endsWith(".points")) {
+						super.approveSelection();
+					}
+					return;
+				case JOptionPane.NO_OPTION:
+					return;
+				case JOptionPane.CLOSED_OPTION:
+					return;
 				}
-				return;
-			case JOptionPane.NO_OPTION:
-				return;
-			case JOptionPane.CLOSED_OPTION:
+			}
+			super.approveSelection();
+		}
+
+		if (getDialogType() == OPEN_DIALOG) {
+			if (!selectedFile.getAbsolutePath().endsWith(".points")) {
+				JOptionPane.showMessageDialog(this, "Bitte wählen Sie nur Dateien mit der Endung 'points'.",
+						"Falsches Dateiformat", JOptionPane.ERROR_MESSAGE);
+			} else if (!selectedFile.exists()) {
+				JOptionPane.showMessageDialog(this, "Die Datei konnte nicht gefunden werden.", "",
+						JOptionPane.ERROR_MESSAGE);
+			} else {
+				super.approveSelection();
 				return;
 			}
-		} else {
-		    if(!selectedFile.getAbsolutePath().endsWith(".points")) {
-		    	JOptionPane.showMessageDialog(this, "Bitte wählen Sie nur Dateien mit der Endung 'points'.", "Falsches Dateiformat", JOptionPane.ERROR_MESSAGE);
-		    } else if(!selectedFile.exists()) {
-		    	JOptionPane.showMessageDialog(this, "Die Datei konnte nicht gefunden werden.", "", JOptionPane.ERROR_MESSAGE);
-		    } else {
-		    	super.approveSelection();
-		    	return;
-		    }	
 		}
 	}
 }

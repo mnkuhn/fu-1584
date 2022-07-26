@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import propra22.q8493367.animation.AnimationThread;
+import propra22.q8493367.animation.QuadrangleSequence;
 import propra22.q8493367.animation.TangentPair;
 import propra22.q8493367.command.CommandManager;
 import propra22.q8493367.command.DragPointCommand;
@@ -101,6 +102,8 @@ public class DrawPanelController implements IDrawPanelController {
 	private int mouseX;
 
 	private int mouseY;
+
+	private QuadrangleSequence quadrangleSequence;
 	
 
 
@@ -115,12 +118,14 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param tangentPair the tangent pair
 	 * @param drawPanel the draw panel
 	 */
-	public DrawPanelController(IPointSet pointSet, IHull convexHull, IDiameter diameter, IQuadrangle quadrangle, TangentPair tangentPair,  DrawPanel drawPanel) {
+	public DrawPanelController(IPointSet pointSet, IHull convexHull, IDiameter diameter, IQuadrangle quadrangle, 
+			TangentPair tangentPair, QuadrangleSequence quadrangleSequence, DrawPanel drawPanel) {
 		this.pointSet = pointSet;
 		this.hull = convexHull;
 		this.diameter = diameter;
 		this.quadrangle = quadrangle;
 		this.tangentPair = tangentPair;
+		this.quadrangleSequence = quadrangleSequence;
 		
 		this.view = drawPanel;
 		
@@ -223,11 +228,14 @@ public class DrawPanelController implements IDrawPanelController {
 			convexHullCalculator.calculateConvexHull();
 			end = System.currentTimeMillis();
 			System.out.println("Konvexe Hülle berechnen: " + (end - start) + " ms");
-
+             
 			start = end;
-			diameterAndQuadrangleCalulator.calculate(diameter, quadrangle);
+			terminateAnimationThread();
+			diameterAndQuadrangleCalulator.calculate(diameter, quadrangle, quadrangleSequence);
 			end = System.currentTimeMillis();
-			System.out.println("Durchmesser und Viereck berechen: " + (end - start) + " ms \n \n");	
+			System.out.println("Durchmesser und Viereck berechen: " + (end - start) + " ms \n \n");
+			
+			
 		}
 		
 		if(view != null) {
@@ -236,9 +244,9 @@ public class DrawPanelController implements IDrawPanelController {
 		
 		notifyObservers();
 	}
-	
-	private void updateAnimation() {
-		if(pointSet.isEmpty() && animationThread != null) {
+
+	private void terminateAnimationThread() {
+		if(animationThread != null) {
 			if(animationThread.isAlive()) {
 				animationThread.terminate();
 				try {
@@ -247,21 +255,17 @@ public class DrawPanelController implements IDrawPanelController {
 					e.printStackTrace();
 				}
 			}	
-		} else if(!pointSet.isEmpty() && view.animationIsShown()) {
+		}
+	}
+	
+	private void updateAnimation() {
+		
+		if(view.animationIsShown()) {
 			if(animationThread != null) {
-				if(animationThread.isAlive()) {
-					animationThread.terminate();
-					try {
-						animationThread.join();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				tangentPair.fitToAngle();
+				animationThread = new AnimationThread(tangentPair, view);
+				animationThread.start();
 			}
-			tangentPair.updateAntipodalPairs(hull);
-			tangentPair.fitToAngle();
-			animationThread = new AnimationThread(tangentPair, view);
-			animationThread.start();
 		}
 	}
 
@@ -599,7 +603,7 @@ public class DrawPanelController implements IDrawPanelController {
 		if(animationRequested == true) {
 			if(animationThread == null || (animationThread != null && !animationThread.isAlive())) {
 				if(!hull.empty()) {
-					tangentPair.updateAntipodalPairs(hull);
+					//tangentPair.updateAntipodalPairs(hull);
 					tangentPair.fitToAngle();
 					animationThread = new AnimationThread(tangentPair, view);
 					animationThread.start();

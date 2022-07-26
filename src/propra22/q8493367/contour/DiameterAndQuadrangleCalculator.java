@@ -1,5 +1,6 @@
 package propra22.q8493367.contour;
 
+import propra22.q8493367.animation.QuadrangleSequence;
 import propra22.q8493367.draw.model.IHullIterator;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
@@ -45,111 +46,169 @@ public class DiameterAndQuadrangleCalculator  {
 	 * @param diameter   the diameter object
 	 * @param quadrangle the quadrangle object
 	 */
-	public void calculate(IDiameter diameter, IQuadrangle quadrangle) {
-
-		// Convex hull is empty
-		if (convexHull.empty()) {
-			diameter = null;
-			quadrangle = null;
-			return;
-		}
-
-		// Iterators for the diameter and quadrangel calculation
-		IHullIterator aIt = convexHull.getLeftIt();
-		IHullIterator cIt = convexHull.getRightIt();
+	public void calculate(IDiameter diameter, IQuadrangle quadrangle, QuadrangleSequence quadrangleSequence) {
+        if(quadrangleSequence != null) {
+        	quadrangleSequence.clear();
+        }
 		
-		// Convex hull has one or two points
-		if ( (aIt.getPoint() == cIt.getPoint() ) || ( (aIt.getNextPoint() == cIt.getPoint()) && (aIt.getPoint() == cIt.getNextPoint() ) ) ) {
-			diameter.setA(aIt.getPoint());
-			diameter.setB(cIt.getPoint());
-			quadrangle.setA(aIt.getPoint());
-			quadrangle.setB(aIt.getPoint());
-			quadrangle.setC(cIt.getPoint());
-			quadrangle.setD(cIt.getPoint());
+		if (!convexHull.empty()) {
 
-		// Convex hull has more than 2 points 
-		} else {
+			// Iterators for the diameter and quadrangel calculation
+			IHullIterator aIt = convexHull.getLeftIt();
+			IHullIterator cIt = convexHull.getRightIt();
 
-			// first diameter
-			IDiameter maxDiameter = new Diameter(aIt.getPoint(), cIt.getPoint());
-			Diameter tmpDiameter = new Diameter(aIt.getPoint(), cIt.getPoint());
-			
-			// Set iterators for the calculation of the quadrangle
-			bIt = convexHull.getLeftIt();
-			dIt = convexHull.getRightIt();
-			
-			// first  quadrangle
-			IQuadrangle maxQuadrangle = new Quadrangle(aIt.getPoint(), bIt.getPoint(), cIt.getPoint(), dIt.getPoint());
-			Quadrangle tmpQuadrangle = new Quadrangle(aIt.getPoint(), bIt.getPoint(), cIt.getPoint(), dIt.getPoint());
-            
-			// limits for the iterators
-			IPoint left = aIt.getPoint();
-			IPoint right = cIt.getPoint();
-			while (!(aIt.getPoint() == right) || !(cIt.getPoint() == left)) {
-
-				//long angleComparisonTestResult = convexHull.AngleComparisonTest(aIt, cIt);
-				long angleComparisonTestResult = Point.angleComparisonTest(aIt.getPoint(), aIt.getNextPoint(), cIt.getPoint(), cIt.getNextPoint());
-
-				// angleComparisonResult > 0
-				if (angleComparisonTestResult > 0) {
-					aIt.next();
-					tmpDiameter.setA(aIt.getPoint());
-					tmpDiameter.setB(cIt.getPoint());
-					tmpQuadrangle = calculateQuadrangle(aIt.getPoint(), bIt, cIt.getPoint(), dIt);
-
-				// angleComparisonResult < 0
-				} else if (angleComparisonTestResult < 0) {
-					cIt.next();
-					tmpDiameter.setA(aIt.getPoint());
-					tmpDiameter.setB(cIt.getPoint());
-					tmpQuadrangle = calculateQuadrangle(aIt.getPoint(), bIt, cIt.getPoint(), dIt);
+			// Convex hull has one or two points
+			if ((aIt.getPoint() == cIt.getPoint())
+					|| ((aIt.getNextPoint() == cIt.getPoint()) && (aIt.getPoint() == cIt.getNextPoint()))) {
+				diameter.setA(aIt.getPoint());
+				diameter.setB(cIt.getPoint());
+				quadrangle.setA(aIt.getPoint());
+				quadrangle.setB(aIt.getPoint());
+				quadrangle.setC(cIt.getPoint());
+				quadrangle.setD(cIt.getPoint());
+				
+				if(quadrangleSequence != null) {
+					quadrangleSequence.add(new Quadrangle(aIt.getPoint(), aIt.getPoint(), cIt.getPoint(), cIt.getPoint()));
 				}
+				
 
-				// angleComparisonResult == 0
-				else {
-					if (Point.isShorter(aIt.getPoint(), aIt.getNextPoint(), cIt.getPoint(), cIt.getNextPoint())) {
-						tmpDiameter.setA(aIt.getNextPoint());
-						tmpDiameter.setB(cIt.getPoint());
-						if (tmpDiameter.length() > maxDiameter.length()) {maxDiameter.copy(tmpDiameter);}
+				// Convex hull has more than 2 points
+			} else {
 
-						tmpQuadrangle = calculateQuadrangle(aIt.getNextPoint(), bIt, cIt.getPoint(), dIt);
-						if (tmpQuadrangle.area() > maxQuadrangle.area()) {maxQuadrangle.copy(tmpQuadrangle);}
+				// first diameter
+				IDiameter maxDiameter = new Diameter(aIt.getPoint(), cIt.getPoint());
+				Diameter tmpDiameter = new Diameter(aIt.getPoint(), cIt.getPoint());
 
-						cIt.next();
+				// Set iterators for the calculation of the quadrangle
+				bIt = convexHull.getLeftIt();
+				dIt = convexHull.getRightIt();
 
-					} else {
+				// first quadrangle
+				IQuadrangle maxQuadrangle = new Quadrangle(aIt.getPoint(), bIt.getPoint(), cIt.getPoint(),
+						dIt.getPoint());
+				Quadrangle tmpQuadrangle = new Quadrangle(aIt.getPoint(), bIt.getPoint(), cIt.getPoint(),
+						dIt.getPoint());
 
-						tmpDiameter.setA(aIt.getPoint());
-						tmpDiameter.setB(cIt.getNextPoint());
-						if (tmpDiameter.length() > maxDiameter.length()) {maxDiameter.copy(tmpDiameter);}
-						
-						tmpQuadrangle = calculateQuadrangle(aIt.getPoint(), bIt, cIt.getNextPoint(), dIt);
-						if (tmpQuadrangle.area() > maxQuadrangle.area()) {maxQuadrangle.copy(tmpQuadrangle);}
+				// limits for the iterators
+				IPoint left = aIt.getPoint();
+				IPoint right = cIt.getPoint();
+				do {
+					tmpDiameter.setA(aIt.getPoint());
+					tmpDiameter.setB(cIt.getPoint());
+					if(tmpDiameter.length() > maxDiameter.length()) {
+						maxDiameter.copy(tmpDiameter);
+					}
+					
+					tmpQuadrangle = calculateQuadrangle(aIt.getPoint(), bIt, cIt.getPoint(), dIt);
+					if(tmpQuadrangle.area() > maxQuadrangle.area()) {
+						maxQuadrangle.copy(tmpQuadrangle);
+					}
+					
+					addTmpQuadrangleToQuadrangleSequence(quadrangleSequence, tmpQuadrangle);
+					
+					// long angleComparisonTestResult = convexHull.AngleComparisonTest(aIt, cIt);
+					long angleComparisonTestResult = Point.angleComparisonTest(aIt.getPoint(), aIt.getNextPoint(),
+							cIt.getPoint(), cIt.getNextPoint());
 
+					// angleComparisonResult > 0
+					if (angleComparisonTestResult > 0) {
 						aIt.next();
 						
+					// angleComparisonResult < 0
+					} else if (angleComparisonTestResult < 0) {
+						cIt.next();
 					}
-				}
-				if (tmpDiameter.length() > maxDiameter.length()) {
-					maxDiameter.copy(tmpDiameter);
-				}
+					// angleComparisonResult == 0
+					else {
+						if (Point.isShorter(aIt.getPoint(), aIt.getNextPoint(), cIt.getPoint(), cIt.getNextPoint())) {
+							tmpDiameter.setA(aIt.getNextPoint());
+							
+							if (tmpDiameter.length() > maxDiameter.length()) {
+								maxDiameter.copy(tmpDiameter);
+							}
 
-				if (tmpQuadrangle.area() > maxQuadrangle.area()) {
-					maxQuadrangle.copy(tmpQuadrangle);
+							tmpQuadrangle = calculateQuadrangle(aIt.getNextPoint(), bIt, cIt.getPoint(), dIt);
+							addTmpQuadrangleToQuadrangleSequence(quadrangleSequence, tmpQuadrangle);
+							
+							if (tmpQuadrangle.area() > maxQuadrangle.area()) {
+								maxQuadrangle.copy(tmpQuadrangle);
+							}
+
+							cIt.next();
+
+						} else {
+
+							tmpDiameter.setB(cIt.getNextPoint());
+							if (tmpDiameter.length() > maxDiameter.length()) {
+								maxDiameter.copy(tmpDiameter);
+							}
+							
+							tmpQuadrangle = calculateQuadrangle(aIt.getPoint(), bIt, cIt.getNextPoint(), dIt);
+							addTmpQuadrangleToQuadrangleSequence(quadrangleSequence, tmpQuadrangle);
+							
+							if (tmpQuadrangle.area() > maxQuadrangle.area()) {
+								maxQuadrangle.copy(tmpQuadrangle);
+							}
+
+							aIt.next();
+						}
+					}
+					
+				} while (!(aIt.getPoint() == right) || !(cIt.getPoint() == left));
+				
+				//continue for the animation
+				
+				do {
+					
+					tmpQuadrangle = calculateQuadrangle(aIt.getPoint(), bIt, cIt.getPoint(), dIt);
+					addTmpQuadrangleToQuadrangleSequence(quadrangleSequence, tmpQuadrangle);
+					
+					// long angleComparisonTestResult = convexHull.AngleComparisonTest(aIt, cIt);
+					long angleComparisonTestResult = Point.angleComparisonTest(aIt.getPoint(), aIt.getNextPoint(),
+							cIt.getPoint(), cIt.getNextPoint());
+
+					// angleComparisonResult > 0
+					if (angleComparisonTestResult > 0) {
+						aIt.next();
+						
+					// angleComparisonResult < 0
+					} else if (angleComparisonTestResult < 0) {
+						cIt.next();
+					}
+					// angleComparisonResult == 0
+					else {
+						if (Point.isShorter(aIt.getPoint(), aIt.getNextPoint(), cIt.getPoint(), cIt.getNextPoint())) {
+							tmpDiameter.setA(aIt.getNextPoint());
+							tmpQuadrangle = calculateQuadrangle(aIt.getNextPoint(), bIt, cIt.getPoint(), dIt);
+							addTmpQuadrangleToQuadrangleSequence(quadrangleSequence, tmpQuadrangle);
+							cIt.next();
+
+						} else {
+
+							tmpDiameter.setB(cIt.getNextPoint());
+							tmpQuadrangle = calculateQuadrangle(aIt.getPoint(), bIt, cIt.getNextPoint(), dIt);
+							addTmpQuadrangleToQuadrangleSequence(quadrangleSequence, tmpQuadrangle);
+							aIt.next();
+						}
+					}
+					
+				} while( !(aIt.getPoint() == left) || !(cIt.getPoint() == right)) ;
+				
+
+				if (quadrangle != null) {
+					quadrangle.copy(maxQuadrangle);
+				} 
+				if (diameter != null) {
+					diameter.copy(maxDiameter);
 				}
 			}
-            if(quadrangle != null) {
-            	quadrangle.copy(maxQuadrangle);
-            }
-            else {
-            	quadrangle = maxQuadrangle;
-            }
-            if(diameter != null) {
-            	diameter.copy(maxDiameter);
-            }
-            else {
-            	diameter = maxDiameter;
-            }
+		}
+	}
+
+	private void addTmpQuadrangleToQuadrangleSequence(QuadrangleSequence quadrangleSequence, Quadrangle tmpQuadrangle) {
+		if(quadrangleSequence != null) {
+			quadrangleSequence.add(new Quadrangle(tmpQuadrangle.getA(), tmpQuadrangle.getB(), 
+					tmpQuadrangle.getC(), tmpQuadrangle.getD()));
 		}
 	}
 

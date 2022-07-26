@@ -31,6 +31,9 @@ public class Settings {
 	/** The color used for the quadrangle */
 	public static final Color quadrangleColor = new Color(0, 255, 0, 40);  				// green
 	
+	/** The color used for the animatedQuadrangle*/
+	public static final Color animatedQuadrangleColor = new Color(0, 255, 0, 70);       // green
+	
 	/** The color used for the triangle*/
 	public static final Color triangleColor = new Color(255, 255, 0, 255); 				// yellow
 	
@@ -39,6 +42,7 @@ public class Settings {
 	
 	/** The color used for the marking of the selected point */
 	public static final Color markingColor = new Color(67,70,75, 255);      			// dark steel gray
+	
 	
 	
 	//Distances and ratios
@@ -72,6 +76,9 @@ public class Settings {
 	
 	/** The default setting for the display of the animation */
 	public static final boolean defaultAnimationIsShown = false;
+
+
+	
 
 	
 	

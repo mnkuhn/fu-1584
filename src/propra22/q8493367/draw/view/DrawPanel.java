@@ -16,6 +16,7 @@ import java.awt.event.MouseWheelListener;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import propra22.q8493367.animation.QuadrangleSequence;
 import propra22.q8493367.animation.TangentPair;
 import propra22.q8493367.contour.IDiameter;
 import propra22.q8493367.contour.IHull;
@@ -137,6 +138,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * the main window.
 	 */
 	private double referenceHeight = 0 ;
+
+	private QuadrangleSequence quadrangleSequence;
 	
 
 	
@@ -150,15 +153,17 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * @param diameter - the diameter
 	 * @param quadrangle - the biggest quadrangle
 	 * @param tangentPair - the tangent pair for the animation
+	 * @param quadrangleSequence 
 	 */
 	public DrawPanel(IPointSet pointSet, IHull hull, IDiameter diameter, IQuadrangle quadrangle,
-			TangentPair tangentPair) {
+			TangentPair tangentPair, QuadrangleSequence quadrangleSequence) {
 
 		this.pointSet = pointSet;
 		this.hull = hull;
 		this.diameter = diameter;
 		this.quadrangle = quadrangle;
 		this.tangentPair = tangentPair;
+		this.quadrangleSequence = quadrangleSequence;
 
 		addMouseListener(new MouseAdapter() {
 
@@ -411,6 +416,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			}
 			if (animationIsShown) {
 				drawTangentPair(g2);
+				drawAnimatedQuadrangle(g2, Settings.animatedQuadrangleColor);	
 			}
 		}
 	}
@@ -672,9 +678,29 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			 
 		} catch (NullPointerException e) {
 			e.getStackTrace();
+		}	 
+	}
+	
+	private void drawAnimatedQuadrangle(Graphics2D g2, Color color) {
+		if (quadrangleSequence != null) {
+			g2.setColor(color);
+            
+			IQuadrangle quadrangle = quadrangleSequence.getQuadrangle();
+			IPoint translatedA = translatePointFromModelToView(quadrangle.getA());
+			IPoint translatedB = translatePointFromModelToView(quadrangle.getB());
+			IPoint translatedC = translatePointFromModelToView(quadrangle.getC());
+			IPoint translatedD = translatePointFromModelToView(quadrangle.getD());
+
+			int[] xPoints = new int[] { translatedA.getX(), translatedB.getX(), translatedC.getX(),
+					translatedD.getX() };
+			int[] yPoints = new int[] { translatedA.getY(), translatedB.getY(), translatedC.getY(),
+					translatedD.getY() };
+
+			Polygon quadrangleAsPolygon = new Polygon(xPoints, yPoints, 4);
+			g2.fillPolygon(quadrangleAsPolygon);
+
+			g2.setColor(Color.BLACK);
 		}
-		 
-		 
 	}
 
 	/**
