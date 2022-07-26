@@ -109,6 +109,7 @@ public class FileManager implements IFileManager {
 
 						// filePath == null
 					} else {
+						// prevent the file chooser to show the last selected File
 						fileChooser.setSelectedFile(new File(""));
 						int fileChooserOption = fileChooser.showSaveDialog(null);
 						if (fileChooserOption == JFileChooser.APPROVE_OPTION) {
