@@ -144,12 +144,14 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param diameter the diameter
 	 * @param quadrangle the quadrangle
 	 */
-	public DrawPanelController(IPointSet pointSet, IHull hull, IDiameter diameter, IQuadrangle quadrangle) {
+	public DrawPanelController(IPointSet pointSet, IHull hull, IDiameter diameter, IQuadrangle quadrangle, 
+			QuadrangleSequence quadrangleSequence) {
 
 		this.pointSet = pointSet;
 		this.hull = hull;
 		this.diameter = diameter;
 		this.quadrangle = quadrangle;
+		this.quadrangleSequence = quadrangleSequence;
 		this.view = null;
 		
 		

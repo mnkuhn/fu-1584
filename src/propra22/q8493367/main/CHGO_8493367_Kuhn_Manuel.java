@@ -54,7 +54,8 @@ public class CHGO_8493367_Kuhn_Manuel {
 		
 		//Draw panel and controller of the draw panel
 		DrawPanel drawPanel = new DrawPanel(pointSet, hull, diameter, quadrangle, tangentPair, quadrangleSequence);
-		DrawPanelController drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, tangentPair, quadrangleSequence, drawPanel);
+		DrawPanelController drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, 
+				tangentPair, quadrangleSequence, drawPanel);
 		IDrawPanelListener drawPanelListener = new DrawPanelListener(drawPanelController);
 		drawPanel.setDrawPanelListener(drawPanelListener);
 		

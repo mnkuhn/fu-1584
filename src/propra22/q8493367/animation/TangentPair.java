@@ -80,7 +80,7 @@ public class TangentPair {
 	
 	public void fitToAngle() {
 		//If diameter it not zero, it might be necessary to calulcate a new antipodal pair.
-		if(!quadrangleSequence.diameterIsZero()) {
+		if(!quadrangleSequence.biggestDiameterIsZero()) {
 			while(!angleIsValid()){
 				quadrangleSequence.next();
 			}
@@ -216,7 +216,7 @@ public class TangentPair {
 		
 		
 		private boolean nextAngleIsValid() {
-			if(quadrangleSequence.diameterIsZero()) {
+			if(quadrangleSequence.biggestDiameterIsZero()) {
 				return true;
 			}
 			else {

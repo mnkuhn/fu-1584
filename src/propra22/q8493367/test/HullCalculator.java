@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import propra22.interfaces.IHullCalculator;
+import propra22.q8493367.animation.QuadrangleSequence;
 import propra22.q8493367.contour.IDiameter;
 import propra22.q8493367.contour.IHull;
 import propra22.q8493367.contour.IPointSet;
@@ -26,22 +27,24 @@ import propra22.q8493367.shape.Quadrangle;
 public class HullCalculator implements IHullCalculator{
 	
 	/** The point set. */
-	IPointSet pointSet;
+	private IPointSet pointSet;
 	
 	/** The hull. */
-	IHull hull;
+	private IHull hull;
 	
 	/** The diameter. */
-	IDiameter diameter;
+	private IDiameter diameter;
 	
 	/** The quadrangle. */
-	IQuadrangle quadrangle;
+	private IQuadrangle quadrangle;
 	
 	/** The draw panel controller. */
-	DrawPanelController drawPanelController;
+	private DrawPanelController drawPanelController;
 	
 	/** The file manager. */
-	FileManager fileManager;
+	private FileManager fileManager;
+
+	private QuadrangleSequence quadrangleSequence;
 	
 	/**
 	 * Instantiates a new hull calculator.
@@ -51,7 +54,9 @@ public class HullCalculator implements IHullCalculator{
 		this.hull = new Hull();
 		this.diameter = new Diameter();
 		this.quadrangle = new Quadrangle();
-		this.drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle);
+		this.quadrangleSequence = new QuadrangleSequence();
+		this.drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, 
+				quadrangleSequence);
 		this.fileManager = new FileManager(pointSet, drawPanelController, new Parser());
 	}
 	
