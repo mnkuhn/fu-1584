@@ -246,12 +246,6 @@ public interface IDrawPanelController {
 	 */
 	void setShowAnimation(boolean animationIsShown);
 
-	/**
-	 * Initializes  the view
-	 */
-	void initializeView();
-
-
 
 	/**
 	 * Insert random points.
@@ -320,6 +314,10 @@ public interface IDrawPanelController {
 	
 
 	public void setMousePositionIsOverPanel(boolean b);
+
+
+
+	public void centerView();
 
 
 

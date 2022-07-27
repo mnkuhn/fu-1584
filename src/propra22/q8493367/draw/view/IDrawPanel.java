@@ -100,7 +100,7 @@ public interface IDrawPanel  {
 	 * and the scale are calculated so that the point set is displayed
 	 * centered on the draw panel.
 	 */
-	void initialize();
+	void center();
 
 	/**
 	 * Gets the view point translated to model point.

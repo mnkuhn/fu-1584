@@ -91,8 +91,10 @@ public class MainWindow extends JFrame implements IMainWindow {
 	/** The draw panel. */
 	private IDrawPanel drawPanel;
 	
-	/** The status bar. */
+	
+	/** The status bar */
 	private JPanel statusBar;
+	
 	
 
 	/**
@@ -386,9 +388,19 @@ public class MainWindow extends JFrame implements IMainWindow {
 		viewMenu.add(quadrangleItem);
 		//viewMenu.add(triangleItem);
 		
-		viewMenu.addSeparator();
-		
 		viewMenu.add(animationItem);
+		
+		viewMenu.addSeparator();
+		JMenuItem centerItem = new JMenuItem("zentrieren");
+		centerItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainWindowListener.centerViewEventOccured();
+				
+			}
+		});
+		viewMenu.add(centerItem);
 		
 		menuBar.add(viewMenu);
 	}

@@ -323,10 +323,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 *  {@inheritDoc}
 	 */
 	@Override
-	public void initialize() {
-		//referenceWidth = getWidth();
-		//referenceHeight = getHeight();
-		//panelScale = 1;
+	public void center() {
 		setOffsetsToZero();
 		if (!pointSet.isEmpty()) {
 			initializeScale();

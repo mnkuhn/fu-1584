@@ -282,7 +282,7 @@ public class DrawPanelController implements IDrawPanelController {
 	public void reset() {
 		commandManager.clear();
 		updateModel();
-		initializeView();	
+		centerView();
 	}
 
 
@@ -584,13 +584,7 @@ public class DrawPanelController implements IDrawPanelController {
 		view.setTriangleIsShown(b);
 	}
 	
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public void initializeView() {
-		view.initialize();	
-	}
+	
 
 	/**
 	 *{@inheritDoc}
@@ -795,5 +789,11 @@ public class DrawPanelController implements IDrawPanelController {
 		setMouseCoordinates(mouseX, mouseY);
 		setSelectedPoint(totalScale);
 		notifyObservers();
+	}
+
+	@Override
+	public void centerView() {
+		view.center();
+		
 	}
 }

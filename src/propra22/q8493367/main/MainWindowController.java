@@ -156,4 +156,10 @@ public class MainWindowController implements IMainWindowListener {
 		}	
 	}
 
+	@Override
+	public void centerViewEventOccured() {
+		drawPanelController.centerView();
+		
+	}
+
 }

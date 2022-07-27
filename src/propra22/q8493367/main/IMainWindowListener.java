@@ -58,5 +58,7 @@ public interface IMainWindowListener {
 	 * are shown and if the animation should be running.
 	 */
 	void viewEventOccured(ViewEvent viewEvent);
+
+	void centerViewEventOccured();
 	
 }
