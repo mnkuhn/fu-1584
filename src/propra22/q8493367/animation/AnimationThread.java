@@ -23,7 +23,7 @@ public class AnimationThread extends Thread {
 			view.update();
 			try {
 				tangentPair.step();
-				Thread.sleep(20);
+				Thread.sleep(2);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} catch (NullPointerException e) {

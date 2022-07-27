@@ -108,10 +108,6 @@ public class ConvexHullCalculator implements ISectionCalculator {
 			for (ContourType sectionType : ContourType.values()) {
 				calculateSection(sectionType);
 			}
-
-			// puts the 4 sections into a list, following the points counterclockwise
-			// starting at the leftmost point.
-			hull.createList();
 		}
 	}
 }

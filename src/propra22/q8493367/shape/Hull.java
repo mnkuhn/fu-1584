@@ -7,7 +7,7 @@ import propra22.q8493367.contour.ContourType;
 import propra22.q8493367.contour.IHull;
 import propra22.q8493367.draw.model.IHullIterator;
 import propra22.q8493367.point.IPoint;
-import propra22.q8493367.point.Point;
+
 
 
 // TODO: Auto-generated Javadoc
@@ -17,7 +17,7 @@ import propra22.q8493367.point.Point;
 public class Hull implements IHull {
 
 	/**  The points of the hull in clockwise direction in a standard cartesian coordinate system. */
-	private  List<IPoint> pointList = new ArrayList<>();
+	//private  List<IPoint> pointList = new ArrayList<>();
 
 	/** The lower left section. */
 	private  List<IPoint> newUpperLeft = new ArrayList<>();
@@ -32,7 +32,7 @@ public class Hull implements IHull {
 	private  List<IPoint> newLowerRight = new ArrayList<>();
 
 	/** The index of the right most point in the point list. */
-	private int rightMost;
+	//private int rightMost;
 	
 
 	/**
@@ -177,7 +177,7 @@ public class Hull implements IHull {
 		newLowerLeft.clear();
 		newUpperRight.clear();
 		newLowerRight.clear();
-		pointList.clear();
+		//pointList.clear();
 	}
 
 	/**
@@ -234,89 +234,29 @@ public class Hull implements IHull {
 		return pointList;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	
 	/*
 	@Override
 	public void createList() {
-		//System.out.println("Hull -> createList()");
-		pointList.clear();
-		IPoint lastPoint = null;
-		int index = 0;
-		int i = 0;
-		// One point only
-		if (getPointFromSection(0, SectionType.NEWUPPERLEFT) == getPointFromSection(0, SectionType.NEWLOWERRIGHT)) {
-			pointList.add(getPointFromSection(0, SectionType.NEWUPPERLEFT));
-			// More than one point
-		} else {
-			while (i < getSizeOfSection(SectionType.NEWUPPERLEFT)) {
-				lastPoint = getPointFromSection(i++, SectionType.NEWUPPERLEFT);
-				pointList.add(lastPoint);
-				index++;
-			}
-
-			int gap = 1;
-			int sizeOfLowerRight = getSizeOfSection(SectionType.NEWUPPERRIGHT);
-			IPoint nextPoint = getPointFromSection(sizeOfLowerRight - 1, SectionType.NEWUPPERRIGHT);
-			if (lastPoint.equals(nextPoint)) {
-				gap = 2;
-			}
-			i = sizeOfLowerRight - gap;
-			while (i >= 0) {
-				lastPoint = getPointFromSection(i--, SectionType.NEWUPPERRIGHT);
-				pointList.add(lastPoint);
-				index++;
-			}
-
-			rightMost = index - 1;
-
-			i = 1;
-
-			while (i < getSizeOfSection(SectionType.NEWLOWERRIGHT)) {
-				lastPoint = getPointFromSection(i++, SectionType.NEWLOWERRIGHT);
-				pointList.add(lastPoint);
-				index++;
-			}
-
-			gap = 1;
-			int sizeOfUpperLeft = getSizeOfSection(SectionType.NEWLOWERLEFT);
-			nextPoint = getPointFromSection(sizeOfUpperLeft - 1, SectionType.NEWLOWERLEFT);
-			if (lastPoint.equals(nextPoint)) {
-				gap = 2;
-			}
-			i = sizeOfUpperLeft - gap;
-			while (i > 0) {
-				lastPoint = getPointFromSection(i--, SectionType.NEWLOWERLEFT);
-				pointList.add(lastPoint);
-				index++;
-			}
-			IPoint firstPoint = getPointFromSection(0, SectionType.NEWLOWERLEFT);
-			if (lastPoint.equals(firstPoint)) {
-				pointList.remove(index - 1);
-			}
-		}
-	}
-    */
-	
-	@Override
-	public void createList() {
 		IHullIterator it = getLeftIt();
 		IPoint start = it.getPoint();
+		it.next();
 		while(it.getPoint() != start) {
 			pointList.add(it.getPoint());
 			it.next();
 		}
 	}
+	*/
 
 	/**
 	 * {@inheritDoc}
 	 */
+	/*
 	@Override
 	public int getIndexOfRightMostPoint() {
 		return rightMost;
 	}
+	*/
 
 	/**
 	 * {@inheritDoc}
@@ -325,14 +265,18 @@ public class Hull implements IHull {
 	public boolean isEmpty() {
 		return getSizeOfSection(ContourType.NEWUPPERLEFT) == 0;
 	}
-
+    
 	/**
 	 *{@inheritDoc}
 	 */
+	
+	/*
 	@Override
 	public IPoint get(int index) {
 		return pointList.get(index);
 	}
+	*/
+	
 
 	/**
 	 * {@inheritDoc}
@@ -590,7 +534,7 @@ public class Hull implements IHull {
 		 * the limit, false otherwise.
 		 */
 	}
-	
+
 	/*
 	@Override
 	public  long AngleComparisonTest(IHullIterator aIterator, IHullIterator bIterator) {

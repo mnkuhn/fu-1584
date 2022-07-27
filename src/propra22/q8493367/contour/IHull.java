@@ -77,16 +77,6 @@ public interface IHull {
 	
 	
 	
-	
-	
-	/**
-	 * Gets the index of right most point.
-	 *
-	 * @return the index of right most point
-	 */
-	int getIndexOfRightMostPoint();
-	
-	
 	/**
 	 * Empty.
 	 *
@@ -94,21 +84,6 @@ public interface IHull {
 	 */
 	boolean isEmpty();
 	
-	/**
-	 * Gets the point with index i.
-	 *
-	 * @param i - the index of the point
-	 * @return the point with index i
-	 */
-	public IPoint get(int i);
-	
-	
-	/**
-	 * Creates the list of the points following the points
-	 * counterclockwise.
-	 */
-	void createList();
-    
 	
 	
 	/**
