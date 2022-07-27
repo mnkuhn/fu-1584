@@ -275,6 +275,8 @@ public class TangentPair {
 		 *
 		 * @return - The length
 		 */
+		
+		@SuppressWarnings("unused")
 		public double getLength() {
 			return length;
 		}
@@ -296,6 +298,7 @@ public class TangentPair {
 		 * @param pDiff the diff
 		 * @return One end of the tangent
 		 */
+		@SuppressWarnings("unused")
 		private IPoint getNextA(double pDiff) {
 			int x = (int)Math.round(getCenter().getX() - length/2 * Math.sin(angle + angleOffset + pDiff));
 			int y = (int)Math.round(getCenter().getY() + length/2 * Math.cos(angle + angleOffset + pDiff));

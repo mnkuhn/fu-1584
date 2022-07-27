@@ -2,7 +2,6 @@ package propra22.q8493367.command;
 
 import propra22.q8493367.contour.IPointSet;
 import propra22.q8493367.point.IPoint;
-import propra22.q8493367.point.Point;
 
 
 /**

@@ -48,7 +48,11 @@ import propra22.q8493367.settings.Settings;
  */
 public class MainWindow extends JFrame implements IMainWindow {
 	
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/** The main window listener. */
 	private IMainWindowListener mainWindowListener;
 	
@@ -92,9 +96,6 @@ public class MainWindow extends JFrame implements IMainWindow {
 	private IDrawPanel drawPanel;
 	
 	
-	/** The status bar */
-	private JPanel statusBar;
-	
 	
 
 	/**
@@ -112,7 +113,6 @@ public class MainWindow extends JFrame implements IMainWindow {
 		setLayout(new BorderLayout());
 		
 		this.drawPanel = drawPanel;
-		this.statusBar = statusBar;
 		
 		JMenuBar menuBar = new JMenuBar();
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

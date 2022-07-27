@@ -71,7 +71,7 @@ public class CHGO_8493367_Kuhn_Manuel {
 		//Main window
 		MainWindow mainWindow = new MainWindow(drawPanel, statusBar);
 		mainWindow.setTitle(Settings.title);
-		IMainWindowListener mainWindowController = new MainWindowController(drawPanelController, pointSet, mainWindow, fileManager);
+		IMainWindowListener mainWindowController = new MainWindowController(drawPanelController, mainWindow, fileManager);
 		mainWindow.setMainWindowListener(mainWindowController);
 		mainWindow.setVisible(true);
 		

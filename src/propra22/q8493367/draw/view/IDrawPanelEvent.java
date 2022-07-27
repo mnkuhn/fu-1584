@@ -1,6 +1,5 @@
 package propra22.q8493367.draw.view;
 
-import java.awt.Graphics;
 
 // TODO: Auto-generated Javadoc
 /**

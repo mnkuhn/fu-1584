@@ -9,7 +9,6 @@ import java.net.MalformedURLException;
 
 import propra22.q8493367.command.CommandEvent;
 import propra22.q8493367.command.CommandEventType;
-import propra22.q8493367.contour.IPointSet;
 import propra22.q8493367.draw.controller.IDrawPanelController;
 import propra22.q8493367.file.FileEvent;
 import propra22.q8493367.file.IFileManager;
@@ -32,9 +31,6 @@ public class MainWindowController implements IMainWindowListener {
 	/** The file manager. */
 	private IFileManager fileManager;
 	
-	/** The point set. */
-	private IPointSet pointSet;
-	
     /**
      * Instantiates a new main window controller.
      *
@@ -43,9 +39,8 @@ public class MainWindowController implements IMainWindowListener {
      * @param mainWindow the main window
      * @param fileManager the file manager
      */
-    public MainWindowController(IDrawPanelController drawPanelController, IPointSet pointSet, MainWindow mainWindow, IFileManager fileManager) {
+    public MainWindowController(IDrawPanelController drawPanelController, MainWindow mainWindow, IFileManager fileManager) {
     	this.drawPanelController = drawPanelController;
-    	this.pointSet = pointSet;
     	this.view = mainWindow;
     	this.fileManager = fileManager;
     	

@@ -1,6 +1,5 @@
 package propra22.q8493367.contour;
 
-import propra22.q8493367.point.IPoint;
 
 
 /**

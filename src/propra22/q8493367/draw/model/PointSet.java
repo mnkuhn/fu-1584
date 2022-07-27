@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import propra22.q8493367.contour.IPointSet;
-import propra22.q8493367.draw.controller.IDrawPanelControllerObserver;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 

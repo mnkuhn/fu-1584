@@ -1,7 +1,6 @@
 package propra22.q8493367.draw.view;
 
 import propra22.q8493367.point.IPoint;
-import propra22.q8493367.point.Point;
 
 // TODO: Auto-generated Javadoc
 /**

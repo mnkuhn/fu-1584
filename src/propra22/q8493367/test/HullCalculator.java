@@ -12,7 +12,6 @@ import propra22.q8493367.contour.IQuadrangle;
 import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.model.PointSet;
 import propra22.q8493367.file.FileManager;
-import propra22.q8493367.file.IParser;
 import propra22.q8493367.file.Parser;
 import propra22.q8493367.shape.Diameter;
 import propra22.q8493367.shape.Hull;
