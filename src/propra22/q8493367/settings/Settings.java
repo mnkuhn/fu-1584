@@ -45,22 +45,6 @@ public class Settings {
 	
 	
 	
-	//Distances and ratios
-	/** The radius of a point in pixels in the view*/
-	public static final int radius =  3;
-	
-	/** The maximum distance in pixels in the view a point needs to have 
-	 * from the mouse to be selected.
-	 */
-	public static final int mouseRadius = 16;
-	
-	/** The panel to screen widht ratio.*/
-	public static final double panelToScreenWidhtRatio = 0.6;
-	
-	/** The panel to screen height ratio. */
-	public static final double panelToScreenHeightRatio = 0.6;
-    
-	
 	// Display shapes
 	/** The default setting for the display of the convex hull */
 	public static final boolean defaultConvexHullIsShown = true;
@@ -76,10 +60,30 @@ public class Settings {
 	
 	/** The default setting for the display of the animation */
 	public static final boolean defaultAnimationIsShown = false;
-
-
-	
-
 	
 	
+	
+	// Distances and ratios
+	/** The radius of a point in pixels in the view */
+	public static final int radius = 3;
+
+	/**
+	 * The maximum distance in pixels in the view a point needs to have from the
+	 * mouse to be selected.
+	 */
+	public static final int mouseRadius = 16;
+
+	/** The panel to screen widht ratio. */
+	public static final double panelToScreenWidhtRatio = 0.6;
+
+	/** The panel to screen height ratio. */
+	public static final double panelToScreenHeightRatio = 0.6;
+	
+	/** The minimum height of the main window.*/
+	public static final int minimumHeight = 250;
+	
+	/** The minimum width of the main window.*/
+	public static final int minimumWidth = 750;
+
+		
 }

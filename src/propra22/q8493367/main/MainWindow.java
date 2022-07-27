@@ -110,6 +110,8 @@ public class MainWindow extends JFrame implements IMainWindow {
 		int preferredWidth = (int) (screenSize.width * Settings.panelToScreenWidhtRatio);
 		int preferredHeight = (int) (screenSize.height * Settings.panelToScreenHeightRatio);
 		setSize(new Dimension(preferredWidth, preferredHeight));
+		
+		setMinimumSize(new Dimension(Settings.minimumWidth, Settings.minimumHeight));
 		setLayout(new BorderLayout());
 		
 		this.drawPanel = drawPanel;
