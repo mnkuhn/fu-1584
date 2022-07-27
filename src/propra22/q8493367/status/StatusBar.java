@@ -40,7 +40,7 @@ public class StatusBar extends JPanel implements IStatusBar{
 		JLabel number = new JLabel("Anzahl Punkte:", SwingConstants.LEFT);
 		number.setOpaque(true);
 		numberLabel = new JLabel("", SwingConstants.LEFT);
-		numberLabel.setPreferredSize(new Dimension(120, height));
+		numberLabel.setPreferredSize(new Dimension(150, height));
 		numberLabel.setOpaque(true);
 		left.add(number);
 		left.add(numberLabel);
@@ -48,7 +48,7 @@ public class StatusBar extends JPanel implements IStatusBar{
 		JLabel coordinates = new JLabel("Maus:", SwingConstants.LEFT);
 		coordinates.setOpaque(true);
 		mouseCoordinates = new JLabel("", SwingConstants.CENTER);
-		mouseCoordinates.setPreferredSize(new Dimension(120, height));
+		mouseCoordinates.setPreferredSize(new Dimension(150, height));
 		mouseCoordinates.setOpaque(true);
 		
 		JPanel right = new JPanel();
@@ -58,7 +58,7 @@ public class StatusBar extends JPanel implements IStatusBar{
 		JLabel selectedLabel = new JLabel("Gewählter Punkt:", SwingConstants.LEFT);
 		selectedLabel.setOpaque(true);
 		selectedPointCoordinates = new JLabel("", SwingConstants.CENTER);
-		selectedPointCoordinates.setPreferredSize(new Dimension(120, height));
+		selectedPointCoordinates.setPreferredSize(new Dimension(150, height));
 		selectedPointCoordinates.setOpaque(true);
 		
 		right.add(selectedLabel);
