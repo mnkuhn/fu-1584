@@ -112,7 +112,9 @@ public class PointSet implements IPointSet {
 	 */
 	@Override
 	public void lexSort() {
-		Collections.sort(points);
+		if(!points.isEmpty()) {
+			Collections.sort(points);
+		}
 	}
 
 	

@@ -1,6 +1,6 @@
 package propra22.q8493367.contour;
 
-import propra22.q8493367.point.IPoint;
+
 import propra22.q8493367.point.Point;
 
 
@@ -104,12 +104,14 @@ public class ConvexHullCalculator implements ISectionCalculator {
 	 * contour polygon.
 	 */
 	public void calculateConvexHull() {
-		for(ContourType sectionType : ContourType.values()) {
-			calculateSection(sectionType);
+		if (!hull.isEmpty()) {
+			for (ContourType sectionType : ContourType.values()) {
+				calculateSection(sectionType);
+			}
+
+			// puts the 4 sections into a list, following the points counterclockwise
+			// starting at the leftmost point.
+			hull.createList();
 		}
-		
-		// puts the 4 sections into a list, following the points counterclockwise
-		// starting at the leftmost point.
-		hull.createList();
 	}
 }

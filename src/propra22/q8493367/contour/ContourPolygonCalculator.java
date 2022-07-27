@@ -158,9 +158,11 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	 */
 	public void calculateContourPolygon() {
 		hull.clear();
-		calculateUpperLeft();
-		calculateLowerLeft();
-		calculateUpperRight();
-		calculateLowerRight();
+		if(!pointSet.isEmpty()) {
+			calculateUpperLeft();
+			calculateLowerLeft();
+			calculateUpperRight();
+			calculateLowerRight();
+		}
 	}	
 }

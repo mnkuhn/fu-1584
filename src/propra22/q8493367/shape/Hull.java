@@ -322,7 +322,7 @@ public class Hull implements IHull {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean empty() {
+	public boolean isEmpty() {
 		return getSizeOfSection(ContourType.NEWUPPERLEFT) == 0;
 	}
 

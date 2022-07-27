@@ -92,7 +92,7 @@ public interface IHull {
 	 *
 	 * @return true, if successful
 	 */
-	boolean empty();
+	boolean isEmpty();
 	
 	/**
 	 * Gets the point with index i.

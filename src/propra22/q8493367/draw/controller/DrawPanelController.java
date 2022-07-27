@@ -215,36 +215,31 @@ public class DrawPanelController implements IDrawPanelController {
 	 * Updates the draw panel model.
 	 */
 	public void updateModel() {
-		if (!pointSet.isEmpty()) {
-			long start = System.currentTimeMillis();
-			pointSet.lexSort();
-			long end = System.currentTimeMillis();
-			System.out.println("Punktmenge sortieren: " + (end - start) + " ms");
-			
-			start = end;
-			contourPolygonCalculator.calculateContourPolygon();
-			end = System.currentTimeMillis();
-			System.out.println("Konturpolygon berechnen: " + (end - start) + " ms");
 
-			start = end;
-			convexHullCalculator.calculateConvexHull();
-			end = System.currentTimeMillis();
-			System.out.println("Konvexe Hülle berechnen: " + (end - start) + " ms");
-             
-			terminateAnimationThread();
-			
-			start = end;
-			diameterAndQuadrangleCalulator.calculate(diameter, quadrangle, quadrangleSequence);
-			end = System.currentTimeMillis();
-			System.out.println("Durchmesser und Viereck berechen: " + (end - start) + " ms \n \n");
-			
-			
-		}
-		
-		if(view != null) {
-			updateAnimation();
-		}
-		
+		long start = System.currentTimeMillis();
+		pointSet.lexSort();
+		long end = System.currentTimeMillis();
+		System.out.println("Punktmenge sortieren: " + (end - start) + " ms");
+
+		start = end;
+		contourPolygonCalculator.calculateContourPolygon();
+		end = System.currentTimeMillis();
+		System.out.println("Konturpolygon berechnen: " + (end - start) + " ms");
+
+		start = end;
+		convexHullCalculator.calculateConvexHull();
+		end = System.currentTimeMillis();
+		System.out.println("Konvexe Hülle berechnen: " + (end - start) + " ms");
+
+		if (view != null) {terminateAnimationThread();}
+
+		start = end;
+		diameterAndQuadrangleCalulator.calculate(diameter, quadrangle, quadrangleSequence);
+		end = System.currentTimeMillis();
+		System.out.println("Durchmesser und Viereck berechen: " + (end - start) + " ms \n \n");
+
+		if (view != null) {updateAnimationThread();}
+
 		notifyObservers();
 	}
 
@@ -262,15 +257,14 @@ public class DrawPanelController implements IDrawPanelController {
 		}
 	}
 	
-	private void updateAnimation() {
+	private void updateAnimationThread() {
 
-		if (view.animationIsShown()) {
+		if (view.animationIsShown() && !pointSet.isEmpty()) {
 			tangentPair.fitToAngle();
 			animationThread = new AnimationThread(tangentPair, view);
 			System.out.println("Starte Animations-Thread");
 			animationThread.start();
 		}
-
 	}
 
 	/**
@@ -606,7 +600,7 @@ public class DrawPanelController implements IDrawPanelController {
 		view.setShowAnimation(animationRequested);
 		if(animationRequested == true) {
 			if(animationThread == null || (animationThread != null && !animationThread.isAlive())) {
-				if(!hull.empty()) {
+				if(!hull.isEmpty()) {
 					//tangentPair.updateAntipodalPairs(hull);
 					tangentPair.fitToAngle();
 					animationThread = new AnimationThread(tangentPair, view);

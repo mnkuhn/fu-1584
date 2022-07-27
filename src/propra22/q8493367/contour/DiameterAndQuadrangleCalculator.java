@@ -46,9 +46,11 @@ public class DiameterAndQuadrangleCalculator  {
 	 * @param quadrangle the quadrangle object
 	 */
 	public void calculate(IDiameter diameter, IQuadrangle quadrangle, QuadrangleSequence quadrangleSequence) {
-        calculateQuadrangleSequence(quadrangleSequence);
-        diameter.copy(quadrangleSequence.getBiggestDiameter());
-        quadrangle.copy(quadrangleSequence.getBiggestQuadrangle());
+        if(!convexHull.isEmpty()) {
+        	calculateQuadrangleSequence(quadrangleSequence);
+            diameter.copy(quadrangleSequence.getBiggestDiameter());
+            quadrangle.copy(quadrangleSequence.getBiggestQuadrangle());
+        }
 	}
 
 	private void addQuadrangleToQuadrangleSequence(QuadrangleSequence quadrangleSequence, Quadrangle tmpQuadrangle) {
@@ -60,7 +62,7 @@ public class DiameterAndQuadrangleCalculator  {
 	
 	private void calculateQuadrangleSequence(QuadrangleSequence quadrangleSequence) {
 		quadrangleSequence.clear();
-		if (!convexHull.empty()) {
+		if (!convexHull.isEmpty()) {
 			IHullIterator aIt = convexHull.getLeftIt();
 			IHullIterator cIt = convexHull.getRightIt();
 
