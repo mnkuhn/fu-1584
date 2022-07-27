@@ -50,6 +50,14 @@ public class Quadrangle implements IQuadrangle {
 	}
 	
 
+	public Quadrangle(IQuadrangle quadrangle) {
+		this.a = quadrangle.getA();
+		this.b = quadrangle.getB();
+		this.c = quadrangle.getC();
+		this.d = quadrangle.getD();
+		
+	}
+
 	/**
 	 *{@inheritDoc}
 	 */

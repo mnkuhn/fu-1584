@@ -231,8 +231,9 @@ public class DrawPanelController implements IDrawPanelController {
 			end = System.currentTimeMillis();
 			System.out.println("Konvexe Hülle berechnen: " + (end - start) + " ms");
              
-			start = end;
 			terminateAnimationThread();
+			
+			start = end;
 			diameterAndQuadrangleCalulator.calculate(diameter, quadrangle, quadrangleSequence);
 			end = System.currentTimeMillis();
 			System.out.println("Durchmesser und Viereck berechen: " + (end - start) + " ms \n \n");
@@ -250,6 +251,7 @@ public class DrawPanelController implements IDrawPanelController {
 	private void terminateAnimationThread() {
 		if(animationThread != null) {
 			if(animationThread.isAlive()) {
+				System.out.println("Beende Animations-Thread");
 				animationThread.terminate();
 				try {
 					animationThread.join();
@@ -261,14 +263,14 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 	
 	private void updateAnimation() {
-		
-		if(view.animationIsShown()) {
-			if(animationThread != null) {
-				tangentPair.fitToAngle();
-				animationThread = new AnimationThread(tangentPair, view);
-				animationThread.start();
-			}
+
+		if (view.animationIsShown()) {
+			tangentPair.fitToAngle();
+			animationThread = new AnimationThread(tangentPair, view);
+			System.out.println("Starte Animations-Thread");
+			animationThread.start();
 		}
+
 	}
 
 	/**

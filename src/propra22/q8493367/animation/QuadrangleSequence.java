@@ -17,6 +17,7 @@ public class QuadrangleSequence {
 	int index;
 	
 	public IPoint getHullPointBefore(QuadranglePoint quadranglePoint) {
+		if(quadrangles.size() == 0) {return null;}
 		int tmpIndex = index;
 		switch (quadranglePoint) {
 		case A: {
@@ -25,13 +26,9 @@ public class QuadrangleSequence {
 				tmpIndex = Math.floorMod(tmpIndex - 1, quadrangles.size());
 				while (point == quadrangles.get(tmpIndex).getA()) {
 					tmpIndex = Math.floorMod(tmpIndex - 1, quadrangles.size());
-				}
-				return quadrangles.get(tmpIndex).getA();
-			} else if (quadrangles.size() == 1) {
-				
-			} else {
-				return null;
-			}	
+				}	
+			}
+			return quadrangles.get(tmpIndex).getA();
 		}
 
 		case B: {
@@ -41,29 +38,28 @@ public class QuadrangleSequence {
 				while (point == quadrangles.get(tmpIndex).getB()) {
 					tmpIndex = Math.floorMod(tmpIndex - 1, quadrangles.size());
 				}
-				return quadrangles.get(tmpIndex).getB();
-			} else if (quadrangles.size() == 1) {
-				
-			} else {
-				return null;
 			}
-			
+			return quadrangles.get(tmpIndex).getB();	
 		}
 
 		case C: {
 			IPoint point = quadrangles.get(tmpIndex).getC();
-			tmpIndex = Math.floorMod(tmpIndex - 1, quadrangles.size());
-			while (point == quadrangles.get(tmpIndex).getC()) {
+			if(quadrangles.size() > 1){
 				tmpIndex = Math.floorMod(tmpIndex - 1, quadrangles.size());
+				while (point == quadrangles.get(tmpIndex).getC()) {
+					tmpIndex = Math.floorMod(tmpIndex - 1, quadrangles.size());
+				}
 			}
 			return quadrangles.get(tmpIndex).getC();
 		}
 
 		case D: {
 			IPoint point = quadrangles.get(tmpIndex).getD();
-			tmpIndex = Math.floorMod(tmpIndex - 1, quadrangles.size());
-			while (point == quadrangles.get(tmpIndex).getD()) {
+			if(quadrangles.size() > 1) {
 				tmpIndex = Math.floorMod(tmpIndex - 1, quadrangles.size());
+				while (point == quadrangles.get(tmpIndex).getD()) {
+					tmpIndex = Math.floorMod(tmpIndex - 1, quadrangles.size());
+				}
 			}
 			return quadrangles.get(tmpIndex).getD();
 
@@ -75,6 +71,7 @@ public class QuadrangleSequence {
 	}	
 	
 	public IPoint getHullPoint(QuadranglePoint quadranglePoint) {
+		if(quadrangles.size() == 0) {return null;}
 		switch (quadranglePoint) {
 		case A: {
 			return quadrangles.get(index).getA();
@@ -98,43 +95,51 @@ public class QuadrangleSequence {
 	}
 	
 	public IPoint getHullPointAfter(QuadranglePoint quadranglePoint) {
+		if(quadrangles.size() == 0) {return null;}
 		int tmpIndex = index;
 		switch (quadranglePoint) {
 		case A: {
 			IPoint point = quadrangles.get(tmpIndex).getA();
-			tmpIndex = Math.floorMod(tmpIndex + 1, quadrangles.size());
-			while (point == quadrangles.get(tmpIndex).getA()) {
-				tmpIndex = Math.floorMod(tmpIndex - 1, quadrangles.size());
+			if(quadrangles.size() > 1) {
+				tmpIndex = Math.floorMod(tmpIndex + 1, quadrangles.size());
+				while (point == quadrangles.get(tmpIndex).getA()) {
+					tmpIndex = Math.floorMod(tmpIndex + 1, quadrangles.size());
+				}
 			}
 			return quadrangles.get(tmpIndex).getA();
 		}
 
 		case B: {
 			IPoint point = quadrangles.get(tmpIndex).getB();
-			tmpIndex = Math.floorMod(tmpIndex + 1, quadrangles.size());
-			while (point == quadrangles.get(tmpIndex).getB()) {
-				tmpIndex = Math.floorMod(tmpIndex - 1, quadrangles.size());
+			if(quadrangles.size() > 1) {
+				tmpIndex = Math.floorMod(tmpIndex + 1, quadrangles.size());
+				while (point == quadrangles.get(tmpIndex).getB()) {
+					tmpIndex = Math.floorMod(tmpIndex + 1, quadrangles.size());
+				}
 			}
 			return quadrangles.get(tmpIndex).getB();
 		}
 
 		case C: {
 			IPoint point = quadrangles.get(tmpIndex).getC();
-			tmpIndex = Math.floorMod(tmpIndex + 1, quadrangles.size());
-			while (point == quadrangles.get(tmpIndex).getC()) {
-				tmpIndex = Math.floorMod(tmpIndex - 1, quadrangles.size());
+			if(quadrangles.size() > 1) {
+				tmpIndex = Math.floorMod(tmpIndex + 1, quadrangles.size());
+				while (point == quadrangles.get(tmpIndex).getC()) {
+					tmpIndex = Math.floorMod(tmpIndex + 1, quadrangles.size());
+				}
 			}
 			return quadrangles.get(tmpIndex).getC();
 		}
 
 		case D: {
 			IPoint point = quadrangles.get(tmpIndex).getD();
-			tmpIndex = Math.floorMod(tmpIndex + 1, quadrangles.size());
-			while (point == quadrangles.get(tmpIndex).getD()) {
-				tmpIndex = Math.floorMod(tmpIndex - 1, quadrangles.size());
+			if(quadrangles.size() > 1) {
+				tmpIndex = Math.floorMod(tmpIndex + 1, quadrangles.size());
+				while (point == quadrangles.get(tmpIndex).getD()) {
+					tmpIndex = Math.floorMod(tmpIndex + 1, quadrangles.size());
+				}
 			}
 			return quadrangles.get(tmpIndex).getD();
-
 		}
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + quadranglePoint);
@@ -176,12 +181,10 @@ public class QuadrangleSequence {
 	}
 	
 	public IQuadrangle getBiggestQuadrangle() {
-		IQuadrangle maxQuadrangle = quadrangles.get(0);
-		IQuadrangle tmpQuadrangle;
+		IQuadrangle maxQuadrangle = new Quadrangle(quadrangles.get(0));
 		for(int i = 1; i < quadrangles.size()/2 + 1; i++) {
-			tmpQuadrangle = quadrangles.get(i);
-			if(tmpQuadrangle.area() > maxQuadrangle.area()) {
-				maxQuadrangle.copy(tmpQuadrangle);
+			if(quadrangles.get(i).area() > maxQuadrangle.area()) {
+				maxQuadrangle.copy(quadrangles.get(i));
 			}
 		}
 		return maxQuadrangle;
