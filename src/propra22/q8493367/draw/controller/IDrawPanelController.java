@@ -1,8 +1,5 @@
 package propra22.q8493367.draw.controller;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-
 
 
 
