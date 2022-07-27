@@ -237,7 +237,7 @@ public class DrawPanelController implements IDrawPanelController {
 		diameterAndQuadrangleCalulator.calculate(diameter, quadrangle, quadrangleSequence);
 		end = System.currentTimeMillis();
 		System.out.println("Durchmesser und Viereck berechen: " + (end - start) + " ms \n \n");
-
+		
 		if (view != null) {updateAnimationThread();}
 
 		notifyObservers();

@@ -9,11 +9,18 @@ public class AnimationThread extends Thread {
 	private boolean isRunning = true;
 	private TangentPair tangentPair;
 	private IDrawPanel view;
-	
+	private int duration;
 	
 	public AnimationThread(TangentPair tangentPair, IDrawPanel view) {
 		this.tangentPair = tangentPair;
 		this.view = view;
+		setDuration();
+	}
+
+
+	private void setDuration() {
+		float t = -.0019f*tangentPair.getNumberOfAntipodalPairs() + 20f;
+		duration = t < 0 ? 1 : (int)t;
 	}
 	
 	
@@ -23,7 +30,7 @@ public class AnimationThread extends Thread {
 			view.update();
 			try {
 				tangentPair.step();
-				Thread.sleep(2);
+				Thread.sleep(duration);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} catch (NullPointerException e) {

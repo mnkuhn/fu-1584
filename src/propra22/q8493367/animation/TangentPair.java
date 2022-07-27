@@ -132,6 +132,10 @@ public class TangentPair {
 		this.length = length;
 	}
 	
+	public int getNumberOfAntipodalPairs() {
+		return quadrangleSequence.size();
+	}
+	
 	
 
 	/**
@@ -140,6 +144,7 @@ public class TangentPair {
 	private void increaseAngle() {
 		angle += diff;
 	}
+	
 	
 	
 	
@@ -319,9 +324,5 @@ public class TangentPair {
 			int y = (int)Math.round(getCenter().getY() - length/2 * Math.cos(angle + angleOffset + diff));
 			return new Point(x, y);
 		}
-		
-		
-		
 	}
-
 }

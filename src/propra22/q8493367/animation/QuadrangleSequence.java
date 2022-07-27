@@ -201,4 +201,8 @@ public class QuadrangleSequence {
 		}
 		return maxDiameter;
 	}
+
+	public int size() {
+		return quadrangles.size();
+	}
 }
