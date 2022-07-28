@@ -5,14 +5,13 @@ import propra22.q8493367.draw.view.IDrawPanel;
 
 /**
  * The Class AnimationThread is responsible for
- * updating the view which is the draw panel 
- * and afterwards updating the tangent pair. 
+ * updating the view and afterwards updating the tangent pair. 
  * This is done in regular intervals.
  */
 public class AnimationThread extends Thread {
 	
 	
-	/** The Thread is running as long this
+	/** The thread is executed as long as this
 	 * variable is true.
 	 * 
 	 */
@@ -44,10 +43,9 @@ public class AnimationThread extends Thread {
 
 
 	/**
-	 * Sets the duration depending on the duration
-	 * of the numbers of antipodal pairs. The antipodal pairs
-	 * have the points a and c as ending points. If we do not 
-	 * distinguish two antipodal pairs with the same endpoints by a and c, 
+	 * Sets the duration depending on the number of the antipodal pairs. 
+	 * The antipodal pairs have the points A and C as ending points. If we do not 
+	 * distinguish two antipodal pairs with the same endpoints by A and C, 
 	 * it would be twice the number of antipodal pairs.
 	 */
 	private void setDuration() {
@@ -57,7 +55,9 @@ public class AnimationThread extends Thread {
 	
 	
 	/**
-	 * This method is executed if the thread is started.
+	 * This method is executed if the thread is started. It updates the view
+	 * and the tangent pair. Afterwards it causes the thread to temporarily
+	 * cease the execution for a certain amount of time.
 	 */
 	@Override
 	public void run() {

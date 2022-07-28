@@ -21,7 +21,8 @@ public class FileChooser extends JFileChooser {
 	/**
 	 * Instantiates a new file chooser.
 	 *
-	 * @param folderPath
+	 * @param folderPath the relative path of the folder
+	 * which is to be opened by the file chooser.
 	 */
 	public FileChooser(String folderPath) {
 		super(folderPath);

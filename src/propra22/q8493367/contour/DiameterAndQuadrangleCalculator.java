@@ -57,7 +57,7 @@ public class DiameterAndQuadrangleCalculator  {
         	/* Gets the diameter i.e. the longest diagonal in a quadrangle from the 
         	quadrangle sequence
         	*/
-            diameter.copy(quadrangleSequence.getBiggestDiameter());
+            diameter.copy(quadrangleSequence.getLongestDiameter());
             
             //Gets the quadrangle with the biggest area from the quadrangle sequence.
             quadrangle.copy(quadrangleSequence.getBiggestQuadrangle());

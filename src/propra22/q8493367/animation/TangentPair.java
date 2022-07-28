@@ -14,23 +14,23 @@ import propra22.q8493367.point.Point;
  */
 public class TangentPair {
     /**
-     * The angle of the tangent as radian with respect to 
+     * The angle of the tangent as radians with respect to 
      * the vertical line going through the connection point
      * measured counterclockwise.
      */
 	private double angle;
 	
 	/**
-	 * The value in radian, by which the angle is increased when
+	 * The value in radians, by which the angle is increased when
 	 * performing a step.
 	 */
     private final double diff = Math.PI / 500;
     
 	//The two tangents of the tangent pair
-    /** The first tangent */
+    /** The first tangent. */
     private Tangent tangent1;
     
-    /** The second tangent */
+    /** The second tangent. */
     private Tangent tangent2;
     
     
@@ -44,7 +44,7 @@ public class TangentPair {
 	private QuadrangleSequence quadrangleSequence;
 	
 	/**
-	 * The constructor sets angle to 0 with respect to 
+	 * The constructor sets the angle to 0. The angle refers to 
 	 * the vertical line going through the 
 	 * contact point. The angle increases, when the
 	 * tangent turns counterclockwise.
@@ -83,7 +83,7 @@ public class TangentPair {
 	 * tangential points lie on the same side of the respective tangent. Returns false 
 	 * otherwise.
 	 *
-	 * @return true, if for the next angle the tangent characteristics of both tangents are kept.
+	 * @return true, if for the next angle the tangent characteristics of both tangents are ensured.
 	 * Returns false otherwise.
 	 */
 	private boolean nextAngleIsValid() {
@@ -99,7 +99,7 @@ public class TangentPair {
 		 * given by the points A and C of one of the quadrangles of the quadrangle sequence.
 		 * If diameter is zero, angle can be kept anyway.
 		 */
-		if(!quadrangleSequence.biggestDiameterIsZero()) {
+		if(!quadrangleSequence.longestDiameterIsZero()) {
 			while(!angleIsValid()){
 				quadrangleSequence.next();
 			}
@@ -107,7 +107,8 @@ public class TangentPair {
 	}
 	
 	/**
-	 * Returns true, if for the current angle the tangent characteristics of both tangents are ensured.
+	 * Returns true, if for the next angle for both tangents all points of the convex hull 
+	 * except the tangential points lie on the same side of the respective tangent.
 	 * Returns false otherwise.
 	 *
 	 * @return true, the tangent characteristics of both tangents ensured. False otherwise.
@@ -119,7 +120,7 @@ public class TangentPair {
 	/**
 	 * Calculates the smallest angle for a given antipodal pair for the tangent pair.
 	 *
-	 * @return the angle
+	 * @return the angle in radians
 	 */
 	public double calculateAngle() {
 		double angle1 = tangent1.calculateAngle();
@@ -163,9 +164,9 @@ public class TangentPair {
 	*/
 	
 	/**
-	 * Gets the number of antipodal pairs.
+	 * Gets the number of antipodal pairs with distinguishable endpoints.
 	 *
-	 * @return the number of antipodal pairs
+	 * @return the number of antipodal pairs with distinguishable endpoints.
 	 */
 	public int getNumberOfAntipodalPairs() {
 		return quadrangleSequence.size();
@@ -255,7 +256,7 @@ public class TangentPair {
 		
 		
 		private boolean nextAngleIsValid() {
-			if(quadrangleSequence.biggestDiameterIsZero()) {
+			if(quadrangleSequence.longestDiameterIsZero()) {
 				return true;
 			}
 			else {

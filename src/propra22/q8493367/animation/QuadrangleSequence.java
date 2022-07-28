@@ -12,22 +12,23 @@ import propra22.q8493367.shape.Quadrangle;
 
 /**
  * The Class QuadrangleSequence keeps a sequence of quadrangles
- * as used for the animation.
+ * as used for the animation. This sequence can be seen as infinite. It arises 
+ * from the calculation of the antipodal pairs according to the specification.
  */
 public class QuadrangleSequence {
 	
-	/** The quadrangles. */
+	/** The quadrangles */
 	List<IQuadrangle> quadrangles = new ArrayList<>();
 	
-	/** The index. */
+	/** The index of the current quadrangle*/
 	int index;
 	
 	/**
 	 * Gets the hull point before the current quadrangle point identified
-	 * by the argument.
+	 * by the argument. We think in clockwise direction.
 	 *
 	 * @param quadranglePoint the quadrangle point A, B, C or D.
-	 * @return the point of the convex hull before this point. We think in clockwise direction.
+	 * @return the point of the convex hull before this point. 
 	 */
 	public IPoint getHullPointBefore(QuadranglePoint quadranglePoint) {
 		if(quadrangles.size() == 0) {return null;}
@@ -114,7 +115,8 @@ public class QuadrangleSequence {
 	}
 	
 	/**
-	 * Gets the hull point after.
+	 * Gets the hull point after the current quadrangle point identified
+	 * by the argument. We think in clockwise direction.
 	 *
 	 * @param quadranglePoint the quadrangle point
 	 * @return the hull point after
@@ -174,7 +176,7 @@ public class QuadrangleSequence {
 
 	
 	/**
-	 * Clear.
+	 * Removes all quadrangles from the quadrangle sequence.
 	 */
 	public void clear() {
 		quadrangles.clear();
@@ -182,7 +184,7 @@ public class QuadrangleSequence {
 	}
 	
 	/**
-	 * Adds the.
+	 * Adds a quadrangle to the quadrangle sequence.
 	 *
 	 * @param quadrangle the quadrangle
 	 */
@@ -191,34 +193,38 @@ public class QuadrangleSequence {
 	}
 
 	/**
-	 * Next.
+	 * Goes to the next quadrangle in the quadrangle sequence.
 	 */
 	public void next() {
 		index = Math.floorMod(index + 1, quadrangles.size());	
 	}
 	
-	/**
-	 * Previous.
+	/** 
+	 * Goes to the pevious quadrangle in the quadrangle sequence.
 	 */
 	public void previous() {
 		index = Math.floorMod(index - 1, quadrangles.size());	
 	}
 	
 	/**
-	 * Biggest diameter is zero.
+	 * Returns true, if the length of the longest 
+	 * diameter of all the quadrangles in the quadrangle
+	 * sequence is zero. This method is used to determine
+	 * if the point set only keeps one point.
+	 * Returns false otherwise.
 	 *
-	 * @return true, if successful
+	 * @return true, if the longest diameter 
 	 */
-	public boolean biggestDiameterIsZero() {
+	public boolean longestDiameterIsZero() {
 		IPoint a = quadrangles.get(0).getA();
 	    IPoint c = quadrangles.get(0).getC();
 		return  quadrangles.size() == 1 && a == c ? true : false;
 	}
 	
 	/**
-	 * Gets the quadrangle.
+	 * Gets the current quadrangle.
 	 *
-	 * @return the quadrangle
+	 * @return the current quadrangle
 	 */
 	public IQuadrangle getQuadrangle() {
 		return quadrangles.get(index);
@@ -226,18 +232,21 @@ public class QuadrangleSequence {
 	
 	
 	/**
-	 * Checks if is empty.
+	 * Checks if the sequence of quadrangles does 
+	 * not contain any quadrangle.
 	 *
-	 * @return true, if is empty
+	 * @return true, if the quadrangle sequence is empty,
+	 * false otherwise.
 	 */
 	public boolean isEmpty() {
 		return quadrangles.isEmpty();
 	}
 	
 	/**
-	 * Gets the biggest quadrangle.
+	 * Gets the quadrangle with the largest area of the 
+	 * quadrangle sequence.
 	 *
-	 * @return the biggest quadrangle
+	 * @return the quadrangle with the largest area.
 	 */
 	public IQuadrangle getBiggestQuadrangle() {
 		IQuadrangle maxQuadrangle = new Quadrangle(quadrangles.get(0));
@@ -250,13 +259,18 @@ public class QuadrangleSequence {
 	}
 	
 	/**
-	 * Gets the biggest diameter.
+	 * Gets the longest diameter from all the quadrangles in 
+	 * the quadrangle sequence.
 	 *
 	 * @return the biggest diameter
 	 */
-	public IDiameter getBiggestDiameter() {
+	public IDiameter getLongestDiameter() {
 		IDiameter maxDiameter = new Diameter(quadrangles.get(0).getA(), quadrangles.get(0).getC());
 		IDiameter tmpDiameter;
+		
+		/*We only need to go for a half turn and we only need to check for the 
+		* distance A to C.
+		*/
 		for(int i = 1; i < quadrangles.size()/2 + 1; i++) {
 			tmpDiameter = new Diameter(quadrangles.get(i).getA(), quadrangles.get(i).getC());
 			if(tmpDiameter.length() > maxDiameter.length()) {
@@ -267,7 +281,7 @@ public class QuadrangleSequence {
 	}
 
 	/**
-	 * Size.
+	 * Returns the number of quadrangles in the quadrangle sequence.
 	 *
 	 * @return the int
 	 */
