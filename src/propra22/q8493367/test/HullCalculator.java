@@ -12,7 +12,7 @@ import propra22.q8493367.contour.IQuadrangle;
 import propra22.q8493367.draw.controller.DrawPanelController;
 import propra22.q8493367.draw.model.PointSet;
 import propra22.q8493367.file.FileManager;
-import propra22.q8493367.file.Parser;
+import propra22.q8493367.file.RegExParser;
 import propra22.q8493367.shape.Diameter;
 import propra22.q8493367.shape.Hull;
 import propra22.q8493367.shape.Quadrangle;
@@ -57,7 +57,7 @@ public class HullCalculator implements IHullCalculator{
 		this.quadrangleSequence = new QuadrangleSequence();
 		this.drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, 
 				quadrangleSequence);
-		this.fileManager = new FileManager(pointSet, drawPanelController, new Parser());
+		this.fileManager = new FileManager(pointSet, drawPanelController, new RegExParser());
 	}
 	
 	/**

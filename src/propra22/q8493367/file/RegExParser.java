@@ -6,11 +6,11 @@ import java.util.regex.Pattern;
 import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * A Parser which can extract a point from a string.
  */
-public class Parser implements IParser {
+public class RegExParser implements IParser {
     
 	/**  The the regular expression which has to be matched. */
 	private String regex = "(\\s)*([+-]{0,1}[0-9]+)(\\s+)([+-]{0,1}[0-9]+)(\\s+.*){0,1}";
