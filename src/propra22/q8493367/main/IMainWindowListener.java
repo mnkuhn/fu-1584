@@ -11,6 +11,7 @@ import propra22.q8493367.point.RandomPointsEvent;
  * The listener interface for receiving file events, command
  * events and random point events.
  *
+ * 
  */
 public interface IMainWindowListener {
      
@@ -58,7 +59,12 @@ public interface IMainWindowListener {
 	 * are shown and if the animation should be running.
 	 */
 	void viewEventOccured(ViewEvent viewEvent);
-
+    
+	
+	/**
+	 * This method is called, when the user wants to center
+	 * the representation in the view.
+	 */
 	void centerViewEventOccured();
 	
 }

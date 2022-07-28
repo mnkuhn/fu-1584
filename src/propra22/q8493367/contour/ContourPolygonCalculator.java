@@ -15,14 +15,22 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	/** The contour polygon. */
 	private IHull hull;
 	
+	/**The highest y value found during the sweep
+	 * from left to right.
+	 */
 	private int highestYFound;
-    private int lowestYFound;
+    
+	/**The lowest y value found during the sweep
+	 * from left to right.
+	 */
+	private int lowestYFound;
 	
 	/**
 	 * Instantiates a new contour polygon calculator.
 	 *
-	 * @param pointSet - the model of the draw panel.
-	 * @param hull the hull
+	 * @param pointSet  the point set.
+	 * @param hull the hull, which is the result of this calculation,
+	 * that is the contour polygon.
 	 */
 	public ContourPolygonCalculator(IPointSet pointSet, IHull hull) {
 		this.pointSet = pointSet;
@@ -39,20 +47,20 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	public void calculateSection(ContourType sectionType) {
 		
 		switch (sectionType) {
-			case NEWUPPERLEFT: {
+			case UPPERLEFT: {
 				calculateUpperLeft();
 				break;
 			}
-			case NEWLOWERLEFT: {
+			case LOWERLEFT: {
 				calculateLowerLeft();
 				break;
 			}
-			case NEWUPPERRIGHT: {
+			case UPPERRIGHT: {
 				calculateUpperRight();
 				break;
 			}
 			
-			case NEWLOWERRIGHT: {
+			case LOWERRIGHT: {
 				calculateLowerRight();
 				break;
 			}
@@ -66,7 +74,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	 */
 	private void calculateUpperLeft() {
 		IPoint point = pointSet.getPointAt(0);
-		hull.addPointToSection(point, ContourType.NEWUPPERLEFT);
+		hull.addPointToSection(point, ContourType.UPPERLEFT);
 		
 		int maxYSoFar = point.getY();
 		int pointY;
@@ -76,7 +84,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 			pointY = point.getY();
 			if(pointY > maxYSoFar) {
 				maxYSoFar = pointY;
-				hull.addPointToSection(point, ContourType.NEWUPPERLEFT);
+				hull.addPointToSection(point, ContourType.UPPERLEFT);
 			}
 		}
 		highestYFound = maxYSoFar;
@@ -89,7 +97,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
      */
     private void calculateLowerLeft() {
 		IPoint point = pointSet.getPointAt(0);
-		hull.addPointToSection(point, ContourType.NEWLOWERLEFT);
+		hull.addPointToSection(point, ContourType.LOWERLEFT);
 		
 		int minYSoFar = point.getY();
 		int pointY;
@@ -99,7 +107,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 			pointY = point.getY();
 			if(pointY < minYSoFar) {
 				minYSoFar = pointY;
-				hull.addPointToSection(point, ContourType.NEWLOWERLEFT);
+				hull.addPointToSection(point, ContourType.LOWERLEFT);
 			}
 		}
 		lowestYFound = minYSoFar;
@@ -112,7 +120,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	 */
 	private void calculateUpperRight() {
 		IPoint point = pointSet.getPointAt(pointSet.getNumberOfPoints() - 1);
-		hull.addPointToSection(point, ContourType.NEWUPPERRIGHT);	
+		hull.addPointToSection(point, ContourType.UPPERRIGHT);	
 		
 		int maxYSoFar = point.getY();
 		int pointY;
@@ -123,7 +131,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 			
 			if(pointY > maxYSoFar) {
 				maxYSoFar = pointY;
-				hull.addPointToSection(point, ContourType.NEWUPPERRIGHT);
+				hull.addPointToSection(point, ContourType.UPPERRIGHT);
 			}
 		}
 	}
@@ -135,7 +143,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	 */
 	private void calculateLowerRight() {
 		IPoint point = pointSet.getPointAt(pointSet.getNumberOfPoints() - 1);
-		hull.addPointToSection(point, ContourType.NEWLOWERRIGHT);		
+		hull.addPointToSection(point, ContourType.LOWERRIGHT);		
 		
 		int minYSoFar = point.getY();
 		int pointY;
@@ -145,16 +153,15 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 			pointY = point.getY();
 			if(pointY < minYSoFar) {
 				minYSoFar = pointY;
-				hull.addPointToSection(point, ContourType.NEWLOWERRIGHT);
+				hull.addPointToSection(point, ContourType.LOWERRIGHT);
 			}
 		}
 	}
 	
-	
-	
+
 
 	/**
-	 * Calculate the contour polygon.
+	 * Calculates the contour polygon.
 	 */
 	public void calculateContourPolygon() {
 		hull.clear();

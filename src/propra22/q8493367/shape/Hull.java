@@ -44,19 +44,19 @@ public class Hull implements IHull {
 	@Override
 	public void addPointToSection(IPoint point, ContourType sectionType) {
 		switch (sectionType) {
-		case NEWUPPERLEFT: {
+		case UPPERLEFT: {
 			newUpperLeft.add(point);
 			break;
 		}
-		case NEWLOWERLEFT: {
+		case LOWERLEFT: {
 			newLowerLeft.add(point);
 			break;
 		}
-		case NEWUPPERRIGHT: {
+		case UPPERRIGHT: {
 			newUpperRight.add(point);
 			break;
 		}
-		case NEWLOWERRIGHT: {
+		case LOWERRIGHT: {
 			newLowerRight.add(point);
 			break;
 		}
@@ -72,16 +72,16 @@ public class Hull implements IHull {
 	@Override
 	public IPoint getPointFromSection(int index, ContourType sectionType) {
 		switch (sectionType) {
-			case NEWUPPERLEFT: {
+			case UPPERLEFT: {
 				return newUpperLeft.get(index);
 			}
-			case NEWLOWERLEFT: {
+			case LOWERLEFT: {
 				return newLowerLeft.get(index);
 			}
-			case NEWUPPERRIGHT: {
+			case UPPERRIGHT: {
 				return newUpperRight.get(index);
 			}
-			case NEWLOWERRIGHT: {
+			case LOWERRIGHT: {
 				return newLowerRight.get(index);
 			}
 			default: {
@@ -96,19 +96,19 @@ public class Hull implements IHull {
 	@Override
 	public void removePointFromSection(int index, ContourType sectionType) {
 		switch (sectionType) {
-		case NEWUPPERLEFT: {
+		case UPPERLEFT: {
 			newUpperLeft.remove(index);
 			break;
 		}
-		case NEWLOWERLEFT: {
+		case LOWERLEFT: {
 			newLowerLeft.remove(index);
 			break;
 		}
-		case NEWUPPERRIGHT: {
+		case UPPERRIGHT: {
 			newUpperRight.remove(index);
 			break;
 		}
-		case NEWLOWERRIGHT: {
+		case LOWERRIGHT: {
 			newLowerRight.remove(index);
 			break;
 		}
@@ -124,16 +124,16 @@ public class Hull implements IHull {
 	@Override
 	public boolean sectionIsEmpty(ContourType sectionType) {
 		switch (sectionType) {
-		case NEWUPPERLEFT: {
+		case UPPERLEFT: {
 			return newUpperLeft.isEmpty();
 			}
-		case NEWLOWERLEFT: {
+		case LOWERLEFT: {
 			return newLowerLeft.isEmpty();
 			}
-		case NEWUPPERRIGHT: {
+		case UPPERRIGHT: {
 			return newUpperRight.isEmpty();
 			}
-		case NEWLOWERRIGHT: {
+		case LOWERRIGHT: {
 			return newLowerRight.isEmpty();
 
 			}
@@ -149,16 +149,16 @@ public class Hull implements IHull {
 	@Override
 	public int getSizeOfSection(ContourType sectionType) {
 		switch (sectionType) {
-		case NEWUPPERLEFT: {
+		case UPPERLEFT: {
 			return newUpperLeft.size();
 			}
-		case NEWLOWERLEFT: {
+		case LOWERLEFT: {
 			return newLowerLeft.size();
 			}
-		case NEWUPPERRIGHT: {
+		case UPPERRIGHT: {
 			return newUpperRight.size();
 			}
-		case NEWLOWERRIGHT: {
+		case LOWERRIGHT: {
 			return newLowerRight.size();
 
 			}
@@ -186,16 +186,16 @@ public class Hull implements IHull {
 	@Override
 	public void removePointFromSection(IPoint point, ContourType sectionType) {
 		switch (sectionType) {
-		case NEWUPPERLEFT: {
+		case UPPERLEFT: {
 			newUpperLeft.remove(point);
 		}
-		case NEWLOWERLEFT: {
+		case LOWERLEFT: {
 			newLowerLeft.remove(point);
 		}
-		case NEWUPPERRIGHT: {
+		case UPPERRIGHT: {
 			newUpperRight.remove(point);
 		}
-		case NEWLOWERRIGHT: {
+		case LOWERRIGHT: {
 			newLowerRight.remove(point);
 
 		}
@@ -263,7 +263,7 @@ public class Hull implements IHull {
 	 */
 	@Override
 	public boolean isEmpty() {
-		return getSizeOfSection(ContourType.NEWUPPERLEFT) == 0;
+		return getSizeOfSection(ContourType.UPPERLEFT) == 0;
 	}
     
 	/**
@@ -345,11 +345,11 @@ public class Hull implements IHull {
 		 */
 		public HullIterator(int type) {
 			if(type == 0) {
-				sectionType = ContourType.NEWUPPERLEFT;
+				sectionType = ContourType.UPPERLEFT;
 				index = 0;
 			}
 			if(type == 1) {
-				sectionType = ContourType.NEWLOWERRIGHT;
+				sectionType = ContourType.LOWERRIGHT;
 				index = 0;
 			}
 		}
@@ -408,7 +408,7 @@ public class Hull implements IHull {
 		 */
 		@Override
 		public void next() {
-			if(getPointFromSection(0, ContourType.NEWUPPERLEFT) != getPointFromSection(0, ContourType.NEWLOWERRIGHT)) {
+			if(getPointFromSection(0, ContourType.UPPERLEFT) != getPointFromSection(0, ContourType.LOWERRIGHT)) {
 				tmpIndex = index;
 				tmpSectionType = sectionType; 
 				goNext();
@@ -425,40 +425,40 @@ public class Hull implements IHull {
 		 */
 		private void goNext(){
 			switch(tmpSectionType) {
-				case NEWUPPERLEFT : {
+				case UPPERLEFT : {
 					if(tmpIndex + 1 < getSizeOfSection(tmpSectionType)) {
 						tmpIndex++;
 					} else {
-						tmpIndex = getSizeOfSection(ContourType.NEWUPPERRIGHT) - 1;
-					    tmpSectionType = ContourType.NEWUPPERRIGHT;
+						tmpIndex = getSizeOfSection(ContourType.UPPERRIGHT) - 1;
+					    tmpSectionType = ContourType.UPPERRIGHT;
 					}
 					break;
 				}
-				case NEWUPPERRIGHT: {
+				case UPPERRIGHT: {
 					if(tmpIndex > 0) {
 						tmpIndex--;
 					} else {
 						tmpIndex = 0;
-						tmpSectionType = ContourType.NEWLOWERRIGHT;
+						tmpSectionType = ContourType.LOWERRIGHT;
 					}
 					break;
 				}
-				case NEWLOWERRIGHT: {
+				case LOWERRIGHT: {
 					if(tmpIndex + 1 < getSizeOfSection(tmpSectionType)) {
 						tmpIndex++;
 					} else {
-						tmpIndex = getSizeOfSection(ContourType.NEWLOWERLEFT) - 1;
-						tmpSectionType = ContourType.NEWLOWERLEFT;
+						tmpIndex = getSizeOfSection(ContourType.LOWERLEFT) - 1;
+						tmpSectionType = ContourType.LOWERLEFT;
 					}
 					break;
 				}
-				case NEWLOWERLEFT : {
+				case LOWERLEFT : {
 					if(tmpIndex > 0) {
 						tmpIndex--;
 					}
 					else {
 						tmpIndex = 0;
-						tmpSectionType = ContourType.NEWUPPERLEFT;
+						tmpSectionType = ContourType.UPPERLEFT;
 					}
 					break;
 				}
@@ -470,7 +470,7 @@ public class Hull implements IHull {
 		 */
 		@Override
 		public void previous() {
-			if(getPointFromSection(0, ContourType.NEWUPPERLEFT) != getPointFromSection(0, ContourType.NEWLOWERRIGHT)) {
+			if(getPointFromSection(0, ContourType.UPPERLEFT) != getPointFromSection(0, ContourType.LOWERRIGHT)) {
 				tmpIndex = index;
 				tmpSectionType = sectionType;
 				goPrevious();
@@ -487,40 +487,40 @@ public class Hull implements IHull {
 		 */
 		private void goPrevious() {
 			switch(tmpSectionType) {
-				case NEWUPPERLEFT : {
+				case UPPERLEFT : {
 					if(tmpIndex > 0) {
 						tmpIndex--;
 					} else {
 						tmpIndex = 0;
-					    tmpSectionType = ContourType.NEWLOWERLEFT;
+					    tmpSectionType = ContourType.LOWERLEFT;
 					}
 					break;
 				}
-				case NEWUPPERRIGHT: {
+				case UPPERRIGHT: {
 					if(tmpIndex + 1 < getSizeOfSection(tmpSectionType)) {
 						tmpIndex++;
 					} else {
-						tmpIndex = getSizeOfSection(ContourType.NEWUPPERLEFT) - 1;
-						tmpSectionType = ContourType.NEWUPPERLEFT;
+						tmpIndex = getSizeOfSection(ContourType.UPPERLEFT) - 1;
+						tmpSectionType = ContourType.UPPERLEFT;
 					}
 					break;
 				}
-				case NEWLOWERRIGHT: {
+				case LOWERRIGHT: {
 					if(tmpIndex > 0) {
 						tmpIndex--;
 					} else {
 						tmpIndex = 0;
-						tmpSectionType = ContourType.NEWUPPERRIGHT;
+						tmpSectionType = ContourType.UPPERRIGHT;
 					}
 					break;
 				}
-				case NEWLOWERLEFT : {
+				case LOWERLEFT : {
 					if(tmpIndex + 1< getSizeOfSection(tmpSectionType)) {
 						tmpIndex++;
 					}
 					else {
-						tmpIndex = getSizeOfSection(ContourType.NEWLOWERRIGHT) - 1;
-						tmpSectionType = ContourType.NEWLOWERRIGHT;
+						tmpIndex = getSizeOfSection(ContourType.LOWERRIGHT) - 1;
+						tmpSectionType = ContourType.LOWERRIGHT;
 					}
 					break;
 				}

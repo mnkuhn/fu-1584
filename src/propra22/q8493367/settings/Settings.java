@@ -31,17 +31,17 @@ public class Settings {
 	/** The color used for the quadrangle */
 	public static final Color quadrangleColor = new Color(0, 255, 0, 40);  				// green
 	
-	/** The color used for the animatedQuadrangle*/
-	public static final Color animatedQuadrangleColor = new Color(0, 255, 0, 70);       // green
+	/** The color used for the quadrangle which is shown by the animation*/
+	public static final Color animatedQuadrangleColor = new Color(0, 255, 0, 110);      // green
 	
 	/** The color used for the triangle*/
 	public static final Color triangleColor = new Color(255, 255, 0, 255); 				// yellow
 	
 	/** The color used for the x and y axis */
-	public static final Color axisColor = new Color(112,128,144, 115); 					// slate gray
+	public static final Color axisColor = new Color(112, 128, 144, 115); 				// slate gray
 	
 	/** The color used for the marking of the selected point */
-	public static final Color markingColor = new Color(67,70,75, 255);      			// dark steel gray
+	public static final Color markingColor = new Color(67, 70, 75, 255);      			// dark steel gray
 	
 	
 	
@@ -52,7 +52,7 @@ public class Settings {
 	/** The default setting for the display of the diameter */
 	public static final boolean defaultDiameterIsShown = false;
 	
-	/** The default setting for the display of the quadrangle  */
+	/** The default setting for the display of the quadrangle */
 	public static final boolean defaultQuadrangleIsShown = false;
 	
 	/** The default setting for showing the triangle */
@@ -73,7 +73,7 @@ public class Settings {
 	 */
 	public static final int mouseRadius = 16;
 
-	/** The panel to screen widht ratio. */
+	/** The panel to screen width ratio. */
 	public static final double panelToScreenWidhtRatio = 0.6;
 
 	/** The panel to screen height ratio. */

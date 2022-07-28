@@ -291,33 +291,66 @@ public interface IDrawPanelController {
 	void reset();
 
 
-
+    
+	/**
+	 * Returns true if the convex hull is shown. Returns false otherwise.
+	 * 
+	 * @return true if the convex hull is shown, otherwise returns false.
+	 */
 	public boolean getConvexHullIsShown();
 
 
 
+	/**
+	 * Returns true if the diameter is shown. Returns false otherwise.
+	 * 
+	 * @return true if the diameter is shown, otherwise returns false.
+	 */
 	public boolean getDiameterIsShown();
 
 
 
+	/**
+	 *Returns true if the quadrangle is shown. Returns false otherwise.
+	 * 
+	 * @return true if the quadrangle is shown, otherwise returns false.
+	 */
 	public boolean getQuadrangleIsShown();
 
 
 
+	/**
+	 *Returns true if the animation is shown. Returns false otherwise.
+	 * 
+	 * @return true if the animation is shown, otherwise returns false.
+	 */
 	public boolean getAnimationIsShown();
 
 
+    /**
+     * Updates the mouse data.
+     *
+     * @param mouseX the x coordinate of the mouse.
+     * @param mouseY the y coordinate of the mouse.
+     * @param totalScale the product of scale and panelScale. This value
+     * is needed to determine the new selected point i.e. the point which 
+     * is 'close' to the mouse pointer.
+     */
     public void updateMouseData(int mouseX, int mouseY, double totalScale);
 	
 
+	/**
+	 * Sets the mouse position is over panel.
+	 *
+	 * @param b the new mouse position is over panel
+	 */
 	public void setMousePositionIsOverPanel(boolean b);
 
 
 
+	/**
+	 * Centers the representation on the view.
+	 */
 	public void centerView();
-
-
-
-	
 
 }

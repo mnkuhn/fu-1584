@@ -26,11 +26,11 @@ public class TangentPair {
 	 */
     private final double diff = Math.PI / 500;
     
-	
-    /**
-     * The two tangents of the tangent pair
-     */
+	//The two tangents of the tangent pair
+    /** The first tangent */
     private Tangent tangent1;
+    
+    /** The second tangent */
     private Tangent tangent2;
     
     
@@ -40,6 +40,7 @@ public class TangentPair {
     
     
 
+	/** The quadrangle sequence. */
 	private QuadrangleSequence quadrangleSequence;
 	
 	/**
@@ -47,6 +48,10 @@ public class TangentPair {
 	 * the vertical line going through the 
 	 * contact point. The angle increases, when the
 	 * tangent turns counterclockwise.
+	 * 
+	 * @param quadrangleSequence the sequence of quadrangles 
+	 * used for the animation. The tangent pair needs this sequence
+	 * to find the fitting quadrangle for a given angle.
 	 */
 	
 	
@@ -73,38 +78,61 @@ public class TangentPair {
 	}
 	
 	
+	/**
+	 * Returns true, if for the next angle for both tangents all points of the convex hull except the 
+	 * tangential points lie on the same side of the respective tangent. Returns false 
+	 * otherwise.
+	 *
+	 * @return true, if for the next angle the tangent characteristics of both tangents are kept.
+	 * Returns false otherwise.
+	 */
 	private boolean nextAngleIsValid() {
 		return tangent1.nextAngleIsValid() && tangent2.nextAngleIsValid();
 	}
 
 	
+	/**
+	 * Finds the antipodal pair for a given angle.
+	 */
 	public void fitToAngle() {
-		//If diameter it not zero, it might be necessary to calulcate a new antipodal pair.
+		/*If diameter it not zero, it might be necessary to calulcate a new antipodal pair
+		 * given by the points A and C of one of the quadrangles of the quadrangle sequence.
+		 * If diameter is zero, angle can be kept anyway.
+		 */
 		if(!quadrangleSequence.biggestDiameterIsZero()) {
 			while(!angleIsValid()){
 				quadrangleSequence.next();
 			}
 		}
-		//If diameter is zero, angle can be kept anyway.
 	}
 	
+	/**
+	 * Returns true, if for the current angle the tangent characteristics of both tangents are ensured.
+	 * Returns false otherwise.
+	 *
+	 * @return true, the tangent characteristics of both tangents ensured. False otherwise.
+	 */
 	public boolean angleIsValid() {
 		return tangent1.angleIsValid() && tangent2.angleIsValid();
 	}
 	
+	/**
+	 * Calculates the smallest angle for a given antipodal pair for the tangent pair.
+	 *
+	 * @return the angle
+	 */
 	public double calculateAngle() {
 		double angle1 = tangent1.calculateAngle();
 		double angle2 = tangent2.calculateAngle();
-		
 		return angle1 < angle2 ? angle1 : angle2;
 	}
 	
 
 
 	/**
-	 * Gets the first tangent
-	 * @return Array of the two
-	 * endpoints (index 0 and 2) and the contact point 
+	 * Gets the first tangent.
+	 *
+	 * @return Array of the two end points (index 0 and 2) and the contact point 
 	 * (index 1) of the tangent.
 	 */
 
@@ -113,9 +141,9 @@ public class TangentPair {
 	}
 	
 	/**
-	 * Gets the second tangent
-	 * @return Array of the two
-	 * endpoints (index 0 and 2) and the contact point 
+	 * Gets the second tangent.
+	 *
+	 * @return Array of the two end points (index 0 and 2) and the contact point 
 	 * (index 1) of the tangent.
 	 */
 
@@ -124,14 +152,21 @@ public class TangentPair {
 	}
 	
 	/**
-	 * Sets the length of the tangents
-	 * @param lenght the length of the tangent in pixels
+	 * Sets the length of the tangents.
+	 *
+	 * @param length the new length
 	 */
-
+    /*
 	public void setLength(float length) {
 		this.length = length;
 	}
+	*/
 	
+	/**
+	 * Gets the number of antipodal pairs.
+	 *
+	 * @return the number of antipodal pairs
+	 */
 	public int getNumberOfAntipodalPairs() {
 		return quadrangleSequence.size();
 	}
@@ -170,9 +205,8 @@ public class TangentPair {
 		 * The constructor of a tangent takes the center index for
 		 * the contact point and the offset for the angle.
 		 *
-		 * @param it the it
 		 * @param angleOffset - The offset for the angle
-		 * @throws Exception 
+		 * @param quadranglePoint the quadrangle point
 		 */
 		public Tangent(double angleOffset, QuadranglePoint quadranglePoint) {
 			this.angleOffset = angleOffset;
@@ -234,6 +268,11 @@ public class TangentPair {
 			}
 		}
 		
+		/**
+		 * Angle is valid.
+		 *
+		 * @return true, if successful
+		 */
 		private boolean angleIsValid() {
 			IPoint center = getCenter();
 			
@@ -263,6 +302,11 @@ public class TangentPair {
 			return quadrangleSequence.getHullPoint(quadranglePoint);
 		}
 		
+		/**
+		 * Gets the next hull point.
+		 *
+		 * @return the next hull point
+		 */
 		public IPoint getNextHullPoint() {
 			return quadrangleSequence.getHullPointAfter(quadranglePoint);
 		}

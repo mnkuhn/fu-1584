@@ -1,6 +1,7 @@
 package propra22.q8493367.point;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface IPoint provides methods for a class
  * in which represents a point.
@@ -15,7 +16,7 @@ public interface IPoint extends Comparable<IPoint> {
 	public int getX();
 	
 	/**
-	 * Gets the y coordinate of the point
+	 * Gets the y coordinate of the point.
 	 *
 	 * @return the y coordinate of the point
 	 */
@@ -23,7 +24,7 @@ public interface IPoint extends Comparable<IPoint> {
 	
 	/**
 	 * Translates a point along the x and the y axis so it represents
-	 * the point (x+dy, y+dy)
+	 * the point (x+dy, y+dy).
 	 *
 	 * @param dx the distance to move this point along the x axis
 	 * @param dy the distance to move this point along the y axis
@@ -81,9 +82,20 @@ public interface IPoint extends Comparable<IPoint> {
 	 */
 	public boolean equals(IPoint p);
 	
+	
+	/**
+	 * Sets the point as selected if b is true. The point is set as not selected
+	 * if b is false.
+	 *
+	 * @param b true if this point is to be selected, otherwise false
+	 */
 	public void setSelected(boolean b);
 
+	/**
+	 * Checks if this point is selected.
+	 *
+	 * @return true, if is selected, false otherwise
+	 */
 	public boolean isSelected();
 
-	
 }

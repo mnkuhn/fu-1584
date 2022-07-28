@@ -10,16 +10,16 @@ package propra22.q8493367.contour;
 public enum ContourType {
 	
 	/** points starting at point with lowest x coordinate and highest y coordinate ordered by rising x coordinate and rising y coordinate */
-	NEWUPPERLEFT(1L), 
+	UPPERLEFT(1L), 
 	
 	/** points starting at point with lowest x coordinate and highest y coordinate ordered by rising x coordinate and rising y coordinate*/
-	NEWUPPERRIGHT(-1L), 
+	UPPERRIGHT(-1L), 
 	
 	/** points starting at point with lowest x coordinate and highest y coordinate ordered by rising x coordinate and falling y coordinate. */
-	NEWLOWERRIGHT(1L), 
+	LOWERRIGHT(1L), 
 	
 	/** points starting at point with lowest x coordinate and highest y coordinate ordered by rising x coordinate and falling y coordinate */
-	NEWLOWERLEFT(-1L);
+	LOWERLEFT(-1L);
 	
 	/** The sign of the SectionType which is -1 or 1
 	 */

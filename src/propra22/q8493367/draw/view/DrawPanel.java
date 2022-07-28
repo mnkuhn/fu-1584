@@ -28,11 +28,13 @@ import propra22.q8493367.point.Point;
 import propra22.q8493367.settings.Settings;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * This Class represents the draw panel. The points and all
  * the shapes like the convex hull, the diameter, the quadrangle,
  * the triangle and the animation are displayed on the draw panel.
- * It also provides a panning and a zoom functionality.
+ * Next to the functionality for the interaction with the user it 
+ * also provides a panning and a zoom functionality.
  */
 public class DrawPanel extends JPanel implements IDrawPanel {
 
@@ -52,6 +54,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	/** The quadrangle. */
 	private IQuadrangle quadrangle;
 	
+	/** The tangent pair. */
 	private TangentPair tangentPair;
 	
 	//Listener
@@ -59,7 +62,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	private IDrawPanelListener drawPanelListener;
 
 	//Display
-	/** True, if the convexHull is shown*/
+	/**  True, if the convexHull is shown. */
 	private boolean convexHullIsShown = Settings.defaultConvexHullIsShown;
 	
 	/** True, if diameter is shown. */
@@ -95,10 +98,10 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	/** The y coordinate of the mouse when dragging starts. */
 	private double initialDragY = 0;
 
-	/** The x coordinate of the mouse minus initialDragX */
+	/**  The x coordinate of the mouse minus initialDragX. */
 	private double mouseOffsetX = 0;
 	
-	/** The y coordinate of the mouse minus initialDragY */
+	/**  The y coordinate of the mouse minus initialDragY. */
 	private double mouseOffsetY = 0;
     
 	/** The outerOffsetX which is used for zooming and dragging
@@ -139,9 +142,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 */
 	private double referenceHeight = 0 ;
 
+	/** The quadrangle sequence. */
 	private QuadrangleSequence quadrangleSequence;
-	
-
 	
 
 	
@@ -152,8 +154,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * @param hull - the convex hull
 	 * @param diameter - the diameter
 	 * @param quadrangle - the biggest quadrangle
-	 * @param tangentPair - the tangent pair for the animation
-	 * @param quadrangleSequence 
+	 * @param tangentPair - the tangent pair needed by the animation
+	 * @param quadrangleSequence - the sequence of quadrangles needed by the animation
 	 */
 	public DrawPanel(IPointSet pointSet, IHull hull, IDiameter diameter, IQuadrangle quadrangle,
 			TangentPair tangentPair, QuadrangleSequence quadrangleSequence) {
@@ -401,6 +403,12 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		
 		drawCoordinateSystem(g2);
 		if (!pointSet.isEmpty()) {
+			
+			if (animationIsShown) {
+				drawAnimatedQuadrangle(g2, Settings.animatedQuadrangleColor);
+				drawTangentPair(g2);
+			}
+			
 			drawPoints(g2);
 			if (convexHullIsShown) {
 				drawHull(g2, Settings.convexHullColor);
@@ -411,15 +419,16 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			if (quadrangleIsShown) {
 				drawQuadrangle(g2, Settings.quadrangleColor);
 			}
-			if (animationIsShown) {
-				drawTangentPair(g2);
-				drawAnimatedQuadrangle(g2, Settings.animatedQuadrangleColor);	
-			}
+			
 		}
 	}
 
+	
 	/**
-	 *  {@inheritDoc}
+	 * Draws all the points of the point set on this
+	 * draw panel.
+	 *
+	 * @param g2 the Graphics2D object
 	 */
 	private void drawPoints(Graphics2D g2) {
 
@@ -434,6 +443,13 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		}
 	}
 
+	/**
+	 * Draw marking.
+	 *
+	 * @param point the point
+	 * @param g2 the g 2
+	 * @param color the color
+	 */
 	private void drawMarking(IPoint point, Graphics2D g2, Color color) {
 		g2.setColor(color);
 		int x = point.getX() - Settings.radius - 3;
@@ -503,7 +519,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	}
 
 	/**
-	 * Translate an y coordinate form the model to the view
+	 * Translate an y coordinate form the model to the view.
 	 *
 	 * @param y the y coordinate to be translated
 	 * @return the translated y coordinate
@@ -515,7 +531,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	
 
 	/**
-	 * Translates an y coordinate from the view to the model
+	 * Translates an y coordinate from the view to the model.
 	 *
 	 * @param y the y coordinate to be translated
 	 * @return the translated y coordinate
@@ -549,21 +565,21 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 							translatedSecond.getY());
 				}
 			}
-			sectionSize = hull.getSizeOfSection(ContourType.NEWUPPERLEFT);
-			IPoint lastLeft = hull.getPointFromSection(sectionSize - 1, ContourType.NEWUPPERLEFT);
+			sectionSize = hull.getSizeOfSection(ContourType.UPPERLEFT);
+			IPoint lastLeft = hull.getPointFromSection(sectionSize - 1, ContourType.UPPERLEFT);
 			IPoint translatedLastLeft = translatePointFromModelToView(lastLeft);
 
-			sectionSize = hull.getSizeOfSection(ContourType.NEWUPPERRIGHT);
-			IPoint lastRight = hull.getPointFromSection(sectionSize - 1, ContourType.NEWUPPERRIGHT);
+			sectionSize = hull.getSizeOfSection(ContourType.UPPERRIGHT);
+			IPoint lastRight = hull.getPointFromSection(sectionSize - 1, ContourType.UPPERRIGHT);
 			IPoint translatedLastRight = translatePointFromModelToView(lastRight);
 			g2.drawLine(translatedLastLeft.getX(), translatedLastLeft.getY(), translatedLastRight.getX(),
 					translatedLastRight.getY());
 
-			sectionSize = hull.getSizeOfSection(ContourType.NEWLOWERLEFT);
-			lastLeft = hull.getPointFromSection(sectionSize - 1, ContourType.NEWLOWERLEFT);
+			sectionSize = hull.getSizeOfSection(ContourType.LOWERLEFT);
+			lastLeft = hull.getPointFromSection(sectionSize - 1, ContourType.LOWERLEFT);
 			translatedLastLeft = translatePointFromModelToView(lastLeft);
-			sectionSize = hull.getSizeOfSection(ContourType.NEWLOWERRIGHT);
-			lastRight = hull.getPointFromSection(sectionSize - 1, ContourType.NEWLOWERRIGHT);
+			sectionSize = hull.getSizeOfSection(ContourType.LOWERRIGHT);
+			lastRight = hull.getPointFromSection(sectionSize - 1, ContourType.LOWERRIGHT);
 			translatedLastRight = translatePointFromModelToView(lastRight);
 			g2.drawLine(translatedLastLeft.getX(), translatedLastLeft.getY(), translatedLastRight.getX(),
 					translatedLastRight.getY());
@@ -678,6 +694,12 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		}	 
 	}
 	
+	/**
+	 * Draw animated quadrangle.
+	 *
+	 * @param g2 the g 2
+	 * @param color the color
+	 */
 	private void drawAnimatedQuadrangle(Graphics2D g2, Color color) {
 		if (quadrangleSequence != null) {
 			g2.setColor(color);
@@ -702,7 +724,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 	/**
 	 * Extends the tangent so that it is longer than twice the diameter of the 
-	 * draw panel in pixels
+	 * draw panel in pixels.
 	 *
 	 * @param tangent the tangent
 	 */
@@ -805,6 +827,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 	/**
 	 * Runs the animation.
+	 *
+	 * @return true, if successful
 	 */
 	
 	/*

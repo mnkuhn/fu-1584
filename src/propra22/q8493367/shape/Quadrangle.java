@@ -12,16 +12,16 @@ import propra22.q8493367.point.Point;
 public class Quadrangle implements IQuadrangle {
      
 	
-	/** The first of the four points of the quadrangle*/
+	/**  The first of the four points of the quadrangle. */
 	private IPoint a;
 	
-	/** The second of the four points of the quadrangle*/
+	/**  The second of the four points of the quadrangle. */
 	private IPoint b;
 	
-	/** The third of the four points of the quadrangle*/
+	/**  The third of the four points of the quadrangle. */
 	private IPoint c;
 	
-	/** The fourth of the four points of the quadrangle*/
+	/**  The fourth of the four points of the quadrangle. */
 	private IPoint d;
 
 	/**
@@ -49,7 +49,14 @@ public class Quadrangle implements IQuadrangle {
 		this.d = null;
 	}
 	
-
+    
+	/**
+	 * Copy Constructor for the Quadrangle. Instantiates a new quadrangle
+	 * with the same attributes as the argument.
+	 *
+	 * @param quadrangle the quadrangle whose attributes are copied into
+	 * the newly created quadrangle.
+	 */
 	public Quadrangle(IQuadrangle quadrangle) {
 		this.a = quadrangle.getA();
 		this.b = quadrangle.getB();
@@ -141,6 +148,11 @@ public class Quadrangle implements IQuadrangle {
 		return quadrangleAsArray;
 	}
 
+	/**
+	 * Copy.
+	 *
+	 * @param quadrangle the quadrangle
+	 */
 	@Override
 	public void copy(IQuadrangle quadrangle) {
 		this.a = quadrangle.getA();

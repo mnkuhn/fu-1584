@@ -10,6 +10,7 @@ import javax.swing.border.BevelBorder;
 
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class StatusBar.
  */
@@ -19,14 +20,16 @@ public class StatusBar extends JPanel implements IStatusBar{
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/** The label which displays the number of points in the point set */
+	/**  The label which displays the number of points in the point set. */
 	private JLabel numberLabel;
 	
+	/** The label which displays the mouse coordinates. */
 	private JLabel mouseCoordinates;
 	
+	/** The label which displays the coordinates of the selected point. */
 	private JLabel selectedPointCoordinates;
 	
-	/** The height of the status bar in pixels */
+	/**  The height of the status bar in pixels. */
 	private int height = 18;
 	
 	/**
@@ -77,6 +80,12 @@ public class StatusBar extends JPanel implements IStatusBar{
 		numberLabel.setText(number);
 	}
 	
+	/**
+	 * Sets the mouse coordinates.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	@Override
 	public void setMouseCoordinates(String x, String y) {
 		String coordinates = "";
@@ -88,6 +97,12 @@ public class StatusBar extends JPanel implements IStatusBar{
 	}
 	
 	
+	/**
+	 * Sets the coordindates of selected point.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	@Override
 	public void setCoordindatesOfSelectedPoint(String x, String y) {
 		

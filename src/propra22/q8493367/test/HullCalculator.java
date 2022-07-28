@@ -42,7 +42,8 @@ public class HullCalculator implements IHullCalculator{
 	
 	/** The file manager. */
 	private FileManager fileManager;
-
+    
+	/** The sequence of quadrangles as used by the animation. */
 	private QuadrangleSequence quadrangleSequence;
 	
 	/**

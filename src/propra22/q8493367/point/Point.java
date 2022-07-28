@@ -15,7 +15,7 @@ public class Point  implements IPoint {
 	/**  The y coordinate of the point. */
 	private int y;
 	
-	
+	/**  True, if this point is selected, false otherwise */
 	private boolean selected;
 	
 	/**

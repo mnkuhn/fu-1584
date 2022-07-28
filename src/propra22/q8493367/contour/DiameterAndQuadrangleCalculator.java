@@ -40,26 +40,49 @@ public class DiameterAndQuadrangleCalculator  {
 	}
 
 	/**
-	 * Calculate the diameter and the quadrangle with the biggest area.
+	 * Calculates the diameter, the quadrangle with the biggest area and a sequence
+	 * of quadrangles with respect to the sequence of antipodal pairs. One quadrangle 
+	 * refers to a antipodal pair and it is the biggest quadrangle which can be found 
+	 * for this antipodal pair. This sequence is used by the animation.
 	 * 
-	 * @param diameter   the diameter object
-	 * @param quadrangle the quadrangle object
+	 * 
+	 * @param diameter   the diameter object whose new attributes are calculated.
+	 * @param quadrangle the quadrangle object whose new attributes are calculated.
+	 * @param quadrangleSequence sequence of largest rectangles with respect to a pair of antipodes.
 	 */
 	public void calculate(IDiameter diameter, IQuadrangle quadrangle, QuadrangleSequence quadrangleSequence) {
         if(!convexHull.isEmpty()) {
         	calculateQuadrangleSequence(quadrangleSequence);
+        	
+        	/* Gets the diameter i.e. the longest diagonal in a quadrangle from the 
+        	quadrangle sequence
+        	*/
             diameter.copy(quadrangleSequence.getBiggestDiameter());
+            
+            //Gets the quadrangle with the biggest area from the quadrangle sequence.
             quadrangle.copy(quadrangleSequence.getBiggestQuadrangle());
         }
 	}
-
-	private void addQuadrangleToQuadrangleSequence(QuadrangleSequence quadrangleSequence, Quadrangle tmpQuadrangle) {
+    
+	/**
+	 * Adds a quadrangle to the sequence of quadrangles.
+	 *
+	 * @param quadrangleSequence the quadrangle sequence
+	 * @param quadrangle the quadrangle which is added to the
+	 * quadrangle sequence.
+	 */
+	private void addQuadrangleToQuadrangleSequence(QuadrangleSequence quadrangleSequence, Quadrangle quadrangle) {
 		if(quadrangleSequence != null) {
-			quadrangleSequence.add(new Quadrangle(tmpQuadrangle.getA(), tmpQuadrangle.getB(), 
-					tmpQuadrangle.getC(), tmpQuadrangle.getD()));
+			quadrangleSequence.add(new Quadrangle(quadrangle.getA(), quadrangle.getB(), 
+					quadrangle.getC(), quadrangle.getD()));
 		}
 	}
 	
+	/**
+	 * Calculates the sequence of quadrangles.
+	 *
+	 * @param quadrangleSequence the quadrangle sequence
+	 */
 	private void calculateQuadrangleSequence(QuadrangleSequence quadrangleSequence) {
 		quadrangleSequence.clear();
 		if (!convexHull.isEmpty()) {

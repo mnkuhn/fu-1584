@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-
-
 import propra22.q8493367.command.CommandEvent;
 import propra22.q8493367.command.CommandEventType;
 import propra22.q8493367.draw.controller.IDrawPanelController;
@@ -35,7 +33,6 @@ public class MainWindowController implements IMainWindowListener {
      * Instantiates a new main window controller.
      *
      * @param drawPanelController the controller of the draw panel
-     * @param pointSet the point set
      * @param mainWindow the main window
      * @param fileManager the file manager
      */

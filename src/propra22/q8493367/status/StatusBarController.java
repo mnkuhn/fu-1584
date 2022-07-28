@@ -1,5 +1,7 @@
 package propra22.q8493367.status;
 
+
+
 import propra22.q8493367.draw.controller.IDrawPanelControllerObserver;
 
 
@@ -20,11 +22,6 @@ public class StatusBarController implements IDrawPanelControllerObserver{
 		this.statusBar = statusBar;
 	}
 	
-	/**
-	 * Updates the status bar
-	 *
-	 * @param number the number of points in the point set
-	 */
 	@Override
 	public void update(String numberOfPoints, String mouseX, String mouseY, String selectedX, String selectedY) {
 		statusBar.setNumberOfPoints(numberOfPoints);	
