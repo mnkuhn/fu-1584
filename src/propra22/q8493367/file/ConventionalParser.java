@@ -12,7 +12,11 @@ public class ConventionalParser implements IParser {
 	public IPoint parseLine(String line) {
 
 		int xCoordinate = 0;
+		int xSign = 1;
+
 		int yCoordinate = 0;
+		int ySign = 1;
+		;
 
 		int currentPosition = 0;
 
@@ -22,15 +26,21 @@ public class ConventionalParser implements IParser {
 			} else {
 				if (Character.isDigit(line.charAt(currentPosition)))
 					break;
-				else
+				else if (line.charAt(currentPosition) == '-') {
+					xSign = -1;
+					currentPosition++;
+					break;
+				} else {
 					return null;
+				}
 			}
 		}
 
+		
+
 		while (currentPosition < line.length()) {
 			if (Character.isDigit(line.charAt(currentPosition))) {
-				xCoordinate = xCoordinate * 10
-						+ Character.getNumericValue(line.charAt(currentPosition++));
+				xCoordinate = xCoordinate * 10 + Character.getNumericValue(line.charAt(currentPosition++));
 			} else {
 				break;
 			}
@@ -38,8 +48,7 @@ public class ConventionalParser implements IParser {
 
 		if (currentPosition < line.length() && line.charAt(currentPosition) == ' ') {
 			currentPosition++;
-		}
-		else {
+		} else {
 			return null;
 		}
 
@@ -49,15 +58,16 @@ public class ConventionalParser implements IParser {
 			} else {
 				if (Character.isDigit(line.charAt(currentPosition)))
 					break;
-				else
+				else if (line.charAt(currentPosition) == '-') {
+					ySign = -1;
+					currentPosition++;
+					break;
+				} else {
 					return null;
+				}
 			}
 		}
-         
-		if(currentPosition == line.length()) {
-			return null;
-		}
-		
+
 		while (currentPosition < line.length()) {
 			if (Character.isDigit(line.charAt(currentPosition))) {
 				yCoordinate = yCoordinate * 10 + Character.getNumericValue(line.charAt(currentPosition++));
@@ -70,11 +80,11 @@ public class ConventionalParser implements IParser {
 			return null;
 		}
 
-		return new Point(xCoordinate, yCoordinate);
+		return new Point(xCoordinate * xSign, yCoordinate * ySign);
 	}
 	
 	public static void main(String[] args) {
-		String str = "12 h 245 hallo hier ist ein Kommentar";
+		String str = "-12  -245 hallo hier ist ein Kommentar";
 		IParser parser = new ConventionalParser();
 		IPoint parsedPoint = parser.parseLine(str);
 		if(parsedPoint != null) {

@@ -8,7 +8,7 @@ import propra22.q8493367.point.Point;
 
 
 /**
- * A Parser which can extract a point from a string.
+ * A Parser which can extract a point from a string using a regular expression.
  */
 public class RegExParser implements IParser {
     
