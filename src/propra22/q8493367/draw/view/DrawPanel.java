@@ -404,13 +404,13 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			
 			drawPoints(g2);
 			if (convexHullIsShown) {
-				drawHull(g2, Settings.convexHullColor);
+				drawHull(g2);
 			}
 			if (diameterIsShown) {
-				drawDiameter(g2, Settings.diameterColor);
+				drawDiameter(g2);
 			}
 			if (quadrangleIsShown) {
-				drawQuadrangle(g2, Settings.quadrangleColor);
+				drawQuadrangle(g2);
 			}
 		}
 	}
@@ -545,8 +545,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * @param g2    the Graphics2D Object which is used for painting
 	 * @param color the color for the hull
 	 */
-	private void drawHull(Graphics2D g2, Color color) {
-		g2.setColor(color);
+	private void drawHull(Graphics2D g2) {
+		g2.setColor(Settings.convexHullColor);
 
 		for (ContourType sectionType : ContourType.values()) {
 			int sectionSize = hull.getSizeOfSection(sectionType);
@@ -590,9 +590,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * @param g2    the Graphics2D Object which is used for painting
 	 * @param color the color for the diameter
 	 */
-	private void drawDiameter(Graphics2D g2, Color color) {
+	private void drawDiameter(Graphics2D g2) {
 		if (diameter != null) {
-			g2.setColor(color);
+			g2.setColor(Settings.diameterColor);
 			IPoint a = diameter.getA();
 			IPoint translatedA = translatePointFromModelToView(a);
 			IPoint b = diameter.getB();
@@ -608,9 +608,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * @param g2    the Graphics2D Object which is used for painting
 	 * @param color the color for the quadrangle
 	 */
-	private void drawQuadrangle(Graphics2D g2, Color color) {
+	private void drawQuadrangle(Graphics2D g2) {
 		if (quadrangle != null) {
-			g2.setColor(color);
+			g2.setColor(Settings.quadrangleColor);
 
 			IPoint translatedA = translatePointFromModelToView(quadrangle.getA());
 			IPoint translatedB = translatePointFromModelToView(quadrangle.getB());
@@ -643,6 +643,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		g2d.drawLine(x, 0, x, getHeight() - 1);
 		// abszissa
 		g2d.drawLine(0, y, getWidth() - 1, y);
+		g2d.setColor(Color.BLACK);	
 	}
 
 	/**
