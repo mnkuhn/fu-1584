@@ -41,27 +41,24 @@ public class MainWindowController implements IMainWindowListener {
     	this.view = mainWindow;
     	this.fileManager = fileManager;
     	
-        view.setConvexHullIsShown(drawPanelController.convexHullIsShown());
-        view.setDiameterIsShown(drawPanelController.diameterIsShown());
-        view.setQuadrangleIsShown(drawPanelController.quadrangleIsShown());
+    	// Set the default settings 
+        view.setConvexHullIsShown(drawPanelController.getConvexHullIsshown());
+        view.setDiameterIsShown(drawPanelController.getDiameterIsShown());
+        view.setQuadrangleIsShown(drawPanelController.getQuadrangleIsShown());
+        /* We do not set the default value for the animation because we think 
+         * it should not be selected in the beginning.
+         */
+        
         //view.setTriangleIsShown(drawPanelController.triangleIsShown());
     }
 	
-    /**
-     * Handles a file event.
-     *
-     * @param e the file event
-     */
+   
     @Override
 	public void FileEventOccured(FileEvent e) {
 		fileManager.handleFileEvent(e);
 	}
 
-	/**
-	 * Handles a command event. Used for handling undo and redo.
-	 *
-	 * @param commandEvent the command event
-	 */
+	
 	@Override
 	public void commandEventOccured(CommandEvent commandEvent) {
 		CommandEventType type = commandEvent.getEventType();
@@ -78,24 +75,14 @@ public class MainWindowController implements IMainWindowListener {
 	}
 	
 	
-	/**
-	 * This method is invoked, when the user opens the 
-	 * edit menu. It checks, if there are commands,
-	 * which can be undone, or if there are commands
-	 * which can be redone.
-	 */
+	
 	@Override
 	public void editEventOccured() {
 		view.setUndoEnabled(drawPanelController.undoIsEnabled());
 		view.setRedoEnabled(drawPanelController.redoIsEnabled());	
 	}
 
-	/**
-	 * Handles a event which occurs, when the user wants to 
-	 * insert a certain number of randomly generated points.
-	 * 
-	 * @param randomPointsEvent the random points event
-	 */
+	
 	@Override
 	public void insertRandomPointsEventOccured(RandomPointsEvent randomPointsEvent) {
 		RandomPointsEventType type = randomPointsEvent.getType();
@@ -123,7 +110,7 @@ public class MainWindowController implements IMainWindowListener {
 			
 			drawPanelController.updateView();
 		} else {
-			view.setConvexHullIsShown(drawPanelController.getConvexHullIsShown());
+			view.setConvexHullIsShown(drawPanelController.getConvexHullIsshown());
 			view.setDiameterIsShown(drawPanelController.getDiameterIsShown());
 			view.setQuadrangleIsShown(drawPanelController.getQuadrangleIsShown());
 			view.setAnimationIsShown(drawPanelController.getAnimationIsShown());

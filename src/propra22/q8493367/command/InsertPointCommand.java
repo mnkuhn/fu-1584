@@ -4,14 +4,13 @@ import propra22.q8493367.contour.IPointSet;
 import propra22.q8493367.point.IPoint;
 
 
-// TODO: Auto-generated Javadoc
 /**
- * Command for inserting a point into a point set.
+ * Command for inserting a point into the point set.
  */
 
 public class InsertPointCommand implements ICommand {
     
-    /** The instance of a pointset, into which the point is inserted. */
+    /** The point set, into which the point is inserted. */
     IPointSet pointSet;
 	
 	/**  The point which is inserted. */
@@ -22,7 +21,7 @@ public class InsertPointCommand implements ICommand {
 	/**
 	 * Instantiates a new insert point command.
 	 *
-	 * @param point the point which is inserted.
+	 * @param point the point which is inserted into the point set.
 	 * @param pointSet the point set
 	 */
 	public InsertPointCommand(IPoint point, IPointSet pointSet) {

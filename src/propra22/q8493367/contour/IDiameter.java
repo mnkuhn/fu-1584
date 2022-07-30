@@ -9,35 +9,35 @@ import propra22.q8493367.point.IPoint;
 public interface IDiameter {
 
 	/**
-	 * Gets the point a.
+	 * Gets the first point of the diameter.
 	 *
-	 * @return the point a
+	 * @return the point A
 	 */
 	IPoint getA();
 
 	/**
-	 * Gets the point b.
+	 * Gets the second point of the diameter.
 	 *
 	 * @return the point b
 	 */
 	IPoint getB();
 
 	/**
-	 * Sets the point a.
+	 * Sets the first point of the diameter.
 	 *
-	 * @param a - the point a
+	 * @param a the point a
 	 */
 	void setA(IPoint a);
 
 	/**
-	 * Sets the point b.
+	 * Sets the second point of the diameter.
 	 *
-	 * @param b - the point b
+	 * @param b  the point b
 	 */
 	void setB(IPoint b);
 
 	/**
-	 * The length of the diameter.
+	 * Returns the length of the diameter.
 	 *
 	 * @return the length of the diameter as double.
 	 */
@@ -62,7 +62,7 @@ public interface IDiameter {
 	 * arguments into the caller.
 	 *
 	 * @param diameter the diameter whose attributes
-	 * are copied into this.
+	 * are copied into the caller.
 	 */
 	void copy(IDiameter diameter);
 

@@ -94,7 +94,7 @@ public class Hull implements IHull {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void removePointFromSection(int index, ContourType sectionType) {
+	public void removePointFromContour(int index, ContourType sectionType) {
 		switch (sectionType) {
 		case UPPERLEFT: {
 			newUpperLeft.remove(index);
@@ -184,7 +184,7 @@ public class Hull implements IHull {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void removePointFromSection(IPoint point, ContourType sectionType) {
+	public void removePointFromContour(IPoint point, ContourType sectionType) {
 		switch (sectionType) {
 		case UPPERLEFT: {
 			newUpperLeft.remove(point);
@@ -295,27 +295,7 @@ public class Hull implements IHull {
 		return new HullIterator(1);
 	}
 	
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public boolean contains(IPoint p) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ContourType getSection(IPoint p) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 
-    
-	
 	/**
 	 * The Class HullIterator provides an Iterator for the 
 	 * hull. A limit can be set and it can iterate in both

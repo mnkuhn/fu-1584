@@ -14,7 +14,7 @@ public class CommandManager {
 	/** The list of commands in order of execution */
 	private List<ICommand> commandList = new ArrayList<>();
 
-	/**  This index points to the command which was
+	/**  This index refers to the command which was
 	 * executed last.  
 	 */
 	private int commandIndex = -1;
@@ -33,7 +33,7 @@ public class CommandManager {
 	}
 
 	/**
-	 * Undoes the last executed command
+	 * Undoes the last executed command.
 	 */
 	public void undoCommand() {
 		if (hasUndoableCommands()) {
@@ -56,8 +56,8 @@ public class CommandManager {
 
 
 	/**
-	 * Removes the all commands from the commands list which have index more than 
-	 * commandIndex. This method is used when one command or
+	 * Removes the all commands from the commands list whose index is greater 
+	 * than the command index. This method is used when one command or
 	 * more than one commands have been undone an a new command is executed.
 	 */
 	private void removeAllComandsAfterCommandIndex() {
@@ -78,8 +78,8 @@ public class CommandManager {
 	/**
 	 * Checks for undoable commands.
 	 *
-	 * @return  true, if some commands have 
-	 * been executed.
+	 * @return  true, if there is at least one command that can be
+	 * undone.
 	 * False otherwise.
 	 */
 	public boolean hasUndoableCommands() {
@@ -89,10 +89,11 @@ public class CommandManager {
 	/**
 	 * Checks for redoable commands.
 	 *
-	 * @return true, if some commands have been undone, false otherwise.
+	 * @return true, if there is at least one command that
+	 * can be redone.
+	 * False otherwise.
 	 */
 	public boolean hasRedoableCommands() {
 		return commandIndex < (commandList.size() - 1);
 	}
-
 }

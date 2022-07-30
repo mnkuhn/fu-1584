@@ -5,14 +5,15 @@ import propra22.q8493367.point.IPoint;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class ContourPolygonCalculator.
+ * The Class ContourPolygonCalculator is responsible for the calculation
+ * of the contour polygon.
  */
-public class ContourPolygonCalculator implements ISectionCalculator {
+public class ContourPolygonCalculator implements IContourCalculator {
 
 	/**  The point set. */
 	private IPointSet pointSet;
 	
-	/** The contour polygon. */
+	/** The contour polygon as the result of the calculation. */
 	private IHull hull;
 	
 	/**The highest y value found during the sweep
@@ -28,9 +29,8 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	/**
 	 * Instantiates a new contour polygon calculator.
 	 *
-	 * @param pointSet  the point set.
-	 * @param hull the hull, which is the result of this calculation,
-	 * that is the contour polygon.
+	 * @param pointSet  The point set.
+	 * @param hull The contour polygon as the result of the calculation.
 	 */
 	public ContourPolygonCalculator(IPointSet pointSet, IHull hull) {
 		this.pointSet = pointSet;
@@ -39,14 +39,15 @@ public class ContourPolygonCalculator implements ISectionCalculator {
     
 	
 	/**
-	 * Calculates one of the four sections of the contour polygon.
+	 * Calculates one of the four contours of the contour polygon.
 	 *
-	 * @param sectionType the section type
+	 * @param contourType the type of the contour that is upper left,
+	 * lower left, upper right or lower right.
 	 */
 	@Override
-	public void calculateSection(ContourType sectionType) {
+	public void calculateContour(ContourType contourType) {
 		
-		switch (sectionType) {
+		switch (contourType) {
 			case UPPERLEFT: {
 				calculateUpperLeft();
 				break;
@@ -69,7 +70,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 
     
 	/**
-	 * Calculate lower left section. This function has to be called before
+	 * Calculates the lower left section. This function has to be called before
 	 * calculateUpperRight because HighestYFound has to be set.
 	 */
 	private void calculateUpperLeft() {
@@ -92,7 +93,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	
 	
     /**
-     * Calculate upper left section. This function has to be called before
+     * Calculates the upper left section. This function has to be called before
      * calculateLowerRight because the LowestYFound has to be set.
      */
     private void calculateLowerLeft() {
@@ -115,7 +116,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	
 	
 	/**
-	 * Calculate lower right section. This function has to be called before
+	 * Calculates the lower right section. This function has to be after
 	 * calculateUpperLeft() because the highestYFound has to be set. 
 	 */
 	private void calculateUpperRight() {
@@ -138,7 +139,7 @@ public class ContourPolygonCalculator implements ISectionCalculator {
 	
 	
 	/**
-	 * Calculate upper right section. This function has to be called after 
+	 * Calculate the lower right section. This function has to be called after 
 	 * calculateLowerLeft() because the lowestYFound has to be set.
 	 */
 	private void calculateLowerRight() {

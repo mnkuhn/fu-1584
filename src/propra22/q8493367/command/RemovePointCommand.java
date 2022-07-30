@@ -20,8 +20,8 @@ public class RemovePointCommand implements ICommand {
 	/**
 	 * Instantiates a new remove point command.
 	 *
-	 * @param point - the point which is removed from the drawPanelModel
-	 * @param pointSet - the drawPanelModel from which the point is removed
+	 * @param point the point which is removed from the point set.
+	 * @param pointSet the point set from which the point is removed.
 	 */
 	public RemovePointCommand(IPoint point, IPointSet pointSet) {
 	      this.point = point;

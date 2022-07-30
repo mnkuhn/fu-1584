@@ -29,39 +29,62 @@ import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 import propra22.q8493367.settings.Settings;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The controller of the draw panel. It also listens to all events on the draw
  * panel.
  */
 public class DrawPanelController implements IDrawPanelController {
+	
 	// View
 	/**  The view. */
 	private IDrawPanel view;
 
+	
 	//Model
 	/**   The point set. */
 	private IPointSet pointSet;
 
-	
-	// Shapes
-	/**   The hull. */
+	/**  First the contour polygon, then the convex hull. */
 	private IHull hull;
 
-	/**   The diameter. */
+	/**  The diameter. */
 	private IDiameter diameter;
 
-	/**   The quadrangle. */
+	/**  The quadrangle. */
 	private IQuadrangle quadrangle;
 	
-	/**  The pair of tangents for the animation. */
-	//private TangentPair tangentPair;
+	/**  The pair of tangents used by the animation. */
+	private TangentPair tangentPair;
+	
+	/** The quadrangle sequence as used by the animation. */
+	private QuadrangleSequence quadrangleSequence;
+	
+	
+	
+	// Calculations
+	/**  The contour polygon calculator. */
+	private ContourPolygonCalculator contourPolygonCalculator;
 
+	/**  The convex hull calculator. */
+	private ConvexHullCalculator convexHullCalculator;
+
+	/**  The calculator for the diameter, the quadrangle and the quadrangle sequence */
+	private DiameterAndQuadrangleCalculator diameterAndQuadrangleCalulator;
+
+	
+	
+	// Animation
+	/**  The thread for the animation. */
+	private AnimationThread animationThread;
+	
+	
+	
 	// Dragging points
 	/** The point which is selected for dragging */
 	private IPoint selected = null;
 
-	/**   The previous x coordinate of the mouse. */
+	/**  The previous x coordinate of the mouse. */
 	private int previousMouseX;
 
 	/**  The previous y coordinate of the mouse. */
@@ -73,29 +96,14 @@ public class DrawPanelController implements IDrawPanelController {
 	/**  The y coordinate of the mouse when the dragging ended. */
 	private int startMouseY;
 
+	
+	
 	// Commands
 	/**  The command list. */
 	private CommandManager commandManager = new CommandManager();
 
-	// Calculations
-	/**  The contour polygon calculator. */
-	private ContourPolygonCalculator contourPolygonCalculator;
-
-	/**  The convex hull calculator. */
-	private ConvexHullCalculator convexHullCalculator;
-
-	/**  The calculator for the diameter. */
-	private DiameterAndQuadrangleCalculator diameterAndQuadrangleCalulator;
 	
-	/**  The thread for the animation. */
-	private AnimationThread animationThread;
-	
-	/**  The pair of tangents used by the animation. */
-	private TangentPair tangentPair;
-	
-	/**  The observers. */
-	private List<IDrawPanelControllerObserver> observers = new ArrayList<>();
-    
+	// Mouse
 	/**  True iff the mouse pointer is above the draw panel. */
 	private boolean mousePositionIsOverPanel;
     
@@ -108,10 +116,15 @@ public class DrawPanelController implements IDrawPanelController {
 	 * The last y coordinate before leaving the draw panel otherwise.
 	 *  */
 	private int mouseY;
+	
+	
+	
+	// Observer
+	/**  The observers. */
+	private List<IDrawPanelControllerObserver> observers = new ArrayList<>();
     
 	
-	/** The quadrangle sequence as used by the animation. */
-	private QuadrangleSequence quadrangleSequence;
+	
 	
 
 
@@ -125,10 +138,10 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param quadrangle the quadrangle
 	 * @param tangentPair the tangent pair needed for the animation
 	 * @param quadrangleSequence the sequence of quadrangles needed for the animation
-	 * @param drawPanel the draw panel
+	 * @param view the view
 	 */
 	public DrawPanelController(IPointSet pointSet, IHull convexHull, IDiameter diameter, IQuadrangle quadrangle, 
-			TangentPair tangentPair, QuadrangleSequence quadrangleSequence, DrawPanel drawPanel) {
+			TangentPair tangentPair, QuadrangleSequence quadrangleSequence, DrawPanel view) {
 		this.pointSet = pointSet;
 		this.hull = convexHull;
 		this.diameter = diameter;
@@ -136,7 +149,7 @@ public class DrawPanelController implements IDrawPanelController {
 		this.tangentPair = tangentPair;
 		this.quadrangleSequence = quadrangleSequence;
 		
-		this.view = drawPanel;
+		this.view = view;
 		
 		this.contourPolygonCalculator = new ContourPolygonCalculator(pointSet, convexHull);
 		this.convexHullCalculator = new ConvexHullCalculator(convexHull);
@@ -146,13 +159,14 @@ public class DrawPanelController implements IDrawPanelController {
 
 	/**
 	 * Instantiates a new draw panel controller which only takes a model. Used for
-	 * testing or calculating the data without displaying it.
+	 * calculating the data without displaying it. In this application it is used for
+	 * testing.
 	 *
-	 * @param pointSet - the draw panel model
-	 * @param hull the - convex hull
-	 * @param diameter - the diameter
-	 * @param quadrangle - the quadrangle
-	 * @param quadrangleSequence - the quadrangle sequence
+	 * @param pointSet the draw panel model
+	 * @param hull the convex hull
+	 * @param diameter the diameter
+	 * @param quadrangle the quadrangle
+	 * @param quadrangleSequence the quadrangle sequence
 	 */
 	public DrawPanelController(IPointSet pointSet, IHull hull, IDiameter diameter, IQuadrangle quadrangle, 
 			QuadrangleSequence quadrangleSequence) {
@@ -164,7 +178,6 @@ public class DrawPanelController implements IDrawPanelController {
 		this.quadrangleSequence = quadrangleSequence;
 		this.view = null;
 		
-		
 		this.contourPolygonCalculator = new ContourPolygonCalculator(pointSet, hull);
 		this.convexHullCalculator = new ConvexHullCalculator(hull);
 		this.diameterAndQuadrangleCalulator = new DiameterAndQuadrangleCalculator(hull);
@@ -173,12 +186,13 @@ public class DrawPanelController implements IDrawPanelController {
 	/**
 	 * Determines if a point is within a certain radius to the mouse pointer.
 	 *
-	 * @param point  - the point
-	 * @param mouseX - the x coordinate of the mouse pointer
-	 * @param mouseY - the y coordinate of the mouse pointer
-	 * @param metric - the metric, which is used to determine the distance
-	 * @param radius - the radius
-	 * @return true, if successful
+	 * @param point  the point
+	 * @param mouseX the x coordinate of the mouse pointer
+	 * @param mouseY the y coordinate of the mouse pointer
+	 * @param metric the metric, which is used to determine the distance
+	 * @param radius the radius
+	 * @return true, the point is within the given radius of the mouse pointer,
+	 * false otherwise.
 	 */
 	
 	
@@ -190,9 +204,9 @@ public class DrawPanelController implements IDrawPanelController {
 	 * Gets the closest point to mouse pointer. Returns null if there is no point on
 	 * the draw panel.
 	 *
-	 * @param mouseX - the x coordinate of the mouse pointer
-	 * @param mouseY - the y coordinate of the mouse pointer
-	 * @param metric - the metric which is used to determine the distance
+	 * @param mouseX the x coordinate of the mouse pointer
+	 * @param mouseY the y coordinate of the mouse pointer
+	 * @param metric the metric which is used to determine the distance
 	 * @return the closest point to mouse pointer
 	 */
 
@@ -212,18 +226,14 @@ public class DrawPanelController implements IDrawPanelController {
 		}
 	}
 
-	/**
-	 * Updates the the draw panel.
-	 */
+	
+	@Override
 	public void updateView() {
 		view.update();
 	}
 	
-	// TODO es wird nicht nur das Model upgedated -> Kein guter Name
 
-	/**
-	 * Updates the draw panel model.
-	 */
+	@Override
 	public void updateModel() {
 
 		long start = System.currentTimeMillis();
@@ -240,7 +250,8 @@ public class DrawPanelController implements IDrawPanelController {
 		convexHullCalculator.calculateConvexHull();
 		end = System.currentTimeMillis();
 		System.out.println("Konvexe Hülle berechnen: " + (end - start) + " ms");
-
+        
+		//Terminates the animation thread so that the quadrangle sequence can be updated.
 		if (view != null) {terminateAnimationThread();}
 
 		start = end;
@@ -248,13 +259,14 @@ public class DrawPanelController implements IDrawPanelController {
 		end = System.currentTimeMillis();
 		System.out.println("Durchmesser und Viereck berechen: " + (end - start) + " ms \n \n");
 		
+		//Updates the animation thread after the update of the quadrangle sequence.
 		if (view != null) {updateAnimationThread();}
 
 		notifyObservers();
 	}
 
 	/**
-	 * Terminate animation thread.
+	 * Terminates the animation thread.
 	 */
 	private void terminateAnimationThread() {
 		if(animationThread != null) {
@@ -271,7 +283,7 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 	
 	/**
-	 * Update animation thread.
+	 * Updates the animation thread.
 	 */
 	private void updateAnimationThread() {
 
@@ -283,17 +295,8 @@ public class DrawPanelController implements IDrawPanelController {
 		}
 	}
 
-	/**
-	 * Updates the model and the view.
-	 */
-	public void update() {
-		updateModel();
-		updateView();
-	}
 	
-	/**
-	  *{@inheritDoc}
-	 */
+	
 	@Override
 	public void reset() {
 		commandManager.clear();
@@ -303,18 +306,13 @@ public class DrawPanelController implements IDrawPanelController {
 
 
 
-	/**
-	 *{@inheritDoc}
-	 */
 	@Override
 	public void createNewDrawPanel() {
 		clearModel();
 		updateView();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	
 	@Override
 	public void clearModel() {
 		pointSet.clear();
@@ -322,18 +320,14 @@ public class DrawPanelController implements IDrawPanelController {
 		pointSet.setHasChanged(false);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	
 	@Override
 	public boolean pointSetIsEmpty() {
 		return pointSet.isEmpty();
 	}
 
 
-	/**
-	 * {@inheritDoc}
-	 */
+	
 	@Override
 	public void undoCommand() {
 		if(commandManager.hasUndoableCommands()) {
@@ -344,9 +338,7 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 	
 
-	/**
-	 * {@inheritDoc}
-	 */
+	
 	@Override
 	public void redoCommand() {
 		if(commandManager.hasRedoableCommands()) {
@@ -357,18 +349,12 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 	
 
-	/**
-	 *{@inheritDoc}
-	 */
 	@Override
 	public boolean undoIsEnabled() {
 		return commandManager.hasUndoableCommands();
 	}
 	
 
-	/**
-	 * {@inheritDoc}
-	 */
 	
 	@Override
 	public boolean redoIsEnabled() {
@@ -376,10 +362,6 @@ public class DrawPanelController implements IDrawPanelController {
 	}
     
 	
-
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void insertRandomPoints(int number, int minX, int minY, int maxX, int maxY) {
 	    
@@ -394,9 +376,7 @@ public class DrawPanelController implements IDrawPanelController {
 		updateView();	
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	
 	@Override
 	public void insertPointToPointSetByUserInput(int x, int y) {
 		IPoint point = new Point(x, y);
@@ -418,17 +398,12 @@ public class DrawPanelController implements IDrawPanelController {
 		}	
 	}
 
-	/**
-	 *{@inheritDoc}
-	 */
 	@Override
 	public void insertPointToPointSetByFileInput(int x, int y) {
 		pointSet.addPoint(new Point(x, y));
 	}
 
-	/**
-	 *{@inheritDoc}
-	 */
+	
 	@Override
 	public void deletePointFromPointSetByUserInput(int mouseX, int mouseY, double totalScale) {
 		if (selected != null) {
@@ -446,9 +421,7 @@ public class DrawPanelController implements IDrawPanelController {
 		}
 	}
 
-	/**
-	 *{@inheritDoc}
-	 */
+	
 	@Override
 	public void initializePointDrag(int mouseX, int mouseY, double totalScale) {
 		if (selected != null) {
@@ -459,9 +432,7 @@ public class DrawPanelController implements IDrawPanelController {
 		}
 	}
 
-	/**
-	 *{@inheritDoc}
-	 */
+	
 	@Override
 	public void dragPoint(int mouseX, int mouseY) {
 		if (selected != null) {
@@ -474,17 +445,12 @@ public class DrawPanelController implements IDrawPanelController {
 			previousMouseX = mouseX;
 			previousMouseY = mouseY;
 
-			/* TODO: check if point is within convex hull 
-			 * -> no new convex hull calculation needed
-			 */
 			updateModel();
 			updateView();
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	
 	@Override
 	public void terminatePointDrag(int mouseX, int mouseY) {
 		if (selected != null) {
@@ -521,97 +487,20 @@ public class DrawPanelController implements IDrawPanelController {
 		}
 	}
 
-	/**
-	 *{@inheritDoc}
-	 */
 	
-	@Override
-	public boolean convexHullIsShown() {
-		return view.convexHullIsShown();
-
-	}
-   
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public boolean diameterIsShown() {
-		return view.diameterIsShown();
-	}
 	
-
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public boolean quadrangleIsShown() {
-		return view.quadrangleIsShown();
-	}
-   
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public boolean triangleIsShown() {
-		return view.triangleIsShown();
-	}
 	
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public boolean animationIsShown() {
-		return view.animationIsShown();
-	}
-	
-
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public void setShowConvexHull(boolean b) {
-		view.setConvexHullIsShown(b);
-
-	}
-
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public void setShowDiameter(boolean b) {
-		view.setDiameterIsShown(b);
-
-	}
-
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public void setShowQuadrangle(boolean b) {
-		view.setQuadrangleIsShown(b);
-
-	}
-	
-	/**
-	 *{@inheritDoc}
-	 */
 	@Override
 	public void setShowTriangle(boolean b) {
 		view.setTriangleIsShown(b);
 	}
 	
-	
-
-	/**
-	 *{@inheritDoc}
-	 */
 	@Override
 	public void setShowAnimation(boolean animationRequested) {
 		view.setShowAnimation(animationRequested);
 		if(animationRequested == true) {
 			if(animationThread == null || (animationThread != null && !animationThread.isAlive())) {
 				if(!hull.isEmpty()) {
-					//tangentPair.updateAntipodalPairs(hull);
 					tangentPair.fitToAngle();
 					animationThread = new AnimationThread(tangentPair, view);
 					animationThread.start();
@@ -641,25 +530,18 @@ public class DrawPanelController implements IDrawPanelController {
 		}
 	}
 	
-	/**
-	 *{@inheritDoc}
-	 */
+	
 	@Override
 	public void addObserver(IDrawPanelControllerObserver observer) {
 		this.observers.add(observer);
 	}
 	
-	/**
-	 *{@inheritDoc}
-	 */
+
 	@Override
 	public void removeObserver(IDrawPanelControllerObserver observer) {
 		this.observers.remove(observer);
 	}
 	
-	/**
-	 *{@inheritDoc}
-	 */
 	@Override
 	public void notifyObservers() {
 		for(IDrawPanelControllerObserver observer : observers) {
@@ -684,24 +566,15 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 
 	
-	
-	
-	// for testing only
 
-	/**
-	 * Gets the diameter.
-	 * 
-	 * @return the diameter
-	 */
+	
+	@Override
 	public IDiameter getDiameter() {
 		return this.diameter;
 	}
 
-	/**
-	 * Gets the length of the diameter.
-	 * 
-	 * @return the diameter length in pixels
-	 */
+	
+	@Override
 	public double getDiameterLength() {
 		if (diameter != null) {
 			return diameter.length();
@@ -709,95 +582,43 @@ public class DrawPanelController implements IDrawPanelController {
 		return -1;
 	}
 
-	/**
-	 * Gets the biggest quadrangle.
-	 * 
-	 * @return the biggest quadrangle
-	 */
+	
+	@Override
 	public IQuadrangle getBiggestQuadrangle() {
 		return quadrangle;
 	}
 
-	/**
-	 * Returns the hull as an array.
-	 * 
-	 * @return the nX2 int array which contains the coordinate of all points of the hull 
-	 * moving counterclockwise along the hull.
-	 */
-
+	@Override
 	public int[][] hullAsArray() {
 		return hull.toArray();
 	}
-
-	/**
-	 * Gets the convex hull is shown.
-	 *
-	 * @return the convex hull is shown
-	 */
-	@Override
-	public boolean getConvexHullIsShown() {
-		return view.convexHullIsShown();
-	}
-
-	/**
-	 * Gets the diameter is shown.
-	 *
-	 * @return the diameter is shown
-	 */
-	@Override
-	public boolean getDiameterIsShown() {
-		return view.diameterIsShown();
-	}
-
-	/**
-	 * Gets the quadrangle is shown.
-	 *
-	 * @return the quadrangle is shown
-	 */
-	@Override
-	public boolean getQuadrangleIsShown() {
-		return view.quadrangleIsShown();
-	}
-
-	/**
-	 * Gets the animation is shown.
-	 *
-	 * @return the animation is shown
-	 */
-	@Override
-	public boolean getAnimationIsShown() {
-		return view.animationIsShown();
-	}
-
+	
+	
+	
 	
 	/**
-	 * Sets the mouse coordinates.
+	 * Sets the coordinates of the mouse pointer.
 	 *
-	 * @param mouseX the mouse X
-	 * @param mouseY the mouse Y
+	 * @param mouseX the x coordinate of the mouse pointer.
+	 * @param mouseY the y coordinate of the mouse pointer.
 	 */
 	private void setMouseCoordinates(int mouseX, int mouseY) {
 		this.mouseX = mouseX;
 		this.mouseY = mouseY;
-		//notifyObservers();
 	}
 
-	/**
-	 * Sets the mouse position is over panel.
-	 *
-	 * @param b the new mouse position is over panel
-	 */
+	
 	@Override
 	public void setMousePositionIsOverPanel(boolean b) {
 		mousePositionIsOverPanel = b;
-		notifyObservers();
-		
+		notifyObservers();	
 	}
 
 	/**
 	 * Sets the selected point.
 	 *
-	 * @param totalScale the new selected point
+	 * @param totalScale scale * panelScale. This value is needed to calculate distances in
+	 * the model. We need it to determine the selected point.
 	 */
 	private void setSelectedPoint(double totalScale) {
 		if(mousePositionIsOverPanel) {
@@ -836,13 +657,7 @@ public class DrawPanelController implements IDrawPanelController {
 		}
 	}
 
-	/**
-	 * Update mouse data.
-	 *
-	 * @param mouseX the mouse X
-	 * @param mouseY the mouse Y
-	 * @param totalScale the total scale
-	 */
+	
 	@Override
 	public void updateMouseData(int mouseX, int mouseY, double totalScale) {
 		setMouseCoordinates(mouseX, mouseY);
@@ -850,12 +665,62 @@ public class DrawPanelController implements IDrawPanelController {
 		notifyObservers();
 	}
 
-	/**
-	 * Center view.
-	 */
+	
 	@Override
 	public void centerView() {
 		view.center();
 		
 	}
+	
+	@Override
+	public boolean getConvexHullIsshown() {
+		return view.convexHullIsShown();
+	}
+   
+
+	
+   
+	@Override
+	public boolean getTriangleIsShown() {
+		return view.triangleIsShown();
+	}
+	
+
+	
+
+	@Override
+	public void setShowConvexHull(boolean b) {
+		view.setConvexHullIsShown(b);
+
+	}
+
+	@Override
+	public void setShowDiameter(boolean b) {
+		view.setDiameterIsShown(b);
+
+	}
+
+	@Override
+	public void setShowQuadrangle(boolean b) {
+		view.setQuadrangleIsShown(b);
+
+	}
+
+	
+	@Override
+	public boolean getDiameterIsShown() {
+		return view.diameterIsShown();
+	}
+
+	
+	@Override
+	public boolean getQuadrangleIsShown() {
+		return view.quadrangleIsShown();
+	}
+
+	@Override
+	public boolean getAnimationIsShown() {
+		return view.animationIsShown();
+	}
+
 }

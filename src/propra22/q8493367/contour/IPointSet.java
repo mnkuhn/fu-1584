@@ -4,56 +4,54 @@ package propra22.q8493367.contour;
 import propra22.q8493367.point.IPoint;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
- * A Collection of objects of the type Point.
- * The IDrawPanelModel interface provides methods to manage these objects.
- * It also provides the administration of 4 subsets of these points, which are used to calculate the points which are
- * part of the contour polygon respectively the points which are part of the convex hull.
+ * This interface declares methods to manage a set of points.
  */
 
 public interface IPointSet {
 	
 	/**
-	 * returns the number of Points contained in the model. 
-	 * @return number of Points if the number is bigger than 1 and 0, if no points are contained.
+	 * Returns the number of Points contained in the point set. 
+	 * @return number of points in the point set.
 	 */
 	public int getNumberOfPoints();
 	
 	/**
-	 * Returns true, if model contains no points.
+	 * Returns true, if the point set does not contain a point. Returns false otherwise.
 	 *
-	 * @return true, if model contains no points
+	 * @return true, if the point set does not contain a point, false otherwise.
 	 */
 	public boolean isEmpty();
 	
 	
 	/**
-	 * return the point with the specified index.
+	 * Returns the point with the specified index.
 	 *
-	 * @param index - the index of the point in the data structure used
-	 * @return the point with the specified index
+	 * @param index  the index of the point in the point set.
+	 * @return the point with the specified index.
 	 */
 	public IPoint getPointAt(int index);
 	
 	/**
-	 * removes the specified point from the model.
+	 * Removes removes the point specified by the index from
+	 * the point set.
 	 *
-	 * @param p which should be removed
+	 * @param p the point that is to be removed.
 	 */
 	public void removePoint(IPoint p);
 	
 	/**
-	 * removes the point with the x coordinate x and the y coordinate y 
-	 * from the model if it is contained by the model.
+	 * Removes a point with the coordinates x and y from
+	 * the point set if the point set contains such a point.
 	 *
-	 * @param x the x
-	 * @param y the y
+	 * @param x the x coordinate
+	 * @param y the y coordinate
 	 */
 	void removePoint(int x, int y);
 	
 	/**
-	 * sorts the elements of the model, i.e. the points, lexicographically
+	 * Sorts the elements of the point set lexicographically.
 	 */
 	public void lexSort();
 	
@@ -66,8 +64,8 @@ public interface IPointSet {
 	/**
 	 * Adds a point to the point set.
 	 *
-	 * @param p - the point which is added 
-	 * to the point set
+	 * @param p  the point which is added to the point set.
+	 * 
 	 */
 	void addPoint(IPoint p);
 
@@ -75,30 +73,30 @@ public interface IPointSet {
 	 * Checks if the point set contains a point with the same
 	 * coordinates as p.
 	 *
-	 * @param p - the point
-	 * @return the index of the point in the pointset if 
-	 * the point set contains the point. A negative
-	 * value otherwise.
+	 * @param p  the point
+	 * @return the index of the point in the point set if 
+	 * the point set contains a point with same coordinates as p. A negative
+	 * value is returned otherwise.
 	 */
 	int hasPoint(IPoint p);
     
 	
-
 	/**
-	 * Returns true, if the point set has changed since
-	 * a defined moment. Returns false otherwise.
+	 * Tests if  the point set has changed. Returns true, if the point set 
+	 * has changed since the last time the corresponding value was set to false with
+	 * {@link #setHasChanged(boolean b)}.
 	 *
-	 * @return true, the point set has changed since 
-	 * a defined moment. False otherwise.
+	 * @return true, if the point set has changed since
+	 * the last time the corresponding value was set to false.
 	 */
 	public boolean hasChanged();
 
 	/**
-	 *Sets the point set to 'has changed' if b is true.
-	 *If b is false, the point set is set to 'has not changed'.
+	 * Sets the state of the point set.
 	 *
-	 * @param b the boolean value, which determines if the point
-	 * set is set to 'has changed' or to 'has not changed'
+	 * @param b true if the state of the point set is to be set 
+	 * to 'has changed', false if the state of the point 
+	 * set is to be set to 'has not changed'.
 	 */
 	void setHasChanged(boolean b);
 	

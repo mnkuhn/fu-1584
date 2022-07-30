@@ -15,20 +15,22 @@ import propra22.q8493367.point.IPoint;
 public class DragPointCommand implements ICommand {
     
 	
-	/** New x coordinate minus old x coordinate for the drag operation. */
+	/** The x coordinate after dragging minus the x coordinate before dragging */
 	private int dx;
 	
-	/** New y coordinate minus old y coordinate for the whole drag operation. */
+	/** The y coordinate after dragging minus the y coordinate before dragging */
 	private int dy;
 	
-	/** Point which is dragged. */
+	/** Point which is dragged */
 	private IPoint draggedPoint;
 	
 	
 	/**
-	 * Point which is deleted if the dragged point
-	 * is dragged onto a spot, where already another
-	 * point exists.
+	 * If the point set contains a point with different identity from
+	 * the dragged point but has the same coordinates as the 
+	 * dragged point after dragging, this point is deleted from 
+	 * the point set. The variable deletedPoint refers to it.
+	 * If there is no such point, deletedPoint is set to null.
 	 */
 	private IPoint deletedPoint;
 
@@ -38,17 +40,15 @@ public class DragPointCommand implements ICommand {
 	
 	
 	/**
-	 * Instantiates a new drag point command. If the
-	 * point set contains a point, which has the same
-	 * coordinated as the dragged point after the 
-	 * dragging, this point is deleted from 
-	 * the point set.
+	 * Instantiates a new drag point command.
 	 *
-	 * @param dx the dx
-	 * @param dy the dy
-	 * @param draggedPoint the dragged point
-	 * @param deletedPoint the eventually deleted point
-	 * @param pointSet the point set
+	 * @param dx the x coordinate after dragging minus the x coordinate
+	 * before dragging.
+	 * @param dy the y coordinate after dragging minus the y coordinate
+	 * before dragging.
+	 * @param draggedPoint the dragged point.
+	 * @param deletedPoint the deleted point, if any. Null otherwise.
+	 * @param pointSet the point set.
 	 */
 	public DragPointCommand(int dx, int dy, IPoint draggedPoint, IPoint deletedPoint, IPointSet pointSet) {
 		this.dx = dx;

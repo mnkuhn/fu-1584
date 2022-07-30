@@ -6,11 +6,12 @@ import propra22.q8493367.point.IPoint;
 import propra22.q8493367.point.Point;
 import propra22.q8493367.shape.Quadrangle;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class DiameterAndQuadrangleCalculator provides a calculator, which takes
- * a convex hull as an argument and calculates the diameter and the quadrangle
- * with maximum area.
+ * a convex hull as an argument and calculates the longest diameter and the quadrangle
+ * with maximum area. It also provides a sequence of quadrangles, which is 
+ * used by the animation.
  */
 public class DiameterAndQuadrangleCalculator  {
 
@@ -32,7 +33,7 @@ public class DiameterAndQuadrangleCalculator  {
 	/**
 	 * Instantiates a new diameter and quadrangle calculator.
 	 *
-	 * @param convexHull           The convex hull
+	 * @param convexHull The convex hull
 	 * 
 	 */
 	public DiameterAndQuadrangleCalculator(IHull convexHull) {
@@ -52,6 +53,8 @@ public class DiameterAndQuadrangleCalculator  {
 	 */
 	public void calculate(IDiameter diameter, IQuadrangle quadrangle, QuadrangleSequence quadrangleSequence) {
         if(!convexHull.isEmpty()) {
+        	
+        	// caclulates the quadrangle sequence
         	calculateQuadrangleSequence(quadrangleSequence);
         	
         	/* Gets the diameter i.e. the longest diagonal in a quadrangle from the 
@@ -152,11 +155,7 @@ public class DiameterAndQuadrangleCalculator  {
 	 * @return the quadrangle
 	 */
 	private Quadrangle calculateQuadrangle(IPoint a, IHullIterator bIt, IPoint c, IHullIterator dIt) {
-		/*
-		 * IPoint c = cIt.getPoint(); IPoint a = aIt.getPoint(); IPoint bNext =
-		 * bIt.getNextPoint(); IPoint b = bIt.getPoint();
-		 */
-
+		
 		while (Point.isHigher(c, a, bIt.getNextPoint(), bIt.getPoint())) {
 			bIt.next();
 		}

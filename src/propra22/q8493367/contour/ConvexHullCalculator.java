@@ -4,47 +4,45 @@ package propra22.q8493367.contour;
 import propra22.q8493367.point.Point;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class ConvexHullCalculator is considered to be part of the controller of
- * the draw panel. It calculates the convex hull outgoing from the points of 
- * the contour polygon.
+ * The Class ConvexHullCalculator is responsible for the 
+ * the calculation of the convex hull.
  */
-public class ConvexHullCalculator implements ISectionCalculator {
+public class ConvexHullCalculator implements IContourCalculator {
 	
 	
-	/** The hull which is the contour polygon in the beginning.
-	 * After the calculation of the convex hull calculator the
-	 * hull is the convex hull.
+	/** The hull which is the contour polygon before the calculation.
+	 * 	It is the convex hull after the calculation is completed.
 	 */
 	private IHull hull;
 
 	/**
 	 * Instantiates a new convex hull calculator.
 	 *
-	 * @param hull - the hull, which is the contour polygon.
+	 * @param contourPolygon the contour polygon
 	 */
-	public ConvexHullCalculator(IHull hull) {
+	public ConvexHullCalculator(IHull contourPolygon) {
 
-		this.hull = hull;
+		this.hull = contourPolygon;
 	}
 	
 	/**
-	 * Calculates one of the four sections.
+	 * Calculates one of the four contours.
 	 *
-	 * @param sectionType the section type
+	 * @param contourType the contour type
 	 */
 	@Override
-	public void calculateSection(ContourType sectionType) {
+	public void calculateContour(ContourType contourType) {
 		
-		if(!hull.sectionIsEmpty(sectionType)) {
-			int size = hull.getSizeOfSection(sectionType);
+		if(!hull.sectionIsEmpty(contourType)) {
+			int size = hull.getSizeOfSection(contourType);
 			if(size >= 3) {
 				int base = 0;
 				int next = 2;
 				while(next < size) {
 					//next is on the inner side of the line through base and base + 1
-					if(signedTriangleArea(base, next, sectionType)  > 0){
+					if(signedTriangleArea(base, next, contourType)  > 0){
 						base++;
 						next++;	
 					}
@@ -53,13 +51,13 @@ public class ConvexHullCalculator implements ISectionCalculator {
 						 * next is exactly on the line through base and base + 1
 						 */
 						if(base > 0) {
-							hull.removePointFromSection(base + 1, sectionType);
+							hull.removePointFromContour(base + 1, contourType);
 							size--;
 							base--;
 							next--;
 							if(next < size) {
-								while(base > 0 && signedTriangleArea(base, next, sectionType) < 0) {
-									hull.removePointFromSection(base + 1, sectionType);
+								while(base > 0 && signedTriangleArea(base, next, contourType) < 0) {
+									hull.removePointFromContour(base + 1, contourType);
 									size--;
 									base--;
 									next--;	
@@ -68,7 +66,7 @@ public class ConvexHullCalculator implements ISectionCalculator {
 						}
 						//base == 0
 						else {
-							hull.removePointFromSection(base + 1, sectionType);
+							hull.removePointFromContour(base + 1, contourType);
 							size--;
 						}
 					}
@@ -78,16 +76,16 @@ public class ConvexHullCalculator implements ISectionCalculator {
 	}
 		
 	/**
-	 * Signed triangle area.
+	 * Signed triangle area. The DFV algorithm with adapted arguments.
 	 *
-	 * @param base - the base point. This point is the first point of the bas line
+	 * @param base  the base point. This point is the first point of the base line
 	 * of the triangle, whose area is calculated.
-	 * @param next - this points represents the tip of the triangle, whose
+	 * @param tip  this points represents the tip of the triangle, whose
 	 * area is calculated.
 	 * @param sectionType the section type
 	 * @return the long
 	 */
-	private long signedTriangleArea(int base, int next, ContourType sectionType) {
+	private long signedTriangleArea(int base, int tip, ContourType sectionType) {
 		return sectionType.getSign() * Point.signedTriangleArea(
 				//the first point of the baseline
 				hull.getPointFromSection(base, sectionType), 
@@ -95,7 +93,7 @@ public class ConvexHullCalculator implements ISectionCalculator {
 				//the direction of increasing index.
 				hull.getPointFromSection(base + 1, sectionType),  
 				//The tip of the triangle
-				hull.getPointFromSection(next, sectionType));
+				hull.getPointFromSection(tip, sectionType));
 	}
 	
 	
@@ -106,7 +104,7 @@ public class ConvexHullCalculator implements ISectionCalculator {
 	public void calculateConvexHull() {
 		if (!hull.isEmpty()) {
 			for (ContourType sectionType : ContourType.values()) {
-				calculateSection(sectionType);
+				calculateContour(sectionType);
 			}
 		}
 	}

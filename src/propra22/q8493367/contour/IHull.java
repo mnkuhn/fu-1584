@@ -8,114 +8,94 @@ import propra22.q8493367.draw.model.IHullIterator;
 import propra22.q8493367.point.IPoint;
 
 
-// TODO: Auto-generated Javadoc
 /**
- * The Interface for a hull of a set of points.
+ * The Interface for the contour polygon and the convex hull.
  */
 public interface IHull {
 	
 	/**
-	 * Returns true, no points are in the section determined by
-	 * the section type. False otherwise.
+	 * Returns true, if no points are in the contour determined by
+	 * the contour type. False otherwise.
 	 *
-	 * @param sectionType - the section type
-	 * @return true, if the section determined by the section type is empty
+	 * @param contourType  the contour type
+	 * @return true, if the contour determined by the section type is empty, false
+	 * otherwise.
+	 * 
 	 */
-	boolean sectionIsEmpty(ContourType sectionType);
+	boolean sectionIsEmpty(ContourType contourType);
 	
 	/**
-	 * Gets the number of points in the section
-	 * determined by the section type.
+	 * Gets the number of points in the contour
+	 * determined by the contour type.
 	 *
-	 * @param sectionType - the section type
+	 * @param contourType the section type
 	 * @return the number of points contained in the section
 	 */
-	int getSizeOfSection(ContourType sectionType);
+	int getSizeOfSection(ContourType contourType);
 	
 	/**
-	 * Adds a point to the section 
-	 * determined by the section type.
+	 * Adds a point to the contour 
+	 * determined by the contour type.
 	 *
 	 * @param point the point
-	 * @param sectionType the section type
+	 * @param contourType the contour type
 	 */
-	void addPointToSection(IPoint point, ContourType sectionType);
+	void addPointToSection(IPoint point, ContourType contourType);
 	
 	/**
 	 * Gets the point with index i from section 
-	 * determined by the section type.
+	 * determined by the contour type.
 	 *
 	 * @param i the i
-	 * @param sectionType the section type
+	 * @param contourType the contour type
 	 * @return the point from section
 	 */
-	IPoint getPointFromSection(int i, ContourType sectionType);
+	IPoint getPointFromSection(int i, ContourType contourType);
 	
 	/**
-	 * Removes the point from the section
-	 * determined by the section type.
+	 * Removes the point from the contour
+	 * determined by the contour type.
 	 *
 	 * @param point the point
-	 * @param sectionType the section type
+	 * @param contourType the contour type
 	 */
-	void removePointFromSection(IPoint point, ContourType sectionType);
+	void removePointFromContour(IPoint point, ContourType contourType);
 	
 	/**
-	 * Removes the point from section.
+	 * Removes the point from contour.
 	 *
 	 * @param index the index
-	 * @param sectionType the section type
+	 * @param contourType the section type
 	 */
-	void removePointFromSection(int index, ContourType sectionType);
+	void removePointFromContour(int index, ContourType contourType);
 	
 	
 	/**
 	 * Removes all points from the hull i.e. clears all four
-	 * sections.
+	 * contours.
 	 */
 	void clear();
 	
 	
 	
 	/**
-	 * Empty.
+	 * Returns true, if all 4 contours are empty, false otherwise.
 	 *
-	 * @return true, if successful
+	 * @return true, if all 4 contours are empty, false otherwise.
 	 */
 	boolean isEmpty();
 	
-	
-	
-	/**
-	 * Returns true, if the point p is inside the hull.
-	 * Returns false otherwise
-	 *
-	 * @param p - the point
-	 * @return true, if the point p 
-	 * is inside the hull, false otherwise
-	 * 
-	 */
-	boolean contains(IPoint p);
-	
-	
-	/**
-	 * Gets the section in which the point p
-	 * is located.
-	 *
-	 * @param p - the point
-	 * @return the section
-	 */
-	ContourType getSection(IPoint p);
+
 	
 	/**
 	 * Returns all points as an array with n rows and 2 columns 
-	 * where n is the number of points and
+	 * where n is the number of points in the hull and
 	 * the two integers in each row represent the x coordinate and the
 	 * y coordinate of a point. The points are inserted into the array 
-	 * counterclockwise.
+	 * clockwise.
 	 *
 	 * @return the int array of the points following the points of the 
-	 * hull counterclockwise.
+	 * hull clockwise.
 	 */
 	int[][] toArray();
 	
@@ -130,7 +110,7 @@ public interface IHull {
 	
 	/**
 	 * Gets an iterator starting from the left most
-	 * point (lowest x coordinate and highest y coordinate)
+	 * point (lowest x coordinate with highest y coordinate)
 	 * @return the hull iterator on the left most point
 	 */
 	IHullIterator getLeftIt();
@@ -138,7 +118,7 @@ public interface IHull {
 	
 	/**
 	 * Gets an iterator starting from the right most
-	 * point (highes x coordinate and lowest y coordinate).
+	 * point (highest x coordinate with lowest y coordinate).
 	 *
 	 * @return the hull iterator on the right most point
 	 */

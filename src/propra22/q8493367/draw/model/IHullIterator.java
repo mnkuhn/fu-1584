@@ -4,9 +4,10 @@ import propra22.q8493367.point.IPoint;
 
 
 
-// TODO: Auto-generated Javadoc
 /**
- * The Interface for an iterator over a hull.
+ * An iterator for the hull, which allows the programmer to traverse the points of the 
+ * hull in both directions. In this application a hull is either the contour polygon
+ * or the convex hull.
  */
 public interface IHullIterator {
 
@@ -20,7 +21,7 @@ public interface IHullIterator {
 	IPoint getPoint();
 
 	/**
-	 * Gets the next point referenced by the actual iterator
+	 * Gets the next point of the point referenced by the actual iterator
 	 * position (clockwise direction in a standard 
 	 * cartesian coordinate system).
 	 *
@@ -30,8 +31,8 @@ public interface IHullIterator {
 	IPoint getNextPoint();
 	
 	/**
-	 * Gets the previous point referenced by the actual iterator
-	 * position (counterclockwise direction in a standard 
+	 * Gets the previous point of the point referenced by the actual iterator
+	 * position (clockwise direction in a standard 
 	 * cartesian coordinate system).
 	 *
 	 * @return the previous point of the point referenced by the actual iterator
@@ -48,7 +49,7 @@ public interface IHullIterator {
 
 	/**
 	 * Moves the iterator to the previous
-	 * position in the hull
+	 * position.
 	 */
 	void previous();
 

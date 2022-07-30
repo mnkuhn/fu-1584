@@ -1,45 +1,29 @@
 package propra22.q8493367.draw.controller;
 
+import propra22.q8493367.contour.IDiameter;
+import propra22.q8493367.contour.IQuadrangle;
 
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The interface for the draw panel controller.
  */
 public interface IDrawPanelController {
 	
 	/**
-	 * Returns true, if there are no points registered in the draw panel model.
+	 * Returns true, if the point set does not contain a point.
+	 * Returns false otherwise.
 	 *
-	 * @return true, if there are no points registered in the
-	 * point set
+	 * @return true, if the point set does not contain a point, 
+	 * false otherwise.
 	 */
 	public boolean pointSetIsEmpty();
 	
 
-	
 	/**
 	 * Creates a new empty draw panel.
 	 */
 	public void createNewDrawPanel();
 	
-	
-	
-	
-	
-	
-	/**
-	 * Returns true, if points where added or deleted or if 
-	 * the coordinates of a point changed.
-	 *
-	 * @return true, if points where added or deleted or if 
-	 * the coordinated of a point changed.
-	 */
-	
-	/*
-	public boolean dataHasChangedSinceLastSave();
-	*/
 	
 	/**
 	 * Undoes a command.
@@ -52,27 +36,27 @@ public interface IDrawPanelController {
 	public void redoCommand();
 	
 	/**
-	 * Undo is enabled.
+	 * Returns true, if the undo functionality is enabled.
+	 * Returns false otherwise.
 	 *
-	 * @return True, if there are commands which can be undone, false otherwise.
+	 * @return True, if the undo functionality is enabled,
+	 * false otherwise.
 	 */
 	public boolean undoIsEnabled();
 	
 	/**
-	 * Redo is enabled.
+	 * Returns true, if the redo functionality is enabled.
+	 * Returns false otherwise.
 	 *
-	 * @return True, if there are commands which can be redone, false otherwise.
+	 * @return True, if the redo functionality is enabled, 
+	 * false otherwise.
 	 */
 	public boolean redoIsEnabled();
 
 	/**
-	 * Inserts a number of random points into the draw panel model which all
-	 * fit onto the visible part of the draw panel.
-	 */
-	//public void insertRandomPoints(int number, int x, int y, Dimension dimension);
-	
-	/**
-	 * Updates the model (of the draw panel).
+	 * Updates the model of the draw panel. This means, the point set, the
+	 * convex hull, the diamter, the quadrangle and the quadrangle sequence 
+	 * are updated. Afterwards, all observers are notified.
 	 */
 	public void updateModel();
 	
@@ -81,41 +65,40 @@ public interface IDrawPanelController {
 	 */
 	public void updateView();
 
-    
-
 
 	/**
-	 * Removes all points from the model (i.e. the point set and the hull)
+	 * Removes all points from the point set. As a consequence
+	 * all points are removed from the hull.
 	 */
 	void clearModel();
 
 
 	/**
-	 * Insert a point into the point set if the user enters the point on
-	 * the user interface. Model is updated afterwards.
+	 * Inserts a point into the point set as result of an action
+	 * by the user. Afterwards, the model is updated.
 	 *
-	 * @param x the x
-	 * @param y the y
+	 * @param x the x coordinate of the point.
+	 * @param y the y coordinate of the point.
 	 */
 	void insertPointToPointSetByUserInput(int x, int y);
 	
 	
 	/**
-	 * Insert point to point set from file input. 
+	 * Inserts point to point set from file input. 
 	 * Model is not updated afterwards.
 	 *
-	 * @param x - the x coordinate of the point
-	 * @param y - the y coordinate of the point
+	 * @param x the x coordinate of the point
+	 * @param y the y coordinate of the point
 	 */
 	void insertPointToPointSetByFileInput(int x, int y);
 	
 	
 	/**
 	 * Deletes a point from the point set as result of an action
-	 * by the user.
+	 * by the user. Afterwards, the model is updated.
 	 *
-	 * @param mouseX the mouse X
-	 * @param mouseY the mouse Y
+	 * @param mouseX the x coordinate of the mouse.
+	 * @param mouseY the y coordinate of the mouse.
 	 * @param totalScale the total scale
 	 */
 	void deletePointFromPointSetByUserInput(int mouseX, int mouseY, double totalScale);
@@ -128,7 +111,8 @@ public interface IDrawPanelController {
 	 * drag 
 	 * @param mouseY the y coordinate of the mouse which is the starting y coordinate of the
 	 * drag
-	 * @param totalScale the total scale
+	 * @param totalScale scale * panelScale. This value is needed to calculate the 
+	 * distance in the model.
 	 */
 	void initializePointDrag(int mouseX, int mouseY, double totalScale);
 
@@ -145,10 +129,6 @@ public interface IDrawPanelController {
 	/**
 	 * Terminates a point drag. Called, when the
 	 * user releases the mouse or the alt button.
-	 * If the point set contains a point with the 
-	 * same coordinates as the dragged point after
-	 * dragging, this point is deleted from 
-	 * the point set.
 	 *
 	 * @param mouseX the x coordinate of the mouse
 	 * @param mouseY the y coordinate of the mouse
@@ -160,51 +140,54 @@ public interface IDrawPanelController {
 	 * Returns true, if the convex hull is shown, 
 	 * false otherwise.
 	 *
-	 * @return true, if the user chose to display the 
-	 * convex hull on the draw panel.
+	 * @return true, if the convex hull is shown. False otherwise.
 	 */
-	boolean convexHullIsShown();
+	boolean getConvexHullIsshown();
+	
+	
 	
 	/**
-	 * Returns true, if the diameter is shown, 
-	 * false otherwise.
-	 *
-	 * @return true, if the user chose to display the 
-	 * diameter on the draw panel.
+	 * Returns true if the diameter is shown on the draw panel. Returns false otherwise.
+	 * 
+	 * @return true if the diameter is shown, otherwise returns false.
 	 */
-	boolean diameterIsShown();
+	public boolean getDiameterIsShown();
+
+
+
+	/**
+	 *Returns true if the quadrangle is shown on the draw panel. Returns false otherwise.
+	 * 
+	 * @return true if the quadrangle is shown, false otherwise.
+	 */
+	public boolean getQuadrangleIsShown();
+
+
+
+	/**
+	 *Returns true, if the animation is shown on the draw panel. Returns false otherwise.
+	 * 
+	 * @return true if the animation is shown, false otherwise.
+	 */
+	public boolean getAnimationIsShown();
+
+
+	
 	
 	/**
-	 * Returns true, if the quadrangle is shown, 
+	 * Returns true, if the triangle is shown on the draw panel,
 	 * false otherwise.
 	 *
-	 * @return true, if the user chose to display the 
-	 * quadrangle on the draw panel.
+	 * @return true, if the triangle is shown, false otherwise.
 	 */
-	boolean quadrangleIsShown();
+	boolean getTriangleIsShown();
 	
-	/**
-	 * Returns true, if the triangle is shown,
-	 * false otherwise.
-	 *
-	 * @return true, if the user chose to display the 
-	 * triangle on the draw panel.
-	 */
-	boolean triangleIsShown();
-	
-	/**
-	 * Returns true, if the animation is shown,
-	 * false otherwise.
-	 *
-	 * @return true, if successful
-	 */
-	boolean animationIsShown();
 	
 	/**
 	 * Determines, if the convex hull
-	 * should be shown.
+	 * is be shown.
 	 *
-	 * @param b  true, if the convex hull should 
+	 * @param b  true, whether the convex hull is to 
 	 * be shown. False otherwise.
 	 */
 	void setShowConvexHull(boolean b);
@@ -212,7 +195,7 @@ public interface IDrawPanelController {
 	/**
 	 * Determines whether the diameter is to be shown.
 	 *
-	 * @param b true, if the diameter should 
+	 * @param b true, if the diameter is 
 	 * be shown. False otherwise.
 	 */
 	void setShowDiameter(boolean b);
@@ -220,7 +203,7 @@ public interface IDrawPanelController {
 	/**
 	 * Determines whether the quadrangle is to be shown.
 	 *
-	 * @param b true, if the convex hull should 
+	 * @param b true, if the quadrangle is 
 	 * be shown. False otherwise.
 	 */
 	void setShowQuadrangle(boolean b);
@@ -228,7 +211,7 @@ public interface IDrawPanelController {
 	/**
 	 * Determines whether the triangle is to be shown.
 	 *
-	 * @param b true, if the triangle should 
+	 * @param b true, if the triangle is 
 	 * be shown. False otherwise.
 	 */
 	void setShowTriangle(boolean b);
@@ -236,18 +219,19 @@ public interface IDrawPanelController {
     
 	
 	/**
-	 * Determines whether the animation is to be running.
+	 * Determines whether the animation is to be shown.
 	 *
-	 * @param animationIsShown true if the animation should
+	 * @param animationIsShown true if the animation is to
 	 * be shown.False otherwise
 	 */
 	void setShowAnimation(boolean animationIsShown);
 
 
 	/**
-	 * Insert random points.
+	 * Insert a certain number of randomly generated points into the point
+	 * set.
 	 *
-	 * @param number the number of random points to be inserted
+	 * @param number the number of random points to be inserted into the point set.
 	 * @param minX the minimum x coordinate which the points are allowed to have
 	 * @param minY the minimum y coordinate which the points are allowed to have
 	 * @param maxX the maximum x coordinate which the points are allowed to have
@@ -283,48 +267,13 @@ public interface IDrawPanelController {
 
 
 	/**
-	 * Reset the draw panel controller.
+	 * Resets the draw panel controller.
 	 * This method is used, if a new point set
 	 * is loaded from a file or if a new draw
 	 * panel is created.
 	 */
 	void reset();
 
-
-    
-	/**
-	 * Returns true if the convex hull is shown. Returns false otherwise.
-	 * 
-	 * @return true if the convex hull is shown, otherwise returns false.
-	 */
-	public boolean getConvexHullIsShown();
-
-
-
-	/**
-	 * Returns true if the diameter is shown. Returns false otherwise.
-	 * 
-	 * @return true if the diameter is shown, otherwise returns false.
-	 */
-	public boolean getDiameterIsShown();
-
-
-
-	/**
-	 *Returns true if the quadrangle is shown. Returns false otherwise.
-	 * 
-	 * @return true if the quadrangle is shown, otherwise returns false.
-	 */
-	public boolean getQuadrangleIsShown();
-
-
-
-	/**
-	 *Returns true if the animation is shown. Returns false otherwise.
-	 * 
-	 * @return true if the animation is shown, otherwise returns false.
-	 */
-	public boolean getAnimationIsShown();
 
 
     /**
@@ -333,21 +282,58 @@ public interface IDrawPanelController {
      * @param mouseX the x coordinate of the mouse.
      * @param mouseY the y coordinate of the mouse.
      * @param totalScale the product of scale and panelScale. This value
-     * is needed to determine the new selected point i.e. the point which 
-     * is 'close' to the mouse pointer.
+     * is needed to calculate distances in the model. In this 
+     * application we need it to determine the selected point.
      */
     public void updateMouseData(int mouseX, int mouseY, double totalScale);
 	
 
-	/**
-	 * Sets the mouse position is over panel.
+    /**
+	 * Sets the state of the mouse. b is true if the mouse pointer is 
+	 * located over the draw panel. b is false, if the mouse pointer 
+	 * is not located over the draw panel.
 	 *
-	 * @param b the new mouse position is over panel
+	 * @param b true, if the mouse is located over the draw panel. 
+	 * False otherwise.
 	 */
 	public void setMousePositionIsOverPanel(boolean b);
 
 
+	/**
+	 * Gets the diameter of the point set.
+	 * 
+	 * @return the diameter
+	 */
+	IDiameter getDiameter();
 
+
+
+	/**
+	 * Gets the length of the diameter of the point set.
+	 * 
+	 * @return the diameter length
+	 */
+	double getDiameterLength();
+
+
+
+	/**
+	 * Gets the biggest quadrangle of the point set
+	 * 
+	 * @return the biggest quadrangle
+	 */
+	IQuadrangle getBiggestQuadrangle();
+
+
+
+	/**
+	 * Returns the hull as an array.
+	 * 
+	 * @return the n x 2 int array which contains the coordinate of all points of the hull 
+	 * moving clockwise along the hull. We refer to a standard cartesian coordinate system.
+	 */
+	int[][] hullAsArray();
+	
 	/**
 	 * Centers the representation on the view.
 	 */

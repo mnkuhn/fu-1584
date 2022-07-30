@@ -9,12 +9,12 @@ package propra22.q8493367.command;
 public interface ICommand {
 	
 	/**
-	 * Executes the command
+	 * Executes the command.
 	 */
 	public  void execute();
 	
 	/**
-	 * Undoes the execution of the command
+	 * Undoes the execution of the command.
 	 */
 	public void unexecute();
 }
