@@ -3,7 +3,7 @@ package propra22.q8493367.draw.view;
 import propra22.q8493367.draw.controller.IDrawPanelController;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The listener interface for receiving drawPanel events.
  * The class that is interested in processing a drawPanel
@@ -30,11 +30,11 @@ public class DrawPanelListener implements IDrawPanelListener {
 	}
 	
 	/**
-	 * Draw panel event occured.
+	 * This method is invoked, when a draw panel event has occurred.
 	 *
 	 * @param e  the e draw panel event
 	 */
-	public void drawPanelEventOccured(IDrawPanelEvent e) {
+	public void drawPanelEventOccurred(IDrawPanelEvent e) {
 		DrawPanelEventType type = e.getType();
 		switch (type) {
 		case INSERT_POINT: {
@@ -51,28 +51,28 @@ public class DrawPanelListener implements IDrawPanelListener {
 		}
 		case DRAG_POINT: {
 			controller.dragPoint(e.getMouseX(), e.getMouseY());
-			break;	
+			break;
 		}
 		case DRAG_POINT_ENDED: {
 			controller.terminatePointDrag(e.getMouseX(), e.getMouseY());
 			break;
 		}
-		
+
 		case MOUSE_MOVED: {
 			controller.updateMouseData(e.getMouseX(), e.getMouseY(), e.getTotalScale());
 			break;
 		}
-		
+
 		case MOUSE_EXCITED: {
 			controller.setMousePositionIsOverPanel(false);
 			break;
 		}
-		
+
 		case MOUSE_ENTERED: {
 			controller.setMousePositionIsOverPanel(true);
 			break;
 		}
-		
+
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + e);
 		}

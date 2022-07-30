@@ -1,6 +1,7 @@
 package propra22.q8493367.main;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Dimension;
 
 import java.awt.Toolkit;
@@ -8,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -57,12 +58,12 @@ public class MainWindow extends JFrame implements IMainWindow {
 	private IMainWindowListener mainWindowListener;
 	
 	/** The redo menu item. By this item the user can 
-	 * redo an undone command
+	 * redo an undone command.
 	 */
 	private JMenuItem redoItem;
 	
 	/** The undo menu item. By this item the user can
-	 * undo a command
+	 * undo a command.
 	 */
 	private JMenuItem undoItem;
 	
@@ -77,7 +78,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 	private JCheckBoxMenuItem diameterItem;
 	
 	/** The quadrangle item. By this item the user
-	 * can choose, if the quadrangle should be shown
+	 * can choose, if the quadrangle should be shown.
 	 */
 	private JCheckBoxMenuItem quadrangleItem;
 	
@@ -88,7 +89,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 	private JCheckBoxMenuItem triangleItem;
 	
 	/** The animation item. By this item, the user
-	 * can choose, if the animation should be shown
+	 * can choose, if the animation should be shown.
 	 */
 	private JCheckBoxMenuItem animationItem;
 	
@@ -142,21 +143,12 @@ public class MainWindow extends JFrame implements IMainWindow {
 
    
 	
-
-
-	
-	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setUndoEnabled(boolean b) {
 		undoItem.setEnabled(b);
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
+	
 	@Override
 	public void setRedoEnabled(boolean b) {
 		redoItem.setEnabled(b);
@@ -428,67 +420,46 @@ public class MainWindow extends JFrame implements IMainWindow {
 		menuBar.add(helpMenu);
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
+	
 	@Override
 	public void setMainWindowListener(IMainWindowListener mainWindowListener) {
 		this.mainWindowListener = mainWindowListener;
 	}
 
 
-	/**
-	 * {@inheritDoc}
-	 */
+	
 	@Override
-	public void showManual(URL url) {
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		frame.setLocationRelativeTo(this);
-		frame.setSize(400, 600);
+	public void showManual(String relativePath) {
+		File file = new File(relativePath);
 		try {
-			JEditorPane editorPane = new JEditorPane(url);
-			editorPane.setEditable(false);
-			JScrollPane scrollPane = new JScrollPane(editorPane);
-			scrollPane.setPreferredSize(new Dimension(420, 600));
-			scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-			frame.add(scrollPane);
-			frame.setVisible(true);
+			Desktop.getDesktop().browse(file.toURI());
+			
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}	
 	}
 	
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setConvexHullIsShown(boolean b) {
 		convexHullItem.setSelected(b);
 		}
 	
-	/**
-	 * {@inheritDoc}
-	 */
+	
 	@Override
 	public void setDiameterIsShown(boolean b) {
 		diameterItem.setSelected(b);
 		}
 	
-	/**
-	 * {@inheritDoc}
-	 */
+	
 	@Override
 	public void setQuadrangleIsShown(boolean b) {
 		quadrangleItem.setSelected(b);
 		}
 	
-	/**
-	 * {@inheritDoc}
-	 */
+	
 	/*
 	@Override
 	
@@ -497,9 +468,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 		}
     */
 
-	/**
-	 * {@inheritDoc}
-	 */
+	
 	@Override
 	public void setAnimationIsShown(boolean b) {
 		animationItem.setSelected(b);	

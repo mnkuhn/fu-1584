@@ -5,17 +5,18 @@ import propra22.q8493367.point.IPoint;
 // TODO: Auto-generated Javadoc
 /**
  * 
- * IDrawPanel is the interface for the view which shows the points and the 
- * convex hull etc.
+ * The interface for the draw panel. The draw panel is responsible
+ * for displaying the points of the point set, the convex hull, the 
+ * diameter, the quadrangle, the triangle and the animation. 
  *
  */
 
 public interface IDrawPanel  {
 	
 	/**
-	 * sets the draw panel listener.
+	 * Sets the draw panel listener.
 	 *
-	 * @param drawPanelListener - the draw panel listener
+	 * @param drawPanelListener the draw panel listener
 	 */
 	public void setDrawPanelListener(IDrawPanelListener drawPanelListener);
 	
@@ -27,36 +28,41 @@ public interface IDrawPanel  {
 	/**
 	 * Determines whether the convex hull is shown or not.
 	 *
-	 * @param convexHullIsShown the new convex hull is shown
+	 * @param b true, if the convex hull is to be shown, false
+	 * otherwise.
 	 */
-	void setConvexHullIsShown(boolean convexHullIsShown);
+	void setConvexHullIsShown(boolean b);
     
 	/**
 	 * Determines whether the diameter is shown or not.
 	 *
-	 * @param diameterIsShown the new diameter is shown
+	 * @param b true, if the diameter is to be shown,
+	 * false otherwise.
 	 */
-	void setDiameterIsShown(boolean diameterIsShown);
+	void setDiameterIsShown(boolean b);
     
 	/**
 	 * Determines whether the quadrangle is shown or not.
 	 *
-	 * @param quadrangleIsShown the new quadrangle is shown
+	 * @param b true, if the quadrangle is to be shown,
+	 * false otherwise.
 	 */
-	void setQuadrangleIsShown(boolean quadrangleIsShown);
+	void setQuadrangleIsShown(boolean b);
     
 	/**
 	 * Determines whether the triangle is shown or not.
 	 *
-	 * @param b the new triangle is shown
+	 * @param b true, if the triangle is to be shown,
+	 * false otherwise.
 	 */
 	void setTriangleIsShown(boolean b);
 	
 	
 	/**
-	 * Sets the show animation.
+	 * Determines, whether the animation is shown or not.
 	 *
-	 * @param b the new show animation
+	 * @param b true, if the diameter is to be shown,
+	 * false otherwise.
 	 */
 	void setShowAnimation(boolean b);
 
@@ -64,51 +70,29 @@ public interface IDrawPanel  {
 	 * Returns true, if the convex hull is shown,
 	 * false otherwise.
 	 *
-	 * @return true, if the convex hull is shown
+	 * @return true, if the convex hull is shown,
+	 * false otherwise.
 	 */
 	boolean convexHullIsShown();
     
 	/**
-	 * Returns true, if the diameter is shown,
+	 * Returns true, if the diameter is shown or
 	 * false otherwise.
 	 *
-	 * @return true, if the diameter is shown
+	 * @return true, if the diameter is shown,
+	 * false otherwise.
 	 */
 	boolean diameterIsShown();
     
 	/**
-	 * Returns true, if the quadrangle is shown,
+	 * Returns true, if the quadrangle is shown or
 	 * false otherwise.
 	 *
-	 * @return true, if the quadrangle is shown.
+	 * @return true, if the quadrangle is shown,
+	 * false otherwise.
 	 */
 	boolean quadrangleIsShown();
-    
-	/**
-	 * Returns true, if the animation is running or false
-	 * otherwise.
-	 *
-	 * @return true, if the animation is running.
-	 */
-	boolean animationIsShown();
 	
-    
-	/**
-	 * Initializes the draw panel when a point set
-	 * is loaded from file. The inner offsets for x and y coordinates
-	 * and the scale are calculated so that the point set is displayed
-	 * centered on the draw panel.
-	 */
-	void center();
-
-	/**
-	 * Gets the view point translated to model point.
-	 *
-	 * @param point the point
-	 * @return the view point translated to model point
-	 */
-	public IPoint getViewPointTranslatedToModelPoint(IPoint point);
-
 	/**
 	 * Returns true, if the triangle is shown,
 	 * false otherwise.
@@ -116,6 +100,33 @@ public interface IDrawPanel  {
 	 * @return true, if the triangle is shown.
 	 */
 	public boolean triangleIsShown();
+    
+	/**
+	 * Returns true, if the animation is shown or
+	 * false otherwise.
+	 *
+	 * @return true, if the animation is shown,
+	 * false otherwise.
+	 */
+	boolean animationIsShown();
+	
+    
+	/**
+	 * Centers the representation on the draw panel.
+	 */
+	void center();
+
+	/**
+	 * Gets a new point with the translated coordinates from 
+	 * the point p. The coordinates are translated from the 
+	 * view coordinate system to the model coordinate system.
+	 *
+	 * @param p the point whose coordinates are translated.
+	 * @return the view point translated to model point
+	 */
+	public IPoint getViewPointTranslatedToModelPoint(IPoint p);
+
+	
 
 	
    

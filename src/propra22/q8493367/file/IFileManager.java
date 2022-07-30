@@ -1,11 +1,10 @@
 package propra22.q8493367.file;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Interface IFileManager provides a method
- * which handles a FileEvent.
- * 
+ * The Interface for a file manager. It provides 
+ * a method which handles a file event.
  */
 public interface IFileManager {
 	

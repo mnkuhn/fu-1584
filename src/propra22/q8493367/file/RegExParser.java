@@ -16,9 +16,6 @@ public class RegExParser implements IParser {
 	private String regex = "(\\s)*([+-]{0,1}[0-9]+)(\\s+)([+-]{0,1}[0-9]+)(\\s+.*){0,1}";
 	
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public IPoint parseLine(String line) {
 		

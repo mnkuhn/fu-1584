@@ -26,5 +26,5 @@ public interface IDrawPanelListener {
 	 *
 	 * @param e - the draw panel event
 	 */
-	public void drawPanelEventOccured(IDrawPanelEvent e);	
+	public void drawPanelEventOccurred(IDrawPanelEvent e);	
 }

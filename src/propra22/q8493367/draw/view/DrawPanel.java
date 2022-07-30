@@ -184,18 +184,18 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 				if (SwingUtilities.isLeftMouseButton(e) && !e.isAltDown() && !e.isControlDown()) {
 					// insert point
-					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.INSERT_POINT,
+					drawPanelListener.drawPanelEventOccurred(new DrawPanelEvent(DrawPanelEventType.INSERT_POINT,
 							e.getSource(), translatedX, translatedY, scale * panelScale));
 
 				} else if (SwingUtilities.isRightMouseButton(e)) {
 					// delete point
-					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DELETE_POINT,
+					drawPanelListener.drawPanelEventOccurred(new DrawPanelEvent(DrawPanelEventType.DELETE_POINT,
 							e.getSource(), translatedX, translatedY, scale * panelScale));
 
 				} else if (SwingUtilities.isLeftMouseButton(e) && e.isAltDown()) {
 					// point drag initialized
 					drawPanelListener
-							.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DRAG_POINT_INITIALIZED,
+							.drawPanelEventOccurred(new DrawPanelEvent(DrawPanelEventType.DRAG_POINT_INITIALIZED,
 									e.getSource(), translatedX, translatedY, scale * panelScale));
 
 				} else if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
@@ -211,7 +211,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					// point drag ended
 					int translatedX = (int) Math.round(translateXFromViewToModel(e.getX()));
 					int translatedY = (int) Math.round(translateYFromViewToModel(e.getY()));
-					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DRAG_POINT_ENDED,
+					drawPanelListener.drawPanelEventOccurred(new DrawPanelEvent(DrawPanelEventType.DRAG_POINT_ENDED,
 							e.getSource(), translatedX, translatedY, scale * panelScale));
 
 				} else if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown() && !e.isAltDown()) {
@@ -228,14 +228,14 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			public void mouseEntered(MouseEvent e) {
 				int translatedX = (int) Math.round(translateXFromViewToModel(e.getX()));
 				int translatedY = (int) Math.round(translateYFromViewToModel(e.getY()));
-				drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.MOUSE_ENTERED, 
+				drawPanelListener.drawPanelEventOccurred(new DrawPanelEvent(DrawPanelEventType.MOUSE_ENTERED, 
 						e.getSource(), translatedX, translatedY, scale * panelScale));
 			}
 			
 			public void mouseExited(MouseEvent e) {
 				int translatedX = (int) Math.round(translateXFromViewToModel(e.getX()));
 				int translatedY = (int) Math.round(translateYFromViewToModel(e.getY()));
-				drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.MOUSE_EXCITED, 
+				drawPanelListener.drawPanelEventOccurred(new DrawPanelEvent(DrawPanelEventType.MOUSE_EXCITED, 
 						e.getSource(), translatedX, translatedY, scale * panelScale));
 			}
 		});
@@ -247,7 +247,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					// point drag
 					int translatedX = (int) Math.round(translateXFromViewToModel(e.getX()));
 					int translatedY = (int) Math.round(translateYFromViewToModel(e.getY()));
-					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.DRAG_POINT,
+					drawPanelListener.drawPanelEventOccurred(new DrawPanelEvent(DrawPanelEventType.DRAG_POINT,
 							e.getSource(), translatedX, translatedY, scale * panelScale));
 				} else if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
 					// panel drag
@@ -263,7 +263,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 				
 					int translatedX = (int) Math.round(translateXFromViewToModel(e.getX()));
 					int translatedY = (int) Math.round(translateYFromViewToModel(e.getY()));
-					drawPanelListener.drawPanelEventOccured(new DrawPanelEvent(DrawPanelEventType.MOUSE_MOVED, 
+					drawPanelListener.drawPanelEventOccurred(new DrawPanelEvent(DrawPanelEventType.MOUSE_MOVED, 
 							e.getSource(), translatedX, translatedY, scale*panelScale));
 				}
 		});

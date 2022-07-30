@@ -1,9 +1,9 @@
 package propra22.q8493367.draw.view;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Interface for all draw panel events
+ * The Interface for a draw panel event.
  */
 public interface IDrawPanelEvent {
 
@@ -38,6 +38,8 @@ public interface IDrawPanelEvent {
 
 	/**
 	 * Gets the total scale which is the product of the scale and the panel scale of the view.
+	 * This value is  needed to transfer distances from the view coordinate system into the 
+	 * model coordinate system.
 	 *
 	 * @return the total scale
 	 */

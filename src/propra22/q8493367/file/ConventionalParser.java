@@ -37,7 +37,6 @@ public class ConventionalParser implements IParser {
 		}
 
 		
-
 		while (currentPosition < line.length()) {
 			if (Character.isDigit(line.charAt(currentPosition))) {
 				xCoordinate = xCoordinate * 10 + Character.getNumericValue(line.charAt(currentPosition++));

@@ -2,16 +2,17 @@ package propra22.q8493367.draw.view;
 
 
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class DrawPanelEvent specifies all events which are induced 
+ * The Class DrawPanelEvent specifies all events which are generated 
  * on the draw panel.
  */
 public class DrawPanelEvent implements IDrawPanelEvent {
 	
 	/**  The type of the draw panel event. */
 	private DrawPanelEventType type;
-	/** The source. */
+	
+	/** The source of the draw panel event. */
     private Object source;
 	
 	/** The x coordinate of the mouse. */
@@ -21,7 +22,10 @@ public class DrawPanelEvent implements IDrawPanelEvent {
 	private int mouseY;
 	 
 	
-	/** The total scale which is the product of the scale and the panel scale. */
+	/** The total scale which is the product of the the panel scale. Theses are 
+	 * attributes of the draw panel. They are needed to calculate distances in
+	 * the coordinate system of the model.
+	 */
 	private double totalScale;
 	
 	/**
@@ -44,9 +48,9 @@ public class DrawPanelEvent implements IDrawPanelEvent {
 	}
     
 	/**
-	 * Gets the type of the event.
+	 * Gets the type of the draw panel event.
 	 *
-	 * @return the type of the event
+	 * @return the type of the draw panel event
 	 */
 	@Override
 	public DrawPanelEventType getType() {
@@ -54,9 +58,9 @@ public class DrawPanelEvent implements IDrawPanelEvent {
 	}
 
 	/**
-	 * Gets the source of the event.
+	 * Gets the source of the draw panel event.
 	 *
-	 * @return the source of the event
+	 * @return the source of the draw panel event
 	 */
 	@Override
 	public Object getSource() {
@@ -85,7 +89,8 @@ public class DrawPanelEvent implements IDrawPanelEvent {
      
 	/**
 	 * Gets the total scale which is the product of the scale
-	 * and the panel scale. This method is needed for...
+	 * and the panel scale. This value is the product of scale and the panelScale. 
+	 * It is are needed to calculate distances in the coordinate system of the model.
 	 *
 	 * @return the total scale
 	 */

@@ -11,7 +11,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  * The Class FileChooser extends JFileChooser. It
  * provides some extra functionality by which the user is asked
- * if he wants to overwrite an existing file.
+ * if he wants to overwrite an existing file. The user is also informed
+ * if a file could not be found or if he wants to load a point set 
+ * from a file whose name has not the correct ending.
  */
 public class FileChooser extends JFileChooser {
 
@@ -33,9 +35,11 @@ public class FileChooser extends JFileChooser {
 
 	/**
 	 * The overwritten method of the JFileChooser.
-	 * A JOptionPane informs the user during a save operation, that 
-	 * existing file will be overwritten, if the user chooses an existing
-	 * file.
+	 * While saving a file, the user is asked, if he wants to overwrite 
+	 * an already existing file, if the file already exists. 
+	 * While opening a file, the user is also informed, if a file
+	 * could not be found or if he wants to open a file 
+	 * whose name has not the correct ending.
 	 */
 	@Override
 	public void approveSelection() {

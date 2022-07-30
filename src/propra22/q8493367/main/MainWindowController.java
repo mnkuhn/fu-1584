@@ -1,10 +1,5 @@
 package propra22.q8493367.main;
 
-import java.awt.Desktop;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-
 import propra22.q8493367.command.CommandEvent;
 import propra22.q8493367.command.CommandEventType;
 import propra22.q8493367.draw.controller.IDrawPanelController;
@@ -45,7 +40,7 @@ public class MainWindowController implements IMainWindowListener {
         view.setConvexHullIsShown(drawPanelController.getConvexHullIsshown());
         view.setDiameterIsShown(drawPanelController.getDiameterIsShown());
         view.setQuadrangleIsShown(drawPanelController.getQuadrangleIsShown());
-        /* We do not set the default value for the animation because we think 
+        /* I do not set the default value for the animation because I think, 
          * it should not be selected in the beginning.
          */
         
@@ -114,8 +109,7 @@ public class MainWindowController implements IMainWindowListener {
 			view.setDiameterIsShown(drawPanelController.getDiameterIsShown());
 			view.setQuadrangleIsShown(drawPanelController.getQuadrangleIsShown());
 			view.setAnimationIsShown(drawPanelController.getAnimationIsShown());
-		}
-		
+		}	
 	}
 
 	/**
@@ -124,15 +118,7 @@ public class MainWindowController implements IMainWindowListener {
 	 */
 	@Override
 	public void showManualEventOccured() {
-		File file = new File(Settings.defaultManualPath);
-		try {
-			Desktop.getDesktop().browse(file.toURI());
-			
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
+		view.showManual(Settings.defaultManualPath);
 	}
 
 	@Override

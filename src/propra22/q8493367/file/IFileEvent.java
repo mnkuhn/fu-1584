@@ -1,8 +1,8 @@
 package propra22.q8493367.file;
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Interface for all file events.
+ * The Interface for a file event.
  * 
  */
 public interface IFileEvent {

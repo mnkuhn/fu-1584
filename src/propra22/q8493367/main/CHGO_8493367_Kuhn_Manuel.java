@@ -40,7 +40,7 @@ import propra22.tester.Tester;
 public class CHGO_8493367_Kuhn_Manuel {
 	
 	/**
-	 * Creates the and show GUI.
+	 * Creates the and shows the GUI.
 	 */
 	private static void createAndShowGUI() {
 		
@@ -83,10 +83,10 @@ public class CHGO_8493367_Kuhn_Manuel {
 	/**
 	 * The entry point of the program.
 	 *
-	 * @param args the arguments
+	 * @param args the command line arguments
 	 */
 	public static  void main(String[] args) {
-        if(args.length > 0  && "-t".equals(args[0])) {
+		if(args.length > 0  && "-t".equals(args[0])) {
         	IHullCalculator calculator = new HullCalculator();
         	Tester tester = new Tester(args, calculator);
         	System.out.println(tester.test());
