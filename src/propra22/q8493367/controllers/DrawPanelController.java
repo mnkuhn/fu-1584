@@ -255,7 +255,8 @@ public class DrawPanelController implements IDrawPanelController {
 		start = end;
 		hull.clean();
 		end = System.currentTimeMillis();
-		System.out.println("Konvexe Hülle berechnen: " + (end - start) + " ms");
+		if(CHGO_8493367_Kuhn_Manuel.showConsoleOutput)
+			System.out.println("Konvexe Hülle berechnen: " + (end - start) + " ms");
         
 		//Terminates the animation thread so that the quadrangle sequence can be updated.
 		if (view != null) {terminateAnimationThread();}
@@ -271,6 +272,7 @@ public class DrawPanelController implements IDrawPanelController {
 
 		notifyObservers();
 	}
+	
 
 	/**
 	 * Terminates the animation thread.
