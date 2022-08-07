@@ -163,66 +163,218 @@
 <h1 class="title">Bedienungsanleitung</h1>
 </header>
 <h2 id="inhaltsverzeichnis">Inhaltsverzeichnis</h2>
-<ol type="1">
-<li><a href="#punkte">Punkte</a></li>
-<li><a href="#zeichenfläche">Zeichenfläche</a></li>
-<li><a href="#dateien">Dateien</a></li>
-<li><a href="#befehle">Befehle</a></li>
-<li><a href="#ansicht">Ansicht</a></li>
-<li><a href="#programm">Programm</a></li>
-</ol>
-<h2 id="punkte">Punkte</h2>
-<p><strong>Punkt einfügen:</strong> Drücken Sie die linke Maustaste.</p>
-<p><strong>Punkt löschen:</strong> Bewegen Sie den Mauszeiger in die
-Nähe des Punktes, welchen Sie löschen möchten. Drücken Sie nun die
-rechte Maustaste, um den Punkt zu löschen.</p>
-<p><strong>Punkt verschieben:</strong> Bewegen Sie den Mauszeiger auf
-bzw. in die Nähe des Punktes, welchen Sie verschieben möchten. Drücken
-Sie dann <code>Alt</code> und die linke Maustaste. Nun können Sie den
-Punkt verschieben.</p>
-<p><strong>Zufallspunkte einfügen:</strong> Sie können 10, 50, 100, 500
-oder 1000 Zufallspunkte in den sichtbaren Bereich der Zeichenfläche
-einfügen. Wählen Sie <em>Bearbeiten</em> und dann den entsprechenden
-Eintrag.</p>
-<h2 id="zeichenfläche">Zeichenfläche</h2>
-<p><strong>Neue Zeichenfläche erzeugen:</strong> Wählen Sie
-<em>Datei</em> → <em>Neu</em>.</p>
-<p><strong>Zeichenfläche verschieben</strong>: Drücken Sie
-<code>Ctrl</code> und die linke Maustaste. Nun können Sie die
-Zeichenfläche durch Bewegen der Maus verschieben.</p>
-<p><strong>Zoom:</strong> Drücken Sie <code>Ctrl</code>. Nun können Sie
-durch Drehen des Mausrades hinein- bzw. hinauszoomen.</p>
-<h2 id="dateien">Dateien</h2>
-<p><strong>Datei öffnen:</strong> Wählen Sie <em>Datei</em> →
-<em>Öffnen</em>. Nun können Sie die gewünschte Datei auswählen und
-öffnen.</p>
-<p><strong>Datei speichern:</strong> Falls Sie die Punktemenge in einer
-neuen Datei speichern möchten, wählen Sie <em>Datei</em> → <em>Speichern
-unter</em>. Nun können Sie einen Dateinamen eingeben und die Punktemenge
-unter diesem Dateinamen in einer Datei ablegen. Wählen Sie
-<em>Datei</em> → <em>Speichern</em>, falls Sie zuvor die Punktemenge mit
-<em>Datei</em> → <em>Öffnen</em> geladen haben.</p>
-<h2 id="befehle">Befehle</h2>
-<p><strong>Befehl rückgängig machen:</strong> Wählen Sie
-<em>Bearbeiten</em> → <em>Rückgängig</em>.</p>
-<p><strong>Rückgängig gemachten Befehl wiederherstellen:</strong> Wählen
-Sie <em>Bearbeiten</em> → <em>Wiederherstellen</em>.</p>
-<h2 id="ansicht">Ansicht</h2>
-<p><strong>Konturpolygon anzeigen:</strong> Setzen Sie das Häkchen bei
-<em>Ansicht</em> → <em>Konturpolygon</em>.</p>
-<p><strong>Durchmesser anzeigen:</strong> Setzen Sie das Häkchen bei
-<em>Ansicht</em> → <em>Durchmesser</em>.</p>
-<p><strong>Grösstes Viereck anzeigen:</strong> Setzen Sie das Häkchen
-bei <em>Ansicht</em> → <em>Grösstes Viereck</em>.</p>
-<p><strong>Grösstes Dreieck anzeigen:</strong> Setzen Sie das Häkchen
-bei <em>Ansicht</em> → <em>Grösstes Dreieck</em>.</p>
-<p><strong>Animation anzeigen:</strong> Setzen Sie das Häkchen bei
-<em>Ansicht</em> → <em>Animation</em>. Dieses Häkchen wird beim <a
-href="#zeichenfläche">Erzeugen einer neuen Zeichenfläche</a> oder beim
-<a href="#dateien">Öffnen einer neuen Datei</a> deaktiviert.</p>
-<h2 id="programm">Programm</h2>
-<p><strong>Programm beenden:</strong> Wählen Sie <em>Datei</em> →
-<em>Beenden</em> oder klicken Sie auf das Kreuz oben rechts im
-Programmfenster.</p>
+<ul>
+<li><a href="#allgemein">Allgemein</a></li>
+<li><a href="#die-grafische-benutzeroberfläche">Die grafische
+Benutzeroberfläche</a></li>
+<li><a href="#die-zeichenfläche">Die Zeichenfläche</a></li>
+<li><a href="#darstellung-der-elemente">Darstellung der
+Elemente</a></li>
+<li><a href="#bearbeiten-der-punktmenge">Bearbeiten der
+Punktmenge</a></li>
+<li><a href="#ändern-der-darstellung">Ändern der Darstellung</a></li>
+<li><a href="#die-menüleiste">Die Menüleiste</a></li>
+<li><a href="#das-datei-menü">Das Datei-Menü</a></li>
+<li><a href="#das-bearbeiten-menü">Das Bearbeiten-Menü</a></li>
+<li><a href="#das-ansicht-menü">Das Ansicht-Menü</a></li>
+<li><a href="#das-hilfe-menü">Das Hilfe-Menü</a></li>
+<li><a href="#die-statusleiste">Die Statusleiste</a></li>
+</ul>
+<h2 id="allgemein">Allgemein</h2>
+<p>Dieses Programm berechnet die konvexe Hülle einer Menge von Punkten.
+Punkte können aus einer Datei <a href="#datei-öffnen">geladen</a>
+werden, durch eine <a href="#zufallspunkte-einfügen">Zufallsfunktion</a>
+erzeugt, oder von Hand auf der grafischen Benutzeroberfläche <a
+href="#punkt-einfügen">eingetragen</a> werden. Neben der <a
+href="#konvexe-hülle">konvexen Hülle</a> kann das Programm den <a
+href="#durchmesser">Durchmesser</a>, das <a
+href="#grösstes-viereck">grösste Viereck</a> der Punktmenge und eine <a
+href="#animation">Animation</a> von einem Tangentenpaar anzeigen. Das
+Programm verfügt über eine <a href="#befehl-rückgängig-machen">Undo-</a>
+und <a
+href="#rückgängig-gemachten-befehl-wiederherstellen">Redo-Funktion</a>.
+Die <a href="#die-grafische-benutzeroberfläche">grafische
+Benutzeroberfläche</a> bietet die Möglichkeit, die Darstellung zu <a
+href="#darstellung-zentrieren">zentrieren</a>, zu <a
+href="#zeichenfläche-verschieben">verschieben</a> und durch einen Zoom
+zu <a
+href="#ausschnitt-der-zeichenfläche-vergössern-oder-verkleinern">vergrössern</a>
+bzw. zu <a
+href="#ausschnitt-der-zeichenfläche-vergössern-oder-verkleinern">verkleinern</a>.</p>
+<p>   </p>
+<h2 id="die-grafische-benutzeroberfläche">Die grafische
+Benutzeroberfläche</h2>
+<p>Die grafische Benutzeroberfläche besteht aus der Menüleiste, der
+Zeichenfläche und der Statusleiste, so wie in der Abbildung dargestellt.
+<img src="images/GUI_allg.png" alt="GUI_allg.png" /></p>
+<p> </p>
+<h3 id="die-zeichenfläche">Die Zeichenfläche</h3>
+<p>Die Zeichenfläche stellt die Punktmenge, die konvexe Hülle, den
+Durchmesser und das grösste Viereck dar. Sie dient ebenfalls zur <a
+href="#bearbeiten-der-punktmenge">Bearbeitung der Punktmenge</a> durch
+Benutzereingaben.</p>
+<h4 id="darstellung-der-elemente">Darstellung der Elemente</h4>
+<h5 id="punkte">Punkte</h5>
+<p>Punkte werden schwarz gefüllte Kreise dargestellt.</p>
+<h5 id="konvexe-hülle">Konvexe Hülle</h5>
+<p>Die Punkte der konvexen Hülle werden durch eine rote Linie
+verbunden.</p>
+<h5 id="durchmesser">Durchmesser</h5>
+<p>Der Durchmesser wird durch eine blaue Linie angezeigt.</p>
+<h5 id="grösstes-viereck">Grösstes Viereck</h5>
+<p>Das grösste Viereck wird in einem matten grün dargestellt.</p>
+<h5 id="animation">Animation</h5>
+<p>Während die Animation läuft, werden die beiden Punkte des
+Antipodenpaares durch eine schwarze Linie verbunden. Die an den Punkten
+des Antipodenpaares anliegenden Tangenten werden schwarz dargestellt.
+Das zum jeweiligen Antipodenpaar gehörende grösste Viereck wird in einem
+kräftigen grün eingezeichnet. <img src="images/Animation.png"
+alt="Animation" /></p>
+<p> </p>
+<h4 id="bearbeiten-der-punktmenge">Bearbeiten der Punktmenge</h4>
+<h5 id="punkt-einfügen">Punkt einfügen</h5>
+<p>Bewegen Sie den Mauszeiger auf der Zeichenfläche auf die gewünschte
+Stelle. In der Statusleiste werden nach dem Label mit der Anschrift
+“Maus:” die Koordinaten der Maus angezeigt. Sie können den Bereich, in
+welchen Sie einen Punkt eintragen können, durch <a
+href="#zeichenfläche-verschieben">verschieben</a> oder <a
+href="#ausschnitt-der-zeichenfläche-vergössern-oder-verkleinern">Zoomen</a>
+verändern. Um den Punkt einzutragen, drücken Sie die linke
+Maustaste.</p>
+<h5 id="punkt-löschen">Punkt löschen</h5>
+<p>Wählen Sie den Punkt, indem sie den Mauszeiger auf bzw. in die Nähe
+des zu löschenden Punktes bewegen. Sobald der Punkt gewählt ist, wird er
+von einem schwarzen Quadrat, welches den Punkt umgibt, markiert. Die
+Koordinaten des gewählten Punktes werden in der Statusleiste nach dem
+Label “Gewählter Punkt:” angezeigt. Drücken Sie nun die rechte
+Maustaste, um den Punkt zu löschen.</p>
+<h5 id="punkt-verschieben">Punkt verschieben</h5>
+<p>Bewegen Sie den Mauszeiger auf bzw. in die Nähe des Punktes, welchen
+Sie verschieben möchten. Sobald der Punkt gewählt ist, wird er von einem
+schwarzen Quadrat, welches den Punkt umgibt, markiert. Drücken Sie nun
+<code>Alt</code> und die linke Maustaste in dieser Reihenfolge. Nun
+können Sie den gewählten Punkt verschieben. Bewegen Sie den Punkt an die
+gewünschte Stelle und lassen Sie dann die Taste <code>Alt</code> und die
+linke Maustaste los (die Reihenfolge spielt keine Rolle). Die
+Koordinaten des gewählten Punktes werden vor und während dem Verschieben
+in der Statusleiste nach dem Label “Gewählter Punkt:” angezeigt.
+Befindet sich an der Stelle, auf welche der gewählte Punkt verschoben
+wird schon ein Punkt, so wird dieser Punkt gelöscht. Die Anzahl der
+Punkte - angezeigt nach dem Label “Anzahl Punkte:” - reduziert sich dann
+um 1. Wird der Befehl <a href="#befehl-rückgängig-machen">rückgängig
+gemacht</a>, so wird der Punkt an seiner ursprünglichen Stelle
+eingetragen und ein allfälliger gelöschter Punkt wird der wieder
+hinzugefügt.</p>
+<h5 id="zufallspunkte-einfügen">Zufallspunkte einfügen</h5>
+<p>Sie können 10, 50, 100, 500 oder 1000 Zufallspunkte in den sichtbaren
+Bereich der Zeichenfläche einfügen. Wählen Sie <em>Bearbeiten</em> und
+dann den entsprechenden Eintrag.</p>
+<p> </p>
+<h4 id="ändern-der-darstellung">Ändern der Darstellung</h4>
+<h5 id="zeichenfläche-verschieben">Zeichenfläche verschieben</h5>
+<p>Drücken Sie <code>Ctrl</code> und die linke Maustaste in dieser
+Reihenfolge. Nun können Sie die Zeichenfläche durch Bewegen der Maus
+verschieben.</p>
+<h5
+id="ausschnitt-der-zeichenfläche-vergössern-oder-verkleinern">Ausschnitt
+der Zeichenfläche vergössern oder verkleinern</h5>
+<p>Drücken Sie <code>Ctrl</code>. Nun können Sie durch Drehen des
+Mausrades je nach Drehrichtung hinein- bzw. hinauszoomen.</p>
+<p>   </p>
+<h3 id="die-menüleiste">Die Menüleiste</h3>
+<h4 id="das-datei-menü">Das Datei-Menü</h4>
+<h5 id="neue-zeichenfläche-erzeugen">Neue Zeichenfläche erzeugen</h5>
+<p>Wählen Sie <em>Datei</em> → <em>Neu</em>. Falls Änderungen an der
+Punktmenge vorgenommen wurden, werden Sie zuvor gefragt, ob die
+bestehende Punktmenge in einer Datei gespeichert werden soll.</p>
+<h5 id="datei-öffnen">Datei öffnen</h5>
+<p>Wählen Sie <em>Datei</em> → <em>Öffnen</em>. Nun können Sie die
+gewünschte Datei auswählen und öffnen. Falls Änderungen an der
+Punktmenge vorgenommen wurden, werden Sie zuvor gefragt, ob die
+bestehende Punktmenge in einer Datei gespeichert werden soll. Die
+Punktmenge der Datei wird nach dem öffnen zentriert dargestellt, falls
+es intern nicht zu einem Überlauf kommen kann. Ansonsten wird die
+Punktmenge nicht zentriert dargestellt.</p>
+<h5 id="datei-speichern">Datei speichern</h5>
+<p>Falls Sie die Punktmenge in einer neuen Datei speichern möchten,
+wählen Sie <em>Datei</em> → <em>Speichern unter</em>. Nun können Sie
+einen Dateinamen eingeben und die Punktmenge unter diesem Dateinamen in
+einer Datei ablegen. Wählen Sie <em>Datei</em> → <em>Speichern</em>,
+falls Sie zuvor die Punktmenge mit <em>Datei</em> → <em>Öffnen</em>
+geladen haben und die geänderte Punktmenge in der schon geöffneten Datei
+abgespeichert werden soll.</p>
+<h5 id="programm-beenden">Programm Beenden</h5>
+<p>Wählen Sie <em>Datei</em> → <em>Beenden</em>. Das Programm wird
+beendet. Falls Änderungen an der Punktmenge vorgenommen wurden, werden
+Sie zuvor gefragt, ob die bestehende Punktmenge in einer Datei
+gespeichert werden soll. Sie können das Programm ebenfalls beenden,
+indem sie auf das Kreuz in der oberen rechten Ecke des Hauptfensters
+klicken.</p>
+<p> </p>
+<h4 id="das-bearbeiten-menü">Das Bearbeiten-Menü</h4>
+<h5 id="befehl-rückgängig-machen">Befehl rückgängig machen</h5>
+<p>Wählen Sie <em>Bearbeiten</em> → <em>Rückgängig</em>. Der
+entsprechende Menü-Eintrag wird matt dargestellt, falls es keine Befehle
+gibt, die Rückgängig gemacht werden können.</p>
+<h5 id="rückgängig-gemachten-befehl-wiederherstellen">Rückgängig
+gemachten Befehl wiederherstellen</h5>
+<p>Wählen Sie <em>Bearbeiten</em> → <em>Wiederherstellen</em>. Der
+entsprechende Menü-Eintrag wird matt dargestellt, falls es keine Befehle
+gibt, die wiederhergestellt werden können.</p>
+<h5 id="zufällig-erzeugte-punkte-einfügen">Zufällig erzeugte Punkte
+einfügen</h5>
+<p>Sie können 10, 50, 100, 500 oder 1000 Punkte mit Hilfe einer
+Zufallsfunktion erzeugen. Diese Funktion sorgt dafür, dass die Punkte in
+den sichtbaren Bereich der Zeichenfläche eingetragen werden. Wählen Sie
+dazu im Menü <em>Bearbeiten</em> den entsprechenden Eintrag. Falls es
+der sichtbare Bereich der Zeichenfläche nicht zulässt, dass eine gewisse
+Anzahl an zufällig erzeugten Punkten eingetragen wird, weil er zu klein
+ist, so werden keine Punkte eingetragen.</p>
+<p> </p>
+<h4 id="das-ansicht-menü">Das Ansicht-Menü</h4>
+<h5 id="konturpolygon-anzeigen">Konturpolygon anzeigen</h5>
+<p>Setzen Sie das Häkchen bei <em>Ansicht</em> →
+<em>Konturpolygon</em>.</p>
+<h5 id="durchmesser-anzeigen">Durchmesser anzeigen</h5>
+<p>Setzen Sie das Häkchen bei <em>Ansicht</em> →
+<em>Durchmesser</em>.</p>
+<h5 id="grösstes-viereck-anzeigen">Grösstes Viereck anzeigen</h5>
+<p>Setzen Sie das Häkchen bei <em>Ansicht</em> → <em>Grösstes
+Viereck</em>.</p>
+<h5 id="grösstes-dreieck-anzeigen">Grösstes Dreieck anzeigen</h5>
+<p>Setzen Sie das Häkchen bei <em>Ansicht</em> → <em>Grösstes
+Dreieck</em>.</p>
+<h5 id="animation-anzeigen">Animation anzeigen</h5>
+<p>Setzen Sie das Häkchen bei <em>Ansicht</em> → <em>Animation</em>.</p>
+<h5 id="darstellung-zentrieren">Darstellung zentrieren</h5>
+<p>Wählen Sie <em>Ansicht</em> -&gt; <em>Zentrieren</em>. Die
+Darstellung wird nur zentriert, falls es intern nicht zu einem Überlauf
+kommen kann.</p>
+<p> </p>
+<h4 id="das-hilfe-menü">Das Hilfe-Menü</h4>
+<h5 id="anzeigen-der-bedienungsanleitung">Anzeigen der
+Bedienungsanleitung</h5>
+<p>Wählen <em>Hilfe</em> → <em>Anleitung</em>. Die Bedienungsanleitung
+wird im Webbrowser angezeigt.</p>
+<p>   </p>
+<h3 id="die-statusleiste">Die Statusleiste</h3>
+<h5 id="anzahl-der-punkte-in-der-punktmenge">Anzahl der Punkte in der
+Punktmenge</h5>
+<p>Hinter dem Label “Anzahl Punkte:” wird die Anzahl der Punkte in der
+Punktmenge angezeigt.</p>
+<h5 id="koordinaten-des-mauszeigers">Koordinaten des Mauszeigers</h5>
+<p>Falls sich der Mauszeiger über dem sichtbaren Bereich der
+Zeichenfläche befindet, werden seine Koordinaten nach dem Label “Maus:”
+angezeigt. Die x- und die y-Koordinate sind durch einen vertikalen
+Strich getrennt.</p>
+<h5 id="koordinaten-des-gewählten-punktes">Koordinaten des gewählten
+Punktes</h5>
+<p>Befindet sich ein oder befinden sich mehrere Punkte innerhalb einer
+gewissen Distanz zum Mauszeiger, so wird der zum Mauszeiger
+nächstgelegene Punkt ausgewählt. Die Koordinaten des ausgewählten
+Punktes werden nach dem Label “Gewählter Punkt:” angezeigt. Die x- und
+die y-Koordinate sind durch einen vertikalen Strich getrennt. Der
+gewählte Punkt selber wird durch ein ihn umgebendes schwarzes Quadrat
+markiert.</p>
 </body>
 </html>
