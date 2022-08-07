@@ -21,7 +21,7 @@ public interface IStatusBar {
      
 	
 	/**
-	 * Sets the mouse coordinates
+	 * Sets the mouse coordinates.
 	 *
 	 * @param x the x coordinate of the mouse
 	 * @param y the y coordinate of the mouse

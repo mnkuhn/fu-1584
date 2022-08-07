@@ -73,7 +73,7 @@ public class ContourPolygonCalculator implements IContourCalculator {
 	 */
 	private void calculateUpperLeft() {
 		Point point = pointSet.getPointAt(0);
-		hull.addPointToSection(point, ContourType.UPPERLEFT);
+		hull.addPointToContour(point, ContourType.UPPERLEFT);
 		
 		int maxYSoFar = point.getY();
 		int pointY;
@@ -83,7 +83,7 @@ public class ContourPolygonCalculator implements IContourCalculator {
 			pointY = point.getY();
 			if(pointY > maxYSoFar) {
 				maxYSoFar = pointY;
-				hull.addPointToSection(point, ContourType.UPPERLEFT);
+				hull.addPointToContour(point, ContourType.UPPERLEFT);
 			}
 		}
 		highestYFound = maxYSoFar;
@@ -96,7 +96,7 @@ public class ContourPolygonCalculator implements IContourCalculator {
      */
     private void calculateLowerLeft() {
 		Point point = pointSet.getPointAt(0);
-		hull.addPointToSection(point, ContourType.LOWERLEFT);
+		hull.addPointToContour(point, ContourType.LOWERLEFT);
 		
 		int minYSoFar = point.getY();
 		int pointY;
@@ -106,7 +106,7 @@ public class ContourPolygonCalculator implements IContourCalculator {
 			pointY = point.getY();
 			if(pointY < minYSoFar) {
 				minYSoFar = pointY;
-				hull.addPointToSection(point, ContourType.LOWERLEFT);
+				hull.addPointToContour(point, ContourType.LOWERLEFT);
 			}
 		}
 		lowestYFound = minYSoFar;
@@ -119,7 +119,7 @@ public class ContourPolygonCalculator implements IContourCalculator {
 	 */
 	private void calculateUpperRight() {
 		Point point = pointSet.getPointAt(pointSet.getNumberOfPoints() - 1);
-		hull.addPointToSection(point, ContourType.UPPERRIGHT);	
+		hull.addPointToContour(point, ContourType.UPPERRIGHT);	
 		
 		int maxYSoFar = point.getY();
 		int pointY;
@@ -130,7 +130,7 @@ public class ContourPolygonCalculator implements IContourCalculator {
 			
 			if(pointY > maxYSoFar) {
 				maxYSoFar = pointY;
-				hull.addPointToSection(point, ContourType.UPPERRIGHT);
+				hull.addPointToContour(point, ContourType.UPPERRIGHT);
 			}
 		}
 	}
@@ -142,7 +142,7 @@ public class ContourPolygonCalculator implements IContourCalculator {
 	 */
 	private void calculateLowerRight() {
 		Point point = pointSet.getPointAt(pointSet.getNumberOfPoints() - 1);
-		hull.addPointToSection(point, ContourType.LOWERRIGHT);		
+		hull.addPointToContour(point, ContourType.LOWERRIGHT);		
 		
 		int minYSoFar = point.getY();
 		int pointY;
@@ -152,7 +152,7 @@ public class ContourPolygonCalculator implements IContourCalculator {
 			pointY = point.getY();
 			if(pointY < minYSoFar) {
 				minYSoFar = pointY;
-				hull.addPointToSection(point, ContourType.LOWERRIGHT);
+				hull.addPointToContour(point, ContourType.LOWERRIGHT);
 			}
 		}
 	}

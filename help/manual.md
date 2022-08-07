@@ -26,7 +26,7 @@ Die [grafische Benutzeroberfläche](#die-grafische-benutzeroberfläche) bietet d
 
 ## Die grafische Benutzeroberfläche
 Die grafische Benutzeroberfläche besteht aus der Menüleiste, der Zeichenfläche und der Statusleiste, so wie in der Abbildung dargestellt.
-![GUI_allg.png](images/GUI_allg.png)
+![GUI_allg.png](images/GUI_general.png)
 
 &nbsp;
 

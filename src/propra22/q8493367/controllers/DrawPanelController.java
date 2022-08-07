@@ -29,8 +29,8 @@ import propra22.q8493367.util.IDrawPanelControllerObserver;
 
 // TODO: Auto-generated Javadoc
 /**
- * The controller of the draw panel. It also listens to all events on the draw
- * panel.
+ * The controller of the draw panel. It handles the updates for the model
+ * and the view based on various events.
  */
 public class DrawPanelController implements IDrawPanelController {
 	
@@ -40,34 +40,27 @@ public class DrawPanelController implements IDrawPanelController {
 
 	
 	//Model
-	/**   The point set. */
+	/**  The point set. */
 	private PointSet pointSet;
 
-	/**  First the contour polygon, then the convex hull. */
+	/** First the contour polygon, then the convex hull. */
 	private IHull hull;
 
-	/**  The diameter. */
+	/** The diameter. */
 	private Diameter diameter;
 
-	/**  The quadrangle. */
+	/** The quadrangle. */
 	private Quadrangle quadrangle;
 	
-	/**  The pair of tangents used by the animation. */
+	/** The pair of tangents used by the animation. */
 	private TangentPair tangentPair;
 	
 	/** The quadrangle sequence as used by the animation. */
 	private QuadrangleSequence quadrangleSequence;
 	
 	
-	
-	// Calculations
-	/**  The contour polygon calculator. */
-	//private ContourPolygonCalculator contourPolygonCalculator;
-
-	/**  The convex hull calculator. */
-	//private ConvexHullCalculator convexHullCalculator;
-
-	/**  The calculator for the diameter, the quadrangle and the quadrangle sequence */
+    // Calculation
+	/**   The calculator for the diameter, the quadrangle and the quadrangle sequence. */
 	private DiameterAndQuadrangleCalculator diameterAndQuadrangleCalulator;
 
 	
@@ -97,12 +90,14 @@ public class DrawPanelController implements IDrawPanelController {
 	
 	
 	// Commands
-	/**  The command list. */
+	/**  The command manager. */
 	private CommandManager commandManager = new CommandManager();
 
 	
-	// Mouse
-	/**  True iff the mouse pointer is above the draw panel. */
+	// Mouse pointer
+	/**  True if the mouse pointer is above the draw panel,
+	 * false otherwise. 
+	 */
 	private boolean mousePositionIsOverPanel;
     
 	/** The x coordinate of the mouse pointer if it is above the draw panel.
@@ -118,15 +113,13 @@ public class DrawPanelController implements IDrawPanelController {
 	
 	
 	// Observer
-	/**  The observers. */
+	/**  The observers. In this application there is one observer. It is 
+	 * the controller of the status bar.
+	 * */
 	private List<IDrawPanelControllerObserver> observers = new ArrayList<>();
     
 	
 	
-	
-
-
-
 	/**
 	 * Instantiates a new draw panel controller.
 	 *
@@ -149,16 +142,13 @@ public class DrawPanelController implements IDrawPanelController {
 		
 		this.view = view;
 		
-		//this.contourPolygonCalculator = new ContourPolygonCalculator(pointSet, convexHull);
-		//this.convexHullCalculator = new ConvexHullCalculator(convexHull);
 		this.diameterAndQuadrangleCalulator = new DiameterAndQuadrangleCalculator(convexHull);
 		
 	}
 
 	/**
 	 * Instantiates a new draw panel controller which only takes a model. Used for
-	 * calculating the data without displaying it. In this application it is used for
-	 * testing.
+	 * calculating the data without displaying it.
 	 *
 	 * @param pointSet the draw panel model
 	 * @param hull the convex hull
@@ -176,24 +166,20 @@ public class DrawPanelController implements IDrawPanelController {
 		this.quadrangleSequence = quadrangleSequence;
 		this.view = null;
 		
-		//this.contourPolygonCalculator = new ContourPolygonCalculator(pointSet, hull);
-		//this.convexHullCalculator = new ConvexHullCalculator(hull);
 		this.diameterAndQuadrangleCalulator = new DiameterAndQuadrangleCalculator(hull);
 	}
 
 	/**
 	 * Determines if a point is within a certain radius to the mouse pointer.
 	 *
-	 * @param point  the point
-	 * @param mouseX the x coordinate of the mouse pointer
-	 * @param mouseY the y coordinate of the mouse pointer
-	 * @param metric the metric, which is used to determine the distance
-	 * @param radius the radius
+	 * @param point  the point to be examined.
+	 * @param mouseX the x coordinate of the mouse pointer.
+	 * @param mouseY the y coordinate of the mouse pointer.
+	 * @param metric the metric, which is used to determine the distance.
+	 * @param radius the radius which is compared with the distance.
 	 * @return true, the point is within the given radius of the mouse pointer,
 	 * false otherwise.
 	 */
-	
-	
 	private boolean pointIsWithinMouseRadius(Point point, int mouseX, int mouseY, 
 			IMetric metric, double radius) {
 		return metric.distance(point.getX(), point.getY(), mouseX, mouseY) <= radius;
@@ -203,10 +189,11 @@ public class DrawPanelController implements IDrawPanelController {
 	 * Gets the closest point to mouse pointer. Returns null if there is no point on
 	 * the draw panel.
 	 *
-	 * @param mouseX the x coordinate of the mouse pointer
-	 * @param mouseY the y coordinate of the mouse pointer
-	 * @param metric the metric which is used to determine the distance
-	 * @return the closest point to mouse pointer
+	 * @param mouseX the x coordinate of the mouse pointer.
+	 * @param mouseY the y coordinate of the mouse pointer.
+	 * @param metric the metric which is used to determine the distance from
+	 * the mouse pointer to a point.
+	 * @return the closest point to mouse pointer.
 	 */
 
 	private Point getClosestPointToMouse(int mouseX, int mouseY, IMetric metric) {
@@ -234,9 +221,14 @@ public class DrawPanelController implements IDrawPanelController {
 		view.update();
 	}
 	
-
+	
 	/**
-	 * Update model.
+	 *{@inheritDoc}
+	 *
+	 * This means, the point set is sorted,
+	 * the contour polygon is calculated, the convex hull is calculated, 
+	 * the diameter, the biggest quadrangle and the quadrangle sequence are calculated,
+	 * the animation thread is updated and the observers are notified.
 	 */
 	@Override
 	public void updateModel() {
@@ -291,7 +283,9 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 	
 	/**
-	 * Updates the animation thread.
+	 * Updates the animation thread by searching
+	 * a antipodal pair, which fits to the current
+	 * angle of the tangent pair.
 	 */
 	private void updateAnimationThread() {
 
@@ -303,9 +297,12 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 
 	
-	
 	/**
-	 * Reset.
+	 * {@inheritDoc}
+	 * 
+	 * This method is used, if a new point set
+	 * is loaded from a file or if a new draw
+	 * panel is created.
 	 */
 	@Override
 	public void reset() {
@@ -313,7 +310,6 @@ public class DrawPanelController implements IDrawPanelController {
 		updateModel();
 		centerView();
 	}
-
 
 
 	/**
@@ -327,12 +323,13 @@ public class DrawPanelController implements IDrawPanelController {
 
 	
 	/**
-	 * Clear model.
+	 * {@inheritDoc}
+	 * It also sets the point set to
+	 * 'has not changed'.
 	 */
 	@Override
 	public void clearModel() {
 		pointSet.clear();
-		hull.clear();
 		pointSet.setHasChanged(false);
 	}
 
@@ -348,7 +345,6 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 
 
-	
 	/**
 	 * Undo command.
 	 */
@@ -362,7 +358,6 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 	
 
-	
 	/**
 	 * Redo command.
 	 */
@@ -375,7 +370,7 @@ public class DrawPanelController implements IDrawPanelController {
 		}	
 	}
 	
-
+	
 	/**
 	 * Undo is enabled.
 	 *
@@ -387,7 +382,6 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 	
 
-	
 	/**
 	 * Redo is enabled.
 	 *
@@ -400,8 +394,11 @@ public class DrawPanelController implements IDrawPanelController {
     
 	
 	/**
-	 * Tries to insert a certain number of randomly generated points into the visible area
-	 * of the draw panel.
+	 * {@inheritDoc}
+	 * 
+	 * If the method fails to insert the randomly generated points
+	 * into the area, because there is not enough space, no points are inserted into
+	 * the point set.
 	 *
 	 * @param number the number of randomly generated points.
 	 * @param minX the smallest possible x coordinate without the margin.
@@ -431,7 +428,7 @@ public class DrawPanelController implements IDrawPanelController {
 		{
 			ICommand insertRandomPointsCommand = new InsertRandomPointsCommand(points, pointSet);
 			commandManager.add(insertRandomPointsCommand);
-			// No execute needed since points are already in the point set.
+			// No execution needed since points are already in the point set.
 			pointSet.setHasChanged(true);
 			
 			updateModel();
@@ -448,7 +445,7 @@ public class DrawPanelController implements IDrawPanelController {
 	/**
 	 * Tries to find a randomly generated point for the visible area of the draw panel.
 	 *
-	 * @param attempts the number of attempts.
+	 * @param numberOfAttempts the number of attempts to find that point.
 	 * @param minX the smallest possible x coordinate without the additional margin which is added.
 	 * @param minY the smallest possible y coordinate without the margin which is added.
 	 * @param maxX the largest possible x coordinate without the margin which is subtracted.
@@ -456,26 +453,33 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param random the generator which generates the random points.
 	 * @return the point that was generated. Null if no point could be generated.
 	 */
-	private Point tryPoint(int attempts, int minX, int minY, int maxX, int maxY, Random random) {
+	private Point tryPoint(int numberOfAttempts, int minX, int minY, int maxX, int maxY, Random random) {
 		Point point;
 		int attempt = 1;
 		do {
 			int x = random.nextInt(maxX - minX) + minX;
 			int y = random.nextInt(maxY - minY) + minY;
 			point = new Point(x, y);
-		}while(pointSet.hasPoint(point) >= 0  && ++attempt <= attempts);
-		return attempt > attempts ? null : point;
+		}while(pointSet.hasPoint(point) >= 0  && ++attempt <= numberOfAttempts);
+		
+		/* return null if all attempts were not enough to create a new randomly 
+		generated point. */
+		return attempt > numberOfAttempts ? null : point;
 	}
 
 	
 	/**
-	 * Insert point to point set by user input.
+	 * {@inheritDoc}
+	 * If there is  already another point in the point set with the same coordinates, 
+	 * the point is not inserted and no command is inserted into the command list.
+	 * If the point can be inserted into the point list and the command can be inserted
+	 * into the command list, the model and the view are updated afterwards.
 	 *
 	 * @param x the x
 	 * @param y the y
 	 */
 	@Override
-	public void insertPointToPointSetByUserInput(int x, int y) {
+	public void insertPointToPointSetByCommand(int x, int y) {
 		Point point = new Point(x, y);
 		//If the point is not in the point set, create command and continue.
 		if(pointSet.hasPoint(point) < 0) {
@@ -484,6 +488,8 @@ public class DrawPanelController implements IDrawPanelController {
 		    insertPointCommand.execute();
 			pointSet.setHasChanged(true);
 			
+			/* There might be a point very close to the new point. 
+			This point could be selected. */
 			if(selected != null) {
 				selected.setSelected(false);
 			}
@@ -496,7 +502,9 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 
 	/**
-	 * Insert point to point set by file input.
+	 * {@inheritDoc}
+	 * There is no update of the model after the insertion of the point 
+	 * into the point set.
 	 *
 	 * @param x the x
 	 * @param y the y
@@ -508,14 +516,17 @@ public class DrawPanelController implements IDrawPanelController {
 
 	
 	/**
-	 * Delete point from point set by user input.
+	 * {@inheritDoc}
+	 * Updates the model and the view afterwards.
 	 *
-	 * @param mouseX the x coordinate of the mouse
-	 * @param mouseY the y coordinate of the mouse
-	 * @param totalScale the total scale
+	 * @param mouseX the x coordinate of the mouse in the coordinate system of the model.
+	 * @param mouseY the y coordinate of the mouse in the coordinate system of the model.
+	 * @param totalScale needed for calculating distances
+	 * in the coordinate system of the model, because the mouse radius refers to the 
+	 * coordinate system of the view.
 	 */
 	@Override
-	public void deletePointFromPointSetByUserInput(int mouseX, int mouseY, double totalScale) {
+	public void deletePointFromPointSetByCommand(int mouseX, int mouseY, double totalScale) {
 		if (selected != null) {
 			if (pointIsWithinMouseRadius(selected, mouseX, mouseY, new ManhattanMetric(), GUISettings.mouseRadius/totalScale)) {
 				ICommand removePointCommand = new RemovePointCommand(selected, pointSet);
@@ -533,14 +544,15 @@ public class DrawPanelController implements IDrawPanelController {
 
 	
 	/**
-	 * Initializes a point drag.
+	 * Initializes a point drag. It sets the mouse pointer coordinates
+	 * of the starting position in the coordinate system of the model.
+	 * It also set
 	 *
 	 * @param mouseX the x coordinate of the mouse in the coordinate system of the model.
 	 * @param mouseY the y coordinate of the mouse in the coordinate system of the model.
-	 * @param totalScale the product of scale and panel scale.
 	 */
 	@Override
-	public void initializePointDrag(int mouseX, int mouseY, double totalScale) {
+	public void initializePointDrag(int mouseX, int mouseY) {
 		if (selected != null) {
 			startMouseX = mouseX;
 			startMouseY = mouseY;
@@ -551,10 +563,10 @@ public class DrawPanelController implements IDrawPanelController {
 
 	
 	/**
-	 * Drag point.
+	 * {@inheritDoc}
 	 *
-	 * @param mouseX the mouse X
-	 * @param mouseY the mouse Y
+	 * @param mouseX the x coordinate of the mouse pointer in the coordinate system of the model.
+	 * @param mouseY the y coordinate of the mouse pointer in the coordinate system of the model.
 	 */
 	@Override
 	public void dragPoint(int mouseX, int mouseY) {
@@ -575,10 +587,10 @@ public class DrawPanelController implements IDrawPanelController {
 
 	
 	/**
-	 * Terminate point drag.
+	 * Terminates a point drag.
 	 *
-	 * @param mouseX the mouse X
-	 * @param mouseY the mouse Y
+	 * @param mouseX the x coordinate of the mouse pointer in the coordinate system of the model.
+	 * @param mouseY the y coordinate of the mouse pointer in the coordinate system of the model.
 	 */
 	@Override
 	public void terminatePointDrag(int mouseX, int mouseY) {
@@ -619,7 +631,6 @@ public class DrawPanelController implements IDrawPanelController {
 
 	
 	
-	
 	/**
 	 * Sets the show triangle.
 	 *
@@ -630,10 +641,15 @@ public class DrawPanelController implements IDrawPanelController {
 		view.setTriangleIsShown(b);
 	}
 	
+	
 	/**
-	 * Sets the show animation.
+	 * {@inheritDoc}
+	 * 
+	 * Creates a new animaton thread if necessary, or terminates 
+	 * a running animation thread, if the argument is false.
 	 *
-	 * @param animationRequested the new show animation
+	 * @param animationRequested true if the animation is to
+	 * be shown.False otherwise
 	 */
 	@Override
 	public void setShowAnimation(boolean animationRequested) {
@@ -693,7 +709,11 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 	
 	/**
-	 * Notify observers.
+	 * {@inheritDoc}
+	 * 
+	 * In this application the controller of
+	 * the status bar gets the informations, which are displayed 
+	 * in the status bar.
 	 */
 	@Override
 	public void notifyObservers() {
@@ -720,7 +740,6 @@ public class DrawPanelController implements IDrawPanelController {
 
 	
 
-	
 	/**
 	 * Gets the diameter.
 	 *
@@ -755,11 +774,14 @@ public class DrawPanelController implements IDrawPanelController {
 	public Quadrangle getBiggestQuadrangle() {
 		return quadrangle;
 	}
-
+    
+	
+	
 	/**
-	 * Hull as array.
+	 * {@inheritDoc}
 	 *
-	 * @return the int[][]
+	 * @return the n x 2 array of integers which contains the coordinate of all points of the hull 
+	 * moving clockwise along the hull. We refer to a standard cartesian coordinate system.
 	 */
 	@Override
 	public int[][] hullAsArray() {
@@ -772,8 +794,8 @@ public class DrawPanelController implements IDrawPanelController {
 	/**
 	 * Sets the coordinates of the mouse pointer.
 	 *
-	 * @param mouseX the x coordinate of the mouse pointer.
-	 * @param mouseY the y coordinate of the mouse pointer.
+	 * @param mouseX the x coordinate of the mouse pointer in the coordinate system of the model.
+	 * @param mouseY the y coordinate of the mouse pointer in the coordinate system of the model.
 	 */
 	private void setMouseCoordinates(int mouseX, int mouseY) {
 		this.mouseX = mouseX;
@@ -781,11 +803,6 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 
 	
-	/**
-	 * Sets the mouse position is over panel.
-	 *
-	 * @param b the new mouse position is over panel
-	 */
 	@Override
 	public void setMousePositionIsOverPanel(boolean b) {
 		mousePositionIsOverPanel = b;
@@ -795,8 +812,9 @@ public class DrawPanelController implements IDrawPanelController {
 	/**
 	 * Sets the selected point.
 	 *
-	 * @param totalScale scale * panelScale. This value is needed to calculate distances in
-	 * the model. We need it to determine the selected point.
+	 * @param totalScale needed to calculate distances in
+	 * the model. We need it to determine the selected point because the mouse radius refers to 
+	 * the coordinate system of the view. {@link GUISettings#mouseRadius}
 	 */
 	private void setSelectedPoint(double totalScale) {
 		if(mousePositionIsOverPanel) {
@@ -837,11 +855,15 @@ public class DrawPanelController implements IDrawPanelController {
 
 	
 	/**
-	 * Update mouse data.
+	 * {@inheritDoc}
 	 *
-	 * @param mouseX the mouse X
-	 * @param mouseY the mouse Y
-	 * @param totalScale the total scale
+	 * This method updates the position of the mouse pointer, sets the selected point and 
+	 * updates all observers i.e. the controller of the status bar.
+	 * @param mouseX the x coordinate of the mouse pointer in the coordinate system of the model.
+	 * @param mouseY the y coordinate of the mouse pointer in the coordinate system of the model.
+	 * @param totalScale needed for calculating distances
+	 * in the coordinate system of the model, because the mouse radius refers to the 
+	 * coordinate system of the view.
 	 */
 	@Override
 	public void updateMouseData(int mouseX, int mouseY, double totalScale) {
@@ -851,104 +873,55 @@ public class DrawPanelController implements IDrawPanelController {
 	}
 
 	
-	/**
-	 * Center view.
-	 */
 	@Override
 	public void centerView() {
 		view.center();
 		
 	}
 	
-	/**
-	 * Gets the convex hull isshown.
-	 *
-	 * @return the convex hull isshown
-	 */
 	@Override
 	public boolean getConvexHullIsshown() {
 		return view.convexHullIsShown();
 	}
-   
-
 	
+
+	@Override
+	public boolean getDiameterIsShown() {
+		return view.diameterIsShown();
+	}
    
-	/**
-	 * Gets the triangle is shown.
-	 *
-	 * @return the triangle is shown
-	 */
 	@Override
 	public boolean getTriangleIsShown() {
 		return view.triangleIsShown();
 	}
 	
+	@Override
+	public boolean getQuadrangleIsShown() {
+		return view.quadrangleIsShown();
+	}
 
+	@Override
+	public boolean getAnimationIsShown() {
+		return view.animationIsShown();
+	}
 	
 
-	/**
-	 * Sets the show convex hull.
-	 *
-	 * @param b the new show convex hull
-	 */
 	@Override
 	public void setShowConvexHull(boolean b) {
 		view.setConvexHullIsShown(b);
 
 	}
 
-	/**
-	 * Sets the show diameter.
-	 *
-	 * @param b the new show diameter
-	 */
 	@Override
 	public void setShowDiameter(boolean b) {
 		view.setDiameterIsShown(b);
 
 	}
-
-	/**
-	 * Sets the show quadrangle.
-	 *
-	 * @param b the new show quadrangle
-	 */
+	
+	
 	@Override
 	public void setShowQuadrangle(boolean b) {
 		view.setQuadrangleIsShown(b);
 
-	}
-
-	
-	/**
-	 * Gets the diameter is shown.
-	 *
-	 * @return the diameter is shown
-	 */
-	@Override
-	public boolean getDiameterIsShown() {
-		return view.diameterIsShown();
-	}
-
-	
-	/**
-	 * Gets the quadrangle is shown.
-	 *
-	 * @return the quadrangle is shown
-	 */
-	@Override
-	public boolean getQuadrangleIsShown() {
-		return view.quadrangleIsShown();
-	}
-
-	/**
-	 * Gets the animation is shown.
-	 *
-	 * @return the animation is shown
-	 */
-	@Override
-	public boolean getAnimationIsShown() {
-		return view.animationIsShown();
-	}
-
+	}	
 }

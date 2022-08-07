@@ -27,37 +27,35 @@ public interface IDrawPanelController {
 	
 	
 	/**
-	 * Undoes a command.
+	 * Undoes the execution of the last executed
+	 * command.
 	 */
 	public void undoCommand();
 	
 	/**
-	 * Redoes a command.
+	 *Executes the last undone command.
 	 */
 	public void redoCommand();
 	
 	/**
-	 * Returns true, if the undo functionality is enabled.
+	 * Returns true, if a command can be undone.
 	 * Returns false otherwise.
 	 *
-	 * @return True, if the undo functionality is enabled,
+	 * @return true, if a command can be undone,
 	 * false otherwise.
 	 */
 	public boolean undoIsEnabled();
 	
 	/**
-	 * Returns true, if the redo functionality is enabled.
-	 * Returns false otherwise.
+	 * Returns true, if a undone command can be 
+	 * executed again. Returns false otherwise.
 	 *
-	 * @return True, if the redo functionality is enabled, 
-	 * false otherwise.
+	 * @return true, if successful
 	 */
 	public boolean redoIsEnabled();
 
 	/**
-	 * Updates the model of the draw panel. This means, the point set, the
-	 * convex hull, the diamter, the quadrangle and the quadrangle sequence 
-	 * are updated. Afterwards, all observers are notified.
+	 * Updates the model.
 	 */
 	public void updateModel();
 	
@@ -68,25 +66,23 @@ public interface IDrawPanelController {
 
 
 	/**
-	 * Removes all points from the point set. As a consequence
-	 * all points are removed from the hull.
+	 * Removes all points from the point set.
 	 */
 	void clearModel();
 
 
 	/**
 	 * Inserts a point into the point set as result of an action
-	 * by the user. Afterwards, the model is updated.
+	 * by the user.
 	 *
 	 * @param x the x coordinate of the point.
 	 * @param y the y coordinate of the point.
 	 */
-	void insertPointToPointSetByUserInput(int x, int y);
+	void insertPointToPointSetByCommand(int x, int y);
 	
 	
 	/**
-	 * Inserts point to point set from file input. 
-	 * Model is not updated afterwards.
+	 * Inserts point to point set from file input.
 	 *
 	 * @param x the x coordinate of the point
 	 * @param y the y coordinate of the point
@@ -96,13 +92,15 @@ public interface IDrawPanelController {
 	
 	/**
 	 * Deletes a point from the point set as result of an action
-	 * by the user. Afterwards, the model is updated.
+	 * by the user.
 	 *
 	 * @param mouseX the x coordinate of the mouse.
 	 * @param mouseY the y coordinate of the mouse.
-	 * @param totalScale the total scale
+	 * @param totalScale the total scale needed for the transformation
+	 * of distances from the coordinate system of the view to the 
+	 * coordinate system of the model.
 	 */
-	void deletePointFromPointSetByUserInput(int mouseX, int mouseY, double totalScale);
+	void deletePointFromPointSetByCommand(int mouseX, int mouseY, double totalScale);
 
 
 	/**
@@ -112,10 +110,8 @@ public interface IDrawPanelController {
 	 * drag 
 	 * @param mouseY the y coordinate of the mouse which is the starting y coordinate of the
 	 * drag
-	 * @param totalScale scale * panelScale. This value is needed to calculate the 
-	 * distance in the model.
 	 */
-	void initializePointDrag(int mouseX, int mouseY, double totalScale);
+	void initializePointDrag(int mouseX, int mouseY);
 
 
 	/**
@@ -185,7 +181,7 @@ public interface IDrawPanelController {
 	
 	
 	/**
-	 * Determines, if the convex hull
+	 * Determines whether the convex hull
 	 * is be shown.
 	 *
 	 * @param b  true, whether the convex hull is to 
@@ -229,8 +225,8 @@ public interface IDrawPanelController {
 
 
 	/**
-	 * Insert a certain number of randomly generated points into the point
-	 * set.
+	 * Tries to insert a certain number of randomly generated points into the visible area
+	 * of the draw panel.
 	 *
 	 * @param number the number of random points to be inserted into the point set.
 	 * @param minX the minimum x coordinate which the points are allowed to have
@@ -243,18 +239,18 @@ public interface IDrawPanelController {
 
 
 	/**
-	 * Adds an observer.
+	 * Adds an observer to the observer list.
 	 *
-	 * @param observer the observer which is added
+	 * @param observer the observer which is added.
 	 */
 	void addObserver(IDrawPanelControllerObserver observer);
 
 
 
 	/**
-	 * Removes an observer.
+	 * Removes an observer from the observer list.
 	 *
-	 * @param observer the observer which is removed
+	 * @param observer the observer which is removed.
 	 */
 	void removeObserver(IDrawPanelControllerObserver observer);
 
@@ -269,9 +265,7 @@ public interface IDrawPanelController {
 
 	/**
 	 * Resets the draw panel controller.
-	 * This method is used, if a new point set
-	 * is loaded from a file or if a new draw
-	 * panel is created.
+	 * 
 	 */
 	void reset();
 
@@ -282,9 +276,9 @@ public interface IDrawPanelController {
      *
      * @param mouseX the x coordinate of the mouse.
      * @param mouseY the y coordinate of the mouse.
-     * @param totalScale the product of scale and panelScale. This value
-     * is needed to calculate distances in the model. In this 
-     * application we need it to determine the selected point.
+     * @param totalScale the the total scale needed for the transformation
+	 * of distances from the coordinate system of the view to the 
+	 * coordinate system of the model.
      */
     public void updateMouseData(int mouseX, int mouseY, double totalScale);
 	
@@ -301,7 +295,7 @@ public interface IDrawPanelController {
 
 
 	/**
-	 * Gets the diameter of the point set.
+	 * Returns the diameter of the point set.
 	 * 
 	 * @return the diameter
 	 */
@@ -310,7 +304,7 @@ public interface IDrawPanelController {
 
 
 	/**
-	 * Gets the length of the diameter of the point set.
+	 * Returns the length of the diameter of the point set.
 	 * 
 	 * @return the diameter length
 	 */
@@ -319,7 +313,7 @@ public interface IDrawPanelController {
 
 
 	/**
-	 * Gets the biggest quadrangle of the point set
+	 * Returns the biggest quadrangle of the point set.
 	 * 
 	 * @return the biggest quadrangle
 	 */
@@ -328,10 +322,9 @@ public interface IDrawPanelController {
 
 
 	/**
-	 * Returns the hull as an array.
+	 * Returns the hull as an array of integers.
 	 * 
-	 * @return the n x 2 int array which contains the coordinate of all points of the hull 
-	 * moving clockwise along the hull. We refer to a standard cartesian coordinate system.
+	 * @return the array of integers.
 	 */
 	int[][] hullAsArray();
 	

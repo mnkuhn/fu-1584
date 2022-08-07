@@ -3,7 +3,12 @@ package propra22.q8493367.controllers;
 import propra22.q8493367.util.IMainWindowListener;
 
 /**
- * The Interface for a main window.
+ * The Interface for a main window. It provides methods 
+ * for setting the main window listener and for enabling or 
+ * disabling various functionalities of the menus 
+ * of the menu bar or for selecting or deselecting
+ * some checkboxes in the menus of the menu bar. 
+ * 
  */
 public interface IMainWindow {
 
@@ -22,7 +27,7 @@ public interface IMainWindow {
 	 * Sets the undo item in the edit menu 
 	 * enabled or disabled.
 	 *
-	 * @param b if true, undo is enabled 
+	 * @param b if true undo is enabled, 
 	 * otherwise undo is disabled.
 	 */
 	void setUndoEnabled(boolean b);
@@ -31,15 +36,15 @@ public interface IMainWindow {
 	 * Sets the redo item in the edit menu
 	 * enabled or disabled.
 	 *
-	 * @param b if true, redo is enabled
+	 * @param b if true redo is enabled,
 	 * otherwise redo is disabled.
 	 */
 	void setRedoEnabled(boolean b);
 	
 	/**
-	 * Shows the user manual.
+	 * Shows the operational manual.
 	 *
-	 * @param path the file path to the manual.
+	 * @param path the file path to the operational manual.
 	 */
 	void showManual(String path);
 	
@@ -77,7 +82,7 @@ public interface IMainWindow {
     /**
      * Sets the animation visible or invisible.
      *
-     * @param b true to make the animation visible, false make it invisible.
+     * @param b true to make the animation visible, false to  make it invisible.
      */
 	void setAnimationIsShown(boolean b);
 

@@ -21,7 +21,7 @@ public interface IDrawPanel  {
 	public void setDrawPanelListener(IDrawPanelListener drawPanelListener);
 	
 	/**
-	 * updates the draw panel.
+	 * Updates the draw panel.
 	 */
 	public void update();
     
@@ -124,7 +124,7 @@ public interface IDrawPanel  {
 	 * @param p the point whose coordinates are translated.
 	 * @return the view point translated to model point
 	 */
-	public Point getViewPointTranslatedToModelPoint(Point p);
+	public Point translatePointFromViewToModel(Point p);
 
 	
 

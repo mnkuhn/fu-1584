@@ -155,7 +155,10 @@ public class PointSet {
 	 *
 	 * @param index  the index of the point in the point set.
 	 * @return the point with the specified index.
-	 */
+	 * @throws IndexOutOfBoundsException This exception is thrown,
+	 * if the index is below 0 or equal or above the size of the 
+	 * point set.
+    */
 	public Point getPointAt(int index) throws IndexOutOfBoundsException {
 		return points.get(index);
 	}

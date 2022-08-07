@@ -14,6 +14,8 @@ import propra22.q8493367.util.ViewEvent;
 
 /**
  * The Class MainWindowController is the controller for the main window.
+ * It provides methods that process events related to user input in the menu bar
+ * of the main window.
  */
 public class MainWindowController implements IMainWindowListener {
 
@@ -23,7 +25,7 @@ public class MainWindowController implements IMainWindowListener {
 	/** The main window*/
 	private IMainWindow view;
 	
-	/** The file manager*/
+	/** The file manager which handles all file file events.*/
 	private IFileManager fileManager;
 	
     /**
@@ -42,11 +44,7 @@ public class MainWindowController implements IMainWindowListener {
         view.setConvexHullIsShown(drawPanelController.getConvexHullIsshown());
         view.setDiameterIsShown(drawPanelController.getDiameterIsShown());
         view.setQuadrangleIsShown(drawPanelController.getQuadrangleIsShown());
-        /* I do not set the default value for the animation because I think, 
-         * it should not be selected in the beginning.
-         */
-        
-        //view.setTriangleIsShown(drawPanelController.triangleIsShown());
+        view.setAnimationIsShown(drawPanelController.getAnimationIsShown());
     }
 	
    

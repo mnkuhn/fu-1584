@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Hull represents a contour polygon or a convex hull.
  */
@@ -23,21 +22,21 @@ public class Hull implements IHull {
 	private  List<Point> lowerRight = new ArrayList<>();
 	
 	/** The highest Y found. */
-	private int highestYFound;
+	private int biggestYFound;
 	
 	/** The lowest Y found. */
-	private int lowestYFound;
+	private int smallestYFound;
 
 	
 	/**
-	 * Adds the point to section.
+	 * Adds a point to a contour.
 	 *
-	 * @param point the point
-	 * @param sectionType the section type
+	 * @param point the point to be added.
+	 * @param contourType the type of the contour
 	 */
 	@Override
-	public void addPointToSection(Point point, ContourType sectionType) {
-		switch (sectionType) {
+	public void addPointToContour(Point point, ContourType contourType) {
+		switch (contourType) {
 		case UPPERLEFT: {
 			upperLeft.add(point);
 			break;
@@ -55,13 +54,13 @@ public class Hull implements IHull {
 			break;
 		}
 		default: {
-			throw new IllegalArgumentException("Unexpected value: " + sectionType);
+			throw new IllegalArgumentException("Unexpected value: " + contourType);
 		}
 		}
 	}
 	
 	/**
-	 * Sets the.
+	 * Calculates the contour polygon from the point set.
 	 *
 	 * @param pointSet the point set
 	 */
@@ -78,13 +77,14 @@ public class Hull implements IHull {
 	
 	/**
 	 * Calculates the upper left section. This function has to be called before
-	 * calculateUpperRight because HighestYFound has to be set.
+	 * calculateUpperRight because the biggest y value found has to be set. 
+	 * {@link Hull#biggestYFound}
 	 *
 	 * @param pointSet the point set
 	 */
 	private void calculateUpperLeft(PointSet pointSet) {
 		Point point = pointSet.getPointAt(0);
-		addPointToSection(point, ContourType.UPPERLEFT);
+		addPointToContour(point, ContourType.UPPERLEFT);
 		
 		int maxYSoFar = point.getY();
 		int pointY;
@@ -94,22 +94,23 @@ public class Hull implements IHull {
 			pointY = point.getY();
 			if(pointY > maxYSoFar) {
 				maxYSoFar = pointY;
-				addPointToSection(point, ContourType.UPPERLEFT);
+				addPointToContour(point, ContourType.UPPERLEFT);
 			}
 		}
-		highestYFound = maxYSoFar;
+		biggestYFound = maxYSoFar;
 	}
 	
 	
     /**
      * Calculates the lower left section. This function has to be called before
-     * calculateLowerRight because the LowestYFound has to be set.
+     * calculateLowerRight because the smalles y value found has to be set.
+     * {@link Hull#smallestYFound}
      *
      * @param pointSet the point set
      */
     private void calculateLowerLeft(PointSet pointSet) {
 		Point point = pointSet.getPointAt(0);
-		addPointToSection(point, ContourType.LOWERLEFT);
+		addPointToContour(point, ContourType.LOWERLEFT);
 		
 		int minYSoFar = point.getY();
 		int pointY;
@@ -119,33 +120,34 @@ public class Hull implements IHull {
 			pointY = point.getY();
 			if(pointY < minYSoFar) {
 				minYSoFar = pointY;
-				addPointToSection(point, ContourType.LOWERLEFT);
+				addPointToContour(point, ContourType.LOWERLEFT);
 			}
 		}
-		lowestYFound = minYSoFar;
+		smallestYFound = minYSoFar;
 	}
 	
 	
 	/**
 	 * Calculates the upper right section. This function has to be called after
-	 * calculateUpperLeft() because the highestYFound has to be set.
+	 * calculateUpperLeft() because the biggest y found has to be set before.
+	 * {@link Hull#biggestYFound}
 	 *
 	 * @param pointSet the point set
 	 */
 	private void calculateUpperRight(PointSet pointSet) {
 		Point point = pointSet.getPointAt(pointSet.getNumberOfPoints() - 1);
-		addPointToSection(point, ContourType.UPPERRIGHT);	
+		addPointToContour(point, ContourType.UPPERRIGHT);	
 		
 		int maxYSoFar = point.getY();
 		int pointY;
 	    int i = pointSet.getNumberOfPoints() - 2;
-		while(maxYSoFar != highestYFound) {
+		while(maxYSoFar != biggestYFound) {
 			point = pointSet.getPointAt(i--);
 			pointY = point.getY();
 			
 			if(pointY > maxYSoFar) {
 				maxYSoFar = pointY;
-				addPointToSection(point, ContourType.UPPERRIGHT);
+				addPointToContour(point, ContourType.UPPERRIGHT);
 			}
 		}
 	}
@@ -153,37 +155,39 @@ public class Hull implements IHull {
 	
 	/**
 	 * Calculate the lower right section. This function has to be called after 
-	 * calculateLowerLeft() because the lowestYFound has to be set.
+	 * calculateLowerLeft() because the smallest y found has to be set before.
+	 * 
+	 * {@link Hull#smallestYFound}
 	 *
 	 * @param pointSet the point set
 	 */
 	private void calculateLowerRight(PointSet pointSet) {
 		Point point = pointSet.getPointAt(pointSet.getNumberOfPoints() - 1);
-		addPointToSection(point, ContourType.LOWERRIGHT);		
+		addPointToContour(point, ContourType.LOWERRIGHT);		
 		
 		int minYSoFar = point.getY();
 		int pointY;
 		int i = pointSet.getNumberOfPoints() - 2;
-		while(minYSoFar != lowestYFound) {
+		while(minYSoFar != smallestYFound) {
 			point = pointSet.getPointAt(i--);
 			pointY = point.getY();
 			if(pointY < minYSoFar) {
 				minYSoFar = pointY;
-				addPointToSection(point, ContourType.LOWERRIGHT);
+				addPointToContour(point, ContourType.LOWERRIGHT);
 			}
 		}
 	}
 
 	
 	/**
-	 * Gets the point from section.
+	 * Gets a point from a contour.
 	 *
-	 * @param index the index
+	 * @param index the index of the point in the contour.
 	 * @param contourType the contour type
-	 * @return the point from section
+	 * @return the point from the contour
 	 */
 	@Override
-	public Point getPointFromSection(int index, ContourType contourType) {
+	public Point getPointFromContour(int index, ContourType contourType) {
 		switch (contourType) {
 			case UPPERLEFT: {
 				return upperLeft.get(index);
@@ -204,14 +208,14 @@ public class Hull implements IHull {
 	}
 
 	/**
-	 * Removes the point from contour.
+	 * Removes a point from a contour.
 	 *
-	 * @param index the index
-	 * @param sectionType the section type
+	 * @param index the index of the point in the contour.
+	 * @param contourType the type of the contour
 	 */
 	@Override
-	public void removePointFromContour(int index, ContourType sectionType) {
-		switch (sectionType) {
+	public void removePointFromContour(int index, ContourType contourType) {
+		switch (contourType) {
 		case UPPERLEFT: {
 			upperLeft.remove(index);
 			break;
@@ -229,20 +233,22 @@ public class Hull implements IHull {
 			break;
 		}
 		default: {
-			throw new IllegalArgumentException("Unexpected value: " + sectionType);
+			throw new IllegalArgumentException("Unexpected value: " + contourType);
 		}
 		}
 	}
 
 	/**
-	 * Section is empty.
+	 * Returns true, if in the contour specified by the contour
+	 * type are no points. Returns false otherwise.
 	 *
-	 * @param sectionType the section type
-	 * @return true, if successful
+	 * @param contourType the type of the contour
+	 * @return true, if no points are in the contour, false
+	 * otherwise.
 	 */
 	@Override
-	public boolean sectionIsEmpty(ContourType sectionType) {
-		switch (sectionType) {
+	public boolean contourIsEmpty(ContourType contourType) {
+		switch (contourType) {
 		case UPPERLEFT: {
 			return upperLeft.isEmpty();
 			}
@@ -257,20 +263,20 @@ public class Hull implements IHull {
 
 			}
 		default: {
-			throw new IllegalArgumentException("Unexpected value: " + sectionType);
+			throw new IllegalArgumentException("Unexpected value: " + contourType);
 			}
 		}
 	}
 
 	/**
-	 * Gets the size of section.
-	 *
-	 * @param sectionType the section type
-	 * @return the size of section
+	 * Gets the size of the contour specified by the
+	 * contour type.
+	 * @param contourType the section type
+	 * @return the number of points in the contour
 	 */
 	@Override
-	public int getSizeOfSection(ContourType sectionType) {
-		switch (sectionType) {
+	public int getSizeOfContour(ContourType contourType) {
+		switch (contourType) {
 		case UPPERLEFT: {
 			return upperLeft.size();
 			}
@@ -285,13 +291,13 @@ public class Hull implements IHull {
 
 			}
 		default: {
-			throw new IllegalArgumentException("Unexpected value: " + sectionType);
+			throw new IllegalArgumentException("Unexpected value: " + contourType);
 			}
 		}
 	}
 
 	/**
-	 * Clear.
+	 * Removes all points from the hull.
 	 */
 	@Override
 	public void clear() {
@@ -302,14 +308,15 @@ public class Hull implements IHull {
 	}
 
 	/**
-	 * Removes the point from contour.
+	 * Removes a point from the contour specified
+	 * by the contour type.
 	 *
 	 * @param point the point
-	 * @param sectionType the section type
+	 * @param contourType the type of the contour
 	 */
 	@Override
-	public void removePointFromContour(Point point, ContourType sectionType) {
-		switch (sectionType) {
+	public void removePointFromContour(Point point, ContourType contourType) {
+		switch (contourType) {
 		case UPPERLEFT: {
 			upperLeft.remove(point);
 		}
@@ -324,13 +331,16 @@ public class Hull implements IHull {
 
 		}
 		default: {
-			throw new IllegalArgumentException("Unexpected value: " + sectionType);
+			throw new IllegalArgumentException("Unexpected value: " + contourType);
 		}
 		}
 	}
 
 	/**
-	 * To array.
+	 * Returns the points of the hull as an array of integers, following
+	 * the points clockwise in a cartesian coordinate system. The first point
+	 * is the point with the biggest y coordinate from all the points with the
+	 * smallest x coordinate.
 	 *
 	 * @return the int[][]
 	 */
@@ -346,7 +356,11 @@ public class Hull implements IHull {
 	}
 	
 	/**
-	 * To list.
+	 * Returns the points of the hull as a list of 
+	 * points, following the points clockwise in a cartesian
+	 * coordinate system. The first point
+	 * is the point with the biggest y coordinate from all the points with the
+	 * smallest x coordinate.
 	 *
 	 * @return the elements of the hull as a list. The elements
 	 * follow clockwise direction.
@@ -365,17 +379,18 @@ public class Hull implements IHull {
 
 	
 	/**
-	 * Checks if is empty.
+	 * Returns true, if there are no points in the hull,
+	 * returns false otherwise.
 	 *
 	 * @return true, if is empty
 	 */
 	@Override
 	public boolean isEmpty() {
-		return getSizeOfSection(ContourType.UPPERLEFT) == 0;
+		return getSizeOfContour(ContourType.UPPERLEFT) == 0;
 	}
 	
 	/**
-	 * Checks for one point.
+	 * Returns true, if there is exactly one point in the hull.
 	 *
 	 * @return true, if successful
 	 */
@@ -385,9 +400,11 @@ public class Hull implements IHull {
 	}
 	
 	/**
-	 * Left iterator.
+	 * Returns an iterator which starts at the point
+	 * with the biggest y coordinate from all the
+	 * points with the smallest x coordinate.
 	 *
-	 * @return the i hull iterator
+	 * @return the returned iterator
 	 */
 	@Override
 	public IHullIterator leftIterator() {
@@ -400,7 +417,9 @@ public class Hull implements IHull {
 	
 
 	/**
-	 * Right iterator.
+	 * Returns an iterator which starts at the point
+	 * with the smallest y coordinate from all the
+	 * points with the biggest x coordinate.
 	 *
 	 * @return the i hull iterator
 	 */
@@ -414,26 +433,28 @@ public class Hull implements IHull {
 	}
 	
 	/**
-	 * Clean.
+	 * Calculates the convex hull outgoing from
+	 * the contour polygon.
 	 */
 	@Override
 	public void clean() {
 		if (!isEmpty()) {
 			for (ContourType sectionType : ContourType.values()) {
-				calculateContour(sectionType);
+				cleanContour(sectionType);
 			}
 		}
 	}
 	
-/**
- * Calculate contour.
- *
- * @param contourType the contour type
- */
-public void calculateContour(ContourType contourType) {
+	/**
+	 * Calculates the contour specified by the contour type
+	 * of the convex hull.
+	 *
+	 * @param contourType the contour type
+	 */
+	public void cleanContour(ContourType contourType) {
 		
-		if(!sectionIsEmpty(contourType)) {
-			int size = getSizeOfSection(contourType);
+		if(!contourIsEmpty(contourType)) {
+			int size = getSizeOfContour(contourType);
 			if(size >= 3) {
 				int base = 0;
 				int next = 2;
@@ -473,49 +494,56 @@ public void calculateContour(ContourType contourType) {
 	}
 
 
-/**
- * Signed triangle area. The DFV algorithm with adapted arguments.
- *
- * @param base  the base point. This point is the first point of the base line
- * of the triangle, whose area is calculated.
- * @param tip  this points represents the tip of the triangle, whose
- * area is calculated.
- * @param sectionType the section type
- * @return the long
- */
-private long signedTriangleArea(int base, int tip, ContourType sectionType) {
-	return sectionType.getSign() * Point.signedTriangleArea(
-			//the first point of the baseline
-			getPointFromSection(base, sectionType), 
-			//The second point of the baseline following the first base point in 
-			//the direction of increasing index.
-			getPointFromSection(base + 1, sectionType),  
-			//The tip of the triangle
-			getPointFromSection(tip, sectionType));
-}
+	/**
+	 * Signed triangle area. The DFV algorithm with adapted arguments.
+	 *
+	 * @param base  the base point. This point is the first point of the base line
+	 * of the triangle, whose area is calculated.
+	 * @param tip  this points represents the tip of the triangle, whose
+	 * area is calculated.
+	 * @param sectionType the section type
+	 * @return the long
+	 */
+	private long signedTriangleArea(int base, int tip, ContourType sectionType) {
+		return sectionType.getSign() * Point.signedTriangleArea(
+				//the first point of the baseline
+				getPointFromContour(base, sectionType), 
+				//The second point of the baseline following the first base point in 
+				//the direction of increasing index.
+				getPointFromContour(base + 1, sectionType),  
+				//The tip of the triangle
+				getPointFromContour(tip, sectionType));
+	}
 
 	
 	
 
 	/**
 	 * The Class HullIterator provides an Iterator for the 
-	 * hull. A limit can be set and it can iterate in both
-	 * directions (clockwise and counterclockwise) on the hull.
+	 * hull. It can iterate in both directions (clockwise and counterclockwise) on the hull.
+	 * It can not modify the hull and is only thought for iterating through the points
+	 * of the hull.
 	 */
 	private class HullIterator implements IHullIterator {
 		
+		/** The contour type of the current element. */
+		private ContourType contourType;
+		
 		/**  The index of the current element. */
-		int index;
+		private int index;
 		
 		
-		/**  The temporary index is used for the iterator functionality. */
-		int tmpIndex;
+		/** 
+		 * The temporary index is used for moving the iterator to the previous
+		 *  or the next hull point or for reading the previous or next hull point. 
+		 */
+		private int tmpIndex;
 		
-		/** The section type. */
-		ContourType sectionType;
-		
-		/**  The temporary section type is used for the iterator functionality. */
-		ContourType tmpSectionType;
+		/** 
+		 * The temporary contour type is used for moving the iterator to the previous
+		 *  or the next hull point or for reading the previous or next hull point. 
+		 */
+		private ContourType tmpContourType;
 
 		/**
 		 * Instantiates a new hull iterator.
@@ -526,27 +554,27 @@ private long signedTriangleArea(int base, int tip, ContourType sectionType) {
 		 */
 		private HullIterator(int type) {
 			if(type == 0) {
-				sectionType = ContourType.UPPERLEFT;
+				contourType = ContourType.UPPERLEFT;
 				index = 0;
 			}
 			if(type == 1) {
-				sectionType = ContourType.LOWERRIGHT;
+				contourType = ContourType.LOWERRIGHT;
 				index = 0;
 			}
 		}
 		
 		/**
-		 * Gets the point.
+		 * Returns the point with respect to the current iterator position.
 		 *
-		 * @return the point
+		 * @return the point of the current iterator position
 		 */
 		@Override
 		public Point getPoint() {
-			return getPointFromSection(index, sectionType);
+			return getPointFromContour(index, contourType);
 		}
 
 		/**
-		 * Gets the next point.
+		 * Gets the next point with respect to the current iterator position.
 		 *
 		 * @return the next point
 		 */
@@ -556,19 +584,19 @@ private long signedTriangleArea(int base, int tip, ContourType sectionType) {
 				return null;
 			} else {
 				tmpIndex = index;
-				tmpSectionType = sectionType;
+				tmpContourType = contourType;
 				if (!hasOnePoint()) {
 					goNext();
-					while (getPointFromSection(tmpIndex, tmpSectionType) == getPointFromSection(index, sectionType)) {
+					while (getPointFromContour(tmpIndex, tmpContourType) == getPointFromContour(index, contourType)) {
 						goNext();
 					}
 				}
-				return getPointFromSection(tmpIndex, tmpSectionType);
+				return getPointFromContour(tmpIndex, tmpContourType);
 			}
 		}
 		
 		/**
-		 * Gets the previous point.
+		 * Gets the previous point with respect to the current iterator position.
 		 *
 		 * @return the previous point
 		 */
@@ -578,46 +606,49 @@ private long signedTriangleArea(int base, int tip, ContourType sectionType) {
 				return null;
 			} else {
 				tmpIndex = index;
-				tmpSectionType = sectionType;
+				tmpContourType = contourType;
 				if (!hasOnePoint()) {
 					goPrevious();
-					while (getPointFromSection(tmpIndex, tmpSectionType) == getPointFromSection(index, sectionType)) {
+					while (getPointFromContour(tmpIndex, tmpContourType) == getPointFromContour(index, contourType)) {
 						goPrevious();
 					}
 				}
 			}
-			return getPointFromSection(tmpIndex, tmpSectionType);
+			return getPointFromContour(tmpIndex, tmpContourType);
 		}
 
 		/**
-		 * Next.
+		 * Moves the iterator to the next point, moving clockwise in a
+		 * cartesian coordinate system.
 		 */
 		@Override
 		public void next() {
 			if (!isEmpty() && !hasOnePoint()) {
 				tmpIndex = index;
-				tmpSectionType = sectionType;
+				tmpContourType = contourType;
 				goNext();
-				while (getPointFromSection(tmpIndex, tmpSectionType) == getPointFromSection(index, sectionType)) {
+				while (getPointFromContour(tmpIndex, tmpContourType) == getPointFromContour(index, contourType)) {
 					goNext();
 				}
 				index = tmpIndex;
-				sectionType = tmpSectionType;
+				contourType = tmpContourType;
 			}
 		}
 		
 		/**
-		 * Go to the next element moving in clockwise
-		 * direction.
+		 * Calculates the next temporary index and the next 
+		 * temporary contour type for a movement in clockwise 
+		 * direction. It has to be checked, if this new temporary iterator
+		 * position references a new point.
 		 */
 		private void goNext(){
-			switch(tmpSectionType) {
+			switch(tmpContourType) {
 				case UPPERLEFT : {
-					if(tmpIndex + 1 < getSizeOfSection(tmpSectionType)) {
+					if(tmpIndex + 1 < getSizeOfContour(tmpContourType)) {
 						tmpIndex++;
 					} else {
-						tmpIndex = getSizeOfSection(ContourType.UPPERRIGHT) - 1;
-					    tmpSectionType = ContourType.UPPERRIGHT;
+						tmpIndex = getSizeOfContour(ContourType.UPPERRIGHT) - 1;
+					    tmpContourType = ContourType.UPPERRIGHT;
 					}
 					break;
 				}
@@ -626,16 +657,16 @@ private long signedTriangleArea(int base, int tip, ContourType sectionType) {
 						tmpIndex--;
 					} else {
 						tmpIndex = 0;
-						tmpSectionType = ContourType.LOWERRIGHT;
+						tmpContourType = ContourType.LOWERRIGHT;
 					}
 					break;
 				}
 				case LOWERRIGHT: {
-					if(tmpIndex + 1 < getSizeOfSection(tmpSectionType)) {
+					if(tmpIndex + 1 < getSizeOfContour(tmpContourType)) {
 						tmpIndex++;
 					} else {
-						tmpIndex = getSizeOfSection(ContourType.LOWERLEFT) - 1;
-						tmpSectionType = ContourType.LOWERLEFT;
+						tmpIndex = getSizeOfContour(ContourType.LOWERLEFT) - 1;
+						tmpContourType = ContourType.LOWERLEFT;
 					}
 					break;
 				}
@@ -645,7 +676,7 @@ private long signedTriangleArea(int base, int tip, ContourType sectionType) {
 					}
 					else {
 						tmpIndex = 0;
-						tmpSectionType = ContourType.UPPERLEFT;
+						tmpContourType = ContourType.UPPERLEFT;
 					}
 					break;
 				}
@@ -653,43 +684,46 @@ private long signedTriangleArea(int base, int tip, ContourType sectionType) {
 		}
 		
 		/**
-		 * Previous.
+		 * Moves the iterator to the previous point, moving counterclockwise in a
+		 * cartesian coordinate system.
 		 */
 		@Override
 		public void previous() {
 			if(!isEmpty() && !hasOnePoint()) {
 				tmpIndex = index;
-				tmpSectionType = sectionType;
+				tmpContourType = contourType;
 				goPrevious();
-				while(getPointFromSection(tmpIndex, tmpSectionType) == getPointFromSection(index, sectionType)) {
+				while(getPointFromContour(tmpIndex, tmpContourType) == getPointFromContour(index, contourType)) {
 					goPrevious();
 				}
 				index = tmpIndex;
-				sectionType = tmpSectionType;	
+				contourType = tmpContourType;	
 			}
 		}
 		
 		/**
-		 * Go previous to the previous element moving
-		 * in counterclockwise direction.
+		 * Calculates the next temporary index and the next 
+		 * temporary contour type for a movement in counterclockwise 
+		 * direction. It has to be checked, if this new temporary iterator
+		 * position references a new point.
 		 */
 		private void goPrevious() {
-			switch(tmpSectionType) {
+			switch(tmpContourType) {
 				case UPPERLEFT : {
 					if(tmpIndex > 0) {
 						tmpIndex--;
 					} else {
 						tmpIndex = 0;
-					    tmpSectionType = ContourType.LOWERLEFT;
+					    tmpContourType = ContourType.LOWERLEFT;
 					}
 					break;
 				}
 				case UPPERRIGHT: {
-					if(tmpIndex + 1 < getSizeOfSection(tmpSectionType)) {
+					if(tmpIndex + 1 < getSizeOfContour(tmpContourType)) {
 						tmpIndex++;
 					} else {
-						tmpIndex = getSizeOfSection(ContourType.UPPERLEFT) - 1;
-						tmpSectionType = ContourType.UPPERLEFT;
+						tmpIndex = getSizeOfContour(ContourType.UPPERLEFT) - 1;
+						tmpContourType = ContourType.UPPERLEFT;
 					}
 					break;
 				}
@@ -698,17 +732,17 @@ private long signedTriangleArea(int base, int tip, ContourType sectionType) {
 						tmpIndex--;
 					} else {
 						tmpIndex = 0;
-						tmpSectionType = ContourType.UPPERRIGHT;
+						tmpContourType = ContourType.UPPERRIGHT;
 					}
 					break;
 				}
 				case LOWERLEFT : {
-					if(tmpIndex + 1< getSizeOfSection(tmpSectionType)) {
+					if(tmpIndex + 1< getSizeOfContour(tmpContourType)) {
 						tmpIndex++;
 					}
 					else {
-						tmpIndex = getSizeOfSection(ContourType.LOWERRIGHT) - 1;
-						tmpSectionType = ContourType.LOWERRIGHT;
+						tmpIndex = getSizeOfContour(ContourType.LOWERRIGHT) - 1;
+						tmpContourType = ContourType.LOWERRIGHT;
 					}
 					break;
 				}

@@ -5,13 +5,14 @@ import propra22.q8493367.entities.TangentPair;
 
 /**
  * The Class AnimationThread is responsible for
- * updating the view and afterwards updating the tangent pair. 
+ * updating the view and updating the tangent pair. 
  * This is done in regular intervals.
  */
 public class AnimationThread extends Thread {
 	
 	
-	/** The thread is executed as long as this
+	/** 
+	 * The thread is executed as long as this
 	 * variable is true.
 	 * 
 	 */

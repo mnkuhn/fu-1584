@@ -30,8 +30,8 @@ public class ConvexHullCalculator implements IContourCalculator {
 	@Override
 	public void calculateContour(ContourType contourType) {
 		
-		if(!hull.sectionIsEmpty(contourType)) {
-			int size = hull.getSizeOfSection(contourType);
+		if(!hull.contourIsEmpty(contourType)) {
+			int size = hull.getSizeOfContour(contourType);
 			if(size >= 3) {
 				int base = 0;
 				int next = 2;
@@ -83,12 +83,12 @@ public class ConvexHullCalculator implements IContourCalculator {
 	private long signedTriangleArea(int base, int tip, ContourType sectionType) {
 		return sectionType.getSign() * Point.signedTriangleArea(
 				//the first point of the baseline
-				hull.getPointFromSection(base, sectionType), 
+				hull.getPointFromContour(base, sectionType), 
 				//The second point of the baseline following the first base point in 
 				//the direction of increasing index.
-				hull.getPointFromSection(base + 1, sectionType),  
+				hull.getPointFromContour(base + 1, sectionType),  
 				//The tip of the triangle
-				hull.getPointFromSection(tip, sectionType));
+				hull.getPointFromContour(tip, sectionType));
 	}
 	
 	

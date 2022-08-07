@@ -13,10 +13,10 @@ public class ConventionalParser implements IParser {
 
 		int yCoordinate = 0;
 		int ySign = 1;
-		;
 
 		int currentPosition = 0;
-
+        
+		// Search for whitespaces or + or -
 		while (currentPosition < line.length()) {
 			if (line.charAt(currentPosition) == ' ') {
 				currentPosition++;
@@ -36,7 +36,7 @@ public class ConventionalParser implements IParser {
 			}
 		}
 
-		
+		// Get the first integer
 		while (currentPosition < line.length()) {
 			if (Character.isDigit(line.charAt(currentPosition))) {
 				xCoordinate = xCoordinate * 10 + Character.getNumericValue(line.charAt(currentPosition++));
@@ -44,13 +44,15 @@ public class ConventionalParser implements IParser {
 				break;
 			}
 		}
-
+        
+		// Now there must be a whitespace.
 		if (currentPosition < line.length() && line.charAt(currentPosition) == ' ') {
 			currentPosition++;
 		} else {
 			return null;
 		}
-
+        
+		// Search for whitespaces or + or -
 		while (currentPosition < line.length()) {
 			if (line.charAt(currentPosition) == ' ') {
 				currentPosition++;
@@ -70,7 +72,8 @@ public class ConventionalParser implements IParser {
 				}
 			}
 		}
-
+        
+		// Get the second integer
 		while (currentPosition < line.length()) {
 			if (Character.isDigit(line.charAt(currentPosition))) {
 				yCoordinate = yCoordinate * 10 + Character.getNumericValue(line.charAt(currentPosition++));
@@ -78,11 +81,13 @@ public class ConventionalParser implements IParser {
 				break;
 			}
 		}
-
+        
+		// If the line has not ended yet there must be a whitespace
 		if (currentPosition < line.length() && line.charAt(currentPosition++) != ' ') {
 			return null;
 		}
-
+        
+		// Ignore the rest of the line
 		return new Point(xCoordinate * xSign, yCoordinate * ySign);
 	}
 }

@@ -21,7 +21,7 @@ public interface IHull {
 	 * otherwise.
 	 * 
 	 */
-	boolean sectionIsEmpty(ContourType contourType);
+	boolean contourIsEmpty(ContourType contourType);
 	
 	/**
 	 * Gets the number of points in the contour
@@ -30,7 +30,7 @@ public interface IHull {
 	 * @param contourType the section type
 	 * @return the number of points contained in the section
 	 */
-	int getSizeOfSection(ContourType contourType);
+	int getSizeOfContour(ContourType contourType);
 	
 	/**
 	 * Adds a point to the contour 
@@ -39,7 +39,7 @@ public interface IHull {
 	 * @param point the point
 	 * @param contourType the contour type
 	 */
-	void addPointToSection(Point point, ContourType contourType);
+	void addPointToContour(Point point, ContourType contourType);
 	
 	/**
 	 * Gets the point with index i from section 
@@ -49,7 +49,7 @@ public interface IHull {
 	 * @param contourType the contour type
 	 * @return the point from section
 	 */
-	Point getPointFromSection(int i, ContourType contourType);
+	Point getPointFromContour(int i, ContourType contourType);
 	
 	/**
 	 * Removes the point from the contour

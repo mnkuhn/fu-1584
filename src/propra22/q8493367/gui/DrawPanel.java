@@ -868,14 +868,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		return new Point(translatedX, translatedY);
 	}
 	
-	/**
-	 * Gets the view point translated to model point.
-	 *
-	 * @param point the point
-	 * @return the view point translated to model point
-	 */
+	
 	@Override
-	public Point getViewPointTranslatedToModelPoint(Point point) {
+	public Point translatePointFromViewToModel(Point point) {
 		return translatePointFromViewToModel(point.getX(), point.getY());
 	}                                                                                        
 

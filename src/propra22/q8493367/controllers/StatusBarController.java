@@ -6,7 +6,8 @@ import propra22.q8493367.util.IDrawPanelControllerObserver;
 
 
 /**
- * The controller for the status bar.
+ * The controller for the status bar. It implements the method update
+ * which updates the status bar.
  */
 public class StatusBarController implements IDrawPanelControllerObserver{
 	

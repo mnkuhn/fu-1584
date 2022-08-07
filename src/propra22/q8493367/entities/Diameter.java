@@ -83,7 +83,7 @@ public class Diameter {
 	}
 	
 	/**
-	 * Returns the Diameter as an 2x2 array.
+	 * Returns the Diameter as an 2x2 array of integers.
 	 *
 	 * @return the 2x2 array, containing the coordinates of the 
 	 * two end points of the diameter:
