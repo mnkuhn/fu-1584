@@ -49,7 +49,7 @@ Das grösste Viereck wird in einem matten grün dargestellt.
 
 ##### Animation
 Während die Animation läuft, werden die beiden Punkte des Antipodenpaares durch eine schwarze Linie verbunden. Die an den Punkten des Antipodenpaares anliegenden Tangenten werden schwarz dargestellt. Das zum jeweiligen Antipodenpaar gehörende grösste Viereck wird in einem kräftigen grün eingezeichnet.
-![Animation](images/Animation.png)
+![Animation](images/GUI_with_animation.png)
 
 &nbsp;
 
