@@ -18,7 +18,7 @@ public class GUISettings {
 	/**  The color used for the convex hull. */
 	public static final Color convexHullColor = new Color(255, 0, 0, 255);             	// red
 	
-	/**  The color for the diameter. */
+	/**  The color used for the diameter. */
 	public static final Color diameterColor = new Color(0, 0, 255, 255);   				// blue
 	
 	/**  The color used for the quadrangle. */
@@ -39,25 +39,25 @@ public class GUISettings {
 	
 	
 	// Display shapes
-	/**  The default setting for the display of the convex hull. */
+	/**  Determines whether the convex hull is to be shown by default. */
 	public static final boolean defaultConvexHullIsShown = true;
 	
-	/**  The default setting for the display of the diameter. */
+	/** Determines whether the diameter is to be shown by default. */
 	public static final boolean defaultDiameterIsShown = true;
 	
-	/**  The default setting for the display of the quadrangle. */
+	/** Determines whether the biggest quadrangle is to be shown by default. */
 	public static final boolean defaultQuadrangleIsShown = true;
 	
-	/**  The default setting for showing the triangle. */
+	/** Determines whether the triangle is to be shown by default. */
 	public static final boolean defaultTriangleIsShown = false;
 	
-	/**  The default setting for the display of the animation. */
+	/** Determines whether the animation is to be shown by default. */
 	public static final boolean defaultAnimationIsShown = false;
 	
 	
 	
 	// Distances and ratios
-	/**  The radius of a point in pixels in the view. */
+	/**  The radius of a point in the view. */
 	public static final int radius = 3;
 
 	/**
@@ -66,10 +66,10 @@ public class GUISettings {
 	 */
 	public static final int mouseRadius = 16;
 
-	/** The panel to screen width ratio. */
+	/** The draw panel width to screen width ratio. */
 	public static final double panelToScreenWidhtRatio = 0.6;
 
-	/** The panel to screen height ratio. */
+	/** The draw panel height to screen height ratio. */
 	public static final double panelToScreenHeightRatio = 0.6;
 	
 	/** The minimum height of the main window.*/
