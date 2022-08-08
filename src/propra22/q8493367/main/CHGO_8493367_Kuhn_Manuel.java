@@ -1,6 +1,5 @@
 package propra22.q8493367.main;
 
-import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 
 import propra22.interfaces.IHullCalculator;
@@ -17,12 +16,10 @@ import propra22.q8493367.entities.Quadrangle;
 import propra22.q8493367.entities.QuadrangleSequence;
 import propra22.q8493367.entities.TangentPair;
 import propra22.q8493367.gui.DrawPanel;
-import propra22.q8493367.gui.FileChooser;
 import propra22.q8493367.gui.GUISettings;
 import propra22.q8493367.gui.MainWindow;
 import propra22.q8493367.gui.StatusBar;
 import propra22.q8493367.usecases.FileManager;
-import propra22.q8493367.usecases.FileSettings;
 import propra22.q8493367.usecases.IFileManager;
 import propra22.q8493367.util.DrawPanelListener;
 import propra22.q8493367.util.IDrawPanelControllerObserver;
@@ -71,9 +68,9 @@ public class CHGO_8493367_Kuhn_Manuel {
 		drawPanelController.addObserver(statusBarController);
 		
 		//File manager and parser
-		JFileChooser fileChooser = new FileChooser(FileSettings.defaultFilePath);
+		//JFileChooser fileChooser = new FileChooser(FileSettings.defaultFilePath);
 		IParser parser = new ConventionalParser();
-		IFileManager fileManager = new FileManager(pointSet, drawPanelController, fileChooser, parser);
+		IFileManager fileManager = new FileManager(pointSet, drawPanelController, parser);
 		
 		//Main window
 		MainWindow mainWindow = new MainWindow(drawPanel, statusBar);

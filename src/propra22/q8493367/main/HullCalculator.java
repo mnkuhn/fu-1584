@@ -55,7 +55,7 @@ public class HullCalculator implements IHullCalculator{
 		this.drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, 
 				quadrangleSequence);
 		
-		this.fileManager = new FileManager(pointSet, drawPanelController, null, new ConventionalParser());
+		this.fileManager = new FileManager(pointSet, drawPanelController, new ConventionalParser());
 	}
 	
 	
