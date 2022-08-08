@@ -399,10 +399,10 @@ public class DrawPanelController implements IDrawPanelController {
 	 * the point set.
 	 *
 	 * @param number the number of randomly generated points.
-	 * @param minX the smallest possible x coordinate without the margin.
-	 * @param minY the smallest possible y coordinate without the margin.
-	 * @param maxX the biggest possible x coordinate without the margin.
-	 * @param maxY the biggest possible y coordinate without the margin.
+	 * @param minX the smallest possible x coordinate in the coordinate system of the model.
+	 * @param minY the smallest possible y coordinate in the coordinate system of the model.
+	 * @param maxX the biggest possible x coordinate in the coordinate system of the model.
+	 * @param maxY the biggest possible y coordinate in the coordinate system of the model.
 	 */
 	@Override
 	public void insertRandomPoints(int number, int minX, int minY, int maxX, int maxY) {

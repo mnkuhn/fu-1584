@@ -440,10 +440,6 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 
 	
-     
-	
-  
-	
 	/**
 	 * Draws the convex hull.
 	 *
@@ -722,9 +718,53 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	public void center() {
 		setOffsetsToZero();
 		if (!pointSet.isEmpty()) {
-			initializeScale();
-			initializeOffsets();
+			double tmpScale = 1;
+			
+			// find the scale
+			double xRange = (((double)pointSet.getMaxX() - (double)pointSet.getMinX()) * panelScale);
+			double yRange = (((double)pointSet.getMaxY() - (double)pointSet.getMinY()) * panelScale);
+			if(xRange != 0 && yRange != 0) {
+				 double xScale = ((double)getWidth() - 2 * (double)GUISettings.margin)/(double)xRange;
+				 double yScale = ((double)getHeight() - 2 * (double)GUISettings.margin)/(double)yRange;
+				 tmpScale=  Math.min(xScale, yScale);
+			}
+			// one radius as a margin
+		    if (xRange == 0 && yRange != 0) {
+		    	tmpScale = ((double)getHeight() - 2 * (double)GUISettings.margin)/(double)yRange;
+		    }
+		    if (xRange != 0 && yRange == 0) {
+		    	tmpScale = ((double)getWidth() - 2 * (double)GUISettings.margin)/(double)xRange;
+		    }
+		    if (xRange == 0 && yRange == 0) {
+		    	tmpScale = 1;
+		    }
+		    
+		    // find the inner offsets
+		    double tmpInnerOffsetX = (double)getWidth()/( 2 * tmpScale * panelScale) - ((double)pointSet.getMinX() + (double)pointSet.getMaxX())/2;
+			double tmpInnerOffsetY = (double)getHeight()/(2 * tmpScale * panelScale) - ((double)pointSet.getMinY() + (double)pointSet.getMaxY())/2;
+			
+			// Check scale and inner offsets
+			if(OffsetsAndScalesAreValid(tmpInnerOffsetX, tmpInnerOffsetY, outerOffsetX, outerOffsetY, mouseOffsetX, mouseOffsetY, tmpScale, panelScale)) {
+				scale = tmpScale;
+				innerOffsetX = tmpInnerOffsetX;
+				innerOffsetY = tmpInnerOffsetY;
+			}
+			else {
+				System.out.println("nicht skaliert");
+			}
+			
+			
+			
+			System.out.println("innerOffsetX: " + innerOffsetX);
+			System.out.println("innerOffsetY: " + innerOffsetY);
+			System.out.println("outerOffsetX: " + outerOffsetX);
+			System.out.println("outerOffsetY: " + outerOffsetY);
+			System.out.println("mouseOffsetX: " + mouseOffsetX);
+			System.out.println("mouseOffsetY: " + mouseOffsetY);
+			System.out.println("scale: " + scale);
+			System.out.println("panelScale: " + panelScale);
 		}
+		
 		repaint();
 	}
 

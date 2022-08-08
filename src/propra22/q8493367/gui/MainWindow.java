@@ -254,7 +254,7 @@ public class MainWindow extends JFrame implements IMainWindow {
         tenPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Point bottomLeft = drawPanel.translatePointFromViewToModel(new Point(GUISettings.radius, ((JPanel)drawPanel).getHeight() - 1 - 2 * GUISettings.radius));
+				Point bottomLeft = drawPanel.translatePointFromViewToModel(new Point(GUISettings.margin, ((JPanel)drawPanel).getHeight() - 1 - GUISettings.margin));
 				Point topRight = drawPanel.translatePointFromViewToModel(new Point(((JPanel)drawPanel).getWidth() - 1 - 2 * GUISettings.radius, 
 						GUISettings.radius));
 				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.TEN, 
@@ -266,7 +266,7 @@ public class MainWindow extends JFrame implements IMainWindow {
         fiftyPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Point bottomLeft = drawPanel.translatePointFromViewToModel(new Point(GUISettings.radius, ((JPanel)drawPanel).getHeight() - 1 - 2 * GUISettings.radius));
+				Point bottomLeft = drawPanel.translatePointFromViewToModel(new Point(GUISettings.margin, ((JPanel)drawPanel).getHeight() - 1 - GUISettings.margin));
 				Point topRight = drawPanel.translatePointFromViewToModel(new Point(((JPanel)drawPanel).getWidth() - 1 - 2 * GUISettings.radius, 
 						GUISettings.radius));
 				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.FIFTY, 
@@ -278,7 +278,7 @@ public class MainWindow extends JFrame implements IMainWindow {
         hundredPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Point bottomLeft = drawPanel.translatePointFromViewToModel(new Point(GUISettings.radius, ((JPanel)drawPanel).getHeight() - 1 - 2 * GUISettings.radius));
+				Point bottomLeft = drawPanel.translatePointFromViewToModel(new Point(GUISettings.margin, ((JPanel)drawPanel).getHeight() - 1 - GUISettings.margin));
 				Point topRight = drawPanel.translatePointFromViewToModel(new Point(((JPanel)drawPanel).getWidth() - 1 - 2 * GUISettings.radius, 
 						GUISettings.radius));
 				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.HUNDRED, 
@@ -291,7 +291,7 @@ public class MainWindow extends JFrame implements IMainWindow {
         fivehundredPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Point bottomLeft = drawPanel.translatePointFromViewToModel(new Point(GUISettings.radius, ((JPanel)drawPanel).getHeight() - 1 - 2 * GUISettings.radius));
+				Point bottomLeft = drawPanel.translatePointFromViewToModel(new Point(GUISettings.margin, ((JPanel)drawPanel).getHeight() - 1 - GUISettings.margin));
 				Point topRight = drawPanel.translatePointFromViewToModel(new Point(((JPanel)drawPanel).getWidth() - 1 - 2 * GUISettings.radius, 
 						GUISettings.radius));
 				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.FIVEHUNDRED, 
@@ -303,7 +303,7 @@ public class MainWindow extends JFrame implements IMainWindow {
         thousandPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Point bottomLeft = drawPanel.translatePointFromViewToModel(new Point(GUISettings.radius, ((JPanel)drawPanel).getHeight() - 1 - 2 * GUISettings.radius));
+				Point bottomLeft = drawPanel.translatePointFromViewToModel(new Point(GUISettings.margin, ((JPanel)drawPanel).getHeight() - 1 - GUISettings.margin));
 				Point topRight = drawPanel.translatePointFromViewToModel(new Point(((JPanel)drawPanel).getWidth() - 1 - 2 * GUISettings.radius, 
 						GUISettings.radius));
 				mainWindowListener.insertRandomPointsEventOccured(new RandomPointsEvent(RandomPointsEventType.THOUSAND, 

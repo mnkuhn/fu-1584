@@ -81,5 +81,5 @@ public class GUISettings {
 	/** The margin for the center method of the draw panel
 	 *  Top, left, bottom and right have this one margin.
 	 */
-	public static final int margin = 10;
+	public static final int margin = 2 * GUISettings.radius;
 }
