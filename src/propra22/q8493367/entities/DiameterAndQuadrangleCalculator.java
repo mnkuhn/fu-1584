@@ -2,8 +2,8 @@ package propra22.q8493367.entities;
 
 /**
  * The Class DiameterAndQuadrangleCalculator provides a calculator, which takes
- * a convex hull as an argument and calculates the longest diameter and the quadrangle
- * with maximum area. It also provides a sequence of quadrangles, which is 
+ * a convex hull as an argument and calculates the longest diameter
+ * and the quadrangle with maximum area. It also provides a sequence of quadrangles, which is 
  * used by the animation.
  */
 public class DiameterAndQuadrangleCalculator  {
@@ -13,13 +13,13 @@ public class DiameterAndQuadrangleCalculator  {
 
 	/**
 	 * The iterator which represents the point b in the quadrangle where a, b, c and
-	 * d are the 4 points of the quadrangle listed counterclockwise.
+	 * d are the 4 points of the quadrangle listed clockwise.
 	 */
 	private IHullIterator bIt;
 
 	/**
 	 * The iterator which represents the point d in the quadrangle where a, b, c and
-	 * d are the 4 points of the quadrangle listed counterclockwise.
+	 * d are the 4 points of the quadrangle listed clockwise.
 	 */
 	private IHullIterator dIt;
 

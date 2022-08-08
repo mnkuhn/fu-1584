@@ -9,7 +9,7 @@ import propra22.q8493367.controllers.MainWindowController;
 import propra22.q8493367.controllers.StatusBarController;
 import propra22.q8493367.entities.ConventionalParser;
 import propra22.q8493367.entities.Diameter;
-import propra22.q8493367.entities.Hull;
+import propra22.q8493367.entities.ArrayListHull;
 import propra22.q8493367.entities.IHull;
 import propra22.q8493367.entities.IParser;
 import propra22.q8493367.entities.PointSet;
@@ -57,7 +57,7 @@ public class CHGO_8493367_Kuhn_Manuel {
 		
 		//Model of the draw panel
 		PointSet pointSet = new PointSet();
-		IHull hull = new Hull();
+		IHull hull = new ArrayListHull();
 		Diameter diameter = new Diameter();
 		Quadrangle quadrangle = new Quadrangle();
 		

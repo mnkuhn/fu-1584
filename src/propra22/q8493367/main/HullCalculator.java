@@ -7,7 +7,7 @@ import propra22.interfaces.IHullCalculator;
 import propra22.q8493367.controllers.DrawPanelController;
 import propra22.q8493367.entities.ConventionalParser;
 import propra22.q8493367.entities.Diameter;
-import propra22.q8493367.entities.Hull;
+import propra22.q8493367.entities.ArrayListHull;
 import propra22.q8493367.entities.IHull;
 import propra22.q8493367.entities.PointSet;
 import propra22.q8493367.entities.Quadrangle;
@@ -48,7 +48,7 @@ public class HullCalculator implements IHullCalculator{
 	 */
 	public HullCalculator() {
 		this.pointSet = new PointSet();
-		this.hull = new Hull();
+		this.hull = new ArrayListHull();
 		this.diameter = new Diameter();
 		this.quadrangle = new Quadrangle();
 		this.quadrangleSequence = new QuadrangleSequence();

@@ -7,35 +7,49 @@ import java.util.List;
 /**
  * The Class Hull represents a contour polygon or a convex hull.
  */
-public class Hull implements IHull {
-
+public class ArrayListHull extends ListHull {
+    
 	/** The upper left contour. */
-	private  List<Point> upperLeft = new ArrayList<>();
+	//private  List<Point> upperLeft = new ArrayList<>();
 	
 	/** The lower left contour. */
-	private  List<Point> lowerLeft = new ArrayList<>();
+	//private  List<Point> lowerLeft = new ArrayList<>();
 	
 	/** The lower right contour. */
-	private  List<Point> upperRight = new ArrayList<>();
+	//private  List<Point> upperRight = new ArrayList<>();
 	
 	/** The upper right contour. */
-	private  List<Point> lowerRight = new ArrayList<>();
+	//private  List<Point> lowerRight = new ArrayList<>();
 	
 	/** The highest Y found. */
 	private int biggestYFound;
 	
 	/** The lowest Y found. */
 	private int smallestYFound;
-
+    
 	
 	/**
-	 * Adds a point to a contour.
+     * Instantiates a new array list hull. The four
+     * lists for the contours are initialized 
+     * with array lists.
+     */
+	public ArrayListHull() {
+		upperLeft = new ArrayList<>();
+		lowerLeft = new ArrayList<>();
+		lowerRight = new ArrayList<>();
+		upperRight = new ArrayList<>();
+		
+	}
+	
+	/**
+	 * Adds a point to the contour 
+	 * specified by the contour type.
 	 *
-	 * @param point the point to be added.
-	 * @param contourType the type of the contour
+	 * @param point the point
+	 * @param contourType the contour type
 	 */
-	@Override
-	public void addPointToContour(Point point, ContourType contourType) {
+	
+	private void addPointToContour(Point point, ContourType contourType) {
 		switch (contourType) {
 		case UPPERLEFT: {
 			upperLeft.add(point);
@@ -59,11 +73,7 @@ public class Hull implements IHull {
 		}
 	}
 	
-	/**
-	 * Calculates the contour polygon from the point set.
-	 *
-	 * @param pointSet the point set
-	 */
+	
 	@Override
 	public void set(PointSet pointSet) {
 		clear();
@@ -76,9 +86,9 @@ public class Hull implements IHull {
 	}
 	
 	/**
-	 * Calculates the upper left section. This function has to be called before
+	 * Calculates the upper left contour. This function has to be called before
 	 * calculateUpperRight because the biggest y value found has to be set. 
-	 * {@link Hull#biggestYFound}
+	 * {@link ArrayListHull#biggestYFound}
 	 *
 	 * @param pointSet the point set
 	 */
@@ -102,9 +112,9 @@ public class Hull implements IHull {
 	
 	
     /**
-     * Calculates the lower left section. This function has to be called before
+     * Calculates the lower left contour. This function has to be called before
      * calculateLowerRight because the smalles y value found has to be set.
-     * {@link Hull#smallestYFound}
+     * {@link ArrayListHull#smallestYFound}
      *
      * @param pointSet the point set
      */
@@ -128,9 +138,9 @@ public class Hull implements IHull {
 	
 	
 	/**
-	 * Calculates the upper right section. This function has to be called after
+	 * Calculates the upper right contour. This function has to be called after
 	 * calculateUpperLeft() because the biggest y found has to be set before.
-	 * {@link Hull#biggestYFound}
+	 * {@link ArrayListHull#biggestYFound}
 	 *
 	 * @param pointSet the point set
 	 */
@@ -154,10 +164,10 @@ public class Hull implements IHull {
 	
 	
 	/**
-	 * Calculate the lower right section. This function has to be called after 
+	 * Calculates the lower right contour. This function has to be called after 
 	 * calculateLowerLeft() because the smallest y found has to be set before.
 	 * 
-	 * {@link Hull#smallestYFound}
+	 * {@link ArrayListHull#smallestYFound}
 	 *
 	 * @param pointSet the point set
 	 */
@@ -180,26 +190,27 @@ public class Hull implements IHull {
 
 	
 	/**
-	 * Gets a point from a contour.
+	 * Gets the point with index i from the contour 
+	 * specified by the contour type.
 	 *
-	 * @param index the index of the point in the contour.
-	 * @param contourType the contour type
-	 * @return the point from the contour
+	 * @param i the index of the point in the contour
+	 * @param contourType the type of the contour
+	 * @return the point with index i from the specified contour
 	 */
-	@Override
-	public Point getPointFromContour(int index, ContourType contourType) {
+	
+	public Point getPointFromContour(int i, ContourType contourType) {
 		switch (contourType) {
 			case UPPERLEFT: {
-				return upperLeft.get(index);
+				return upperLeft.get(i);
 			}
 			case LOWERLEFT: {
-				return lowerLeft.get(index);
+				return lowerLeft.get(i);
 			}
 			case UPPERRIGHT: {
-				return upperRight.get(index);
+				return upperRight.get(i);
 			}
 			case LOWERRIGHT: {
-				return lowerRight.get(index);
+				return lowerRight.get(i);
 			}
 			default: {
 				return null;
@@ -208,28 +219,28 @@ public class Hull implements IHull {
 	}
 
 	/**
-	 * Removes a point from a contour.
+	 * Removes the point with the index i from
+	 * the contour specified by the contour type.
 	 *
-	 * @param index the index of the point in the contour.
+	 * @param i the index of the point in the contour.
 	 * @param contourType the type of the contour
 	 */
-	@Override
-	public void removePointFromContour(int index, ContourType contourType) {
+	private void removePointFromContour(int i, ContourType contourType) {
 		switch (contourType) {
 		case UPPERLEFT: {
-			upperLeft.remove(index);
+			upperLeft.remove(i);
 			break;
 		}
 		case LOWERLEFT: {
-			lowerLeft.remove(index);
+			lowerLeft.remove(i);
 			break;
 		}
 		case UPPERRIGHT: {
-			upperRight.remove(index);
+			upperRight.remove(i);
 			break;
 		}
 		case LOWERRIGHT: {
-			lowerRight.remove(index);
+			lowerRight.remove(i);
 			break;
 		}
 		default: {
@@ -246,8 +257,9 @@ public class Hull implements IHull {
 	 * @return true, if no points are in the contour, false
 	 * otherwise.
 	 */
-	@Override
-	public boolean contourIsEmpty(ContourType contourType) {
+	
+	/*
+	private boolean contourIsEmpty(ContourType contourType) {
 		switch (contourType) {
 		case UPPERLEFT: {
 			return upperLeft.isEmpty();
@@ -267,15 +279,16 @@ public class Hull implements IHull {
 			}
 		}
 	}
+	*/
 
 	/**
 	 * Gets the size of the contour specified by the
 	 * contour type.
-	 * @param contourType the section type
+	 * @param contourType the type of the contour
 	 * @return the number of points in the contour
 	 */
-	@Override
-	public int getSizeOfContour(ContourType contourType) {
+	/*
+	private int getSizeOfContour(ContourType contourType) {
 		switch (contourType) {
 		case UPPERLEFT: {
 			return upperLeft.size();
@@ -295,10 +308,12 @@ public class Hull implements IHull {
 			}
 		}
 	}
+	*/
 
 	/**
 	 * Removes all points from the hull.
 	 */
+	/*
 	@Override
 	public void clear() {
 		upperLeft.clear();
@@ -306,16 +321,18 @@ public class Hull implements IHull {
 		upperRight.clear();
 		lowerRight.clear();
 	}
+	*/
 
 	/**
 	 * Removes a point from the contour specified
 	 * by the contour type.
 	 *
-	 * @param point the point
+	 * @param point the point which is to be removed.
 	 * @param contourType the type of the contour
 	 */
-	@Override
-	public void removePointFromContour(Point point, ContourType contourType) {
+	
+	/*
+	private void removePointFromContour(Point point, ContourType contourType) {
 		switch (contourType) {
 		case UPPERLEFT: {
 			upperLeft.remove(point);
@@ -335,15 +352,9 @@ public class Hull implements IHull {
 		}
 		}
 	}
+	*/
 
-	/**
-	 * Returns the points of the hull as an array of integers, following
-	 * the points clockwise in a cartesian coordinate system. The first point
-	 * is the point with the biggest y coordinate from all the points with the
-	 * smallest x coordinate.
-	 *
-	 * @return the int[][]
-	 */
+	
 	@Override
 	public int[][] toArray() {
 		 List<Point> pointList = toList();
@@ -355,16 +366,7 @@ public class Hull implements IHull {
 		 return pointArr;
 	}
 	
-	/**
-	 * Returns the points of the hull as a list of 
-	 * points, following the points clockwise in a cartesian
-	 * coordinate system. The first point
-	 * is the point with the biggest y coordinate from all the points with the
-	 * smallest x coordinate.
-	 *
-	 * @return the elements of the hull as a list. The elements
-	 * follow clockwise direction.
-	 */
+	
 	@Override
 	public List<Point> toList() {
 		List<Point> pointList = new ArrayList<>();
@@ -378,34 +380,18 @@ public class Hull implements IHull {
 	}
 
 	
-	/**
-	 * Returns true, if there are no points in the hull,
-	 * returns false otherwise.
-	 *
-	 * @return true, if is empty
-	 */
 	@Override
 	public boolean isEmpty() {
 		return getSizeOfContour(ContourType.UPPERLEFT) == 0;
 	}
 	
-	/**
-	 * Returns true, if there is exactly one point in the hull.
-	 *
-	 * @return true, if successful
-	 */
+	
 	@Override
 	public boolean hasOnePoint() {
 		return upperLeft.get(0) == lowerRight.get(0);
 	}
 	
-	/**
-	 * Returns an iterator which starts at the point
-	 * with the biggest y coordinate from all the
-	 * points with the smallest x coordinate.
-	 *
-	 * @return the returned iterator
-	 */
+	
 	@Override
 	public IHullIterator leftIterator() {
 		if(!isEmpty()) {
@@ -416,13 +402,6 @@ public class Hull implements IHull {
 	}
 	
 
-	/**
-	 * Returns an iterator which starts at the point
-	 * with the smallest y coordinate from all the
-	 * points with the biggest x coordinate.
-	 *
-	 * @return the i hull iterator
-	 */
 	@Override
 	public IHullIterator rightIterator() {
 		if(!isEmpty()) {
@@ -436,22 +415,19 @@ public class Hull implements IHull {
 	 * Calculates the convex hull outgoing from
 	 * the contour polygon.
 	 */
+	/*
 	@Override
 	public void clean() {
 		if (!isEmpty()) {
-			for (ContourType sectionType : ContourType.values()) {
-				cleanContour(sectionType);
+			for (ContourType contourType : ContourType.values()) {
+				cleanContour(contourType);
 			}
 		}
 	}
+	*/
 	
-	/**
-	 * Calculates the contour specified by the contour type
-	 * of the convex hull.
-	 *
-	 * @param contourType the contour type
-	 */
-	public void cleanContour(ContourType contourType) {
+	@Override
+	protected void cleanContour(ContourType contourType) {
 		
 		if(!contourIsEmpty(contourType)) {
 			int size = getSizeOfContour(contourType);
@@ -501,28 +477,27 @@ public class Hull implements IHull {
 	 * of the triangle, whose area is calculated.
 	 * @param tip  this points represents the tip of the triangle, whose
 	 * area is calculated.
-	 * @param sectionType the section type
+	 * @param contourType the type of the contour
 	 * @return the long
 	 */
-	private long signedTriangleArea(int base, int tip, ContourType sectionType) {
-		return sectionType.getSign() * Point.signedTriangleArea(
+	private long signedTriangleArea(int base, int tip, ContourType contourType) {
+		return contourType.getSign() * Point.signedTriangleArea(
 				//the first point of the baseline
-				getPointFromContour(base, sectionType), 
+				getPointFromContour(base, contourType), 
 				//The second point of the baseline following the first base point in 
 				//the direction of increasing index.
-				getPointFromContour(base + 1, sectionType),  
+				getPointFromContour(base + 1, contourType),  
 				//The tip of the triangle
-				getPointFromContour(tip, sectionType));
+				getPointFromContour(tip, contourType));
 	}
 
 	
 	
 
 	/**
-	 * The Class HullIterator provides an Iterator for the 
-	 * hull. It can iterate in both directions (clockwise and counterclockwise) on the hull.
-	 * It can not modify the hull and is only thought for iterating through the points
-	 * of the hull.
+	 * An iterator for the hull, which allows the programmer to traverse the points of the 
+	 * hull in both directions. In this application a hull is either the contour polygon
+	 * or the convex hull.
 	 */
 	private class HullIterator implements IHullIterator {
 		
@@ -535,7 +510,7 @@ public class Hull implements IHull {
 		
 		/** 
 		 * The temporary index is used for moving the iterator to the previous
-		 *  or the next hull point or for reading the previous or next hull point. 
+		 * or the next hull point or for reading the previous or next hull point. 
 		 */
 		private int tmpIndex;
 		
@@ -570,6 +545,8 @@ public class Hull implements IHull {
 		 */
 		@Override
 		public Point getPoint() {
+			if(isEmpty())
+				return null;
 			return getPointFromContour(index, contourType);
 		}
 
