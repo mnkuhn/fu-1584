@@ -14,7 +14,10 @@ import propra22.q8493367.util.IDrawPanelListener;
 public interface IDrawPanel  {
 	
 	/**
-	 * Sets the draw panel listener.
+	 * Sets the draw panel listener. The draw panel listener
+	 * listens for all events produced by the user. These 
+	 * events may change the point set or the representation
+	 * of the view due to zooming or panning.
 	 *
 	 * @param drawPanelListener the draw panel listener
 	 */
@@ -40,6 +43,14 @@ public interface IDrawPanel  {
 	 * false otherwise.
 	 */
 	void setDiameterIsShown(boolean b);
+	
+	/**
+	 * Determines whether the triangle is shown or not.
+	 *
+	 * @param b true, if the triangle is to be shown,
+	 * false otherwise.
+	 */
+	void setTriangleIsShown(boolean b);
     
 	/**
 	 * Determines whether the quadrangle is shown or not.
@@ -49,14 +60,6 @@ public interface IDrawPanel  {
 	 */
 	void setQuadrangleIsShown(boolean b);
     
-	/**
-	 * Determines whether the triangle is shown or not.
-	 *
-	 * @param b true, if the triangle is to be shown,
-	 * false otherwise.
-	 */
-	void setTriangleIsShown(boolean b);
-	
 	
 	/**
 	 * Determines, whether the animation is shown or not.

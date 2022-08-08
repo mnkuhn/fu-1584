@@ -31,12 +31,10 @@ import propra22.q8493367.util.DrawPanelEventType;
 import propra22.q8493367.util.IDrawPanelListener;
 
 
-
-// TODO: Auto-generated Javadoc
 /**
  * This Class represents the draw panel. The points and all
  * the shapes like the convex hull, the diameter, the quadrangle,
- * the triangle and the animation are displayed on this draw panel.
+ * the triangle and the animation are displayed on this JPanel.
  * Next to the functionality for the interaction with the user it 
  * also provides a panning and a zoom functionality.
  */
@@ -72,19 +70,19 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	private IDrawPanelListener drawPanelListener;
 
 	//Display
-	/**  True, if the convexHull is shown. */
+	/**  True, if the convexHull is shown. False otherwise.*/
 	private boolean convexHullIsShown = GUISettings.defaultConvexHullIsShown;
 	
-	/** True, if diameter is shown. */
+	/** True, if diameter is shown. False otherwise.*/
 	private boolean diameterIsShown = GUISettings.defaultDiameterIsShown;
 	
-	/** True, if the quadrangle is shown. */
+	/** True, if the quadrangle is shown. False otherwise.*/
 	private boolean quadrangleIsShown = GUISettings.defaultQuadrangleIsShown;
 	
-	/** True, if the triangle is shown. */
+	/** True, if the triangle is shown. False otherwise.*/
 	private boolean triangleIsShown = GUISettings.defaultTriangleIsShown;
 	
-	/** True, if the animation is running. */
+	/** True, if the animation is running. False otherwise.*/
 	private boolean animationIsShown = GUISettings.defaultAnimationIsShown;
     
 	
@@ -94,7 +92,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	
 	/** The scale of the draw panel. This
 	 * scale is used to adapt the size of the 
-	 * content of the draw panel, when the its size
+	 * content of the draw panel, when its size
 	 * is changed by the user.
 	 */
 	private double panelScale = 1d;
@@ -354,20 +352,14 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	}
 	
 	
-	/**
-	 * Sets the draw panel listener.
-	 *
-	 * @param drawPanelListener the new draw panel listener
-	 */
+	
 	@Override
 	public void setDrawPanelListener(IDrawPanelListener drawPanelListener) {
 		this.drawPanelListener = drawPanelListener;
 	}
 	
 	
-	/**
-	 * Update.
-	 */
+	
 	@Override
 	public void update() {
 		repaint();
@@ -375,9 +367,10 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 
 	/**
-	 * Paint component.
+	 * Draws the points of the point set, the convex hull, the diameter,
+	 * the biggest quadrangle and the current state of the animation.
 	 *
-	 * @param g the g
+	 * @param g the Graphics Object used for drawing.
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
@@ -390,7 +383,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		if (!pointSet.isEmpty()) {
 			
 			if (animationIsShown) {
-				drawAnimatedQuadrangle(g2, GUISettings.animatedQuadrangleColor);
+				drawAnimatedQuadrangle(g2);
 				drawTangentPair(g2);
 			}
 			
@@ -409,10 +402,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 	
 	/**
-	 * Draws all the points of the point set on this
-	 * draw panel.
-	 *
-	 * @param g2 the Graphics2D object
+	 * Draws all the points of the point set.
+	 * @param g2 the Graphics2D Object used for drawing
 	 */
 	private void drawPoints(Graphics2D g2) {
 
@@ -422,7 +413,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			g2.fillOval(translatedPoint.getX() - GUISettings.radius, translatedPoint.getY() - GUISettings.radius,
 					2 * GUISettings.radius, 2 * GUISettings.radius);
 			if(p.isSelected()) {
-				drawMarking(translatedPoint, g2, GUISettings.markingColor);
+				drawMarking(translatedPoint, g2);
 			}
 		}
 	}
@@ -430,12 +421,11 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	/**
 	 * Draws the marking of the selected point.
 	 *
-	 * @param point the point
-	 * @param g2 the g 2
-	 * @param color the color
+	 * @param point the point which is to be marked.
+	 * @param g2 the Graphics2D Object used for drawing.
 	 */
-	private void drawMarking(Point point, Graphics2D g2, Color color) {
-		g2.setColor(color);
+	private void drawMarking(Point point, Graphics2D g2) {
+		g2.setColor(GUISettings.markingColor);
 		int x = point.getX() - GUISettings.radius - 3;
 		int y = point.getY() - GUISettings.radius - 3;
 		
@@ -457,7 +447,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	/**
 	 * Draws the convex hull.
 	 *
-	 * @param g2  the Graphics2D Object which is used for drawing
+	 * @param g2  the Graphics2D Object used for drawing
 	 */
 	private void drawHull(Graphics2D g2) {
 		g2.setColor(GUISettings.convexHullColor);
@@ -478,7 +468,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	/**
 	 * Draws the diameter.
 	 *
-	 * @param g2    the Graphics2D Object which is used for painting
+	 * @param g2   the Graphics2D Object used for painting
 	 */
 	private void drawDiameter(Graphics2D g2) {
 		if (diameter != null) {
@@ -493,9 +483,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	}
 
 	/**
-	 * Draws the quadrangle.
+	 * Draws the biggest quadrangle.
 	 *
-	 * @param g2    the Graphics2D Object which is used for painting
+	 * @param g2 the Graphics2D Object used for drawing.
 	 */
 	private void drawQuadrangle(Graphics2D g2) {
 		if (quadrangle != null) {
@@ -521,7 +511,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	/**
 	 * Draws the x and the y axis.
 	 *
-	 * @param g2 the Graphics2D Object which is used for painting
+	 * @param g2 the Graphics2D Object which used for drawing.
 	 */
 	private void drawAxes(Graphics2D g2) {
 		Graphics2D g2d = (Graphics2D) g2.create();
@@ -540,7 +530,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	/**
 	 * Draws the current state of the tangent pair.
 	 *
-	 * @param g2 the Graphics2D Object which is used for painting
+	 * @param g2 the Graphics2D Object used for drawing
 	 */
 	private void drawTangentPair(Graphics2D g2) {
 		// try and catch in case the tangent pair is not initialized yet
@@ -595,12 +585,11 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	/**
 	 * Draws the current quadrangle of the quadrangle sequence.
 	 *
-	 * @param g2 the g 2
-	 * @param color the color
+	 * @param g2 the Graphics2D Object used for drawing
 	 */
-	private void drawAnimatedQuadrangle(Graphics2D g2, Color color) {
+	private void drawAnimatedQuadrangle(Graphics2D g2) {
 		if (quadrangleSequence != null) {
-			g2.setColor(color);
+			g2.setColor(GUISettings.animatedQuadrangleColor);
             
 			Quadrangle quadrangle = quadrangleSequence.getQuadrangle();
 			Point translatedA = translatePointFromModelToView(quadrangle.getA());
@@ -622,7 +611,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 	/**
 	 * Extends the tangent so that it is longer than twice the diagonal of the 
-	 * draw panel in pixels.
+	 * draw panel.
 	 *
 	 * @param tangent the tangent
 	 */
@@ -642,8 +631,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 
 	/**
-	 * Returns the length of diagonal of the 
-	 * draw panel in pixels.
+	 * Returns the length of the diagonal of the 
+	 * draw panel.
 	 *
 	 * @return the diagonal of the panel in pixels.
 	 */
@@ -652,83 +641,48 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	}
 
 
-	/**
-	 * Sets the convex hull is shown.
-	 *
-	 * @param convexHullIsShown the new convex hull is shown
-	 */
+	
 	@Override
-	public void setConvexHullIsShown(boolean convexHullIsShown) {
-		this.convexHullIsShown = convexHullIsShown;
+	public void setConvexHullIsShown(boolean b) {
+		this.convexHullIsShown = b;
 	}
 
-	/**
-	 * Sets the diameter is shown.
-	 *
-	 * @param diameterIsShown the new diameter is shown
-	 */
+	
 	@Override
-	public void setDiameterIsShown(boolean diameterIsShown) {
-		this.diameterIsShown = diameterIsShown;
+	public void setDiameterIsShown(boolean b) {
+		this.diameterIsShown = b;
 	}
 
-	/**
-	 * Sets the quadrangle is shown.
-	 *
-	 * @param quadrangleIsShown the new quadrangle is shown
-	 */
+	
 	@Override
-	public void setQuadrangleIsShown(boolean quadrangleIsShown) {
-		this.quadrangleIsShown = quadrangleIsShown;
+	public void setQuadrangleIsShown(boolean b) {
+		this.quadrangleIsShown = b;
 	}
 
-	/**
-	 * Sets the triangle is shown.
-	 *
-	 * @param b the new triangle is shown
-	 */
+	
 	@Override
 	public void setTriangleIsShown(boolean b) {
 		triangleIsShown = b;
 	}
 
-	/**
-	 * Convex hull is shown.
-	 *
-	 * @return true, if successful
-	 */
+
 	@Override
 	public boolean convexHullIsShown() {
 		return convexHullIsShown;
 	}
 
-	/**
-	 * Diameter is shown.
-	 *
-	 * @return true, if successful
-	 */
+	
 	@Override
 	public boolean diameterIsShown() {
 		return diameterIsShown;
 	}
 
-
-	/**
-	 * Quadrangle is shown.
-	 *
-	 * @return true, if successful
-	 */
 	@Override
 	public boolean quadrangleIsShown() {
 		return quadrangleIsShown;
 	}
 
 	
-	/**
-	 * Sets the show animation.
-	 *
-	 * @param b the new show animation
-	 */
 	@Override
 	public void setShowAnimation(boolean b) {
 		if(b == true) {
@@ -738,31 +692,18 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		animationIsShown = b;
 	}
 
-	/**
-	 * Animation is shown.
-	 *
-	 * @return true, if successful
-	 */
 	@Override
 	public boolean animationIsShown() {
 		return animationIsShown;
 	}
 
-	/**
-	 * Triangle is shown.
-	 *
-	 * @return true, if successful
-	 */
+
 	@Override
 	public boolean triangleIsShown() {
 		return triangleIsShown;
 	}
 	
-	/**
-	 * Gets the preferred size.
-	 *
-	 * @return the preferred size
-	 */
+	
 	@Override
 	public Dimension getPreferredSize() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -772,10 +713,11 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	}	
 	
 	
-	/**
-	 * Center.
-	 */
-	// Center
+    /**
+     * {@inheritDoc}
+     * If the centering may cause overflow in the model or in the view
+     * the centering is prevented.
+     */
 	@Override
 	public void center() {
 		setOffsetsToZero();
@@ -837,9 +779,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	
 	//Zooming and panning
 	/**
-	 * This method, for a given point with model
-	 * coordinates, returns a new point with the 
-	 * corresponding view coordinates.
+	 * Returns a new point with view coordinates,
+	 * corresponding to the point with the given model coordinates.
 	 *
 	 * @param point the point whose coordinates are translated
 	 * @return a new point with the translated coordinates
@@ -854,7 +795,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 	/**
 	 * Returns a new point with model coordinates,
-	 * corresponding to the given view coordinates.
+	 * corresponding to the point with the given view coordinates.
 	 *
 	 * @param x the x coordinate to be translated
 	 * @param y the y coordinate to be translated
