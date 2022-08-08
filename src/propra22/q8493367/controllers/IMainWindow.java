@@ -72,12 +72,8 @@ public interface IMainWindow {
 	 */
 	void setQuadrangleIsShown(boolean b);
     
-    /**
-     * Sets the triangle visible or invisible.
-     *
-     * @param b true to make the triangle visible false to make it invisible.
-     */
    
+	//public void setTriangleIsShown(boolean b);
      
     /**
      * Sets the animation visible or invisible.

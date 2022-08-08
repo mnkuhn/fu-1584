@@ -17,7 +17,7 @@ import propra22.q8493367.entities.PointSet;
 public class InsertRandomPointsCommand implements ICommand {
 
 	/** The inserted points. */
-	private List<Point> points;
+	private List<Point> randomPoints;
 	
 	/** The point set in which the points are inserted. */
 	private PointSet pointSet;
@@ -27,31 +27,31 @@ public class InsertRandomPointsCommand implements ICommand {
 	/**
 	 * Instantiates a new insert random points command.
 	 *
-	 * @param points the randomly generated points
+	 * @param randomPoints the randomly generated points
 	 * @param pointSet the point set
 	 */
-	public InsertRandomPointsCommand(List<Point> points, PointSet pointSet) {
-		this.points = points;
+	public InsertRandomPointsCommand(List<Point> randomPoints, PointSet pointSet) {
+		this.randomPoints = randomPoints;
 		this.pointSet = pointSet;
 	}
     
 	
 	/**
-	 * Execute the command.
+	 * Executes the command.
 	 */
 	@Override
 	public void execute() {
-		for(Point point : points) {
+		for(Point point : randomPoints) {
 			pointSet.addPoint(point);
 		}	
 	}
 
 	/**
-	 * Unexecute the command.
+	 * Unexecutes the command.
 	 */
 	@Override
 	public void unexecute() {
-		for(Point point : points) {
+		for(Point point : randomPoints) {
 			pointSet.removePoint(point);
 		}		
 	}	

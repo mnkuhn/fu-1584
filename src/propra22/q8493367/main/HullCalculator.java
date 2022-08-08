@@ -25,13 +25,13 @@ public class HullCalculator implements IHullCalculator{
 	/** The point set. */
 	private PointSet pointSet;
 	
-	/** The hull. */
+	/** The contour polygon or the convex hull. */
 	private IHull hull;
 	
 	/** The diameter. */
 	private Diameter diameter;
 	
-	/** The quadrangle. */
+	/** The biggest quadrangle. */
 	private Quadrangle quadrangle;
 	
 	/** The draw panel controller. */

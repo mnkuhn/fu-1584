@@ -4,7 +4,7 @@ package propra22.q8493367.usecases;
 
 
 /**
- * Command interface for the command pattern
+ * The Command interface as used for the command pattern.
  */
 public interface ICommand {
 	

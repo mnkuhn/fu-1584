@@ -34,12 +34,13 @@ import propra22.q8493367.util.ViewEvent;
 
 /**
  * The Class MainWindow represents the main window of the 
- * application
+ * application.
  */
 public class MainWindow extends JFrame implements IMainWindow {
 	
 	/**
-	 * The serialVersionUID
+	 * The Constant serialVersionUID which is used to check 
+	 * if a serialized object corresponds to the right version.
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -47,7 +48,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 	private IMainWindowListener mainWindowListener;
 	
 	/** The redo menu item. By this item the user can 
-	 * redo an undone command.
+	 *  redo an undone commands.
 	 */
 	private JMenuItem redoItem;
 	
@@ -57,28 +58,28 @@ public class MainWindow extends JFrame implements IMainWindow {
 	private JMenuItem undoItem;
 	
 	/** The convex hull item. By this item the user
-	 * can choose if the convex hull should be shown.
+	 * can choose if the convex hull is to be shown.
 	 */
 	private JCheckBoxMenuItem convexHullItem;
 	
 	/** The diameter item. By this item the user
-	 * can choose, if the diameter should be shown.
+	 * can choose, if the diameter is to be shown.
 	 */
 	private JCheckBoxMenuItem diameterItem;
 	
 	/** The quadrangle item. By this item the user
-	 * can choose, if the quadrangle should be shown.
+	 * can choose, if the quadrangle is to be shown.
 	 */
 	private JCheckBoxMenuItem quadrangleItem;
 	
 	/** The triangle item. By this item the user
-	 * can choose, if the triangle should be 
-	 * shown. 
+	 *  can choose, if the triangle is to be 
+	 *  shown. 
 	 */
 	private JCheckBoxMenuItem triangleItem;
 	
 	/** The animation item. By this item, the user
-	 * can choose, if the animation should be shown.
+	 * can choose, if the animation is to be shown.
 	 */
 	private JCheckBoxMenuItem animationItem;
 	

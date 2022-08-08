@@ -6,7 +6,7 @@ import propra22.q8493367.entities.PointSet;
 
 
 /**
- * Command for removing a point from the drawPanelModel.
+ * Command for removing a point from the point set.
  */
 
 public class RemovePointCommand implements ICommand {
@@ -30,7 +30,7 @@ public class RemovePointCommand implements ICommand {
 	}
 	
 	/**
-	 * Execute the command
+	 * Executes the command
 	 */
 	@Override
 	public void execute() {
@@ -39,7 +39,7 @@ public class RemovePointCommand implements ICommand {
 	}
 
 	/**
-	 * Unexecute the command.
+	 * Unexecutes the command.
 	 */
 	@Override
 	public void unexecute() {

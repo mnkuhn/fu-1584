@@ -31,7 +31,7 @@ public class InsertPointCommand implements ICommand {
 	}
 	
 	/**
-	 * Execute the insert point command.
+	 * Executes the insert point command.
 	 */
 	@Override
 	public void execute() {
@@ -40,7 +40,7 @@ public class InsertPointCommand implements ICommand {
 	}
 
 	/**
-	 * Unexecute the insert point command.
+	 * Unexecutes the insert point command.
 	 */
 	@Override
 	public void unexecute() {

@@ -21,10 +21,10 @@ public interface IStatusBar {
      
 	
 	/**
-	 * Sets the mouse coordinates.
+	 * Sets the mouse pointer coordinates.
 	 *
-	 * @param x the x coordinate of the mouse
-	 * @param y the y coordinate of the mouse
+	 * @param x the x coordinate of the mouse pointer
+	 * @param y the y coordinate of the mouse pointer
 	 */
 	void setMouseCoordinates(String x, String y);
 

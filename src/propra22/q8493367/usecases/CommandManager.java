@@ -14,14 +14,17 @@ public class CommandManager {
 	/** The list of commands in order of execution */
 	private List<ICommand> commandList = new ArrayList<>();
 
-	/**  This index refers to the command which was
-	 * executed last.  
+	/** 
+	 * This index refers to the command which was
+	 * executed last. If no commands are in
+	 * the command list, the index is set 
+	 * to -1.
 	 */
 	private int commandIndex = -1;
 
 	/**
 	 * Adds a command to the command list.
-	 * @param command the command
+	 * @param command the command added to the command list
 	 */
 	public void add(ICommand command) {
 
@@ -76,7 +79,7 @@ public class CommandManager {
 	}
 
 	/**
-	 * Checks for undoable commands.
+	 * Checks for commands that can be undone.
 	 *
 	 * @return  true, if there is at least one command that can be
 	 * undone.
@@ -87,7 +90,7 @@ public class CommandManager {
 	}
 
 	/**
-	 * Checks for redoable commands.
+	 * Checks for undone commands that can be redone.
 	 *
 	 * @return true, if there is at least one command that
 	 * can be redone.

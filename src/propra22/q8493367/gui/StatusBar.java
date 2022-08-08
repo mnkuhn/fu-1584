@@ -81,6 +81,11 @@ public class StatusBar extends JPanel implements IStatusBar{
 		numberLabel.setText(number);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * The mouse pointer coordinates refer to the coordinate system
+	 * of  the model.
+	 */
 	@Override
 	public void setMouseCoordinates(String x, String y) {
 		String coordinates = "";
@@ -91,6 +96,11 @@ public class StatusBar extends JPanel implements IStatusBar{
 		mouseCoordinates.setText(coordinates);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * The x and y coordinates of the selected point
+	 * refer to the coordinate system of the model.
+	 */
 	@Override
 	public void setCoordindatesOfSelectedPoint(String x, String y) {
 		String coordinates = "";

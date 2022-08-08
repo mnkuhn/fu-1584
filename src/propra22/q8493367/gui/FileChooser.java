@@ -11,13 +11,15 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  * The Class FileChooser extends JFileChooser. It
  * provides some extra functionality by which the user is asked
- * if he wants to overwrite an existing file. The user is also informed
+ * whether he wants to overwrite an existing file. The user is also informed
  * if a file could not be found or if he wants to load a point set 
  * from a file whose name has not the correct ending.
  */
 public class FileChooser extends JFileChooser {
 
-	/** The Constant serialVersionUID. */
+	/** The Constant serialVersionUID which is used to check 
+	 *  if a serialized object corresponds to the right version.
+	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
