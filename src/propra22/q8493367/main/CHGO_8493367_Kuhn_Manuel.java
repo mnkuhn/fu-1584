@@ -31,12 +31,8 @@ import propra22.q8493367.util.IMainWindowListener;
 import propra22.tester.Tester;
 
 
-
-
-// TODO: Auto-generated Javadoc
 /**
- * The Class CHGO_8493367_Kuhn_Manuel is the 
- * class which contains the entry point of 
+ * The Class CHGO_8493367_Kuhn_Manuel contains the entry point of 
  * the program i.e. the public static void main(String[])
  * method. This function can also invoke the test 
  * environment if it takes the argument -t.
@@ -46,8 +42,7 @@ public class CHGO_8493367_Kuhn_Manuel {
 	
 	/** The constant showConsoleOutput determines whether the duration for loading a file 
 	 *  and the duration for calculating the contour polygon, the convex hull, the diameter
-	 *  and the quadrangle are output on the console.
-	 *  True, if the durations are written to the console, false otherwise.
+	 *  and the quadrangle are written to the console.
 	 *  */
 	public static final boolean showConsoleOutput = false;
 	/**
@@ -60,11 +55,10 @@ public class CHGO_8493367_Kuhn_Manuel {
 		IHull hull = new ArrayListHull();
 		Diameter diameter = new Diameter();
 		Quadrangle quadrangle = new Quadrangle();
-		
 		QuadrangleSequence quadrangleSequence = new QuadrangleSequence();
 		TangentPair tangentPair = new TangentPair(quadrangleSequence);
 		
-		//Draw panel and controller of the draw panel
+		//Draw panel, draw panel listener and controller of the draw panel
 		DrawPanel drawPanel = new DrawPanel(pointSet, hull, diameter, quadrangle, tangentPair, quadrangleSequence);
 		DrawPanelController drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, 
 				tangentPair, quadrangleSequence, drawPanel);

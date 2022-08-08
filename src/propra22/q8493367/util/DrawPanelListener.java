@@ -5,13 +5,9 @@ import propra22.q8493367.controllers.IDrawPanelController;
 
 
 /**
- * The listener interface for receiving drawPanel events.
- * The class that is interested in processing a drawPanel
- * event implements this interface, and the object created
- * with that class is registered with a component using the
- * component's addDrawPanelListener method. When
- * the drawPanel event occurs, that object's appropriate
- * method is invoked.
+ * The listener for receiving drawPanel events
+ * produced by the user by changing the point set or moving 
+ * the mouse.
  */
 public class DrawPanelListener implements IDrawPanelListener {
 	
@@ -27,11 +23,7 @@ public class DrawPanelListener implements IDrawPanelListener {
 		this.controller = controller;
 	}
 	
-	/**
-	 * This method is invoked, when a draw panel event has occurred.
-	 *
-	 * @param e  the e draw panel event
-	 */
+	@Override
 	public void drawPanelEventOccurred(DrawPanelEvent e) {
 		DrawPanelEventType type = e.getType();
 		switch (type) {

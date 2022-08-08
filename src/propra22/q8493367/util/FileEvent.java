@@ -23,7 +23,7 @@ public class FileEvent {
 	}
 	
 	/**
-	 * Gets the file event type of the file event.
+	 * Returns the file event type of the file event.
 	 *
 	 * @return the file event type
 	 */

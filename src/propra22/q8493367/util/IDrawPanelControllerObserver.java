@@ -10,7 +10,7 @@ public interface IDrawPanelControllerObserver {
 	
 	/**
 	 * This method is called when the observer is notified. In this application the
-	 * controller the observer of the draw panel controller is the controller of the status bar.
+	 * the observer of the draw panel is the controller of the status bar.
 	 * @param numberOfPoints the number of points in the point set
 	 * @param mouseX the x coordinate of the mouse. The empty String if no mouse pointer is 
 	 * located over the draw panel.

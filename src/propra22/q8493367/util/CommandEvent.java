@@ -22,7 +22,7 @@ public class CommandEvent  {
 	}
 	
 	/**
-	 * Gets the type of the command event.
+	 * Returns the type of the command event.
 	 *
 	 * @return The type of the command event
 	 */

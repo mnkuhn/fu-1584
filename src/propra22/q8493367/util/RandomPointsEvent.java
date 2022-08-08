@@ -10,26 +10,30 @@ package propra22.q8493367.util;
  */
 public class RandomPointsEvent {
 	
-	/** The type of  the random event*/
+	/** The type of  the random points event.*/
 	private final RandomPointsEventType type;
 	
 	/** The minimum x coordinate for the randomly 
-	 * generated points.
+	 * generated points in the coordinate system of 
+	 * the model.
 	 */
 	private final int minX;
 	
 	/** The minimum y coordinate for the randomly
-	 * generated points.
+	 * generated points in the coordinate system of
+	 * the model.
 	 */
 	private final int minY; 
 	
 	/** The maximum x coordinate for the randomly
-	 * generated points.
+	 * generated points in the coordinate system 
+	 * of the model.
 	 */
 	private final int maxX;
 	
 	/** The maximum y coordinate for the randomly
-	 * generated points.
+	 * generated points in the coordinate system
+	 * of the model.
 	 */
 	private final int maxY;
 	
@@ -37,10 +41,10 @@ public class RandomPointsEvent {
 	 * Instantiates a new random points event.
 	 *
 	 * @param type the type of the random event
-	 * @param minX the minimum x coordinate for all randomly generated points
-	 * @param minY the minimum y coordinate for all randomly generated points
-	 * @param maxX the maximum x coordinate for all randomly generated points
-	 * @param maxY the maximum y coordinate for all randomly generated points
+	 * @param minX the minimum x coordinate for all randomly generated points.
+	 * @param minY the minimum y coordinate for all randomly generated points.
+	 * @param maxX the maximum x coordinate for all randomly generated points.
+	 * @param maxY the maximum y coordinate for all randomly generated points.
 	 */
 	public RandomPointsEvent(RandomPointsEventType type, 
 			int minX, 
@@ -57,7 +61,8 @@ public class RandomPointsEvent {
 	
 
 	/**
-	 * Gets minimum x coordinate for all randomly generated points
+	 * Returns the minimum x coordinate for all randomly generated points
+	 * in the coordinate system of the model.
 	 *
 	 * @return the minimum x coordinate
 	 */
@@ -68,7 +73,8 @@ public class RandomPointsEvent {
 
 
 	/**
-	 * Gets the minimum y coordinate for all randomly generated points 
+	 * Returns the minimum y coordinate for all randomly generated points 
+	 * in the coordinate system of the model.
 	 *
 	 * @return the minimum y coordinate
 	 */
@@ -79,7 +85,8 @@ public class RandomPointsEvent {
 
 
 	/**
-	 * Gets the maximum x coordinate for all randomly generated points 
+	 * Returns the maximum x coordinate for all randomly generated points
+	 * in the coordinate system of the model.
 	 *
 	 * @return the maximum x coordinate
 	 */
@@ -90,7 +97,8 @@ public class RandomPointsEvent {
 
 
 	/**
-	 *  Gets the maximum y coordinate for all randomly generated points 
+	 *  Returns the maximum y coordinate for all randomly generated points
+	 *  in the coordinate system of the model.
 	 *
 	 * @return the maximum y coordinate
 	 */
@@ -99,10 +107,8 @@ public class RandomPointsEvent {
 	}
 
 
-
-	
 	/**
-	 * Gets the type of the random event.
+	 * Returns the type of the random event.
 	 *
 	 * @return the type of the random event
 	 */

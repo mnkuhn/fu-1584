@@ -1,7 +1,7 @@
 package propra22.q8493367.util;
 
 /**
- * The listener for a main window. It receives all the events generated
+ * The listener for receiving main window events. It receives all the events generated
  * by the users selections in the file menu, the edit menu, the view menu and 
  * the help menu.
  */
@@ -18,7 +18,7 @@ public interface IMainWindowListener {
 	void FileEventOccured(FileEvent e);
 	
 	/**
-	 * The user wants to undo or redo the last command.
+	 * The user wants to undo or redo a command.
 	 *
 	 * @param commandEvent the command event
 	 */
@@ -49,8 +49,8 @@ public interface IMainWindowListener {
 	 * The user wants to make a selection among the shapes that can be displayed.
 	 * 
 	 * @param viewEvent the view event which has occurred. 
-	 * This event determines, which shapes (contour polygon, diameter, quadrangle, triangle)
-	 * are shown and if the animation should be displayed.
+	 * This event determines, which shapes (contour polygon, diameter, quadrangle, triangle
+	 * and animation) are shown and if the animation should be displayed.
 	 */
 	void viewEventOccured(ViewEvent viewEvent);
     

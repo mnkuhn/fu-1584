@@ -45,7 +45,7 @@ public class ViewEvent  {
 	}
 
 	/**
-	 * Gets the source of the view event.
+	 * Returns the source of the view event.
 	 *
 	 * @return the source
 	 */
@@ -55,7 +55,7 @@ public class ViewEvent  {
     
 	
 	/**
-	 * Returns true if the convex hull is to be shown. 
+	 * Returns true, if the convex hull is to be shown. 
 	 * Returns false otherwise.
 	 *
 	 * @return true, if the convex hull is to be shown, false otherwise.
@@ -65,7 +65,7 @@ public class ViewEvent  {
 	}
 	
 	/**
-	 * Returns true if the diameter is to be shown. 
+	 * Returns true, if the diameter is to be shown. 
 	 * Returns false otherwise.
 	 *
 	 * @return true, if the diameter is to be shown, false otherwise.
@@ -75,7 +75,7 @@ public class ViewEvent  {
 	}
 	
 	/**
-	 * Returns true if the quadrangle is to be shown. 
+	 * Returns true, if the quadrangle is to be shown. 
 	 * Returns false otherwise.
 	 *
 	 * @return true, if the quadrangle is to be shown, false otherwise.
@@ -85,7 +85,7 @@ public class ViewEvent  {
 	}
 
 	/**
-	 *Returns true if the triangle is to be shown. 
+	 *Returns true, if the triangle is to be shown. 
 	 * Returns false otherwise.
 	 *
 	 * @return true, if the triangle is to be shown, false otherwise.
@@ -95,7 +95,7 @@ public class ViewEvent  {
 	}
 
 	/**
-	 * Returns true if the animation is to be shown. 
+	 * Returns true, if the animation is to be shown. 
 	 * Returns false otherwise.
 	 *
 	 * @return true, if the animation is to be shown, false otherwise.

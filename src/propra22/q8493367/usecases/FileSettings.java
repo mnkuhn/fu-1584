@@ -3,7 +3,7 @@ package propra22.q8493367.usecases;
 
 /**
  * The Class FileSettings contains the default file paths for the 
- * file chooser and the operating instructions.
+ * file chooser and the operational manual.
  */
 public class FileSettings {
 	

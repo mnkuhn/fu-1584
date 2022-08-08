@@ -9,32 +9,32 @@ package propra22.q8493367.util;
  */
 public enum RandomPointsEventType {
 	
-	/** Ten points are inserted. */
+	/** Ten points are to be generated. */
 	TEN(10), 
-	/** Fifty points are inserted. */
+	/** Fifty points are to be generated. */
 	FIFTY(50), 
-	/** Hundred points are inserted */
+	/** Hundred points are to be generated */
 	HUNDRED(100), 
-	/** Five hundred points are inserted. */
+	/** Five hundred points are to be generated. */
 	FIVEHUNDRED(500), 
-	/** Thousand points are inserted. */
+	/** Thousand points are to be generated. */
 	THOUSAND(1000);
 	
-	/** The number of points to be inserted */
+	/** The number of points to be generated */
 	private final int number;
 	
 	/**
 	 * The private constructor for
 	 * RandomPointsEventType
 	 *
-	 * @param number the number of points
+	 * @param number the number of points to be generated.
 	 */
 	private RandomPointsEventType(int number) {
 		this.number = number;
 	}
 	
 	/**
-	 * Gets the number of points to be randomly generated.
+	 * Returns the number of points to be randomly generated.
 	 *
 	 * @return the number of points to be randomly generated.
 	 */
