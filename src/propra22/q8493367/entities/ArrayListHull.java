@@ -8,25 +8,6 @@ import java.util.List;
  * The Class Hull represents a contour polygon or a convex hull.
  */
 public class ArrayListHull extends ListHull {
-    
-	/** The upper left contour. */
-	//private  List<Point> upperLeft = new ArrayList<>();
-	
-	/** The lower left contour. */
-	//private  List<Point> lowerLeft = new ArrayList<>();
-	
-	/** The lower right contour. */
-	//private  List<Point> upperRight = new ArrayList<>();
-	
-	/** The upper right contour. */
-	//private  List<Point> lowerRight = new ArrayList<>();
-	
-	/** The highest Y found. */
-	private int biggestYFound;
-	
-	/** The lowest Y found. */
-	private int smallestYFound;
-    
 	
 	/**
      * Instantiates a new array list hull. The four
@@ -249,111 +230,7 @@ public class ArrayListHull extends ListHull {
 		}
 	}
 
-	/**
-	 * Returns true, if in the contour specified by the contour
-	 * type are no points. Returns false otherwise.
-	 *
-	 * @param contourType the type of the contour
-	 * @return true, if no points are in the contour, false
-	 * otherwise.
-	 */
 	
-	/*
-	private boolean contourIsEmpty(ContourType contourType) {
-		switch (contourType) {
-		case UPPERLEFT: {
-			return upperLeft.isEmpty();
-			}
-		case LOWERLEFT: {
-			return lowerLeft.isEmpty();
-			}
-		case UPPERRIGHT: {
-			return upperRight.isEmpty();
-			}
-		case LOWERRIGHT: {
-			return lowerRight.isEmpty();
-
-			}
-		default: {
-			throw new IllegalArgumentException("Unexpected value: " + contourType);
-			}
-		}
-	}
-	*/
-
-	/**
-	 * Gets the size of the contour specified by the
-	 * contour type.
-	 * @param contourType the type of the contour
-	 * @return the number of points in the contour
-	 */
-	/*
-	private int getSizeOfContour(ContourType contourType) {
-		switch (contourType) {
-		case UPPERLEFT: {
-			return upperLeft.size();
-			}
-		case LOWERLEFT: {
-			return lowerLeft.size();
-			}
-		case UPPERRIGHT: {
-			return upperRight.size();
-			}
-		case LOWERRIGHT: {
-			return lowerRight.size();
-
-			}
-		default: {
-			throw new IllegalArgumentException("Unexpected value: " + contourType);
-			}
-		}
-	}
-	*/
-
-	/**
-	 * Removes all points from the hull.
-	 */
-	/*
-	@Override
-	public void clear() {
-		upperLeft.clear();
-		lowerLeft.clear();
-		upperRight.clear();
-		lowerRight.clear();
-	}
-	*/
-
-	/**
-	 * Removes a point from the contour specified
-	 * by the contour type.
-	 *
-	 * @param point the point which is to be removed.
-	 * @param contourType the type of the contour
-	 */
-	
-	/*
-	private void removePointFromContour(Point point, ContourType contourType) {
-		switch (contourType) {
-		case UPPERLEFT: {
-			upperLeft.remove(point);
-		}
-		case LOWERLEFT: {
-			lowerLeft.remove(point);
-		}
-		case UPPERRIGHT: {
-			upperRight.remove(point);
-		}
-		case LOWERRIGHT: {
-			lowerRight.remove(point);
-
-		}
-		default: {
-			throw new IllegalArgumentException("Unexpected value: " + contourType);
-		}
-		}
-	}
-	*/
-
 	
 	@Override
 	public int[][] toArray() {
@@ -411,20 +288,6 @@ public class ArrayListHull extends ListHull {
 		
 	}
 	
-	/**
-	 * Calculates the convex hull outgoing from
-	 * the contour polygon.
-	 */
-	/*
-	@Override
-	public void clean() {
-		if (!isEmpty()) {
-			for (ContourType contourType : ContourType.values()) {
-				cleanContour(contourType);
-			}
-		}
-	}
-	*/
 	
 	@Override
 	protected void cleanContour(ContourType contourType) {
