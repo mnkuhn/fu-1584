@@ -18,7 +18,7 @@ public interface IHullIterator {
 
 	/**
 	 * Gets the next point of the point referenced by the actual iterator
-	 * position (clockwise direction in a standard 
+	 * position (clockwise direction in a
 	 * cartesian coordinate system).
 	 *
 	 * @return the next point of the point referenced by the actual iterator
@@ -28,7 +28,7 @@ public interface IHullIterator {
 	
 	/**
 	 * Gets the previous point of the point referenced by the actual iterator
-	 * position (clockwise direction in a standard 
+	 * position (clockwise direction in a
 	 * cartesian coordinate system).
 	 *
 	 * @return the previous point of the point referenced by the actual iterator
@@ -38,14 +38,17 @@ public interface IHullIterator {
 
 	/**
 	 * Moves the iterator to the next
-	 * position.
+	 * position moving clockwise in a 
+	 * cartesian coordinate
+	 * system.
 	 */
 	void next();
 	
 
 	/**
 	 * Moves the iterator to the previous
-	 * position.
+	 * position moving counterclockwise 
+	 * in a cartesian coordinate system.
 	 */
 	void previous();
 

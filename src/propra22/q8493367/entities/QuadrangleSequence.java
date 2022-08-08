@@ -19,10 +19,11 @@ public class QuadrangleSequence {
 	
 	/**
 	 * Gets the hull point before the current quadrangle point identified
-	 * by the argument. We think in clockwise direction.
+	 * by the argument.
 	 *
 	 * @param quadranglePoint the quadrangle point A, B, C or D.
-	 * @return the point of the convex hull before this point. 
+	 * @return the point of the convex hull before this point moving 
+	 * counterclockwise.
 	 */
 	public Point getHullPointBefore(QuadranglePoint quadranglePoint) {
 		if(quadrangles.size() == 0) {return null;}
@@ -110,10 +111,10 @@ public class QuadrangleSequence {
 	
 	/**
 	 * Gets the hull point after the current quadrangle point identified
-	 * by the argument. We think in clockwise direction.
+	 * by the argument moving clockwise.
 	 *
 	 * @param quadranglePoint the quadrangle point
-	 * @return the hull point after
+	 * @return the hull point after after the current quadrangle point
 	 */
 	public Point getHullPointAfter(QuadranglePoint quadranglePoint) {
 		if(quadrangles.size() == 0) {return null;}
@@ -203,7 +204,7 @@ public class QuadrangleSequence {
 	/**
 	 * Returns true, if the length of the longest 
 	 * diameter of all the quadrangles in the quadrangle
-	 * sequence is zero. This method is used to determine
+	 * sequence is zero. This method can be used to determine
 	 * if the point set only keeps one point.
 	 * Returns false otherwise.
 	 *
@@ -277,7 +278,7 @@ public class QuadrangleSequence {
 	/**
 	 * Returns the number of quadrangles in the quadrangle sequence.
 	 *
-	 * @return the int
+	 * @return the number of quadrangles in the quadrangle sequence
 	 */
 	public int size() {
 		return quadrangles.size();

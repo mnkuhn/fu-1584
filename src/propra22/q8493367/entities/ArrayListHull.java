@@ -94,7 +94,7 @@ public class ArrayListHull extends ListHull {
 	
     /**
      * Calculates the lower left contour. This function has to be called before
-     * calculateLowerRight because the smalles y value found has to be set.
+     * calculateLowerRight because the smallest y value found has to be set.
      * {@link ArrayListHull#smallestYFound}
      *
      * @param pointSet the point set

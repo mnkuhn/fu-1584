@@ -2,13 +2,13 @@ package propra22.q8493367.entities;
 
 /**
  * The Class TangentPair represents a pair of tangents. 
- * These two tangents stand at a constant angle to each other. In this
+ * These two tangents stand at a constant angle (in radians) to each other. In this
  * application the constant angle is pi, so the tangents are parallel.
  */
 public class TangentPair {
     /**
-     * The angle of the tangent as radians with respect to 
-     * the vertical line going through the connection point
+     * The angle of the tangent in radians with respect to 
+     * the vertical line going through the contact point
      * measured counterclockwise.
      */
 	private double angle;
@@ -17,7 +17,7 @@ public class TangentPair {
 	 * The value in radians, by which the angle is increased when
 	 * performing a step.
 	 */
-    private final double diff = Math.PI / 500;
+    private final double delta = Math.PI / 500;
     
 	//The two tangents of the tangent pair
     /** The first tangent. */
@@ -28,7 +28,9 @@ public class TangentPair {
     
     
 	
-    /** The initial length of the tangent in pixels. */
+    /** The initial length of the tangent in pixels. 
+     * The length refers to the coordinate system of the view.
+     * */
     private double length = 400;
     
     
@@ -57,8 +59,8 @@ public class TangentPair {
 	
 
 	/**
-     * Calculates the new slope of the tangent lines 
-     * and the point of contact.
+     * Calculates the new slope of the tangents 
+     * and the points of contact.
      */
 	public void step() {
 		if(nextAngleIsValid()) {
@@ -90,7 +92,7 @@ public class TangentPair {
 	public void fitToAngle() {
 		/*If diameter it not zero, it might be necessary to calulcate a new antipodal pair
 		 * given by the points A and C of one of the quadrangles of the quadrangle sequence.
-		 * If diameter is zero, angle can be kept anyway.
+		 * If diameter is zero, there is only one point, so there is no need for searching.
 		 */
 		if(!quadrangleSequence.longestDiameterIsZero()) {
 			while(!angleIsValid()){
@@ -104,7 +106,7 @@ public class TangentPair {
 	 * except the tangential points lie on the same side of the respective tangent.
 	 * Returns false otherwise.
 	 *
-	 * @return true, the tangent characteristics of both tangents ensured. False otherwise.
+	 * @return true, if the tangent characteristics of both tangents ensured. False otherwise.
 	 */
 	public boolean angleIsValid() {
 		return tangent1.angleIsValid() && tangent2.angleIsValid();
@@ -131,7 +133,7 @@ public class TangentPair {
 	 */
 
 	public Point[] getTangent1(){
-		return new Point[]{tangent1.getA(), tangent1.getCenter(),  tangent1.getB()};
+		return new Point[]{tangent1.getA(), tangent1.getContactPoint(),  tangent1.getB()};
 	}
 	
 	/**
@@ -142,24 +144,14 @@ public class TangentPair {
 	 */
 
 	public Point[] getTangent2() {
-		return new Point[]{tangent2.getA(), tangent2.getCenter(),  tangent2.getB()};
+		return new Point[]{tangent2.getA(), tangent2.getContactPoint(),  tangent2.getB()};
 	}
 	
-	/**
-	 * Sets the length of the tangents.
-	 *
-	 * @param length the new length
-	 */
-    /*
-	public void setLength(float length) {
-		this.length = length;
-	}
-	*/
 	
 	/**
-	 * Gets the number of antipodal pairs with distinguishable endpoints.
+	 * Gets the number of antipodal pairs with distinguishable end points.
 	 *
-	 * @return the number of antipodal pairs with distinguishable endpoints.
+	 * @return the number of antipodal pairs with distinguishable end points.
 	 */
 	public int getNumberOfAntipodalPairs() {
 		return quadrangleSequence.size();
@@ -168,10 +160,10 @@ public class TangentPair {
 	
 
 	/**
-	 * Increases the angle by the constant diff.
+	 * Increases the angle by the constant delta.
 	 */
 	private void increaseAngle() {
-		angle += diff;
+		angle += delta;
 	}
 	
 	
@@ -196,11 +188,13 @@ public class TangentPair {
 		private double angleOffset;
 		
 		/**
-		 * The constructor of a tangent takes the center index for
-		 * the contact point and the offset for the angle.
+		 * The constructor of a tangent takes the angle 
+		 * offset and the quadrangle point the contact point
+		 * is identified with.
 		 *
-		 * @param angleOffset - The offset for the angle
-		 * @param quadranglePoint the quadrangle point
+		 * @param angleOffset the offset for the angle
+		 * @param quadranglePoint the quadrangle point the
+		 * contact point is identified with.
 		 */
 		public Tangent(double angleOffset, QuadranglePoint quadranglePoint) {
 			this.angleOffset = angleOffset;
@@ -209,27 +203,31 @@ public class TangentPair {
 		
 		
 		/**
-		 * Calculate angle.
+	     *
+		 * Calculates the angle of the tangent if it
+		 * touches the contact point and the next hull point.
 		 *
-		 * @return the double
+		 * @return the angle in radians.
 		 */
 		
 		
 		public double calculateAngle() {
-			return getAngle(getCenter(), getNextHullPoint()) - angleOffset;
+			return getAngle(getContactPoint(), getNextHullPoint()) - angleOffset;
 		}
 		
 
 		/**
-		 * Gets the angle.
+		 * Gets the angle of a tangent with given
+		 * contact point that touches 
+		 * another point p.
 		 *
-		 * @param center the center
-		 * @param previous the previous
+		 * @param contact the contact point of the tangent
+		 * @param p another point which is touched by the tangent
 		 * @return the angle
 		 */
-		private  double  getAngle(Point center, Point previous) {
-			double dx = center.getX() - previous.getX();
-			double dy = previous.getY() - center.getY();
+		private  double  getAngle(Point contact, Point p) {
+			double dx = contact.getX() - p.getX();
+			double dy = p.getY() - contact.getY();
 			double result =  Math.atan2(dx, dy);
 			return result;
 		}
@@ -239,36 +237,35 @@ public class TangentPair {
 		
         /**
          * Returns true if the characteristic of a tangent is maintained. 
-         * That is, One or two points lie on the tangent and all other points, 
+         * That is, one or two points lie on the tangent and all other points, 
          * if they exist, lie on exactly one side of the tangent.
          * 
          * @return True, if the next angle is still maintaining the 
          * characteristic of the tangent described above.
          * False otherwise.
          */
-		
-		
 		private boolean nextAngleIsValid() {
 			if(quadrangleSequence.longestDiameterIsZero()) {
 				return true;
 			}
 			else {
-				Point center = getCenter();
+				Point contact = getContactPoint();
 				Point nextB = getNextB();
 				Point previousHullPoint = quadrangleSequence.getHullPointBefore(quadranglePoint);
 
-				long result = Point.signedTriangleArea(center, nextB, previousHullPoint);
+				long result = Point.signedTriangleArea(contact, nextB, previousHullPoint);
 				return result <= 0;
 			}
 		}
 		
 		/**
-		 * Angle is valid.
+		 * Returns true, if the current angle is valid for 
+		 * the given contact point.
 		 *
 		 * @return true, if successful
 		 */
 		private boolean angleIsValid() {
-			Point center = getCenter();
+			Point contact = getContactPoint();
 			
 			Point a = getA();
 			Point b = getB();
@@ -277,8 +274,8 @@ public class TangentPair {
 			Point nextHullPoint = quadrangleSequence.getHullPointAfter(quadranglePoint);
 			
 			
-			long result1 = Point.signedTriangleArea(center, b, previousHullPoint);
-			long result2 = Point.signedTriangleArea(nextHullPoint, a, center);
+			long result1 = Point.signedTriangleArea(contact, b, previousHullPoint);
+			long result2 = Point.signedTriangleArea(nextHullPoint, a, contact);
 			
 			return (result1 <= 0) && (result2 <= 0);
 		}
@@ -292,12 +289,13 @@ public class TangentPair {
 		 *
 		 * @return The contact point
 		 */
-		public Point getCenter() {
+		public Point getContactPoint() {
 			return quadrangleSequence.getHullPoint(quadranglePoint);
 		}
 		
 		/**
-		 * Gets the next hull point.
+		 * Returns the hull point which follows the 
+		 * contact point moving clockwise.
 		 *
 		 * @return the next hull point
 		 */
@@ -309,9 +307,9 @@ public class TangentPair {
 
 	
 		/**
-		 * Gets the length of the tangent in pixels.
+		 * Gets the length of the tangent
 		 *
-		 * @return - The length
+		 * @return the length of the tangent
 		 */
 		
 		@SuppressWarnings("unused")
@@ -321,48 +319,48 @@ public class TangentPair {
 
 		
 		/**
-		 * Gets end A of the tangent as a point.
-		 * @return One end of the tangent
+		 * Gets end point A of the tangent for the current angle.
+		 * @return end point a of the tangent
 		 */
 		public Point getA() {
-			int x = (int)Math.round(getCenter().getX() - length/2 * Math.sin(angle + angleOffset));
-			int y = (int)Math.round(getCenter().getY() + length/2 * Math.cos(angle + angleOffset));
+			int x = (int)Math.round(getContactPoint().getX() - length/2 * Math.sin(angle + angleOffset));
+			int y = (int)Math.round(getContactPoint().getY() + length/2 * Math.cos(angle + angleOffset));
 			return new Point(x, y);
 		}
 		
 		/**
-		 * Gets end A of the tangent as a point for angle + pDiff.
+		 * Gets end point A of the tangent for angle + delta.
 		 *
-		 * @param pDiff the diff
+		 * @param delta the delta, by which the angle is increased.
 		 * @return One end of the tangent
 		 */
 		@SuppressWarnings("unused")
-		private Point getNextA(double pDiff) {
-			int x = (int)Math.round(getCenter().getX() - length/2 * Math.sin(angle + angleOffset + pDiff));
-			int y = (int)Math.round(getCenter().getY() + length/2 * Math.cos(angle + angleOffset + pDiff));
+		private Point getNextA(double delta) {
+			int x = (int)Math.round(getContactPoint().getX() - length/2 * Math.sin(angle + angleOffset + delta));
+			int y = (int)Math.round(getContactPoint().getY() + length/2 * Math.cos(angle + angleOffset + delta));
 			return new Point(x, y);
 		}
 		
 		/**
-		 * Gets end B of the tangent as a point.
+		 * Gets end point B of the tangent for the current angle.
 		 * @return One end of the tangent
 		 */
 		public Point getB() {
 		
-			int x = (int)Math.round(getCenter().getX() + length/2 * Math.sin(angle + angleOffset));
-			int y = (int)Math.round(getCenter().getY() - length/2 * Math.cos(angle + angleOffset));
+			int x = (int)Math.round(getContactPoint().getX() + length/2 * Math.sin(angle + angleOffset));
+			int y = (int)Math.round(getContactPoint().getY() - length/2 * Math.cos(angle + angleOffset));
 			return new Point(x, y);
 		}
 		
 		/**
-		 * Gets end B of the tangent as a point for angle + pDiff.
+		 * Gets end point B of the tangent for angle + delta.
 		 *
 		 * @return One end of the tangent
 		 */
 		private Point getNextB() {
 			
-			int x = (int)Math.round(getCenter().getX() + length/2 * Math.sin(angle + angleOffset + diff));
-			int y = (int)Math.round(getCenter().getY() - length/2 * Math.cos(angle + angleOffset + diff));
+			int x = (int)Math.round(getContactPoint().getX() + length/2 * Math.sin(angle + angleOffset + delta));
+			int y = (int)Math.round(getContactPoint().getY() - length/2 * Math.cos(angle + angleOffset + delta));
 			return new Point(x, y);
 		}
 	}

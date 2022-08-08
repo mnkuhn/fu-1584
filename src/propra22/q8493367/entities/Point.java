@@ -65,7 +65,7 @@ public class Point implements Comparable<Point> {
     
 	/**
 	 * Implements the compareTo method of the Comparable &lt; T &gt;
-	 * interface. In this application a lexicographical order 
+	 * interface. In this application, a lexicographical order 
 	 * is implemented.
 	 *
 	 * @param p the point to which the comparison refers.
@@ -93,32 +93,6 @@ public class Point implements Comparable<Point> {
 		builder.append(" ");
 		builder.append(y);
 		return builder.toString();
-	}
-
-
-	/**
-	 * Returns a new point whose x and y coordinates are the sum 
-	 * of the x and y coordinates of this and p.
-	 *
-	 * @param p the point p whose x and y coordinates are added 
-	 * to the x and y coordinates of this. 
-	 * @return the new point as the result of the addition.
-	 */
-	public Point add(Point p) {
-		return new Point(this.x + p.getX(), this.y + p.getY());
-	}
-
-
-	/**
-	 * Returns a new point whose x and y coordinates are the difference 
-	 * of the x and y coordinates of this and p.
-	 *
-	 * @param p the point whose x and y coordinates are subtracted from
-	 * the x and y coordinates of the point represented by this.
-	 * @return the new point as the result of the subtraction.
-	 */
-	public Point subtract(Point p) {
-		return new Point(this.x - p.getX(), this.y - p.getY());
 	}
 
 

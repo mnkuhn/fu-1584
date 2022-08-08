@@ -6,8 +6,8 @@ import java.util.List;
 
 
 
-/** The Class PointSet represents a set of points. The point
- * set is the data base of the application. 
+/** 
+ * The Class PointSet represents a set of points.
  */
 public class PointSet {
 	

@@ -6,25 +6,25 @@ package propra22.q8493367.entities;
 public class Quadrangle {
      
 	
-	/**  The first of the four points of the quadrangle. */
+	/** The point a of the quadrangle. */
 	private Point a;
 	
-	/**  The second of the four points of the quadrangle. */
+	/** The point b of the quadrangle. */
 	private Point b;
 	
-	/**  The third of the four points of the quadrangle. */
+	/** The point c of the quadrangle. */
 	private Point c;
 	
-	/**  The fourth of the four points of the quadrangle. */
+	/** The point d of the quadrangle.. */
 	private Point d;
 
 	/**
 	 * Instantiates a new quadrangle.
 	 *
-	 * @param a the first point
-	 * @param b the second point
-	 * @param c the third point
-	 * @param d the fourth point
+	 * @param a the the point A
+	 * @param b the the point B
+	 * @param c the the point C
+	 * @param d the the point D
 	 */
 	public Quadrangle(Point a, Point b, Point c, Point d) {
 		this.a = a;
@@ -60,58 +60,58 @@ public class Quadrangle {
 	}
 
 	/**
-	 * Gets the point a.
+	 * Returns the point A.
 	 *
-	 * @return the point a
+	 * @return the point A
 	 */
 	public Point getA() {return a;}
 	
 	/**
-	 * Gets the point b.
+	 * Returns the point B.
 	 *
-	 * @return the point b
+	 * @return the point B
 	 */
 	public Point getB() {return b;}
 	
 	/**
-	 * Gets the point c.
+	 * Returns the point C.
 	 *
-	 * @return the point c
+	 * @return the point C
 	 */
 	public Point getC() {return c;}
 	
 	/**
-	 * Gets the point d.
+	 * Returns the point D.
 	 *
-	 * @return the point d
+	 * @return the point D
 	 */
 	public Point getD() {return d;}
 	
 	/**
-	 * Sets the point a.
+	 * Sets the point A.
 	 *
-	 * @param a the  point a
+	 * @param a the  point A
 	 */
 	public void setA(Point a) {this.a = a;}
 	
 	/**
-	 * Sets the point b.
+	 * Sets the point B.
 	 *
-	 * @param b the  point b
+	 * @param b the  point B
 	 */
 	public void setB(Point b) {this.b = b;}
 	
 	/**
-	 * Sets the point c.
+	 * Sets the point C.
 	 *
-	 * @param c the point c
+	 * @param c the point C
 	 */
 	public void setC(Point c) {this.c = c;}
 	
 	/**
-	 * Sets the point d.
+	 * Sets the point D.
 	 *
-	 * @param d the point d
+	 * @param d the point D
 	 */
 	public void setD(Point d) {this.d = d;}
 	
@@ -130,7 +130,7 @@ public class Quadrangle {
 	}
 	
 	/**
-	 * Return the point set as an n X 2 array, where n is the number of points.
+	 * Returns the point set as an n X 2 array, where n is the number of points.
 	 * array[i][0] is the x coordinate of point i, array[i][1] is the y
 	 * coordinate of point i. 
 	 *
