@@ -26,8 +26,6 @@ import propra22.q8493367.usecases.InsertRandomPointsCommand;
 import propra22.q8493367.usecases.RemovePointCommand;
 import propra22.q8493367.util.IDrawPanelControllerObserver;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The controller of the draw panel. It handles the updates for the model
  * and the view based on various events.

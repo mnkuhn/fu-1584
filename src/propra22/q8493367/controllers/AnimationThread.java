@@ -47,7 +47,8 @@ public class AnimationThread extends Thread {
 	 * Sets the duration of the time the thread sleeps after updating the view and 
 	 * the tangent pair. The duration of the sleep time depends on the number 
 	 * of antipodal pairs. The antipodal pairs have the points A and C as ending 
-	 * points. If we do not distinguish two antipodal pairs with the same endpoints 
+	 * points as described in the specification on page 23. 
+	 * If we do not distinguish two antipodal pairs with the same endpoints 
 	 * by A and C, it would be twice the number of antipodal pairs.
 	 */
 	private void setDuration() {

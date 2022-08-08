@@ -13,7 +13,7 @@ import propra22.q8493367.util.ViewEvent;
 
 
 /**
- * The Class MainWindowController is the controller for the main window.
+ * The controller for the main window.
  * It provides methods that process events related to user input in the menu bar
  * of the main window.
  */
