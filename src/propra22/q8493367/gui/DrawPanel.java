@@ -37,6 +37,10 @@ import propra22.q8493367.util.IDrawPanelListener;
  * the triangle and the animation are displayed on this JPanel.
  * Next to the functionality for the interaction with the user it 
  * also provides a panning and a zoom functionality.
+ * 
+ * Sources for zooming and panning: 
+ * @see <a href="https://stackoverflow.com/questions/13155382/jscrollpane-zoom-relative-to-mouse-position">stackoverflow</a>
+ * @see <a href="https://stackoverflow.com/questions/13155382/jscrollpane-zoom-relative-to-mouse-position">youtube</a>
  */
 public class DrawPanel extends JPanel implements IDrawPanel {
 
@@ -723,6 +727,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 *
 	 * @param point the point whose coordinates are translated
 	 * @return a new point with the translated coordinates
+	 * 
 	 */
 	private Point translatePointFromModelToView(Point point) {
 		int x = (int) Math.round(translateXFromModelToView(point.getX(), innerOffsetX, outerOffsetX, mouseOffsetX, 

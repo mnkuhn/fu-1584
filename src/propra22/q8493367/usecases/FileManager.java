@@ -225,6 +225,8 @@ public class FileManager implements IFileManager {
 			filePath = file.getAbsolutePath();
 		} catch (IOException e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Datei konnte nicht gespeichert werden", "", 
+					JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
@@ -235,8 +237,9 @@ public class FileManager implements IFileManager {
 	 * @param file the file, from which the points are loaded
 	 */
 	public void loadPointsToPointSet(File file) {
-
+ 
 		try {
+			
 			long start = System.currentTimeMillis();
 			FileReader fileReader = new FileReader(file);
 			BufferedReader reader = new BufferedReader(fileReader);
@@ -258,8 +261,11 @@ public class FileManager implements IFileManager {
 				System.out.println("Punktmenge von Datei einlesen: " + (end - start) + " ms");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			// for readLine()
+			JOptionPane.showMessageDialog(null, "Datei konnte nicht geöffnet werden.", "", 
+					JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Datei konnte nicht gelesen werden.", "", 
+					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
