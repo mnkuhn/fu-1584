@@ -59,14 +59,21 @@ public class FileManager implements IFileManager {
 		
 		this.pointSet = pointSet;
 		this.drawPanelController = drawPanelController;
-		this.fileChooser = new FileChooser(FileSettings.defaultFilePath);
 		this.parser = parser;
 	}
 	
 
 	@Override
 	public void handleFileEvent(FileEvent e) {
-        
+        /*
+         * This if query is necessary to avoid an 'Exception while removing reference'
+         * after testing. A file chooser object should only be created if a GUI
+         * exists and this method is only called from the GUI.
+         */
+		if(fileChooser == null) {
+        	fileChooser = new FileChooser(FileSettings.defaultFilePath);
+        }
+		
 		FileEventType type = e.getFileEventType();
 
 		switch (type) {
