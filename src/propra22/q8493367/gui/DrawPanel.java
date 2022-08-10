@@ -45,7 +45,7 @@ import propra22.q8493367.util.IDrawPanelListener;
 public class DrawPanel extends JPanel implements IDrawPanel {
 
 	/** The Constant serialVersionUID, used to check the version if 
-	 * this object is serialized.
+	 * 	this object is serialized.
 	 */
 	private static final long serialVersionUID = 1L;
 	
