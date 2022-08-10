@@ -2,7 +2,7 @@
 
 ## Inhaltsverzeichnis
 
-* [Allgemein][]
+*  [Allgemein][]
 *  [Die grafische Benutzeroberfläche][]
 *  [Die Zeichenfläche][]
 *  [Darstellung der Elemente][]
@@ -42,10 +42,10 @@ Punkte werden schwarz gefüllte Kreise dargestellt.
 Die Punkte der konvexen Hülle werden durch eine rote Linie verbunden. Die Konvexe Hülle kann auch nur aus einem Punkt oder einer Linie bestehen, falls die entsprechende Punktmenge nur aus einem bzw. aus zwei Punkten besteht.
 
 ##### Durchmesser
-Der Durchmesser wird durch eine blaue Linie angezeigt.
+Der Durchmesser wird durch eine blaue Linie angezeigt. Er kann auch nur als Punkt dargestellt werden, falls die Punktmenge nur einen Punkt enthält. Er fällt dann mit diesem Punkt zusammen und ist nicht sichtbar.
 
 ##### Grösstes Viereck
-Das grösste Viereck wird in einem matten grün dargestellt. Es kann auch nur als Punkt dargestellt werden, falls alle vier Punkte des Vierecks die gleichen Koordinaten haben. Es kann als Line dargestellt sein, falls jeweils zwei verschiedene Paare von Punkten die gleichen Koordinaten haben und es kann als Dreieck erscheinen, falls genau ein paar von Punkten des Vierecks die gleichen Koordinaten besitzt.
+Das grösste Viereck wird in einem matten grün dargestellt. Es kann auch nur als Punkt dargestellt werden, falls alle vier Punkte des Vierecks die gleichen Koordinaten haben. Dieser Fall tritt ein, falls die Punkmenge nur einen Punkt enthält. Das Viereck fällt dann mit diesem Punkt zusammen und ist nicht sichtbar. Es kann als Line dargestellt sein, falls jeweils zwei verschiedene Paare von Punkten die gleichen Koordinaten haben und es kann als Dreieck erscheinen, falls genau ein paar von Punkten des Vierecks die gleichen Koordinaten besitzt.
 
 ##### Animation
 Während die Animation läuft, werden die beiden Punkte des Antipodenpaares durch eine schwarze Linie verbunden. Die an den Punkten des Antipodenpaares anliegenden Tangenten werden schwarz dargestellt. Das zum jeweiligen Antipodenpaar gehörende grösste Viereck wird in einem kräftigen grün eingezeichnet.
