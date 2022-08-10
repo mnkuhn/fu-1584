@@ -156,7 +156,8 @@ public class FileManager implements IFileManager {
 			fileChooser.setSelectedFile(new File(""));
 			int fileChooserOption = fileChooser.showSaveDialog(null);
 			if (fileChooserOption == JFileChooser.APPROVE_OPTION) {
-				savePointSet(fileChooser.getSelectedFile());
+				File selectedFile = fileChooser.getSelectedFile();
+				savePointSet(selectedFile);
 			}
 			break;
 		}
@@ -214,6 +215,7 @@ public class FileManager implements IFileManager {
 			}
 			printWriter.close();
 			pointSet.setHasChanged(false);
+			filePath = file.getAbsolutePath();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -243,6 +245,7 @@ public class FileManager implements IFileManager {
 			}
 			reader.close();
 			pointSet.setHasChanged(true);
+			filePath = file.getAbsolutePath();
 			long end = System.currentTimeMillis();
 			if(CHGO_8493367_Kuhn_Manuel.showConsoleOutput)
 				System.out.println("Punktmenge von Datei einlesen: " + (end - start) + " ms");

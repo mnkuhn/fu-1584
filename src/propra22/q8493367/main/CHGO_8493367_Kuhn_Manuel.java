@@ -68,7 +68,6 @@ public class CHGO_8493367_Kuhn_Manuel {
 		drawPanelController.addObserver(statusBarController);
 		
 		//File manager and parser
-		//JFileChooser fileChooser = new FileChooser(FileSettings.defaultFilePath);
 		IParser parser = new ConventionalParser();
 		IFileManager fileManager = new FileManager(pointSet, drawPanelController, parser);
 		
