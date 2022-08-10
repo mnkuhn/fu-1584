@@ -3,6 +3,8 @@ package propra22.q8493367.util;
 /**
  * 
  * A factory for parsers.
+ * 
+ *  @see <a href="https://www.youtube.com/watch?v=EcFVTgRHJLM&t=834s">youtube</a>
  *
  */
 
@@ -11,7 +13,7 @@ public class ParserFactory {
 	/**
 	 * Returns the parser specified 
 	 * by the parser type.
-	 * @param parserType
+	 * @param parserType the type of the parser
 	 * @return the parser
 	 */
 	public IParser getParser(String parserType) {

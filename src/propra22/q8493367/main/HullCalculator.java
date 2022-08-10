@@ -108,6 +108,8 @@ public class HullCalculator implements IHullCalculator{
 	 * the x coordinate of a point is the first element 
 	 * and the y coordinate is the second element of the inner 
 	 * array.
+	 * @return the array with the coordinates of the  
+	 * points of the convex hull.
 	 */
 	@Override
 	public int[][] getConvexHull() {
@@ -119,6 +121,8 @@ public class HullCalculator implements IHullCalculator{
 	 * the x coordinate of a point is the first element 
 	 * and the y coordinate is the second element of the inner 
 	 * array.
+	 * @return the array with the coordinates of the two points of 
+	 * the diameter.
 	 */
 
 	@Override
@@ -128,6 +132,7 @@ public class HullCalculator implements IHullCalculator{
 	
 	/**
 	 * Returns the length of the diameter.
+	 * @return the length of the diameter
 	 */
 
 	@Override
@@ -136,8 +141,9 @@ public class HullCalculator implements IHullCalculator{
 	}
 	
 	/**
-	 * Returns the Email address of the
+	 * Returns the email address of the
 	 * participant.
+	 * @return the email address of the participant
 	 */
 
 	@Override
@@ -148,6 +154,7 @@ public class HullCalculator implements IHullCalculator{
 	/**
 	 * Returns the  matriculation number of the 
 	 * participant.
+	 * @return the matriculation number of the participant.
 	 */
 	@Override
 	public String getMatrNr() {
@@ -157,6 +164,7 @@ public class HullCalculator implements IHullCalculator{
 	/**
 	 * Returns the full name of the 
 	 * participant.
+	 * @return the full name of the participant
 	 */
 	@Override
 	public String getName() {
@@ -168,6 +176,8 @@ public class HullCalculator implements IHullCalculator{
 	 * array where the x coordinate of a point is the first 
 	 * element and the y coordinate is the second element 
 	 * of the inner array.
+	 * @return the array with the coordinates of the points 
+	 * of the quadrangle
 	 */
 	@Override
 	public int[][] getQuadrangle() {
@@ -189,6 +199,8 @@ public class HullCalculator implements IHullCalculator{
 	 * coordinate of a point is the first 
 	 * element and the y coordinate is the 
 	 * second element of the inner array.
+	 * @return the array with the coordinates of
+	 * the points of the biggest triangle.
 	 */
 	@Override
 	public int[][] getTriangle() {
@@ -198,6 +210,8 @@ public class HullCalculator implements IHullCalculator{
     
 	/**
 	 * Returns the area of the biggest
+	 * triangle.
+	 * @return the area of the biggest
 	 * triangle.
 	 */
 	@Override

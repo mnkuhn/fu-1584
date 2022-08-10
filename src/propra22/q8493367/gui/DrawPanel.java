@@ -38,9 +38,11 @@ import propra22.q8493367.util.IDrawPanelListener;
  * Next to the functionality for the interaction with the user it 
  * also provides a panning and a zoom functionality.
  * 
- * Sources for zooming and panning: 
+ *
  * @see <a href="https://stackoverflow.com/questions/13155382/jscrollpane-zoom-relative-to-mouse-position">stackoverflow</a>
  * @see <a href="https://stackoverflow.com/questions/13155382/jscrollpane-zoom-relative-to-mouse-position">youtube</a>
+ * @see <a href="https://medium.com/@benjamin.botto/zooming-at-the-mouse-coordinates-with-affine-transformations-86e7312fd50b">medium.com</a>
+ * 
  */
 public class DrawPanel extends JPanel implements IDrawPanel {
 

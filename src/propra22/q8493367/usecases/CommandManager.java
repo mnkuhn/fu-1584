@@ -8,6 +8,8 @@ import java.util.List;
  * The Class CommandManager is responsible 
  * for handling the commands for the redo
  * and undo functionality of the GUI.
+ * 
+ * @see <a href="https://www.youtube.com/watch?v=9qA5kw8dcSU">youtube</a>
  */
 public class CommandManager {
 

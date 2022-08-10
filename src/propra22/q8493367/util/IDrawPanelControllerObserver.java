@@ -4,6 +4,8 @@ package propra22.q8493367.util;
 
 /**
  * This Interface declares the update method for a draw panel controller observer.
+ * 
+ * @see <a href="https://www.youtube.com/watch?v=_BpmfnqjgzQ&t=662s">youtube</a>
  */
 public interface IDrawPanelControllerObserver {
 
