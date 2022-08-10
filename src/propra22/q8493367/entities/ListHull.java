@@ -290,8 +290,10 @@ public abstract class ListHull implements IHull{
 					it.previous();
 					it.previous();
 
-					// tip is on the outer  side of the line through baseA and baseB or on the 
-					//line through baseA and baseB
+					/*
+					 * tip is on the outer  side of the line through baseA and baseB or on the 
+					 * line through baseA and baseB
+					*/
 					if ((contourType.getSign() * Point.signedTriangleArea(baseA, baseB, tip) <= 0)) {
 						
 						it.remove();
@@ -305,11 +307,10 @@ public abstract class ListHull implements IHull{
 							while (contourType.getSign() * Point.signedTriangleArea(baseA, baseB, tip) <= 0) {
 								it.remove();
 								baseB = it.previous();
-								if(it.hasPrevious()) {
-									baseA = it.previous();
-								}else {
-									break;
-								}
+								
+								if(it.hasPrevious()) baseA = it.previous();
+								else break;
+								
 								it.next();
 								it.next();
 								it.previous();
@@ -357,7 +358,6 @@ public abstract class ListHull implements IHull{
 	 * @param contourType the type of the contour
 	 * @return the point with index i from the specified contour
 	 */
-	
 	protected Point getPointFromContour(int i, ContourType contourType) {
 		switch (contourType) {
 			case UPPERLEFT: {
