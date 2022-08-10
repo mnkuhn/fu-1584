@@ -83,7 +83,115 @@ public abstract class ListHull implements IHull{
 
 	
 	@Override
-	public abstract void set(PointSet pointSet);
+	public void set(PointSet pointSet) {
+		clear();
+		if(!pointSet.isEmpty()) {
+			calculateUpperLeft(pointSet);
+			calculateLowerLeft(pointSet);
+			calculateUpperRight(pointSet);
+			calculateLowerRight(pointSet);
+		}
+	}
+	
+	/**
+	 * Calculates the upper left contour. This function has to be called before
+	 * calculateUpperRight because the biggest y value found has to be set. 
+	 * {@link ArrayListHull#biggestYFound}
+	 *
+	 * @param pointSet the point set
+	 */
+	private void calculateUpperLeft(PointSet pointSet) {
+		Point point = pointSet.getPointAt(0);
+		upperLeft.add(point);
+		
+		int maxYSoFar = point.getY();
+		int pointY;
+
+		for(int i = 1; i < pointSet.getNumberOfPoints(); i++) {
+			point = pointSet.getPointAt(i);
+			pointY = point.getY();
+			if(pointY > maxYSoFar) {
+				maxYSoFar = pointY;
+				upperLeft.add(point);
+			}
+		}
+		biggestYFound = maxYSoFar;
+	}
+	
+	/**
+     * Calculates the lower left contour. This function has to be called before
+     * calculateLowerRight because the smallest y value found has to be set.
+     * {@link ArrayListHull#smallestYFound}
+     *
+     * @param pointSet the point set
+     */
+    private void calculateLowerLeft(PointSet pointSet) {
+		Point point = pointSet.getPointAt(0);
+		lowerLeft.add(point);
+		
+		int minYSoFar = point.getY();
+		int pointY;
+
+		for(int i = 1; i < pointSet.getNumberOfPoints(); i++) {
+			point = pointSet.getPointAt(i);
+			pointY = point.getY();
+			if(pointY < minYSoFar) {
+				minYSoFar = pointY;
+				lowerLeft.add(point);
+			}
+		}
+		smallestYFound = minYSoFar;
+	}
+    
+    /**
+	 * Calculates the upper right contour. This function has to be called after
+	 * calculateUpperLeft() because the biggest y found has to be set before.
+	 * {@link ArrayListHull#biggestYFound}
+	 *
+	 * @param pointSet the point set
+	 */
+	private void calculateUpperRight(PointSet pointSet) {
+		Point point = pointSet.getPointAt(pointSet.getNumberOfPoints() - 1);
+		upperRight.add(point);	
+		
+		int maxYSoFar = point.getY();
+		int pointY;
+	    int i = pointSet.getNumberOfPoints() - 2;
+		while(maxYSoFar != biggestYFound) {
+			point = pointSet.getPointAt(i--);
+			pointY = point.getY();
+			
+			if(pointY > maxYSoFar) {
+				maxYSoFar = pointY;
+				upperRight.add(point);	
+			}
+		}
+	}
+	
+	/**
+	 * Calculates the lower right contour. This function has to be called after 
+	 * calculateLowerLeft() because the smallest y found has to be set before.
+	 * 
+	 * {@link ArrayListHull#smallestYFound}
+	 *
+	 * @param pointSet the point set
+	 */
+	private void calculateLowerRight(PointSet pointSet) {
+		Point point = pointSet.getPointAt(pointSet.getNumberOfPoints() - 1);
+		lowerRight.add(point);	
+		
+		int minYSoFar = point.getY();
+		int pointY;
+		int i = pointSet.getNumberOfPoints() - 2;
+		while(minYSoFar != smallestYFound) {
+			point = pointSet.getPointAt(i--);
+			pointY = point.getY();
+			if(pointY < minYSoFar) {
+				minYSoFar = pointY;
+				lowerRight.add(point);	
+			}
+		}
+	}
 
 	
 	@Override
@@ -240,4 +348,34 @@ public abstract class ListHull implements IHull{
 			}
 		}
 	}
+	
+	/**
+	 * Gets the point with index i from the contour 
+	 * specified by the contour type.
+	 *
+	 * @param i the index of the point in the contour
+	 * @param contourType the type of the contour
+	 * @return the point with index i from the specified contour
+	 */
+	
+	protected Point getPointFromContour(int i, ContourType contourType) {
+		switch (contourType) {
+			case UPPERLEFT: {
+				return upperLeft.get(i);
+			}
+			case LOWERLEFT: {
+				return lowerLeft.get(i);
+			}
+			case UPPERRIGHT: {
+				return upperRight.get(i);
+			}
+			case LOWERRIGHT: {
+				return lowerRight.get(i);
+			}
+			default: {
+				return null;
+			}
+		}
+	}
+
 }

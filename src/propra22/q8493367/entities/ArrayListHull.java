@@ -22,186 +22,7 @@ public class ArrayListHull extends ListHull {
 		
 	}
 	
-	/**
-	 * Adds a point to the contour 
-	 * specified by the contour type.
-	 *
-	 * @param point the point
-	 * @param contourType the contour type
-	 */
-	
-	private void addPointToContour(Point point, ContourType contourType) {
-		switch (contourType) {
-		case UPPERLEFT: {
-			upperLeft.add(point);
-			break;
-		}
-		case LOWERLEFT: {
-			lowerLeft.add(point);
-			break;
-		}
-		case UPPERRIGHT: {
-			upperRight.add(point);
-			break;
-		}
-		case LOWERRIGHT: {
-			lowerRight.add(point);
-			break;
-		}
-		default: {
-			throw new IllegalArgumentException("Unexpected value: " + contourType);
-		}
-		}
-	}
-	
-	
-	@Override
-	public void set(PointSet pointSet) {
-		clear();
-		if(!pointSet.isEmpty()) {
-			calculateUpperLeft(pointSet);
-			calculateLowerLeft(pointSet);
-			calculateUpperRight(pointSet);
-			calculateLowerRight(pointSet);
-		}
-	}
-	
-	/**
-	 * Calculates the upper left contour. This function has to be called before
-	 * calculateUpperRight because the biggest y value found has to be set. 
-	 * {@link ArrayListHull#biggestYFound}
-	 *
-	 * @param pointSet the point set
-	 */
-	private void calculateUpperLeft(PointSet pointSet) {
-		Point point = pointSet.getPointAt(0);
-		addPointToContour(point, ContourType.UPPERLEFT);
-		
-		int maxYSoFar = point.getY();
-		int pointY;
 
-		for(int i = 1; i < pointSet.getNumberOfPoints(); i++) {
-			point = pointSet.getPointAt(i);
-			pointY = point.getY();
-			if(pointY > maxYSoFar) {
-				maxYSoFar = pointY;
-				addPointToContour(point, ContourType.UPPERLEFT);
-			}
-		}
-		biggestYFound = maxYSoFar;
-	}
-	
-	
-    /**
-     * Calculates the lower left contour. This function has to be called before
-     * calculateLowerRight because the smallest y value found has to be set.
-     * {@link ArrayListHull#smallestYFound}
-     *
-     * @param pointSet the point set
-     */
-    private void calculateLowerLeft(PointSet pointSet) {
-		Point point = pointSet.getPointAt(0);
-		addPointToContour(point, ContourType.LOWERLEFT);
-		
-		int minYSoFar = point.getY();
-		int pointY;
-
-		for(int i = 1; i < pointSet.getNumberOfPoints(); i++) {
-			point = pointSet.getPointAt(i);
-			pointY = point.getY();
-			if(pointY < minYSoFar) {
-				minYSoFar = pointY;
-				addPointToContour(point, ContourType.LOWERLEFT);
-			}
-		}
-		smallestYFound = minYSoFar;
-	}
-	
-	
-	/**
-	 * Calculates the upper right contour. This function has to be called after
-	 * calculateUpperLeft() because the biggest y found has to be set before.
-	 * {@link ArrayListHull#biggestYFound}
-	 *
-	 * @param pointSet the point set
-	 */
-	private void calculateUpperRight(PointSet pointSet) {
-		Point point = pointSet.getPointAt(pointSet.getNumberOfPoints() - 1);
-		addPointToContour(point, ContourType.UPPERRIGHT);	
-		
-		int maxYSoFar = point.getY();
-		int pointY;
-	    int i = pointSet.getNumberOfPoints() - 2;
-		while(maxYSoFar != biggestYFound) {
-			point = pointSet.getPointAt(i--);
-			pointY = point.getY();
-			
-			if(pointY > maxYSoFar) {
-				maxYSoFar = pointY;
-				addPointToContour(point, ContourType.UPPERRIGHT);
-			}
-		}
-	}
-	
-	
-	/**
-	 * Calculates the lower right contour. This function has to be called after 
-	 * calculateLowerLeft() because the smallest y found has to be set before.
-	 * 
-	 * {@link ArrayListHull#smallestYFound}
-	 *
-	 * @param pointSet the point set
-	 */
-	private void calculateLowerRight(PointSet pointSet) {
-		Point point = pointSet.getPointAt(pointSet.getNumberOfPoints() - 1);
-		addPointToContour(point, ContourType.LOWERRIGHT);		
-		
-		int minYSoFar = point.getY();
-		int pointY;
-		int i = pointSet.getNumberOfPoints() - 2;
-		while(minYSoFar != smallestYFound) {
-			point = pointSet.getPointAt(i--);
-			pointY = point.getY();
-			if(pointY < minYSoFar) {
-				minYSoFar = pointY;
-				addPointToContour(point, ContourType.LOWERRIGHT);
-			}
-		}
-	}
-
-	
-	/**
-	 * Gets the point with index i from the contour 
-	 * specified by the contour type.
-	 *
-	 * @param i the index of the point in the contour
-	 * @param contourType the type of the contour
-	 * @return the point with index i from the specified contour
-	 */
-	
-	public Point getPointFromContour(int i, ContourType contourType) {
-		switch (contourType) {
-			case UPPERLEFT: {
-				return upperLeft.get(i);
-			}
-			case LOWERLEFT: {
-				return lowerLeft.get(i);
-			}
-			case UPPERRIGHT: {
-				return upperRight.get(i);
-			}
-			case LOWERRIGHT: {
-				return lowerRight.get(i);
-			}
-			default: {
-				return null;
-			}
-		}
-	}
-
-	
-
-	
 	
 	@Override
 	public int[][] toArray() {
@@ -228,16 +49,7 @@ public class ArrayListHull extends ListHull {
 	}
 
 	
-	@Override
-	public boolean isEmpty() {
-		return getSizeOfContour(ContourType.UPPERLEFT) == 0;
-	}
-	
-	
-	@Override
-	public boolean hasOnePoint() {
-		return upperLeft.get(0) == lowerRight.get(0);
-	}
+
 	
 	
 	@Override
@@ -258,15 +70,6 @@ public class ArrayListHull extends ListHull {
 		return null;
 		
 	}
-	
-	
-	
-	
-
-
-	
-
-	
 	
 
 	/**
@@ -501,7 +304,4 @@ public class ArrayListHull extends ListHull {
 			}
 		}
 	}
-
-
-
 }
