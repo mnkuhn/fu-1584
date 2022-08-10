@@ -297,7 +297,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			public void mouseWheelMoved(MouseWheelEvent e) {
 
 				if (e.isControlDown()) {
-					// zoom
+					// Zoom
 					double rot = e.getPreciseWheelRotation();
 					double d = rot * scaleFactor;
 					d = rot > 0 ? 1 / d : -d;
@@ -638,66 +638,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 
 
 	
-	@Override
-	public void setConvexHullIsShown(boolean b) {
-		this.convexHullIsShown = b;
-	}
-
 	
-	@Override
-	public void setDiameterIsShown(boolean b) {
-		this.diameterIsShown = b;
-	}
-
-	
-	@Override
-	public void setQuadrangleIsShown(boolean b) {
-		this.quadrangleIsShown = b;
-	}
-
-	
-	@Override
-	public void setTriangleIsShown(boolean b) {
-		triangleIsShown = b;
-	}
-
-
-	@Override
-	public boolean convexHullIsShown() {
-		return convexHullIsShown;
-	}
-
-	
-	@Override
-	public boolean diameterIsShown() {
-		return diameterIsShown;
-	}
-
-	@Override
-	public boolean quadrangleIsShown() {
-		return quadrangleIsShown;
-	}
-
-	
-	@Override
-	public void setShowAnimation(boolean b) {
-		if(b == true) {
-			//animationIsShown.update(convexHull);
-		}
-		
-		animationIsShown = b;
-	}
-
-	@Override
-	public boolean animationIsShown() {
-		return animationIsShown;
-	}
-
-
-	@Override
-	public boolean triangleIsShown() {
-		return triangleIsShown;
-	}
 	
 	
 	@Override
@@ -729,14 +670,13 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 				 double yScale = ((double)getHeight() - 2 * (double)GUISettings.margin)/(double)yRange;
 				 tmpScale=  Math.min(xScale, yScale);
 			}
-			// one radius as a margin
-		    if (xRange == 0 && yRange != 0) {
+			else if (xRange == 0 && yRange != 0) {
 		    	tmpScale = ((double)getHeight() - 2 * (double)GUISettings.margin)/(double)yRange;
 		    }
-		    if (xRange != 0 && yRange == 0) {
+			else if (xRange != 0 && yRange == 0) {
 		    	tmpScale = ((double)getWidth() - 2 * (double)GUISettings.margin)/(double)xRange;
 		    }
-		    if (xRange == 0 && yRange == 0) {
+			else if (xRange == 0 && yRange == 0) {
 		    	tmpScale = 1;
 		    }
 		    
@@ -960,5 +900,62 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		else {
 			return false;
 		}
+	}
+	
+	@Override
+	public void setConvexHullIsShown(boolean b) {
+		this.convexHullIsShown = b;
+	}
+
+	
+	@Override
+	public void setDiameterIsShown(boolean b) {
+		this.diameterIsShown = b;
+	}
+
+	
+	@Override
+	public void setQuadrangleIsShown(boolean b) {
+		this.quadrangleIsShown = b;
+	}
+
+	
+	@Override
+	public void setTriangleIsShown(boolean b) {
+		triangleIsShown = b;
+	}
+	
+	@Override
+	public void setShowAnimation(boolean b) {
+		animationIsShown = b;
+	}
+
+
+	@Override
+	public boolean convexHullIsShown() {
+		return convexHullIsShown;
+	}
+
+	
+	@Override
+	public boolean diameterIsShown() {
+		return diameterIsShown;
+	}
+
+	@Override
+	public boolean quadrangleIsShown() {
+		return quadrangleIsShown;
+	}
+
+	
+	@Override
+	public boolean animationIsShown() {
+		return animationIsShown;
+	}
+
+
+	@Override
+	public boolean triangleIsShown() {
+		return triangleIsShown;
 	}
 }

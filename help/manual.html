@@ -185,9 +185,14 @@ Punktmenge</a></li>
 Punkte können aus einer Datei <a href="#datei-öffnen">geladen</a>
 werden, durch eine <a href="#zufallspunkte-einfügen">Zufallsfunktion</a>
 erzeugt, oder von Hand auf der grafischen Benutzeroberfläche <a
-href="#punkt-einfügen">eingetragen</a> werden. Neben der <a
-href="#konvexe-hülle">konvexen Hülle</a> kann das Programm den <a
-href="#durchmesser">Durchmesser</a>, das <a
+href="#punkt-einfügen">eingetragen</a> werden. Die Punktemenge bzw. die
+Funktionen zum <a href="#bearbeiten-der-punktmenge">Bearbeiten der
+Punktmenge</a> und das <a href="#datei-öffnen">Einlesen von Dateien</a>
+sind so ausgelegt, dass die Punktmenge immer nur aus Punkten mit
+verschiedenen Koordinaten bestehen kann. Punkte der Punktmenge haben
+also im beliebigen paarweisen Vergleich immer verschiedene Koordinaten.
+Neben der <a href="#konvexe-hülle">konvexen Hülle</a> kann das Programm
+den <a href="#durchmesser">Durchmesser</a>, das <a
 href="#grösstes-viereck">grösste Viereck</a> der Punktmenge und eine <a
 href="#animation">Animation</a> von einem Tangentenpaar anzeigen. Das
 Programm verfügt über eine <a href="#befehl-rückgängig-machen">Undo-</a>
@@ -217,12 +222,19 @@ Benutzereingaben.</p>
 <h5 id="punkte">Punkte</h5>
 <p>Punkte werden schwarz gefüllte Kreise dargestellt.</p>
 <h5 id="konvexe-hülle">Konvexe Hülle</h5>
-<p>Die Punkte der konvexen Hülle werden durch eine rote Linie
-verbunden.</p>
+<p>Die Punkte der konvexen Hülle werden durch eine rote Linie verbunden.
+Die Konvexe Hülle kann auch nur aus einem Punkt oder einer Linie
+bestehen, falls die entsprechende Punktmenge nur aus einem bzw. aus zwei
+Punkten besteht.</p>
 <h5 id="durchmesser">Durchmesser</h5>
 <p>Der Durchmesser wird durch eine blaue Linie angezeigt.</p>
 <h5 id="grösstes-viereck">Grösstes Viereck</h5>
-<p>Das grösste Viereck wird in einem matten grün dargestellt.</p>
+<p>Das grösste Viereck wird in einem matten grün dargestellt. Es kann
+auch nur als Punkt dargestellt werden, falls alle vier Punkte des
+Vierecks die gleichen Koordinaten haben. Es kann als Line dargestellt
+sein, falls jeweils zwei verschiedene Paare von Punkten die gleichen
+Koordinaten haben und es kann als Dreieck erscheinen, falls genau ein
+paar von Punkten des Vierecks die gleichen Koordinaten besitzt.</p>
 <h5 id="animation">Animation</h5>
 <p>Während die Animation läuft, werden die beiden Punkte des
 Antipodenpaares durch eine schwarze Linie verbunden. Die an den Punkten

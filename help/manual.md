@@ -16,7 +16,7 @@
 *  [Die Statusleiste][]
 
 ## Allgemein
-Dieses Programm berechnet die konvexe Hülle einer Menge von Punkten. Punkte können aus einer Datei [geladen](#datei-öffnen) werden, durch eine [Zufallsfunktion](#zufallspunkte-einfügen) erzeugt, oder von Hand auf der grafischen Benutzeroberfläche [eingetragen](#punkt-einfügen) werden.
+Dieses Programm berechnet die konvexe Hülle einer Menge von Punkten. Punkte können aus einer Datei [geladen](#datei-öffnen) werden, durch eine [Zufallsfunktion](#zufallspunkte-einfügen) erzeugt, oder von Hand auf der grafischen Benutzeroberfläche [eingetragen](#punkt-einfügen) werden. Die Punktemenge bzw. die Funktionen zum [Bearbeiten der Punktmenge](#bearbeiten-der-punktmenge) und das [Einlesen von Dateien](#datei-öffnen) sind so ausgelegt, dass die Punktmenge immer nur aus Punkten mit verschiedenen Koordinaten bestehen kann. Punkte der Punktmenge haben also im beliebigen paarweisen Vergleich immer verschiedene Koordinaten.
 Neben der [konvexen Hülle](#konvexe-hülle) kann das Programm den [Durchmesser](#durchmesser), das [grösste Viereck](#grösstes-viereck) der Punktmenge und eine [Animation](#animation) von einem Tangentenpaar anzeigen.
 Das Programm verfügt über eine [Undo-](#befehl-rückgängig-machen) und [Redo-Funktion](#rückgängig-gemachten-befehl-wiederherstellen).
 Die [grafische Benutzeroberfläche](#die-grafische-benutzeroberfläche) bietet die Möglichkeit, die Darstellung zu [zentrieren](#darstellung-zentrieren), zu [verschieben](#zeichenfläche-verschieben) und durch einen Zoom zu [vergrössern](#ausschnitt-der-zeichenfläche-vergössern-oder-verkleinern) bzw. zu [verkleinern](#ausschnitt-der-zeichenfläche-vergössern-oder-verkleinern).
@@ -39,13 +39,13 @@ Die Zeichenfläche stellt die Punktmenge, die konvexe Hülle, den Durchmesser un
 Punkte werden schwarz gefüllte Kreise dargestellt.
 
 ##### Konvexe Hülle
-Die Punkte der konvexen Hülle werden durch eine rote Linie verbunden.
+Die Punkte der konvexen Hülle werden durch eine rote Linie verbunden. Die Konvexe Hülle kann auch nur aus einem Punkt oder einer Linie bestehen, falls die entsprechende Punktmenge nur aus einem bzw. aus zwei Punkten besteht.
 
 ##### Durchmesser
 Der Durchmesser wird durch eine blaue Linie angezeigt.
 
 ##### Grösstes Viereck
-Das grösste Viereck wird in einem matten grün dargestellt.
+Das grösste Viereck wird in einem matten grün dargestellt. Es kann auch nur als Punkt dargestellt werden, falls alle vier Punkte des Vierecks die gleichen Koordinaten haben. Es kann als Line dargestellt sein, falls jeweils zwei verschiedene Paare von Punkten die gleichen Koordinaten haben und es kann als Dreieck erscheinen, falls genau ein paar von Punkten des Vierecks die gleichen Koordinaten besitzt.
 
 ##### Animation
 Während die Animation läuft, werden die beiden Punkte des Antipodenpaares durch eine schwarze Linie verbunden. Die an den Punkten des Antipodenpaares anliegenden Tangenten werden schwarz dargestellt. Das zum jeweiligen Antipodenpaar gehörende grösste Viereck wird in einem kräftigen grün eingezeichnet.
