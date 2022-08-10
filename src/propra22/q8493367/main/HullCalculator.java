@@ -9,7 +9,6 @@ import propra22.q8493367.entities.ConventionalParser;
 import propra22.q8493367.entities.Diameter;
 import propra22.q8493367.entities.ArrayListHull;
 import propra22.q8493367.entities.IHull;
-import propra22.q8493367.entities.LinkedListHull;
 import propra22.q8493367.entities.PointSet;
 import propra22.q8493367.entities.Quadrangle;
 import propra22.q8493367.entities.QuadrangleSequence;
