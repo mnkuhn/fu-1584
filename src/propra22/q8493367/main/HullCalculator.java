@@ -58,77 +58,146 @@ public class HullCalculator implements IHullCalculator{
 		this.fileManager = new FileManager(pointSet, drawPanelController, new ConventionalParser());
 	}
 	
-	
+	/**
+	 * Add a point to the point set.
+	 * @param arg0 the x coordinate of the point
+	 * @param arg1 the y coordinate of the point
+	 */
 	@Override
 	public void addPoint(int arg0, int arg1) { 
 		drawPanelController.insertPointToPointSetByFileInput(arg0, arg1);	
 	}
-
+    
+	/**
+	 * Adds points from an array of integers into the point set.
+	 * @param arg0 n x 2 the array of the points, where arg0[m][0] is the 
+	 * x coordinate of the m-th point and arg[m][1] is the y coordinate 
+	 * of the m-th point.
+	 */
 	@Override
 	public void addPointsFromArray(int[][] arg0) {
 		for(int i = 0; i < arg0.length; i++) {
 			drawPanelController.insertPointToPointSetByFileInput(arg0[i][0], arg0[i][1]);
 		}
 	}
-
+    
+	/**
+	 * Reads points from a file and inserts them into the point
+	 * set.
+	 * @param arg0 the file path
+	 */
 	@Override
 	public void addPointsFromFile(String arg0) throws IOException {
 		fileManager.loadPointsToPointSet(new File(arg0));
 		drawPanelController.updateModel();
 	}
-
+	
+	/**
+	 * Removes all points from the point set.
+	 */
 	@Override
 	public void clearPoints() {
 		drawPanelController.clearModel();
 		
 	}
-
+    
+	/**
+	 * Returns the convex hull as an n x 2 integer array where
+	 * the x coordinate of a point is the first element 
+	 * and the y coordinate is the second element of the inner 
+	 * array.
+	 */
 	@Override
 	public int[][] getConvexHull() {
 		return drawPanelController.hullAsArray();
 	}
+	
+	/**
+	 * Returns the diameter as an 2 x 2 integer array where
+	 * the x coordinate of a point is the first element 
+	 * and the y coordinate is the second element of the inner 
+	 * array.
+	 */
 
 	@Override
 	public int[][] getDiameter() {
 		return diameter.asArray();
 	}
+	
+	/**
+	 * Returns the length of the diameter.
+	 */
 
 	@Override
 	public double getDiameterLength() {
 		return drawPanelController.getDiameterLength();
 	}
+	
+	/**
+	 * Returns the Email address of the
+	 * participant.
+	 */
 
 	@Override
 	public String getEmail() {
 		return "manuel.kuhn@studium.fernuni-hagen.de";
 	}
-
+    
+	/**
+	 * Returns the  matriculation number of the 
+	 * participant.
+	 */
 	@Override
 	public String getMatrNr() {
 		return "8493367";
 	}
-
+    
+	/**
+	 * Returns the full name of the 
+	 * participant.
+	 */
 	@Override
 	public String getName() {
 		return "Manuel Kuhn";
 	}
-
+    
+	/**
+	 * Returns the biggest quadrangle as an 4 x 2 integer 
+	 * array where the x coordinate of a point is the first 
+	 * element and the y coordinate is the second element 
+	 * of the inner array.
+	 */
 	@Override
 	public int[][] getQuadrangle() {
 		return quadrangle.asArray();
 	}
 	
+	/**
+	 * Returns the area of the biggest
+	 * quadrangle.
+	 */
 	@Override
 	public double getQuadrangleArea() {
 		return quadrangle.area();
 	}
-
+    
+	/**
+	 * Returns the biggest triangle as an
+	 * 3 x 2 integer array where the x 
+	 * coordinate of a point is the first 
+	 * element and the y coordinate is the 
+	 * second element of the inner array.
+	 */
 	@Override
 	public int[][] getTriangle() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+    
+	/**
+	 * Returns the area of the biggest
+	 * triangle.
+	 */
 	@Override
 	public double getTriangleArea() {
 		// TODO Auto-generated method stub
