@@ -281,10 +281,9 @@ public class FileManager implements IFileManager {
 	
 	/**
 	 * The Class FileChooser extends JFileChooser. It
-	 * provides some extra functionality by which the user is asked
-	 * whether he wants to overwrite an existing file. The user is also informed
-	 * if a file could not be found or if he wants to load a point set 
-	 * from a file whose name has not the correct ending.
+	 * resides as a inner class of the FileManager because a dependency from
+	 * the use cases to the GUI is to be avoided. It has an overwritten
+	 * approveSelection method.
 	 */
 	private class FileChooser extends JFileChooser {
 
