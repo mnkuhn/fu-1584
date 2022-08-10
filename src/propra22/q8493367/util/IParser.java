@@ -1,4 +1,6 @@
-package propra22.q8493367.entities;
+package propra22.q8493367.util;
+
+import propra22.q8493367.entities.Point;
 
 /**
  * An interface for a parser. It provides a method

@@ -6,11 +6,9 @@ import propra22.interfaces.IHullCalculator;
 import propra22.q8493367.controllers.DrawPanelController;
 import propra22.q8493367.controllers.MainWindowController;
 import propra22.q8493367.controllers.StatusBarController;
-import propra22.q8493367.entities.ConventionalParser;
 import propra22.q8493367.entities.Diameter;
 import propra22.q8493367.entities.ArrayListHull;
 import propra22.q8493367.entities.IHull;
-import propra22.q8493367.entities.IParser;
 import propra22.q8493367.entities.PointSet;
 import propra22.q8493367.entities.Quadrangle;
 import propra22.q8493367.entities.QuadrangleSequence;
@@ -21,10 +19,12 @@ import propra22.q8493367.gui.MainWindow;
 import propra22.q8493367.gui.StatusBar;
 import propra22.q8493367.usecases.FileManager;
 import propra22.q8493367.usecases.IFileManager;
+import propra22.q8493367.util.ConventionalParser;
 import propra22.q8493367.util.DrawPanelListener;
 import propra22.q8493367.util.IDrawPanelControllerObserver;
 import propra22.q8493367.util.IDrawPanelListener;
 import propra22.q8493367.util.IMainWindowListener;
+import propra22.q8493367.util.IParser;
 import propra22.tester.Tester;
 
 

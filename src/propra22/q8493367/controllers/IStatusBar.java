@@ -3,7 +3,7 @@ package propra22.q8493367.controllers;
 
 
 /**
- * The Interface IStatusBar provides methods
+ * The interface IStatusBar provides methods
  * to display status information in the status bar. With these methods
  * the number of points of the point set, the current mouse pointer over the
  * draw panel and the coordinates of the selected point can be displayed.

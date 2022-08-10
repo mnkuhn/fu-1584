@@ -1,7 +1,9 @@
-package propra22.q8493367.entities;
+package propra22.q8493367.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import propra22.q8493367.entities.Point;
 
 
 

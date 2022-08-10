@@ -13,12 +13,12 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import propra22.q8493367.controllers.IDrawPanelController;
-import propra22.q8493367.entities.IParser;
 import propra22.q8493367.entities.Point;
 import propra22.q8493367.entities.PointSet;
 import propra22.q8493367.main.CHGO_8493367_Kuhn_Manuel;
 import propra22.q8493367.util.FileEvent;
 import propra22.q8493367.util.FileEventType;
+import propra22.q8493367.util.IParser;
 
 
 /**

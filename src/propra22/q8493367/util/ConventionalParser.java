@@ -1,4 +1,6 @@
-package propra22.q8493367.entities;
+package propra22.q8493367.util;
+
+import propra22.q8493367.entities.Point;
 
 /**
  * A Parser which can extract a point from a string.

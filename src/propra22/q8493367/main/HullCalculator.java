@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import propra22.interfaces.IHullCalculator;
 import propra22.q8493367.controllers.DrawPanelController;
-import propra22.q8493367.entities.ConventionalParser;
 import propra22.q8493367.entities.Diameter;
 import propra22.q8493367.entities.ArrayListHull;
 import propra22.q8493367.entities.IHull;
@@ -13,6 +12,7 @@ import propra22.q8493367.entities.PointSet;
 import propra22.q8493367.entities.Quadrangle;
 import propra22.q8493367.entities.QuadrangleSequence;
 import propra22.q8493367.usecases.FileManager;
+import propra22.q8493367.util.ConventionalParser;
 
 
 

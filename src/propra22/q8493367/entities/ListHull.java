@@ -74,14 +74,11 @@ public abstract class ListHull implements IHull{
 	
 	
 	/**
-	 * Calculates the contour specified by the contour type
-	 * of the convex hull.
-	 *
-	 * @param contourType the contour type
+	 * Calculates the contour polygon 
+	 * from the point set.
+	 * 
+	 * @param pointSet the point set
 	 */
-	//protected abstract void cleanContour(ContourType contourType);
-
-	
 	@Override
 	public void set(PointSet pointSet) {
 		clear();
