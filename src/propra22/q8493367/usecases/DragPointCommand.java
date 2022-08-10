@@ -8,6 +8,9 @@ import propra22.q8493367.entities.PointSet;
 /**
  * The command for dragging a point from one position to
  * another position.
+ * 
+ * @see <a href="http://www.java2s.com/Code/Java/Event/Moveandscalegraphicalobjectswithamouseonthepanel.htm">java2s.com</a>
+ * @see <a href="https://stackoverflow.com/questions/33402446/how-to-click-and-drag-something-without-it-deselecting">stackoverflow.com</a>
  */
 
 

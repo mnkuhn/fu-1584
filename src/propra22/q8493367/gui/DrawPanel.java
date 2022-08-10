@@ -39,8 +39,8 @@ import propra22.q8493367.util.IDrawPanelListener;
  * also provides a panning and a zoom functionality.
  * 
  *
- * @see <a href="https://stackoverflow.com/questions/13155382/jscrollpane-zoom-relative-to-mouse-position">stackoverflow</a>
- * @see <a href="https://stackoverflow.com/questions/13155382/jscrollpane-zoom-relative-to-mouse-position">youtube</a>
+ * @see <a href="https://stackoverflow.com/questions/13155382/jscrollpane-zoom-relative-to-mouse-position">stackoverflow.com</a>
+ * @see <a href="https://stackoverflow.com/questions/13155382/jscrollpane-zoom-relative-to-mouse-position">youtube.com</a>
  * @see <a href="https://medium.com/@benjamin.botto/zooming-at-the-mouse-coordinates-with-affine-transformations-86e7312fd50b">medium.com</a>
  * 
  */
