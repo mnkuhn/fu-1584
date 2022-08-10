@@ -24,12 +24,13 @@ public class LinkedListHull extends ListHull {
     	upperRight = new LinkedList<>();
     	lowerRight = new LinkedList<>();
     	
-    	
+    	/*
     	upperLeft.add(new Point(2, 1));
     	upperLeft.add(new Point(5, 3));
     	upperLeft.add(new Point(8, 4));
     	upperLeft.add(new Point(15, 5));
     	upperLeft.add(new Point(18, 9));
+    	*/
     }
 	
 
@@ -131,7 +132,6 @@ public class LinkedListHull extends ListHull {
 			}
 		}
 		smallestYFound = minYSoFar;
-		Collections.reverse(lowerLeft);
 		
 	}
 	
@@ -159,7 +159,6 @@ public class LinkedListHull extends ListHull {
 				upperRight.add(point);
 			}
 		}
-		Collections.reverse(upperRight);
 		
 	}
 
@@ -189,17 +188,16 @@ public class LinkedListHull extends ListHull {
 	}
 	
 	/**
-	 * Calculates the contour specified by the
-	 * contour type of the convex hull.
+	 * Calculates the contour specified by the contour type of the convex hull.
 	 *
 	 * @param contourType the contour type
 	 */
 	@Override
 	protected void cleanContour(ContourType contourType) {
-		if(!contourIsEmpty(contourType)) {
-			if(getSizeOfContour(contourType) >= 3) {
+		if (!contourIsEmpty(contourType)) {
+			if (getSizeOfContour(contourType) >= 3) {
 				ListIterator<Point> it = getIterator(contourType);
-				
+
 				Point baseA;
 				Point baseB;
 				Point tip;
@@ -207,26 +205,28 @@ public class LinkedListHull extends ListHull {
 				while (it.hasNext()) {
 
 					baseA = it.next();
-					
-					if (it.hasNext()) baseB = it.next();
-					else break;
-					
-					if (it.hasNext()) tip = it.next();
-					else break;
-					
+
+					if (it.hasNext())
+						baseB = it.next();
+					else
+						break;
+
+					if (it.hasNext())
+						tip = it.next();
+					else
+						break;
+
 					it.previous();
 					it.previous();
 
 					// tip is on the inner side of the line through base and base + 1
-					if ( Point.signedTriangleArea(baseA, baseB, tip) > 0) {
+					if (!(contourType.getSign() * Point.signedTriangleArea(baseA, baseB, tip) > 0)) {
 						// do nothing
-					}
 
-					/*
-					 * tip is on the outer side of the line through baseA and baseB or next is
-					 * exactly on the line through baseA and baseB
-					 */
-					else {
+						/*
+						 * tip is on the outer side of the line through baseA and baseB or next is
+						 * exactly on the line through baseA and baseB
+						 */
 
 						it.remove();
 						it.previous();
@@ -237,16 +237,18 @@ public class LinkedListHull extends ListHull {
 							baseB = it.next();
 							// go back before baseB
 							it.previous();
-							while (it.hasPrevious() && Point.signedTriangleArea(baseA, baseB, tip) < 0) {
+							while (it.hasPrevious()
+									&& contourType.getSign() * Point.signedTriangleArea(baseA, baseB, tip) < 0) {
 								it.remove();
 								baseB = baseA;
 								it.previous();
 								baseA = it.previous();
 							}
+
 						}
 					}
 				}
-			}	
+			}
 		}
 	}
 	
@@ -322,11 +324,31 @@ public class LinkedListHull extends ListHull {
 		 */
 		@Override
 		public Point getPoint() {
-			Point point = currentIterator.next();
-			currentIterator.previous();
-			return point;
+			switch (contourType) {
+			case UPPERLEFT: {
+				Point point = currentIterator.next();
+				currentIterator.previous();
+				return point;
+			}
+			case UPPERRIGHT: {
+				Point point = currentIterator.previous();
+				currentIterator.next();
+				return point;
+			}
+			case LOWERRIGHT: {
+				Point point = currentIterator.next();
+				currentIterator.previous();
+				return point;
+			}
+			case LOWERLEFT: {
+				Point point = currentIterator.previous();
+				currentIterator.next();
+				return point;
+			}
+			}
+			return null;
 		}
-		
+
 		/**
 		 * Moves the iterator to the next point
 		 * in the data structure of the four lists,
@@ -340,15 +362,21 @@ public class LinkedListHull extends ListHull {
 			case UPPERLEFT: {
 				if (currentIterator.hasNext()) {
 					currentIterator.next();
+					if(!currentIterator.hasNext()) {
+						goNext();
+					}
 				} else {
 					contourType = ContourType.UPPERRIGHT;
-					currentIterator = upperRight.listIterator();
+					currentIterator = upperRight.listIterator(upperRight.size());
 				}
 				break;
 			}
 			case UPPERRIGHT: {
-				if (currentIterator.hasNext()) {
-					currentIterator.next();
+				if (currentIterator.hasPrevious()) {
+					currentIterator.previous();
+					if(!currentIterator.hasPrevious()) {
+						goNext();
+					}
 				} else {
 					contourType = ContourType.LOWERRIGHT;
 					currentIterator = lowerRight.listIterator();
@@ -358,15 +386,21 @@ public class LinkedListHull extends ListHull {
 			case LOWERRIGHT: {
 				if (currentIterator.hasNext()) {
 					currentIterator.next();
+					if(!currentIterator.hasNext()) {
+						goNext();
+					}
 				} else {
 					contourType = ContourType.LOWERLEFT;
-					currentIterator = lowerLeft.listIterator();
+					currentIterator = lowerLeft.listIterator(lowerLeft.size());
 				}
 				break;
 			}
 			case LOWERLEFT: {
-				if (currentIterator.hasNext()) {
-					currentIterator.next();
+				if (currentIterator.hasPrevious()) {
+					currentIterator.previous();
+					if(!currentIterator.hasPrevious()) {
+						goNext();
+					}
 				} else {
 					contourType = ContourType.UPPERLEFT;
 					currentIterator = upperLeft.listIterator();
@@ -390,15 +424,21 @@ public class LinkedListHull extends ListHull {
 			case UPPERLEFT: {
 				if (currentIterator.hasPrevious()) {
 					currentIterator.previous();
+					if(!currentIterator.hasPrevious()) {
+						goPrevious();
+					}
 				} else {
 					contourType = ContourType.LOWERLEFT;
-					currentIterator = lowerLeft.listIterator(lowerLeft.size());
+					currentIterator = lowerLeft.listIterator(0);
 				}
 				break;
 			}
 			case UPPERRIGHT:{ 
-				if (currentIterator.hasPrevious()) {
-					currentIterator.previous();
+				if (currentIterator.hasNext()) {
+					currentIterator.next();
+					if(!currentIterator.hasNext()) {
+						goPrevious();
+					}
 				} else {
 					contourType = ContourType.UPPERLEFT;
 					currentIterator = upperLeft.listIterator(upperLeft.size());
@@ -408,15 +448,21 @@ public class LinkedListHull extends ListHull {
 			case LOWERRIGHT: {
 				if (currentIterator.hasPrevious()) {
 					currentIterator.previous();
+					if(!currentIterator.hasPrevious()) {
+						goPrevious();
+					}
 				} else {
 					contourType = ContourType.UPPERRIGHT;
-					currentIterator = upperRight.listIterator(upperRight.size());
+					currentIterator = upperRight.listIterator(0);
 				}
 				break;
 			}
 			case LOWERLEFT: {
-				if (currentIterator.hasPrevious()) {
-					currentIterator.previous();
+				if (currentIterator.hasNext()) {
+					currentIterator.next();
+					if(!currentIterator.hasNext()) {
+						goPrevious();
+					}
 				} else {
 					contourType = ContourType.LOWERRIGHT;
 					currentIterator = lowerRight.listIterator(lowerRight.size());
@@ -477,6 +523,9 @@ public class LinkedListHull extends ListHull {
 		LinkedListHull hull = new LinkedListHull();
 		hull.clean();
 	}
+
+
+
 
 
 	

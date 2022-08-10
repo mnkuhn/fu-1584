@@ -315,7 +315,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 						scale = tmpScale;
 					}
 					else {
-						System.out.println("zu weit gezoomt");
+						// TODO Message on status bar
 					}
 					update();
 				}
@@ -717,6 +717,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	@Override
 	public void center() {
 		setOffsetsToZero();
+		scale = 1;
 		if (!pointSet.isEmpty()) {
 			double tmpScale = 1;
 			
@@ -750,19 +751,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 				innerOffsetY = tmpInnerOffsetY;
 			}
 			else {
-				System.out.println("nicht skaliert");
+				// TODO Display information in the status bar
 			}
 			
-			
-			
-			System.out.println("innerOffsetX: " + innerOffsetX);
-			System.out.println("innerOffsetY: " + innerOffsetY);
-			System.out.println("outerOffsetX: " + outerOffsetX);
-			System.out.println("outerOffsetY: " + outerOffsetY);
-			System.out.println("mouseOffsetX: " + mouseOffsetX);
-			System.out.println("mouseOffsetY: " + mouseOffsetY);
-			System.out.println("scale: " + scale);
-			System.out.println("panelScale: " + panelScale);
 		}
 		
 		repaint();
@@ -783,39 +774,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		innerOffsetY = 0;
 	}
 	
-	/**
-	 * Initializes the offsets so that the point set loaded from a file 
-	 * is displayed centered on this draw panel.
-	 */
-	private void initializeOffsets() {
-		innerOffsetX = (double)getWidth()/( 2 * scale * panelScale) - ((double)pointSet.getMinX() + (double)pointSet.getMaxX())/2;
-		innerOffsetY = (double)getHeight()/(2 * scale * panelScale) - ((double)pointSet.getMinY() + (double)pointSet.getMaxY())/2;
-	}
-
-	/**
-	 * Initializes the scale value so that the point set loaded from a file
-	 * is displayed centered on this draw panel.
-	 */
-	private void initializeScale() {
-		
-		int xRange = (int)(((double)pointSet.getMaxX() - (double)pointSet.getMinX()) * panelScale);
-		int yRange = (int)(((double)pointSet.getMaxY() - (double)pointSet.getMinY()) * panelScale);
-		if(xRange != 0 && yRange != 0) {
-			 double xScale = ((double)getWidth() - 2 * (double)GUISettings.margin)/(double)xRange;
-			 double yScale = ((double)getHeight() - 2 * (double)GUISettings.margin)/(double)yRange;
-			 scale=  Math.min(xScale, yScale);
-		}
-		// one radius as a margin
-	    if (xRange == 0 && yRange != 0) {
-	    	scale = ((double)getHeight() - 2 * (double)GUISettings.margin)/(double)yRange;
-	    }
-	    if (xRange != 0 && yRange == 0) {
-	    	scale = ((double)getWidth() - 2 * (double)GUISettings.margin)/(double)xRange;
-	    }
-	    if (xRange == 0 && yRange == 0) {
-	    	scale = 1;
-	    }
-	}
+	
 	
 	//Zooming and panning
 	/**
@@ -982,20 +941,6 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		double xModelRange = biggestModelX - smallestModelX;
 		double yModelRange = biggestModelY - smallestModelY;
 		
-		/*
-		if(smallestViewX < Integer.MIN_VALUE) {System.out.println("smallestViewX <= Integer.MIN_VALUE");}
-		if(smallestViewY < Integer.MIN_VALUE) {System.out.println("smallestViewY <= Integer.MIN_VALUE");}
-		if(biggestViewX > Integer.MAX_VALUE) {System.out.println("biggestViewX >= Integer.MAX_VALUE");}
-		if(biggestViewY > Integer.MAX_VALUE) {System.out.println("biggestViewY >= Integer.MAX_VALUE");}
-		
-		if(smallestModelX < Integer.MIN_VALUE) {System.out.println("smallestModelX <= Integer.MIN_VALUE");}
-		if(smallestModelY < Integer.MIN_VALUE) {System.out.println("smallestModelY <= Integer.MIN_VALUE");}
-		if(biggestModelX > Integer.MAX_VALUE){System.out.println("biggestModelX >= Integer.MAX_VALUE");}
-		if(biggestModelY > Integer.MAX_VALUE){System.out.println("highestModelY >= Integer.MAX_VALUE");}
-		
-		if(xModelRange < 10) {System.out.println("xModelRange < 10");}
-		if(yModelRange < 10) {System.out.println("yModelRangke < 10");}
-		*/
 		
 		
 		if(     smallestViewX >= Integer.MIN_VALUE 	&&

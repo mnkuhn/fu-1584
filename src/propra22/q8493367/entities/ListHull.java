@@ -1,6 +1,7 @@
 package propra22.q8493367.entities;
 
 import java.util.List;
+import java.util.ListIterator;
 
 
 /**
@@ -78,7 +79,7 @@ public abstract class ListHull implements IHull{
 	 *
 	 * @param contourType the contour type
 	 */
-	protected abstract void cleanContour(ContourType contourType);
+	//protected abstract void cleanContour(ContourType contourType);
 
 	
 	@Override
@@ -150,5 +151,93 @@ public abstract class ListHull implements IHull{
 			throw new IllegalArgumentException("Unexpected value: " + contourType);
 			}
 		}
-	}	
+	}
+    
+	
+	/**
+	 * Calculates the specified contour of the convex hull
+	 * using the DFV algorithm.
+	 * @param contourType the type of the contour
+	 */
+	
+	protected void cleanContour(ContourType contourType) {
+		if (!contourIsEmpty(contourType)) {
+			if (getSizeOfContour(contourType) >= 3) {
+				ListIterator<Point> it = getIterator(contourType);
+
+				Point baseA;
+				Point baseB;
+				Point tip;
+
+				while (it.hasNext()) {
+                    // Get baseA, baseB and tip
+					baseA = it.next();
+
+					if (it.hasNext()) baseB = it.next();
+					else break;
+
+					if (it.hasNext()) tip = it.next();
+					else break;
+
+					it.previous();
+					it.previous();
+
+					// tip is on the outer  side of the line through baseA and baseB or on the 
+					//line through baseA and baseB
+					if ((contourType.getSign() * Point.signedTriangleArea(baseA, baseB, tip) <= 0)) {
+						
+						it.remove();
+						baseB = it.previous();
+
+						if (it.hasPrevious()) {
+							baseA = it.previous();
+							it.next();
+							it.next();
+							it.previous();
+							while (contourType.getSign() * Point.signedTriangleArea(baseA, baseB, tip) <= 0) {
+								it.remove();
+								baseB = it.previous();
+								if(it.hasPrevious()) {
+									baseA = it.previous();
+								}else {
+									break;
+								}
+								it.next();
+								it.next();
+								it.previous();
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Returns the iterator
+	 * for the specified contour.
+	 *
+	 * @param contourType the contour type
+	 * @return the iterator
+	 */
+	private ListIterator<Point> getIterator(ContourType contourType){
+		switch (contourType) {
+		case UPPERLEFT: {
+			return upperLeft.listIterator();
+			}
+		case LOWERLEFT: {
+			return lowerLeft.listIterator();
+			}
+		case UPPERRIGHT: {
+			return upperRight.listIterator();
+			}
+		case LOWERRIGHT: {
+			return lowerRight.listIterator();
+
+			}
+		default: {
+			throw new IllegalArgumentException("Unexpected value: " + contourType);
+			}
+		}
+	}
 }

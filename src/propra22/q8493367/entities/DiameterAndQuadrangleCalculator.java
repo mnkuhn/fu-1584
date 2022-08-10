@@ -47,7 +47,7 @@ public class DiameterAndQuadrangleCalculator  {
 	public void calculate(Diameter diameter, Quadrangle quadrangle, QuadrangleSequence quadrangleSequence) {
         if(!convexHull.isEmpty()) {
         	
-        	// caclulates the quadrangle sequence
+        	// calculates the quadrangle sequence
         	calculateQuadrangleSequence(quadrangleSequence);
         	
         	/* Gets the diameter i.e. the longest diagonal in a quadrangle from the 

@@ -248,7 +248,7 @@ public class DrawPanelController implements IDrawPanelController {
 		if(CHGO_8493367_Kuhn_Manuel.showConsoleOutput)
 			System.out.println("Konvexe Hülle berechnen: " + (end - start) + " ms");
         
-		//Terminates the animation thread so that the quadrangle sequence can be updated.
+		// Terminates the animation thread so that the quadrangle sequence can be updated.
 		if (view != null) {terminateAnimationThread();}
 
 		start = end;
@@ -257,9 +257,10 @@ public class DrawPanelController implements IDrawPanelController {
 		if(CHGO_8493367_Kuhn_Manuel.showConsoleOutput)
 			System.out.println("Durchmesser und Viereck berechen: " + (end - start) + " ms \n \n");
 		
-		//Updates the animation thread after the update of the quadrangle sequence.
+		// Updates the animation thread after the update of the quadrangle sequence.
 		if (view != null) {updateAnimationThread();}
-
+        
+		// In this application the controller of the status bar is notified.
 		notifyObservers();
 	}
 	

@@ -199,36 +199,7 @@ public class ArrayListHull extends ListHull {
 		}
 	}
 
-	/**
-	 * Removes the point with the index i from
-	 * the contour specified by the contour type.
-	 *
-	 * @param i the index of the point in the contour.
-	 * @param contourType the type of the contour
-	 */
-	private void removePointFromContour(int i, ContourType contourType) {
-		switch (contourType) {
-		case UPPERLEFT: {
-			upperLeft.remove(i);
-			break;
-		}
-		case LOWERLEFT: {
-			lowerLeft.remove(i);
-			break;
-		}
-		case UPPERRIGHT: {
-			upperRight.remove(i);
-			break;
-		}
-		case LOWERRIGHT: {
-			lowerRight.remove(i);
-			break;
-		}
-		default: {
-			throw new IllegalArgumentException("Unexpected value: " + contourType);
-		}
-		}
-	}
+	
 
 	
 	
@@ -289,70 +260,11 @@ public class ArrayListHull extends ListHull {
 	}
 	
 	
-	@Override
-	protected void cleanContour(ContourType contourType) {
-		
-		if(!contourIsEmpty(contourType)) {
-			int size = getSizeOfContour(contourType);
-			if(size >= 3) {
-				int base = 0;
-				int next = 2;
-				while(next < size) {
-					//next is on the inner side of the line through base and base + 1
-					if(signedTriangleArea(base, next, contourType)  > 0){
-						base++;
-						next++;	
-					}
-					else {
-						/*next is on the outer side of the line through base and base + 1 or 
-						 * next is exactly on the line through base and base + 1
-						 */
-						if(base > 0) {
-							removePointFromContour(base + 1, contourType);
-							size--;
-							base--;
-							next--;
-							if(next < size) {
-								while(base > 0 && signedTriangleArea(base, next, contourType) < 0) {
-									removePointFromContour(base + 1, contourType);
-									size--;
-									base--;
-									next--;	
-								}
-							}
-						}
-						//base == 0
-						else {
-							removePointFromContour(base + 1, contourType);
-							size--;
-						}
-					}
-				}
-			}
-		}
-	}
+	
+	
 
 
-	/**
-	 * Signed triangle area. The DFV algorithm with adapted arguments.
-	 *
-	 * @param base  the base point. This point is the first point of the base line
-	 * of the triangle, whose area is calculated.
-	 * @param tip  this points represents the tip of the triangle, whose
-	 * area is calculated.
-	 * @param contourType the type of the contour
-	 * @return the long
-	 */
-	private long signedTriangleArea(int base, int tip, ContourType contourType) {
-		return contourType.getSign() * Point.signedTriangleArea(
-				//the first point of the baseline
-				getPointFromContour(base, contourType), 
-				//The second point of the baseline following the first base point in 
-				//the direction of increasing index.
-				getPointFromContour(base + 1, contourType),  
-				//The tip of the triangle
-				getPointFromContour(tip, contourType));
-	}
+	
 
 	
 	
@@ -589,4 +501,7 @@ public class ArrayListHull extends ListHull {
 			}
 		}
 	}
+
+
+
 }

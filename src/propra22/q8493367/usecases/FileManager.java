@@ -53,7 +53,6 @@ public class FileManager implements IFileManager {
 	 *
 	 * @param pointSet the point set
 	 * @param drawPanelController the draw panel controller
-	 * @param fileChooser the file chooser which lets the user choose files.
 	 * @param parser the parser which is used for reading a file
 	 */
 	public FileManager(PointSet pointSet, IDrawPanelController drawPanelController, IParser parser) {
