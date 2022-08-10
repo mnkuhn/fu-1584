@@ -12,7 +12,8 @@ import propra22.q8493367.entities.PointSet;
 import propra22.q8493367.entities.Quadrangle;
 import propra22.q8493367.entities.QuadrangleSequence;
 import propra22.q8493367.usecases.FileManager;
-import propra22.q8493367.util.ConventionalParser;
+import propra22.q8493367.util.IParser;
+import propra22.q8493367.util.ParserFactory;
 
 
 
@@ -54,8 +55,8 @@ public class HullCalculator implements IHullCalculator{
 		this.quadrangleSequence = new QuadrangleSequence();
 		this.drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, 
 				quadrangleSequence);
-		
-		this.fileManager = new FileManager(pointSet, drawPanelController, new ConventionalParser());
+		IParser parser = new ParserFactory().getParser("CONVENTIONAL");
+		this.fileManager = new FileManager(pointSet, drawPanelController, parser);
 	}
 	
 	/**

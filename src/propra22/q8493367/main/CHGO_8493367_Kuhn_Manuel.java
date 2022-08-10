@@ -19,12 +19,12 @@ import propra22.q8493367.gui.MainWindow;
 import propra22.q8493367.gui.StatusBar;
 import propra22.q8493367.usecases.FileManager;
 import propra22.q8493367.usecases.IFileManager;
-import propra22.q8493367.util.ConventionalParser;
 import propra22.q8493367.util.DrawPanelListener;
 import propra22.q8493367.util.IDrawPanelControllerObserver;
 import propra22.q8493367.util.IDrawPanelListener;
 import propra22.q8493367.util.IMainWindowListener;
 import propra22.q8493367.util.IParser;
+import propra22.q8493367.util.ParserFactory;
 import propra22.tester.Tester;
 
 
@@ -68,7 +68,7 @@ public class CHGO_8493367_Kuhn_Manuel {
 		drawPanelController.addObserver(statusBarController);
 		
 		//File manager and parser
-		IParser parser = new ConventionalParser();
+		IParser parser = new ParserFactory().getParser("CONVENTIONAL");
 		IFileManager fileManager = new FileManager(pointSet, drawPanelController, parser);
 		
 		//Main window
