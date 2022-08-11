@@ -24,7 +24,8 @@ public class TriangleCalculator {
 	}
 	
 	/**
-	 * Calculate the biggest triangle
+	 * Calculates the biggest triangle of the 
+	 * convex hull.
 	 *
 	 * @param triangle the triangle whose attributes are
 	 * set to those of the biggest triangle.
@@ -40,7 +41,6 @@ public class TriangleCalculator {
 		cIt.next();
 		cIt.next();
 		
-	
 		Triangle baseTriangle  = new Triangle(aIt.getPoint(), bIt.getPoint(), cIt.getPoint());
 		Triangle biggestTriangle = new Triangle(baseTriangle);
 		if(aIt.getPoint() == cIt.getPoint()) {
@@ -85,10 +85,10 @@ public class TriangleCalculator {
 	}
 	
 	/**
-	 * Sets the the point a of the base triangle
+	 * Sets the the point A of the base triangle
 	 * the next B triangle and the next C triangle.
 	 *
-	 * @param aIt the iterator which represents point a
+	 * @param aIt the iterator which represents point A
 	 * @param baseTriangle the base triangle
 	 * @param nextBTriangle the next B triangle
 	 * @param nextCTriangle the next C triangle
@@ -100,9 +100,10 @@ public class TriangleCalculator {
 	}
 
 	/**
-	 * Sets the B.
+	 * Sets the the point B of the base triangle
+	 * the next B triangle and the next C triangle.
 	 *
-	 * @param bIt the b it
+	 * @param bIt the iterator which represents point B
 	 * @param baseTriangle the base triangle
 	 * @param nextBTriangle the next B triangle
 	 * @param nextCTriangle the next C triangle
@@ -114,9 +115,10 @@ public class TriangleCalculator {
 	}
 
 	/**
-	 * Sets the C.
+	 * Sets the the point C of the base triangle
+	 * the next B triangle and the next C triangle.
 	 *
-	 * @param cIt the c it
+	 * @param cIt the iterator which represents point C
 	 * @param baseTriangle the base triangle
 	 * @param nextBTriangle the next B triangle
 	 * @param nextCTriangle the next C triangle
