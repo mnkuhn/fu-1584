@@ -1,4 +1,4 @@
-package propra22.q8493367.usecases;
+package propra22.q8493367.gui;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,8 +14,9 @@ import javax.swing.JOptionPane;
 import propra22.q8493367.controllers.IDrawPanelController;
 import propra22.q8493367.entities.Point;
 import propra22.q8493367.entities.PointSet;
-import propra22.q8493367.gui.FileChooser;
 import propra22.q8493367.main.CHGO_8493367_Kuhn_Manuel;
+import propra22.q8493367.usecases.FileSettings;
+import propra22.q8493367.usecases.IFileManager;
 import propra22.q8493367.util.FileEvent;
 import propra22.q8493367.util.FileEventType;
 import propra22.q8493367.util.IParser;
@@ -40,7 +41,6 @@ public class FileManager implements IFileManager {
 	/** The suffix of the files used by this application. */
 	private String suffix = "points";
 	
-
 	/** The file path of the currently opened file. */
 	private String filePath = null;
 
@@ -232,7 +232,7 @@ public class FileManager implements IFileManager {
 	}
 
 	/**
-	 * Loads the points from a file to the point set.
+	 * Loads the points from a file into the point set.
 	 *
 	 * @param file the file, from which the points are loaded
 	 */

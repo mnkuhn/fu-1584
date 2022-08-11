@@ -22,13 +22,13 @@ public class GUISettings {
 	public static final Color diameterColor = new Color(0, 0, 255, 255);   				// blue
 	
 	/**  The color used for the quadrangle. */
-	public static final Color quadrangleColor = new Color(0, 255, 0, 40);  				// green
+	public static final Color quadrangleColor = new Color(0, 255, 0, 40);  				// light green
 	
 	/**  The color used for the quadrangle which is shown by the animation. */
 	public static final Color animatedQuadrangleColor = new Color(0, 255, 0, 110);      // green
 	
 	/**  The color used for the triangle. */
-	public static final Color triangleColor = new Color(255, 255, 0, 255); 				// yellow
+	public static final Color triangleColor = new Color(55, 239, 213, 40); 				// light blue
 	
 	/**  The color used for the x and y axis. */
 	public static final Color axisColor = new Color(112, 128, 144, 115); 				// slate gray

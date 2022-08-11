@@ -15,6 +15,8 @@ import propra22.q8493367.entities.PointSet;
 import propra22.q8493367.entities.Quadrangle;
 import propra22.q8493367.entities.QuadrangleSequence;
 import propra22.q8493367.entities.TangentPair;
+import propra22.q8493367.entities.Triangle;
+import propra22.q8493367.entities.TriangleCalculator;
 import propra22.q8493367.gui.DrawPanel;
 import propra22.q8493367.gui.GUISettings;
 import propra22.q8493367.main.CHGO_8493367_Kuhn_Manuel;
@@ -47,8 +49,11 @@ public class DrawPanelController implements IDrawPanelController {
 	/** The diameter. */
 	private Diameter diameter;
 
-	/** The quadrangle. */
+	/** The biggest quadrangle. */
 	private Quadrangle quadrangle;
+	
+	/** The biggest triangle */
+	private Triangle triangle;
 	
 	/** The pair of tangents used by the animation. */
 	private TangentPair tangentPair;
@@ -60,6 +65,9 @@ public class DrawPanelController implements IDrawPanelController {
     // Calculation
 	/**   The calculator for the diameter, the quadrangle and the quadrangle sequence. */
 	private DiameterAndQuadrangleCalculator diameterAndQuadrangleCalulator;
+	
+	/** The calculator for the biggest triangle */
+	private TriangleCalculator triangleCalculator;
 
 	
 	
@@ -125,18 +133,26 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param convexHull the convex hull
 	 * @param diameter the diameter
 	 * @param quadrangle the quadrangle
+	 * @param triangle the biggest triangle
 	 * @param tangentPair the tangent pair needed for the animation
 	 * @param quadrangleSequence the sequence of quadrangles needed for the animation
+	 * @param diameterAndQuadrangleCalculator the calculator for the diameter, the biggest quadrangle and the quadrangle sequence
+	 * @param triangleCalculator the calculator for the biggest triangle
 	 * @param view the view
 	 */
-	public DrawPanelController(PointSet pointSet, IHull convexHull, Diameter diameter, Quadrangle quadrangle, 
-			TangentPair tangentPair, QuadrangleSequence quadrangleSequence, DrawPanel view) {
+	public DrawPanelController(PointSet pointSet, IHull convexHull, Diameter diameter, Quadrangle quadrangle, Triangle triangle,
+			TangentPair tangentPair, QuadrangleSequence quadrangleSequence, DiameterAndQuadrangleCalculator diameterAndQuadrangleCalculator, 
+			TriangleCalculator triangleCalculator, DrawPanel view) {
 		this.pointSet = pointSet;
 		this.hull = convexHull;
 		this.diameter = diameter;
 		this.quadrangle = quadrangle;
+		this.triangle = triangle;
 		this.tangentPair = tangentPair;
 		this.quadrangleSequence = quadrangleSequence;
+		
+		this.diameterAndQuadrangleCalulator = diameterAndQuadrangleCalculator;
+		this.triangleCalculator = triangleCalculator;
 		
 		this.view = view;
 		
@@ -152,19 +168,25 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param hull the convex hull
 	 * @param diameter the diameter
 	 * @param quadrangle the quadrangle
+	 * @param triangle the biggest triangle
 	 * @param quadrangleSequence the quadrangle sequence
+	 * @param diameterAndQuadrangleCalculator the calculator for the diameter, the biggest quadrangle and the quadrangle sequence
+	 * @param triangleCalculator the calculator for the biggest triangle
 	 */
-	public DrawPanelController(PointSet pointSet, IHull hull, Diameter diameter, Quadrangle quadrangle, 
-			QuadrangleSequence quadrangleSequence) {
+	public DrawPanelController(PointSet pointSet, IHull hull, Diameter diameter, Quadrangle quadrangle, Triangle triangle,
+			QuadrangleSequence quadrangleSequence, DiameterAndQuadrangleCalculator diameterAndQuadrangleCalculator, 
+			TriangleCalculator triangleCalculator) {
 
 		this.pointSet = pointSet;
 		this.hull = hull;
 		this.diameter = diameter;
 		this.quadrangle = quadrangle;
+		this.triangle = triangle;
 		this.quadrangleSequence = quadrangleSequence;
 		this.view = null;
 		
-		this.diameterAndQuadrangleCalulator = new DiameterAndQuadrangleCalculator(hull);
+		this.diameterAndQuadrangleCalulator = diameterAndQuadrangleCalculator;
+		this.triangleCalculator = triangleCalculator;
 	}
 
 	/**
@@ -256,6 +278,12 @@ public class DrawPanelController implements IDrawPanelController {
 		end = System.currentTimeMillis();
 		if(CHGO_8493367_Kuhn_Manuel.showConsoleOutput)
 			System.out.println("Durchmesser und Viereck berechen: " + (end - start) + " ms \n \n");
+		
+		start = end;
+		triangleCalculator.calculate(triangle);
+		end = System.currentTimeMillis();
+		if(CHGO_8493367_Kuhn_Manuel.showConsoleOutput)
+			System.out.println("Dreieck berechnen: " + (end - start) + " ms \n \n");
 		
 		// Updates the animation thread after the update of the quadrangle sequence.
 		if (view != null) {updateAnimationThread();}

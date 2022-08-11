@@ -100,6 +100,7 @@ public class MainWindowController implements IMainWindowListener {
 			view.setConvexHullIsShown(drawPanelController.getConvexHullIsshown());
 			view.setDiameterIsShown(drawPanelController.getDiameterIsShown());
 			view.setQuadrangleIsShown(drawPanelController.getQuadrangleIsShown());
+			view.setTriangleIsShown(drawPanelController.getTriangleIsShown());
 			view.setAnimationIsShown(drawPanelController.getAnimationIsShown());
 		}	
 	}

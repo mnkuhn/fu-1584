@@ -26,6 +26,7 @@ import propra22.q8493367.entities.PointSet;
 import propra22.q8493367.entities.Quadrangle;
 import propra22.q8493367.entities.QuadrangleSequence;
 import propra22.q8493367.entities.TangentPair;
+import propra22.q8493367.entities.Triangle;
 import propra22.q8493367.util.DrawPanelEvent;
 import propra22.q8493367.util.DrawPanelEventType;
 import propra22.q8493367.util.IDrawPanelListener;
@@ -61,8 +62,11 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	/** The diameter. */
 	private Diameter diameter;
 	
-	/** The quadrangle. */
+	/** The biggest quadrangle. */
 	private Quadrangle quadrangle;
+	
+	/** The biggest triangle. */
+	private Triangle triangle;
 	
 	/** The tangent pair. */
 	private TangentPair tangentPair;
@@ -170,17 +174,19 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * @param pointSet  the point set
 	 * @param hull  the convex hull
 	 * @param diameter  the diameter
-	 * @param quadrangle  the biggest quadrangle
+	 * @param quadrangle the biggest quadrangle
+	 * @param triangle the biggest triangle
 	 * @param tangentPair  the tangent pair needed by the animation
 	 * @param quadrangleSequence the sequence of quadrangles needed by the animation
 	 */
-	public DrawPanel(PointSet pointSet, IHull hull, Diameter diameter, Quadrangle quadrangle,
+	public DrawPanel(PointSet pointSet, IHull hull, Diameter diameter, Quadrangle quadrangle, Triangle triangle,
 			TangentPair tangentPair, QuadrangleSequence quadrangleSequence) {
 
 		this.pointSet = pointSet;
 		this.hull = hull;
 		this.diameter = diameter;
 		this.quadrangle = quadrangle;
+		this.triangle = triangle;
 		this.tangentPair = tangentPair;
 		this.quadrangleSequence = quadrangleSequence;
 		
@@ -388,6 +394,10 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		drawAxes(g2);
 		if (!pointSet.isEmpty()) {
 			
+			if(triangleIsShown) {
+				drawTriangle(g2);
+			}
+			
 			if (animationIsShown) {
 				drawAnimatedQuadrangle(g2);
 				drawTangentPair(g2);
@@ -509,6 +519,32 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			g2.setColor(Color.BLACK);
 		}
 	}
+	
+	/**
+	 * Draws the biggest triangle.
+	 *
+	 * @param g2 the Graphics2D Object used for drawing.
+	 */
+	
+	private void drawTriangle(Graphics2D g2) {
+		if(triangle != null) {
+			g2.setColor(GUISettings.triangleColor);
+			
+			Point translatedA = translatePointFromModelToView(triangle.getA());
+			Point translatedB = translatePointFromModelToView(triangle.getB());
+			Point translatedC = translatePointFromModelToView(triangle.getC());
+			
+			int[] xPoints = new int[] { translatedA.getX(), translatedB.getX(), translatedC.getX()};
+			int[] yPoints = new int[] { translatedA.getY(), translatedB.getY(), translatedC.getY()};
+
+			Polygon triangle = new Polygon(xPoints, yPoints, 3);
+			
+			g2.fillPolygon(triangle);
+
+			g2.setColor(Color.BLACK);
+		}
+	}
+	
 
 	/**
 	 * Draws the x and the y axis.

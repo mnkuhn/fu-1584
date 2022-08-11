@@ -343,7 +343,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 						convexHullItem.isSelected(), 
 						diameterItem.isSelected(), 
 						quadrangleItem.isSelected(), 
-						false, 
+						triangleItem.isSelected(), 
 						animationItem.isSelected()));	
 			}	
 	    };
@@ -369,8 +369,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 		viewMenu.add(convexHullItem);
 		viewMenu.add(diameterItem);
 		viewMenu.add(quadrangleItem);
-		//viewMenu.add(triangleItem);
-		
+		viewMenu.add(triangleItem);
 		viewMenu.add(animationItem);
 		
 		viewMenu.addSeparator();
@@ -449,13 +448,12 @@ public class MainWindow extends JFrame implements IMainWindow {
 		}
 	
 	
-	/*
-	@Override
 	
+	@Override
 	public void setTriangleIsShown(boolean b) {
 		triangleItem.setSelected(b);
 		}
-    */
+    
 
 	
 	@Override

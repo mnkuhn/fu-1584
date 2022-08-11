@@ -6,12 +6,15 @@ import java.io.IOException;
 import propra22.interfaces.IHullCalculator;
 import propra22.q8493367.controllers.DrawPanelController;
 import propra22.q8493367.entities.Diameter;
+import propra22.q8493367.entities.DiameterAndQuadrangleCalculator;
 import propra22.q8493367.entities.ArrayListHull;
 import propra22.q8493367.entities.IHull;
 import propra22.q8493367.entities.PointSet;
 import propra22.q8493367.entities.Quadrangle;
 import propra22.q8493367.entities.QuadrangleSequence;
-import propra22.q8493367.usecases.FileManager;
+import propra22.q8493367.entities.Triangle;
+import propra22.q8493367.entities.TriangleCalculator;
+import propra22.q8493367.gui.FileManager;
 import propra22.q8493367.usecases.FileSettings;
 import propra22.q8493367.util.IParser;
 import propra22.q8493367.util.ParserFactory;
@@ -36,6 +39,9 @@ public class HullCalculator implements IHullCalculator{
 	/** The biggest quadrangle. */
 	private Quadrangle quadrangle;
 	
+	/** The biggest triangle. */
+	private Triangle triangle;
+	
 	/** The draw panel controller. */
 	private DrawPanelController drawPanelController;
 	
@@ -54,8 +60,12 @@ public class HullCalculator implements IHullCalculator{
 		this.diameter = new Diameter();
 		this.quadrangle = new Quadrangle();
 		this.quadrangleSequence = new QuadrangleSequence();
-		this.drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, 
-				quadrangleSequence);
+		this.triangle = new Triangle();
+	    
+		DiameterAndQuadrangleCalculator diameterAndQuadrangleCalculator = new DiameterAndQuadrangleCalculator(hull);
+		TriangleCalculator triangleCalculator = new TriangleCalculator(hull);
+		this.drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, triangle, 
+				quadrangleSequence, diameterAndQuadrangleCalculator, triangleCalculator);
 		IParser parser = new ParserFactory().getParser(FileSettings.defaultParserName);
 		this.fileManager = new FileManager(pointSet, drawPanelController, parser);
 	}
@@ -204,8 +214,7 @@ public class HullCalculator implements IHullCalculator{
 	 */
 	@Override
 	public int[][] getTriangle() {
-		// TODO Auto-generated method stub
-		return null;
+		return triangle.asArray();
 	}
     
 	/**
@@ -216,7 +225,6 @@ public class HullCalculator implements IHullCalculator{
 	 */
 	@Override
 	public double getTriangleArea() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 0.5d * (double)triangle.doubleArea();
 	}
 }
