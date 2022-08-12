@@ -4,7 +4,7 @@ package propra22.q8493367.entities;
 /**
  * The Enum ContourType identifies the 4 contours of the contour polygon i.e. the convex hull.
  * It also provides a sign method which is used to determine the sign of the result of the DFV algorithm. 
- * We need this method  because we have to distinguish clockwise and counterclockwise movement.
+ * We need this method because we have to distinguish clockwise and counterclockwise movement.
  */
 
 public enum ContourType {
@@ -60,7 +60,7 @@ public enum ContourType {
 	}
 	
 	/**
-	 * Gets the sign of the contour type.
+	 * Returns the sign of the contour type.
 	 *
 	 * @return the sign which is -1 or 1
 	 */

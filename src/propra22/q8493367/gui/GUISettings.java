@@ -28,7 +28,7 @@ public class GUISettings {
 	public static final Color animatedQuadrangleColor = new Color(0, 255, 0, 110);      // green
 	
 	/**  The color used for the triangle. */
-	public static final Color triangleColor = new Color(55, 239, 213, 40); 				// light blue
+	public static final Color triangleColor = new Color(55, 239, 213, 52); 				// light blue
 	
 	/**  The color used for the x and y axis. */
 	public static final Color axisColor = new Color(112, 128, 144, 115); 				// slate gray
@@ -62,7 +62,7 @@ public class GUISettings {
 
 	/**
 	 * The maximum distance in pixels in the view a point needs to have from the
-	 * mouse to be selected.
+	 * mouse pointr to be selected.
 	 */
 	public static final int mouseRadius = 16;
 
@@ -79,6 +79,8 @@ public class GUISettings {
 	public static final int minimumWidth = 750;
 	
 	/** The margin for the center method of the draw panel
+	 *  and the method which inserts a certain number of randomly 
+	 *  generated points onto the draw panel.
 	 *  Top, left, bottom and right have this one margin.
 	 */
 	public static final int margin = 2 * GUISettings.radius;

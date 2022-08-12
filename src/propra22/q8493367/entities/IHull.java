@@ -3,10 +3,14 @@ package propra22.q8493367.entities;
 import java.util.List;
 
 
-
-
 /**
- * The Interface for the contour polygon and the convex hull.
+ * The Interface for a hull which can be 
+ * the contour polygon and the convex hull.
+ * It provides methods among others, which calculate
+ * the contour polygon from a point set and the convex 
+ * hull from the contour polygon and a method 
+ * for retrieving an iterator for reading
+ * purposes.
  */
 public interface IHull {
 	
@@ -32,8 +36,7 @@ public interface IHull {
 	 * Returns all points as an array with n rows and 2 columns 
 	 * where n is the number of points in the hull and
 	 * the two integers in each row represent the x coordinate and the
-	 * y coordinate of a point. The points are inserted into the array 
-	 * clockwise.
+	 * y coordinate of a point.
 	 *
 	 * @return the int array of the points following the points of the 
 	 * hull clockwise.
@@ -84,7 +87,8 @@ public interface IHull {
 	void set(PointSet pointSet);
 
 	/**
-	 * Creates the convex hull.
+	 * Creates the convex hull from the
+	 * contour polygon.
 	 */
 	void clean();
     

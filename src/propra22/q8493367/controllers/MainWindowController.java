@@ -1,15 +1,13 @@
 package propra22.q8493367.controllers;
 
 import propra22.q8493367.gui.MainWindow;
+import propra22.q8493367.usecases.CommandEvent;
+import propra22.q8493367.usecases.CommandEventType;
+import propra22.q8493367.usecases.FileEvent;
 import propra22.q8493367.usecases.FileSettings;
-import propra22.q8493367.usecases.IFileManager;
-import propra22.q8493367.util.CommandEvent;
-import propra22.q8493367.util.CommandEventType;
-import propra22.q8493367.util.FileEvent;
-import propra22.q8493367.util.IMainWindowListener;
-import propra22.q8493367.util.RandomPointsEvent;
-import propra22.q8493367.util.RandomPointsEventType;
-import propra22.q8493367.util.ViewEvent;
+import propra22.q8493367.usecases.RandomPointsEvent;
+import propra22.q8493367.usecases.RandomPointsEventType;
+import propra22.q8493367.usecases.ViewEvent;
 
 
 /**

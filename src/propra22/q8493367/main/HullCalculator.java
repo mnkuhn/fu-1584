@@ -13,7 +13,7 @@ import propra22.q8493367.entities.PointSet;
 import propra22.q8493367.entities.Quadrangle;
 import propra22.q8493367.entities.QuadrangleSequence;
 import propra22.q8493367.entities.Triangle;
-import propra22.q8493367.entities.TriangleCalculator;
+import propra22.q8493367.entities.DobkinTriangleCalculator;
 import propra22.q8493367.gui.FileManager;
 import propra22.q8493367.usecases.FileSettings;
 import propra22.q8493367.util.IParser;
@@ -63,7 +63,7 @@ public class HullCalculator implements IHullCalculator{
 		this.triangle = new Triangle();
 	    
 		DiameterAndQuadrangleCalculator diameterAndQuadrangleCalculator = new DiameterAndQuadrangleCalculator(hull);
-		TriangleCalculator triangleCalculator = new TriangleCalculator(hull);
+		DobkinTriangleCalculator triangleCalculator = new DobkinTriangleCalculator(hull);
 		this.drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, triangle, 
 				quadrangleSequence, diameterAndQuadrangleCalculator, triangleCalculator);
 		IParser parser = new ParserFactory().getParser(FileSettings.defaultParserName);
@@ -225,6 +225,6 @@ public class HullCalculator implements IHullCalculator{
 	 */
 	@Override
 	public double getTriangleArea() {
-		return 0.5d * (double)triangle.doubleArea();
+		return 0.5d * (double)triangle.area();
 	}
 }

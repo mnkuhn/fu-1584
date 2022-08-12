@@ -1,6 +1,4 @@
-package propra22.q8493367.util;
-
-
+package propra22.q8493367.usecases;
 
 /**
  * This event indicates that the user wants to undo a command that was 

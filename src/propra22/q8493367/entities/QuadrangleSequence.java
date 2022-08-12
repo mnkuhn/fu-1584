@@ -5,9 +5,9 @@ import java.util.List;
 
 
 /**
- * The Class QuadrangleSequence keeps a sequence of quadrangles
- * as used for the animation. This sequence can be seen as infinite. It arises 
- * from the calculation of the antipodal pairs according to the specification.
+ * The Class QuadrangleSequence represents a sequence of quadrangles
+ * as used for the animation. It arises from the calculation of the antipodal 
+ * pairs according to the specification.
  */
 public class QuadrangleSequence {
 	
@@ -18,12 +18,12 @@ public class QuadrangleSequence {
 	int index;
 	
 	/**
-	 * Gets the hull point before the current quadrangle point identified
-	 * by the argument.
+	 * Returns the hull point before the quadrangle point identified
+	 * by the argument moving counterclockwise in a standard
+	 * cartesian coordinate system.
 	 *
 	 * @param quadranglePoint the quadrangle point A, B, C or D.
-	 * @return the point of the convex hull before this point moving 
-	 * counterclockwise.
+	 * @return the point of the convex hull before the quadrangle point 
 	 */
 	public Point getHullPointBefore(QuadranglePoint quadranglePoint) {
 		if(quadrangles.size() == 0) {return null;}
@@ -80,7 +80,7 @@ public class QuadrangleSequence {
 	}	
 	
 	/**
-	 * Gets the point of the quadrangle identified by the argument.
+	 * Returns the point of the quadrangle identified by the argument.
 	 *
 	 * @param quadranglePoint the quadrangle point A, B, C or D.
 	 * @return the point of the quadrangle identified by the argument.
@@ -110,11 +110,12 @@ public class QuadrangleSequence {
 	}
 	
 	/**
-	 * Gets the hull point after the current quadrangle point identified
-	 * by the argument moving clockwise.
+	 * Returns the hull point after the quadrangle point identified
+	 * by the argument moving clockwise in a standard 
+	 * cartesian coordinate system.
 	 *
-	 * @param quadranglePoint the quadrangle point
-	 * @return the hull point after after the current quadrangle point
+	 * @param quadranglePoint the quadrangle point A, B, C or D.
+	 * @return the point of the convex hull after the identified quadrangle point
 	 */
 	public Point getHullPointAfter(QuadranglePoint quadranglePoint) {
 		if(quadrangles.size() == 0) {return null;}
@@ -208,7 +209,7 @@ public class QuadrangleSequence {
 	 * if the point set only keeps one point.
 	 * Returns false otherwise.
 	 *
-	 * @return true, if the longest diameter 
+	 * @return true, if the longest diameter is zero. False otherwise.
 	 */
 	public boolean longestDiameterIsZero() {
 		Point a = quadrangles.get(0).getA();
@@ -227,8 +228,8 @@ public class QuadrangleSequence {
 	
 	
 	/**
-	 * Checks if the sequence of quadrangles does 
-	 * not contain any quadrangle.
+	 * Checks if the sequence of quadrangles contains
+	 * any quadrangles.
 	 *
 	 * @return true, if the quadrangle sequence is empty,
 	 * false otherwise.
@@ -254,7 +255,7 @@ public class QuadrangleSequence {
 	}
 	
 	/**
-	 * Gets the longest diameter from all the quadrangles in 
+	 * Gets the biggest diameter from all the quadrangles in 
 	 * the quadrangle sequence.
 	 *
 	 * @return the biggest diameter

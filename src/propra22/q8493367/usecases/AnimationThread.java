@@ -1,6 +1,7 @@
-package propra22.q8493367.controllers;
+package propra22.q8493367.usecases;
 
 
+import propra22.q8493367.controllers.IDrawPanel;
 import propra22.q8493367.entities.TangentPair;
 
 /**

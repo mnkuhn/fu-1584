@@ -193,7 +193,8 @@ verschiedenen Koordinaten bestehen kann. Punkte der Punktmenge haben
 also im beliebigen paarweisen Vergleich immer verschiedene Koordinaten.
 Neben der <a href="#konvexe-hülle">konvexen Hülle</a> kann das Programm
 den <a href="#durchmesser">Durchmesser</a>, das <a
-href="#grösstes-viereck">grösste Viereck</a> der Punktmenge und eine <a
+href="#grösstes-viereck">grösste Viereck</a> der Punktmenge, das <a
+href="#grösstes-dreieck">grösste Dreieck</a> und eine <a
 href="#animation">Animation</a> von einem Tangentenpaar anzeigen. Das
 Programm verfügt über eine <a href="#befehl-rückgängig-machen">Undo-</a>
 und <a
@@ -222,12 +223,14 @@ Benutzereingaben.</p>
 <h5 id="punkte">Punkte</h5>
 <p>Punkte werden schwarz gefüllte Kreise dargestellt.</p>
 <h5 id="konvexe-hülle">Konvexe Hülle</h5>
-<p>Die Punkte der konvexen Hülle werden durch eine rote Linie verbunden.
-Die Konvexe Hülle kann auch nur aus einem Punkt oder einer Linie
-bestehen, falls die entsprechende Punktmenge nur aus einem bzw. aus zwei
-Punkten besteht.</p>
+<p>Die konvexe Hülle erschient als ein rotes, konvexes Polygon. Konkret
+werden zwei Punkte der konvexen Hülle durch eine rote Gerade verbunden
+und alle Punkte, die durch eine rote Gerade verbunden sind, gehören zur
+konvexen Hülle. Die Konvexe Hülle kann auch aus nur einem Punkt oder
+einer Geraden bestehen, falls die entsprechende Punktmenge nur aus einem
+bzw. aus zwei Punkten besteht.</p>
 <h5 id="durchmesser">Durchmesser</h5>
-<p>Der Durchmesser wird durch eine blaue Linie angezeigt. Er kann auch
+<p>Der Durchmesser wird durch eine blaue Gerade angezeigt. Er kann auch
 nur als Punkt dargestellt werden, falls die Punktmenge nur einen Punkt
 enthält. Er fällt dann mit diesem Punkt zusammen und ist nicht
 sichtbar.</p>
@@ -236,13 +239,19 @@ sichtbar.</p>
 auch nur als Punkt dargestellt werden, falls alle vier Punkte des
 Vierecks die gleichen Koordinaten haben. Dieser Fall tritt ein, falls
 die Punkmenge nur einen Punkt enthält. Das Viereck fällt dann mit diesem
-Punkt zusammen und ist nicht sichtbar. Es kann als Line dargestellt
+Punkt zusammen und ist nicht sichtbar. Es kann als Gerade dargestellt
 sein, falls jeweils zwei verschiedene Paare von Punkten die gleichen
 Koordinaten haben und es kann als Dreieck erscheinen, falls genau ein
 paar von Punkten des Vierecks die gleichen Koordinaten besitzt.</p>
+<h5 id="grösstes-dreieck">Grösstes Dreieck</h5>
+<p>Das grösste Dreieck wird in einem hellen blau dargestellt. Wie beim
+grössten Viereck kann es auch aus einem Punkt bestehen, falls alle drei
+Punkte die gleichen Koordinaten haben. Es kann aus einer Geraden
+bestehen, falls genau zwei Punkte die gleichen Koordinaten haben. <img
+src="images/GUI_with_biggest_triangle.png" alt="Grösstes Dreieck" /></p>
 <h5 id="animation">Animation</h5>
 <p>Während die Animation läuft, werden die beiden Punkte des
-Antipodenpaares durch eine schwarze Linie verbunden. Die an den Punkten
+Antipodenpaares durch eine schwarze Gerade verbunden. Die an den Punkten
 des Antipodenpaares anliegenden Tangenten werden schwarz dargestellt.
 Das zum jeweiligen Antipodenpaar gehörende grösste Viereck wird in einem
 kräftigen grün eingezeichnet. <img src="images/GUI_with_animation.png"
@@ -371,8 +380,8 @@ kommen kann.</p>
 <h4 id="das-hilfe-menü">Das Hilfe-Menü</h4>
 <h5 id="anzeigen-der-bedienungsanleitung">Anzeigen der
 Bedienungsanleitung</h5>
-<p>Wählen <em>Hilfe</em> → <em>Anleitung</em>. Die Bedienungsanleitung
-wird im Webbrowser angezeigt.</p>
+<p>Wählen Sie <em>Hilfe</em> → <em>Anleitung</em>. Die
+Bedienungsanleitung wird im Webbrowser angezeigt.</p>
 <p>   </p>
 <h3 id="die-statusleiste">Die Statusleiste</h3>
 <h5 id="anzahl-der-punkte-in-der-punktmenge">Anzahl der Punkte in der

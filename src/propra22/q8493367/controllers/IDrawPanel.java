@@ -1,7 +1,7 @@
 package propra22.q8493367.controllers;
 
 import propra22.q8493367.entities.Point;
-import propra22.q8493367.util.IDrawPanelListener;
+import propra22.q8493367.gui.IDrawPanelListener;
 
 /**
  * 

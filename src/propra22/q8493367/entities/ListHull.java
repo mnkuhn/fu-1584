@@ -5,8 +5,9 @@ import java.util.ListIterator;
 
 
 /**
- * The Class ListHull is an abstract class for a Hull
- * based on a List data structure.
+ * The Class ListHull is an abstract class for a hull
+ * based on a List data structure. It implements
+ * the IHull interfaces.
  */
 public abstract class ListHull implements IHull{
 	
@@ -142,7 +143,7 @@ public abstract class ListHull implements IHull{
     
     /**
 	 * Calculates the upper right contour. This function has to be called after
-	 * calculateUpperLeft() because the biggest y found has to be set before.
+	 * calculateUpperLeft because the biggest y found has to be set before.
 	 * {@link ArrayListHull#biggestYFound}
 	 *
 	 * @param pointSet the point set
@@ -167,7 +168,7 @@ public abstract class ListHull implements IHull{
 	
 	/**
 	 * Calculates the lower right contour. This function has to be called after 
-	 * calculateLowerLeft() because the smallest y found has to be set before.
+	 * calculateLowerLeft because the smallest y found has to be set before.
 	 * 
 	 * {@link ArrayListHull#smallestYFound}
 	 *
@@ -261,7 +262,8 @@ public abstract class ListHull implements IHull{
 	
 	/**
 	 * Calculates the specified contour of the convex hull
-	 * using the DFV algorithm.
+	 * using the DFV algorithm:
+	 * {@link Point#signedTriangleArea(Point, Point, Point)}.
 	 * @param contourType the type of the contour
 	 */
 	
@@ -348,7 +350,7 @@ public abstract class ListHull implements IHull{
 	}
 	
 	/**
-	 * Gets the point with index i from the contour 
+	 * Returns the point with index i from the contour 
 	 * specified by the contour type.
 	 *
 	 * @param i the index of the point in the contour

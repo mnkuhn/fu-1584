@@ -2,11 +2,13 @@ package propra22.q8493367.controllers;
 
 import propra22.q8493367.entities.Diameter;
 import propra22.q8493367.entities.Quadrangle;
-import propra22.q8493367.util.IDrawPanelControllerObserver;
 
 
 /**
- * The interface for the draw panel controller.
+ * The interface for the draw panel controller. The draw
+ * panel controller handles the updates for the model
+ * and the view based on various events.
+ *
  */
 public interface IDrawPanelController {
 	
@@ -27,7 +29,7 @@ public interface IDrawPanelController {
 	
 	
 	/**
-	 * Undoes the execution of the last executed
+	 * Undoes the last executed
 	 * command.
 	 */
 	public void undoCommand();
@@ -144,7 +146,7 @@ public interface IDrawPanelController {
 	
 	
 	/**
-	 * Returns true if the diameter is shown on the draw panel. Returns false otherwise.
+	 * Returns true if the diameter is shown. False otherwise.
 	 * 
 	 * @return true if the diameter is shown, otherwise returns false.
 	 */
@@ -153,7 +155,7 @@ public interface IDrawPanelController {
 
 
 	/**
-	 *Returns true if the quadrangle is shown on the draw panel. Returns false otherwise.
+	 *Returns true if the quadrangle is shown. False otherwise.
 	 * 
 	 * @return true if the quadrangle is shown, false otherwise.
 	 */
@@ -162,7 +164,7 @@ public interface IDrawPanelController {
 
 
 	/**
-	 *Returns true, if the animation is shown on the draw panel. Returns false otherwise.
+	 *Returns true, if the animation is shown. False otherwise.
 	 * 
 	 * @return true if the animation is shown, false otherwise.
 	 */
@@ -172,8 +174,8 @@ public interface IDrawPanelController {
 	
 	
 	/**
-	 * Returns true, if the triangle is shown on the draw panel,
-	 * false otherwise.
+	 * Returns true, if the triangle is shown.
+	 * False otherwise.
 	 *
 	 * @return true, if the triangle is shown, false otherwise.
 	 */
@@ -329,7 +331,7 @@ public interface IDrawPanelController {
 	int[][] hullAsArray();
 	
 	/**
-	 * Centers the representation on the view.
+	 * Centers the representation on the draw panel.
 	 */
 	public void centerView();
 

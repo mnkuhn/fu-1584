@@ -7,7 +7,9 @@ import java.util.List;
 
 
 /** 
- * The Class PointSet represents a set of points.
+ * The Class PointSet represents a set of points. Among others
+ * it provides methods for inserting, removing and searching points and 
+ * sorting the points in lexicographical order.
  */
 public class PointSet {
 	
@@ -37,13 +39,13 @@ public class PointSet {
 	 * Checks if the point set contains a point with the same
 	 * coordinates as p.
 	 *
-	 * @param point  the point
+	 * @param p  the point to be checked
 	 * @return the index of the point in the point set if 
 	 * the point set contains a point with same coordinates as p. A negative
-	 * value is returned otherwise.
+	 * value otherwise.
 	 */
-	public  int hasPoint(Point point) {
-		return searchPoint(point);
+	public  int hasPoint(Point p) {
+		return searchPoint(p);
 	}
 	
 	
@@ -63,7 +65,7 @@ public class PointSet {
 
 	/**
 	 * Checks for new minimum and maximum coordinates, 
-	 * if a new point is added to the point set.
+	 * after a new point was added to the point set.
 	 *
 	 * @param point the point which is added to the point set.
 	 */
@@ -143,7 +145,7 @@ public class PointSet {
 	
 	
 	/**
-	 * Returns the number of Points contained in the point set. 
+	 * Returns the number of points contained in the point set. 
 	 * @return number of points in the point set.
 	 */
 	public int getNumberOfPoints() {
@@ -159,15 +161,15 @@ public class PointSet {
 	 * if the index is below 0 or equal or above the size of the 
 	 * point set.
     */
-	public Point getPointAt(int index) throws IndexOutOfBoundsException {
+	public Point getPointAt(int index) {
 		return points.get(index);
 	}
 	
 	
 	/**
-	 * Returns true, if the point set does not contain a point. Returns false otherwise.
+	 * Returns true, if the point set does not contain any point. Returns false otherwise.
 	 *
-	 * @return true, if the point set does not contain a point, false otherwise.
+	 * @return true, if the point set does not contain any point, false otherwise.
 	 */
 	public boolean isEmpty() {
 		return points.isEmpty();
@@ -197,7 +199,7 @@ public class PointSet {
 
 	
     /**
-	 * Tests if  the point set has changed. Returns true, if the point set 
+	 * Tests if the point set has changed. Returns true, if the point set 
 	 * has changed since the last time the corresponding value was set to false with
 	 * {@link #setHasChanged(boolean b)}.
 	 *
@@ -222,10 +224,11 @@ public class PointSet {
 
 	
 	/**
-	 * Gets the minimum x coordinate of all the points
+	 * Returns the minimum x coordinate of all the points
 	 * in the point set.
 	 *
-	 * @return the minimum x coordinate
+	 * @return the minimum x coordinate of all the points
+	 * in the point set.
 	 */
 	public int getMinX() {
 		return minX;
@@ -233,7 +236,7 @@ public class PointSet {
 
 	
 	/**
-	 * Gets the maximum x coordinate of all the points
+	 * Returns the maximum x coordinate of all the points
 	 * in the point set.
 	 *
 	 * @return the maximum x coordinate of all the points
@@ -245,7 +248,7 @@ public class PointSet {
 
 	
 	/**
-	 * Gets the minimum y coordinate of all the points
+	 * Returns the minimum y coordinate of all the points
 	 * in the point set.
 	 *
 	 * @return the minimum y coordinate.
@@ -256,7 +259,7 @@ public class PointSet {
 
 	
 	/**
-	 * Gets the maximum y coordinate of all the points
+	 * Returns the maximum y coordinate of all the points
 	 * in the point set.
 	 *
 	 * @return the maximum y coordinate of all the points

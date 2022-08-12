@@ -12,13 +12,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import propra22.q8493367.controllers.IDrawPanelController;
+import propra22.q8493367.controllers.IFileManager;
 import propra22.q8493367.entities.Point;
 import propra22.q8493367.entities.PointSet;
 import propra22.q8493367.main.CHGO_8493367_Kuhn_Manuel;
+import propra22.q8493367.usecases.FileEvent;
+import propra22.q8493367.usecases.FileEventType;
 import propra22.q8493367.usecases.FileSettings;
-import propra22.q8493367.usecases.IFileManager;
-import propra22.q8493367.util.FileEvent;
-import propra22.q8493367.util.FileEventType;
 import propra22.q8493367.util.IParser;
 
 
@@ -206,7 +206,7 @@ public class FileManager implements IFileManager {
 	/**
 	 * Saves the point set to a file.
 	 *
-	 * @param file the file in which the point set will be saved.
+	 * @param file the file to which the point set will be saved.
 	 */
 	public void savePointSet(File file) {
         if(!file.getName().endsWith("." + suffix)) {
@@ -278,7 +278,7 @@ public class FileManager implements IFileManager {
 	 * if he wants to save the points of the point set 
 	 * into a file.
 	 *
-	 * @return the option chosen by the user (yes or no).
+	 * @return the option chosen by the user.
 	 */
 	private int showSaveToFileOptionPane() {
 		int choice = JOptionPane.showConfirmDialog(null, "In Datei speichern?", "", JOptionPane.YES_NO_CANCEL_OPTION);

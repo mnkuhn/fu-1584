@@ -4,6 +4,9 @@ import javax.swing.SwingUtilities;
 
 import propra22.interfaces.IHullCalculator;
 import propra22.q8493367.controllers.DrawPanelController;
+import propra22.q8493367.controllers.IDrawPanelControllerObserver;
+import propra22.q8493367.controllers.IFileManager;
+import propra22.q8493367.controllers.IMainWindowListener;
 import propra22.q8493367.controllers.MainWindowController;
 import propra22.q8493367.controllers.StatusBarController;
 import propra22.q8493367.entities.Diameter;
@@ -15,18 +18,15 @@ import propra22.q8493367.entities.Quadrangle;
 import propra22.q8493367.entities.QuadrangleSequence;
 import propra22.q8493367.entities.TangentPair;
 import propra22.q8493367.entities.Triangle;
-import propra22.q8493367.entities.TriangleCalculator;
+import propra22.q8493367.entities.DobkinTriangleCalculator;
 import propra22.q8493367.gui.DrawPanel;
+import propra22.q8493367.gui.DrawPanelListener;
 import propra22.q8493367.gui.FileManager;
 import propra22.q8493367.gui.GUISettings;
+import propra22.q8493367.gui.IDrawPanelListener;
 import propra22.q8493367.gui.MainWindow;
 import propra22.q8493367.gui.StatusBar;
 import propra22.q8493367.usecases.FileSettings;
-import propra22.q8493367.usecases.IFileManager;
-import propra22.q8493367.util.DrawPanelListener;
-import propra22.q8493367.util.IDrawPanelControllerObserver;
-import propra22.q8493367.util.IDrawPanelListener;
-import propra22.q8493367.util.IMainWindowListener;
 import propra22.q8493367.util.IParser;
 import propra22.q8493367.util.ParserFactory;
 import propra22.tester.Tester;
@@ -65,7 +65,7 @@ public class CHGO_8493367_Kuhn_Manuel {
 		Draw panel, draw panel listener and controller of the draw panel
 		*/
 		DiameterAndQuadrangleCalculator diameterAndQuadrangleCalculator = new DiameterAndQuadrangleCalculator(hull);
-		TriangleCalculator triangleCalculator = new TriangleCalculator(hull);
+		DobkinTriangleCalculator triangleCalculator = new DobkinTriangleCalculator(hull);
 		DrawPanel drawPanel = new DrawPanel(pointSet, hull, diameter, quadrangle, triangle, tangentPair, quadrangleSequence);
 		DrawPanelController drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, triangle, 
 				tangentPair, quadrangleSequence, diameterAndQuadrangleCalculator, triangleCalculator,  drawPanel);

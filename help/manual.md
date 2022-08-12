@@ -17,7 +17,7 @@
 
 ## Allgemein
 Dieses Programm berechnet die konvexe Hülle einer Menge von Punkten. Punkte können aus einer Datei [geladen](#datei-öffnen) werden, durch eine [Zufallsfunktion](#zufallspunkte-einfügen) erzeugt, oder von Hand auf der grafischen Benutzeroberfläche [eingetragen](#punkt-einfügen) werden. Die Punktemenge bzw. die Funktionen zum [Bearbeiten der Punktmenge](#bearbeiten-der-punktmenge) und das [Einlesen von Dateien](#datei-öffnen) sind so ausgelegt, dass die Punktmenge immer nur aus Punkten mit verschiedenen Koordinaten bestehen kann. Punkte der Punktmenge haben also im beliebigen paarweisen Vergleich immer verschiedene Koordinaten.
-Neben der [konvexen Hülle](#konvexe-hülle) kann das Programm den [Durchmesser](#durchmesser), das [grösste Viereck](#grösstes-viereck) der Punktmenge und eine [Animation](#animation) von einem Tangentenpaar anzeigen.
+Neben der [konvexen Hülle](#konvexe-hülle) kann das Programm den [Durchmesser](#durchmesser), das [grösste Viereck](#grösstes-viereck) der Punktmenge, das [grösste Dreieck](#grösstes-dreieck) und eine [Animation](#animation) von einem Tangentenpaar anzeigen.
 Das Programm verfügt über eine [Undo-](#befehl-rückgängig-machen) und [Redo-Funktion](#rückgängig-gemachten-befehl-wiederherstellen).
 Die [grafische Benutzeroberfläche](#die-grafische-benutzeroberfläche) bietet die Möglichkeit, die Darstellung zu [zentrieren](#darstellung-zentrieren), zu [verschieben](#zeichenfläche-verschieben) und durch einen Zoom zu [vergrössern](#ausschnitt-der-zeichenfläche-vergössern-oder-verkleinern) bzw. zu [verkleinern](#ausschnitt-der-zeichenfläche-vergössern-oder-verkleinern).
 
@@ -39,16 +39,20 @@ Die Zeichenfläche stellt die Punktmenge, die konvexe Hülle, den Durchmesser un
 Punkte werden schwarz gefüllte Kreise dargestellt.
 
 ##### Konvexe Hülle
-Die Punkte der konvexen Hülle werden durch eine rote Linie verbunden. Die Konvexe Hülle kann auch nur aus einem Punkt oder einer Linie bestehen, falls die entsprechende Punktmenge nur aus einem bzw. aus zwei Punkten besteht.
+Die konvexe Hülle erschient als ein rotes, konvexes Polygon. Konkret werden zwei Punkte der konvexen Hülle durch eine rote Gerade verbunden und alle Punkte, die durch eine rote Gerade verbunden sind, gehören zur konvexen Hülle. Die Konvexe Hülle kann auch aus nur einem Punkt oder einer Geraden bestehen, falls die entsprechende Punktmenge nur aus einem bzw. aus zwei Punkten besteht.
 
 ##### Durchmesser
-Der Durchmesser wird durch eine blaue Linie angezeigt. Er kann auch nur als Punkt dargestellt werden, falls die Punktmenge nur einen Punkt enthält. Er fällt dann mit diesem Punkt zusammen und ist nicht sichtbar.
+Der Durchmesser wird durch eine blaue Gerade angezeigt. Er kann auch nur als Punkt dargestellt werden, falls die Punktmenge nur einen Punkt enthält. Er fällt dann mit diesem Punkt zusammen und ist nicht sichtbar.
 
 ##### Grösstes Viereck
-Das grösste Viereck wird in einem matten grün dargestellt. Es kann auch nur als Punkt dargestellt werden, falls alle vier Punkte des Vierecks die gleichen Koordinaten haben. Dieser Fall tritt ein, falls die Punkmenge nur einen Punkt enthält. Das Viereck fällt dann mit diesem Punkt zusammen und ist nicht sichtbar. Es kann als Line dargestellt sein, falls jeweils zwei verschiedene Paare von Punkten die gleichen Koordinaten haben und es kann als Dreieck erscheinen, falls genau ein paar von Punkten des Vierecks die gleichen Koordinaten besitzt.
+Das grösste Viereck wird in einem matten grün dargestellt. Es kann auch nur als Punkt dargestellt werden, falls alle vier Punkte des Vierecks die gleichen Koordinaten haben. Dieser Fall tritt ein, falls die Punkmenge nur einen Punkt enthält. Das Viereck fällt dann mit diesem Punkt zusammen und ist nicht sichtbar. Es kann als Gerade dargestellt sein, falls jeweils zwei verschiedene Paare von Punkten die gleichen Koordinaten haben und es kann als Dreieck erscheinen, falls genau ein paar von Punkten des Vierecks die gleichen Koordinaten besitzt.
+
+##### Grösstes Dreieck
+Das grösste Dreieck wird in einem hellen blau dargestellt. Wie beim grössten Viereck kann es auch aus einem Punkt bestehen, falls alle drei Punkte die gleichen Koordinaten haben. Es kann aus einer Geraden bestehen, falls genau zwei Punkte die gleichen Koordinaten haben.
+![Grösstes Dreieck](images/GUI_with_biggest_triangle.png)
 
 ##### Animation
-Während die Animation läuft, werden die beiden Punkte des Antipodenpaares durch eine schwarze Linie verbunden. Die an den Punkten des Antipodenpaares anliegenden Tangenten werden schwarz dargestellt. Das zum jeweiligen Antipodenpaar gehörende grösste Viereck wird in einem kräftigen grün eingezeichnet.
+Während die Animation läuft, werden die beiden Punkte des Antipodenpaares durch eine schwarze Gerade verbunden. Die an den Punkten des Antipodenpaares anliegenden Tangenten werden schwarz dargestellt. Das zum jeweiligen Antipodenpaar gehörende grösste Viereck wird in einem kräftigen grün eingezeichnet.
 ![Animation](images/GUI_with_animation.png)
 
 &nbsp;
@@ -138,7 +142,7 @@ Wählen Sie *Ansicht* -> *Zentrieren*. Die Darstellung wird nur zentriert, falls
 #### Das Hilfe-Menü
 
 ##### Anzeigen der Bedienungsanleitung
-Wählen *Hilfe* → *Anleitung*. Die Bedienungsanleitung wird im Webbrowser angezeigt.
+Wählen Sie *Hilfe* → *Anleitung*. Die Bedienungsanleitung wird im Webbrowser angezeigt.
 
 &nbsp;
 &nbsp;

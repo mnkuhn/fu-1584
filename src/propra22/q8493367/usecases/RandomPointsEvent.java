@@ -1,6 +1,4 @@
-package propra22.q8493367.util;
-
-
+package propra22.q8493367.usecases;
 
 /**
  * The Class RandomPointsEvent is used 

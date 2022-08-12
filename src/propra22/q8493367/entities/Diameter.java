@@ -1,7 +1,8 @@
 package propra22.q8493367.entities;
 
 /**
- * The Class Diameter represents the diameter of the convex hull.
+ * The Class Diameter represents the diameter of the convex hull
+ * which is a pair of the two points of the hull with maximum distance.
  */
 public class Diameter {
 	
@@ -34,7 +35,7 @@ public class Diameter {
 	
 	
 	/**
-	 * Gets the first point of the diameter.
+	 * Returns the first point of the diameter.
 	 *
 	 * @return the point A
 	 */
@@ -43,7 +44,7 @@ public class Diameter {
 	}
 	
 	/**
-	 * Gets the second point of the diameter.
+	 * Returns the second point of the diameter.
 	 *
 	 * @return the point b
 	 */

@@ -74,9 +74,9 @@ public class TangentPair {
 	
 	
 	/**
-	 * Returns true, if for the next angle for both tangents all points of the convex hull except the 
-	 * tangential points lie on the same side of the respective tangent. Returns false 
-	 * otherwise.
+	 * Returns true, if for the next angle the tangent characteristics of
+	 * both tangents are ensured. Returns false otherwise. Returns false
+	 * if there is at least one tangent that 'cuts' the convex hull.
 	 *
 	 * @return true, if for the next angle the tangent characteristics of both tangents are ensured.
 	 * Returns false otherwise.
@@ -90,8 +90,8 @@ public class TangentPair {
 	 * Finds the antipodal pair for a given angle.
 	 */
 	public void fitToAngle() {
-		/*If diameter it not zero, it might be necessary to calulcate a new antipodal pair
-		 * given by the points A and C of one of the quadrangles of the quadrangle sequence.
+		/* If diameter it not zero, it is necessary to calulcate a new antipodal pair
+		 * given by the points A and C of of the quadrangles of the quadrangle sequence.
 		 * If diameter is zero, there is only one point, so there is no need for searching.
 		 */
 		if(!quadrangleSequence.longestDiameterIsZero()) {
@@ -102,9 +102,9 @@ public class TangentPair {
 	}
 	
 	/**
-	 * Returns true, if for the next angle for both tangents all points of the convex hull 
-	 * except the tangential points lie on the same side of the respective tangent.
-	 * Returns false otherwise.
+	 * Returns true, if for the current angle the tangent characteristics of
+	 * both tangents are ensured. Returns false if there is at least one tangent 
+	 * that 'cuts' the convex hull.
 	 *
 	 * @return true, if the tangent characteristics of both tangents ensured. False otherwise.
 	 */
@@ -114,6 +114,9 @@ public class TangentPair {
 	
 	/**
 	 * Calculates the smallest angle for a given antipodal pair for the tangent pair.
+	 * This means, at least one tangent touches two points of the convex hull: the contact 
+	 * point and the point which follows the contact point in the hull in clockwise direction. 
+	 * This follows from the fact, that the tangents turn counterclockwise.
 	 *
 	 * @return the angle in radians
 	 */
@@ -126,7 +129,7 @@ public class TangentPair {
 
 
 	/**
-	 * Gets the first tangent.
+	 * Returns the first tangent.
 	 *
 	 * @return Array of the two end points (index 0 and 2) and the contact point 
 	 * (index 1) of the tangent.
@@ -137,7 +140,7 @@ public class TangentPair {
 	}
 	
 	/**
-	 * Gets the second tangent.
+	 * Returns the second tangent.
 	 *
 	 * @return Array of the two end points (index 0 and 2) and the contact point 
 	 * (index 1) of the tangent.
@@ -149,7 +152,7 @@ public class TangentPair {
 	
 	
 	/**
-	 * Gets the number of antipodal pairs with distinguishable end points.
+	 * Returns the number of antipodal pairs with distinguishable end points.
 	 *
 	 * @return the number of antipodal pairs with distinguishable end points.
 	 */
@@ -176,14 +179,15 @@ public class TangentPair {
      */
 	private class Tangent{
 		/**
-		 * This index represents the index of the point of the convex hull, 
-		 * which is the point of contact.
+		 * Used for identifying the contact point A
+		 * or C, because the tangents has to 'know'
+		 * which quadrangle point is its contact point.
 		 */
 		QuadranglePoint quadranglePoint;
         
 		/**
-		 * The angleOffset is added to the angle. In our case this is PI, 
-		 * so it is guaranteed that both tangents of the tangent pair are parallel.
+		 * The angleOffset is added to the angle. In our case this is PI. 
+		 * So it is guaranteed that both tangents of the tangent pair are parallel.
 		 */
 		private double angleOffset;
 		
@@ -236,10 +240,10 @@ public class TangentPair {
 		
 		
         /**
-         * Returns true if the characteristic of a tangent is maintained. 
-         * That is, one or two points lie on the tangent and all other points, 
-         * if they exist, lie on exactly one side of the tangent.
-         * 
+         * Returns true if for the next angle (angle + delta)
+         * the characteristic of a tangent is maintained. Returns
+         * false if the tangent 'cuts' the convex hull.
+         *
          * @return True, if the next angle is still maintaining the 
          * characteristic of the tangent described above.
          * False otherwise.
@@ -259,10 +263,12 @@ public class TangentPair {
 		}
 		
 		/**
-		 * Returns true, if the current angle is valid for 
-		 * the given contact point.
+		 * Returns true, if for the current angle
+		 * the tangent maintains its tangent characteristics.
+		 * Returns false, if the tangent 'cuts' the convex hull.
 		 *
-		 * @return true, if successful
+		 * @return true, if the tangent characteristic are kept. False 
+		 * otherwise.
 		 */
 		private boolean angleIsValid() {
 			Point contact = getContactPoint();
@@ -302,25 +308,11 @@ public class TangentPair {
 		public Point getNextHullPoint() {
 			return quadrangleSequence.getHullPointAfter(quadranglePoint);
 		}
-		
-		
-
-	
-		/**
-		 * Gets the length of the tangent
-		 *
-		 * @return the length of the tangent
-		 */
-		
-		@SuppressWarnings("unused")
-		public double getLength() {
-			return length;
-		}
 
 		
 		/**
 		 * Gets end point A of the tangent for the current angle.
-		 * @return end point a of the tangent
+		 * @return end point A
 		 */
 		public Point getA() {
 			int x = (int)Math.round(getContactPoint().getX() - length/2 * Math.sin(angle + angleOffset));
@@ -329,10 +321,10 @@ public class TangentPair {
 		}
 		
 		/**
-		 * Gets end point A of the tangent for angle + delta.
+		 * Returns end point A of the tangent for the next angle (angle + delta).
 		 *
 		 * @param delta the delta, by which the angle is increased.
-		 * @return One end of the tangent
+		 * @return the end point A
 		 */
 		@SuppressWarnings("unused")
 		private Point getNextA(double delta) {
@@ -342,8 +334,8 @@ public class TangentPair {
 		}
 		
 		/**
-		 * Gets end point B of the tangent for the current angle.
-		 * @return One end of the tangent
+		 * Returns end point B of the tangent for the current angle.
+		 * @return the end point B
 		 */
 		public Point getB() {
 		
@@ -353,9 +345,9 @@ public class TangentPair {
 		}
 		
 		/**
-		 * Gets end point B of the tangent for angle + delta.
+		 * Returns end point B of the tangent for the next angle (angle + delta).
 		 *
-		 * @return One end of the tangent
+		 * @return the end point B
 		 */
 		private Point getNextB() {
 			

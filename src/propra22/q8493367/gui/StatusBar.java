@@ -11,15 +11,16 @@ import propra22.q8493367.controllers.IStatusBar;
 
 
 /**
- * The Class StatusBar is a JPanel on which the current number of
+ * The Class StatusBar displays the current number of
  * points in the point set, the current position of the mouse pointer
- * over the draw panel and the coordinates of the selected point
- * can be displayed.
+ * over the draw panel and the coordinates of the selected point.
  */
 public class StatusBar extends JPanel implements IStatusBar{
     
 	
-	/** The Constant serialVersionUID. */
+	/** The Constant serialVersionUID for version check in case of
+	 * transmitting a serialized object.
+	 */
 	private static final long serialVersionUID = 1L;
 	
 	/**  The label which displays the number of points in the point set. */
@@ -84,7 +85,7 @@ public class StatusBar extends JPanel implements IStatusBar{
 	/**
 	 * {@inheritDoc}
 	 * The mouse pointer coordinates refer to the coordinate system
-	 * of  the model.
+	 * of the model.
 	 */
 	@Override
 	public void setMouseCoordinates(String x, String y) {

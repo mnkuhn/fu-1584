@@ -4,10 +4,11 @@ package propra22.q8493367.entities;
 
 /**
  * The Class TriangleCalculator calculates
- * the biggest triangle from a convex hull.
- * It implements the algorithm from Dobkin.
+ * the biggest triangle of a convex hull.
+ * It implements the algorithm of Dobkin and Snyder.
+ * 
  */
-public class TriangleCalculator {
+public class DobkinTriangleCalculator implements ITriangleCalculator {
 	
 
 
@@ -19,17 +20,12 @@ public class TriangleCalculator {
 	 *
 	 * @param convexHull the convex hull
 	 */
-	public TriangleCalculator(IHull convexHull) {
+	public DobkinTriangleCalculator(IHull convexHull) {
 		this.convexHull = convexHull;
 	}
 	
-	/**
-	 * Calculates the biggest triangle of the 
-	 * convex hull.
-	 *
-	 * @param triangle the triangle whose attributes are
-	 * set to those of the biggest triangle.
-	 */
+	
+	@Override
 	public void calculate(Triangle triangle) {
 		
 		IHullIterator aIt = convexHull.leftIterator();
@@ -54,8 +50,8 @@ public class TriangleCalculator {
 		
 		Point r = aIt.getPoint();
 		do {
-			while(nextCTriangle.doubleArea() >= baseTriangle.doubleArea() || nextBTriangle.doubleArea() >= baseTriangle.doubleArea()) {
-				if(nextCTriangle.doubleArea() >= baseTriangle.doubleArea()) {
+			while(nextCTriangle.area() >= baseTriangle.area() || nextBTriangle.area() >= baseTriangle.area()) {
+				if(nextCTriangle.area() > baseTriangle.area()) {
 					cIt.next();
 					setC(cIt, baseTriangle, nextBTriangle, nextCTriangle);
 				}
@@ -64,17 +60,19 @@ public class TriangleCalculator {
 					setB(bIt, baseTriangle, nextBTriangle, nextCTriangle);
 				}
 			}
-			if(baseTriangle.doubleArea() > biggestTriangle.doubleArea()) {
+			if(baseTriangle.area() >= biggestTriangle.area()) {
 				biggestTriangle.copy(baseTriangle);
 			}
 			
 			aIt.next();
+			
 			if(bIt.getPoint() == aIt.getPoint()) {
 				bIt.next();
 			}
 			if(cIt.getPoint() == bIt.getPoint()) {
 				cIt.next();
 			}
+			
 			setA(aIt, baseTriangle, nextBTriangle, nextCTriangle);
 			setB(bIt, baseTriangle, nextBTriangle, nextCTriangle);
 			setC(cIt, baseTriangle, nextBTriangle, nextCTriangle);
@@ -83,8 +81,9 @@ public class TriangleCalculator {
 		
 		triangle.copy(biggestTriangle);		
 	}
-	
-	/**
+
+
+/**
 	 * Sets the the point A of the base triangle
 	 * the next B triangle and the next C triangle.
 	 *
@@ -128,4 +127,6 @@ public class TriangleCalculator {
 		nextBTriangle.setC(cIt.getPoint());
 		nextCTriangle.setC(cIt.getNextPoint());
 	}
+	
 }
+

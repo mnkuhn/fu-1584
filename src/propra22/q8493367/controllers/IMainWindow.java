@@ -1,7 +1,5 @@
 package propra22.q8493367.controllers;
 
-import propra22.q8493367.util.IMainWindowListener;
-
 /**
  * The interface for a main window. It provides methods 
  * for setting the main window listener and for enabling or 
@@ -44,7 +42,7 @@ public interface IMainWindow {
 	/**
 	 * Shows the operational manual.
 	 *
-	 * @param path the file path to the operational manual.
+	 * @param path the file path of the operational manual.
 	 */
 	void showManual(String path);
 	

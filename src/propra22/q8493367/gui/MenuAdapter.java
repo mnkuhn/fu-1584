@@ -1,4 +1,4 @@
-package propra22.q8493367.util;
+package propra22.q8493367.gui;
 
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;

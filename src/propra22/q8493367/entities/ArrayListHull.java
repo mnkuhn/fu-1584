@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * The Class Hull represents a contour polygon or a convex hull.
+ * The underlying data structure is an array list of points.
  */
 public class ArrayListHull extends ListHull {
 	
@@ -74,8 +75,8 @@ public class ArrayListHull extends ListHull {
 
 	/**
 	 * An iterator for the hull, which allows the programmer to traverse the points of the 
-	 * hull in both directions. In this application a hull is either the contour polygon
-	 * or the convex hull.
+	 * hull in both directions. The hull can not be modified with this iterator,
+	 * it is for reading only.
 	 */
 	private class HullIterator implements IHullIterator {
 		
@@ -129,7 +130,8 @@ public class ArrayListHull extends ListHull {
 		}
 
 		/**
-		 * Gets the next point with respect to the current iterator position.
+		 * Returns the next point with respect to the current iterator position,
+		 * moving clockwise in standard cartesian coordinate system.
 		 *
 		 * @return the next point
 		 */
@@ -151,7 +153,8 @@ public class ArrayListHull extends ListHull {
 		}
 		
 		/**
-		 * Gets the previous point with respect to the current iterator position.
+		 * Gets the previous point with respect to the current iterator position,
+		 * moving counterclockwise in a standard cartesian coordinate system.
 		 *
 		 * @return the previous point
 		 */
@@ -173,8 +176,9 @@ public class ArrayListHull extends ListHull {
 		}
 
 		/**
-		 * Moves the iterator to the next point, moving clockwise in a
-		 * cartesian coordinate system.
+		 * Moves the iterator to the next point moving clockwise 
+		 * in a standard cartesian coordinate system.
+		 * 
 		 */
 		@Override
 		public void next() {
@@ -193,7 +197,8 @@ public class ArrayListHull extends ListHull {
 		/**
 		 * Calculates the next temporary index and the next 
 		 * temporary contour type for a movement in clockwise 
-		 * direction. It has to be checked, if this new temporary iterator
+		 * direction in a standard cartesian coordinate system. 
+		 * It has to be checked, if this new temporary iterator
 		 * position references a new point.
 		 */
 		private void goNext(){
@@ -240,7 +245,7 @@ public class ArrayListHull extends ListHull {
 		
 		/**
 		 * Moves the iterator to the previous point, moving counterclockwise in a
-		 * cartesian coordinate system.
+		 * standard cartesian coordinate system.
 		 */
 		@Override
 		public void previous() {
@@ -259,7 +264,8 @@ public class ArrayListHull extends ListHull {
 		/**
 		 * Calculates the next temporary index and the next 
 		 * temporary contour type for a movement in counterclockwise 
-		 * direction. It has to be checked, if this new temporary iterator
+		 * direction in a standard cartesian coordinate system. 
+		 * It has to be checked, if this new temporary iterator
 		 * position references a new point.
 		 */
 		private void goPrevious() {

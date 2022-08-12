@@ -1,6 +1,6 @@
-package propra22.q8493367.util;
+package propra22.q8493367.usecases;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Enum FileEventType specifies the 
  * type of a file event.

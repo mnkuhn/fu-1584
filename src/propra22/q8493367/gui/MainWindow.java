@@ -21,20 +21,20 @@ import javax.swing.event.MenuEvent;
 
 import propra22.q8493367.controllers.IDrawPanel;
 import propra22.q8493367.controllers.IMainWindow;
+import propra22.q8493367.controllers.IMainWindowListener;
 import propra22.q8493367.entities.Point;
-import propra22.q8493367.util.CommandEvent;
-import propra22.q8493367.util.CommandEventType;
-import propra22.q8493367.util.FileEvent;
-import propra22.q8493367.util.FileEventType;
-import propra22.q8493367.util.IMainWindowListener;
-import propra22.q8493367.util.MenuAdapter;
-import propra22.q8493367.util.RandomPointsEvent;
-import propra22.q8493367.util.RandomPointsEventType;
-import propra22.q8493367.util.ViewEvent;
+import propra22.q8493367.usecases.CommandEvent;
+import propra22.q8493367.usecases.CommandEventType;
+import propra22.q8493367.usecases.FileEvent;
+import propra22.q8493367.usecases.FileEventType;
+import propra22.q8493367.usecases.RandomPointsEvent;
+import propra22.q8493367.usecases.RandomPointsEventType;
+import propra22.q8493367.usecases.ViewEvent;
 
 /**
  * The Class MainWindow represents the main window of the 
- * application.
+ * application. It surrounds the draw panel and the status bar
+ * and provides a menu bar for interaction with the user.
  */
 public class MainWindow extends JFrame implements IMainWindow {
 	

@@ -4,19 +4,23 @@ package propra22.q8493367.entities;
 
 /**
  * The Class Point represents a point in a cartesian 
- * coordinate system. It implements the interface Comparable &lt; T &gt;
+ * coordinate system. It implements the interface Comparable &lt; Point &gt;
  * so we can construct a lexicographic order over a set
  * of points.
  */
 public class Point implements Comparable<Point> {
 
-	/**  The x coordinate of the point. */
+	/**  The x coordinate of the point in the coordinate 
+	 * system of the model. 
+	 */
 	private int x;
 	
-	/**  The y coordinate of the point. */
+	/**  The y coordinate of the point in the coordinate 
+	 * system of the model. 
+	 */
 	private int y;
 	
-	/**   True, if this point is selected, false otherwise. */
+	/** True, if this point is selected, false otherwise. */
 	private boolean selected;
 	
 	/**
@@ -64,7 +68,7 @@ public class Point implements Comparable<Point> {
 	
     
 	/**
-	 * Implements the compareTo method of the Comparable &lt; T &gt;
+	 * Implements the compareTo method of the Comparable &lt; Point &gt;
 	 * interface. In this application, a lexicographical order 
 	 * is implemented.
 	 *
@@ -113,10 +117,10 @@ public class Point implements Comparable<Point> {
 	
 	/**
 	 * Returns the signed area multiplied by 2 of the triangle created by the three points a, b and c.
-	 * If, in a cartesian coordinate system, c is on the left side of the line going through a and b
-	 * the sign is negative.
-	 * If c is on the right side of the line going throug a and b, the sign is positive.
-	 * If c is on the line going through a and b, the result is 0.
+	 * If, in a standard cartesian coordinate system, c is on the left side of the tip of 
+	 * the vector ab the sign is negative.
+	 * If c is on the right side of the tip of the vector ab, the sign is positive.
+	 * If c is on the line going through the vector ab, the result is 0.
 	 *
 	 * @param a the point a
 	 * @param b the point b
@@ -203,7 +207,7 @@ public class Point implements Comparable<Point> {
 	
 	
 	/**
-	 * Angle comparison test. 
+	 * The method for the Angle Comparison test. 
 	 *
 	 * @param a the point a
 	 * @param afterA the point following a in the convex hull
@@ -232,7 +236,7 @@ public class Point implements Comparable<Point> {
 	/**
 	 * Checks if this point is selected.
 	 *
-	 * @return true, if is selected, false otherwise
+	 * @return true, if this point is selected, false otherwise
 	 */
 	public boolean isSelected() {
 		return selected;

@@ -1,7 +1,10 @@
 package propra22.q8493367.entities;
 
 /**
- * The Class Quadrangle represents a quadrangle.
+ * The Class Quadrangle represents a quadrangle. It provides getters and
+ * setters for the four points of the quadrangle and a method
+ * which returns twice the area of the quadrangel. This method is 
+ * only used for comparison purposes.
  */
 public class Quadrangle {
      
@@ -116,9 +119,9 @@ public class Quadrangle {
 	public void setD(Point d) {this.d = d;}
 	
 	/**
-	 * Returns the area of the quadrangle.
+	 * Returns two times the area of the quadrangle.
 	 *
-	 * @return the area of the quadrangle
+	 * @return two times the area of the quadrangle
 	 */
 	public long area() {
 		if(a != null && b != null && c != null && d != null) {
@@ -130,11 +133,11 @@ public class Quadrangle {
 	}
 	
 	/**
-	 * Returns the point set as an n X 2 array, where n is the number of points.
-	 * array[i][0] is the x coordinate of point i, array[i][1] is the y
-	 * coordinate of point i. 
+	 * Returns the quadrangle as a 4 X 2 array.
+	 * The inner array contains the x and the y coordinate of a point.
 	 *
-	 * @return the int[][]
+	 * @return the array of integers, containing the 
+	 * coordinates of the points of the quadrangle.
 	 */
 	public int [][] asArray(){
 		int[][] quadrangleAsArray = new int[4][2];

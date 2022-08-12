@@ -1,6 +1,8 @@
-package propra22.q8493367.util;
+package propra22.q8493367.gui;
 
 import propra22.q8493367.controllers.IDrawPanelController;
+import propra22.q8493367.usecases.DrawPanelEvent;
+import propra22.q8493367.usecases.DrawPanelEventType;
 
 
 

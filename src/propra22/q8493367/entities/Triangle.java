@@ -4,7 +4,10 @@ package propra22.q8493367.entities;
 
 
 /**
- * The Class Triangle represents a triangle.
+ * The Class Triangle represents a triangle. Among other methods it provides 
+ * getters and setters for the three triangle points A, B and C and a method
+ * which returns twice the area of the triangle. This method is only used for
+ * comparison purposes.
  */
 public class Triangle {
 	
@@ -108,11 +111,11 @@ public class Triangle {
 	}
 	
 	/**
-	 * Returns the twice the area of the triangle.
+	 * Returns twice the area of the triangle.
 	 *
-	 * @return the twice the area of the triangle
+	 * @return twice the area of the triangle
 	 */
-	public long doubleArea() {
+	public long area() {
 		return Math.abs(Point.signedTriangleArea(a, b, c));
 	}
 	

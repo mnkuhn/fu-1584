@@ -1,4 +1,9 @@
-package propra22.q8493367.util;
+package propra22.q8493367.controllers;
+
+import propra22.q8493367.usecases.CommandEvent;
+import propra22.q8493367.usecases.FileEvent;
+import propra22.q8493367.usecases.RandomPointsEvent;
+import propra22.q8493367.usecases.ViewEvent;
 
 /**
  * The listener for receiving main window events. It receives all the events generated
@@ -26,8 +31,8 @@ public interface IMainWindowListener {
 	
 	/**
 	 * This method checks, if there are commands that can 
-	 * be undone or redone. It activates the corresponding
-	 * menu items.
+	 * be undone or redone. It activates or deactivates 
+	 * the corresponding menu items.
 	 */
 	void editEventOccured();
 	

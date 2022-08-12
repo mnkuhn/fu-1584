@@ -1,4 +1,4 @@
-package propra22.q8493367.entities;
+package propra22.q8493367.util;
 
 
 /**

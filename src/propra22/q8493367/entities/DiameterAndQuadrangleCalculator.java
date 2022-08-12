@@ -3,8 +3,8 @@ package propra22.q8493367.entities;
 /**
  * The Class DiameterAndQuadrangleCalculator provides a calculator, which takes
  * a convex hull as an argument and calculates the longest diameter
- * and the quadrangle with maximum area. It also provides a sequence of quadrangles, which is 
- * used by the animation.
+ * and the quadrangle with maximum area. It also calculates a sequence of 
+ * quadrangles, which is used by the animation.
  */
 public class DiameterAndQuadrangleCalculator  {
 
