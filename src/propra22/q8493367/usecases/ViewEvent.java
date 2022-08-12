@@ -3,7 +3,7 @@ package propra22.q8493367.usecases;
 
 /**
  * An event indicating that the user has made a selection of
- * shapes to display.
+ * shapes for display.
  */
 public class ViewEvent  {
     
