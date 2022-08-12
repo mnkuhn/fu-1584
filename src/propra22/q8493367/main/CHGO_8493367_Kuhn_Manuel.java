@@ -13,6 +13,7 @@ import propra22.q8493367.entities.Diameter;
 import propra22.q8493367.entities.DiameterAndQuadrangleCalculator;
 import propra22.q8493367.entities.ArrayListHull;
 import propra22.q8493367.entities.IHull;
+import propra22.q8493367.entities.ITriangleCalculator;
 import propra22.q8493367.entities.PointSet;
 import propra22.q8493367.entities.Quadrangle;
 import propra22.q8493367.entities.QuadrangleSequence;
@@ -47,7 +48,7 @@ public class CHGO_8493367_Kuhn_Manuel {
 	 *  */
 	public static final boolean showConsoleOutput = false;
 	/**
-	 * Creates the and shows the GUI.
+	 * Creates the entities and calculators, GUI elements and their controllers.
 	 */
 	private static void createAndShowGUI() {
 		
@@ -65,7 +66,7 @@ public class CHGO_8493367_Kuhn_Manuel {
 		Draw panel, draw panel listener and controller of the draw panel
 		*/
 		DiameterAndQuadrangleCalculator diameterAndQuadrangleCalculator = new DiameterAndQuadrangleCalculator(hull);
-		DobkinTriangleCalculator triangleCalculator = new DobkinTriangleCalculator(hull);
+		ITriangleCalculator triangleCalculator = new DobkinTriangleCalculator(hull);
 		DrawPanel drawPanel = new DrawPanel(pointSet, hull, diameter, quadrangle, triangle, tangentPair, quadrangleSequence);
 		DrawPanelController drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, triangle, 
 				tangentPair, quadrangleSequence, diameterAndQuadrangleCalculator, triangleCalculator,  drawPanel);
@@ -87,9 +88,7 @@ public class CHGO_8493367_Kuhn_Manuel {
 		IMainWindowListener mainWindowController = new MainWindowController(drawPanelController, mainWindow, fileManager);
 		mainWindow.setMainWindowListener(mainWindowController);
 		mainWindow.setVisible(true);
-		
-		
-		
+	
 	}
 	
 	/**

@@ -9,6 +9,7 @@ import propra22.q8493367.entities.Diameter;
 import propra22.q8493367.entities.DiameterAndQuadrangleCalculator;
 import propra22.q8493367.entities.ArrayListHull;
 import propra22.q8493367.entities.IHull;
+import propra22.q8493367.entities.ITriangleCalculator;
 import propra22.q8493367.entities.PointSet;
 import propra22.q8493367.entities.Quadrangle;
 import propra22.q8493367.entities.QuadrangleSequence;
@@ -52,7 +53,10 @@ public class HullCalculator implements IHullCalculator{
 	private QuadrangleSequence quadrangleSequence;
 	
 	/**
-	 * Instantiates a new hull calculator.
+	 * Instantiates a new hull calculator by creating the entities and 
+	 * caclulators. The draw panel controller has a specific role because
+	 * it only coordinates the calculations. It does not handle any events
+	 * from the draw panel since the draw panel is null internally.
 	 */
 	public HullCalculator() {
 		this.pointSet = new PointSet();
@@ -63,7 +67,7 @@ public class HullCalculator implements IHullCalculator{
 		this.triangle = new Triangle();
 	    
 		DiameterAndQuadrangleCalculator diameterAndQuadrangleCalculator = new DiameterAndQuadrangleCalculator(hull);
-		DobkinTriangleCalculator triangleCalculator = new DobkinTriangleCalculator(hull);
+		ITriangleCalculator triangleCalculator = new DobkinTriangleCalculator(hull);
 		this.drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, triangle, 
 				quadrangleSequence, diameterAndQuadrangleCalculator, triangleCalculator);
 		IParser parser = new ParserFactory().getParser(FileSettings.defaultParserName);
@@ -71,7 +75,7 @@ public class HullCalculator implements IHullCalculator{
 	}
 	
 	/**
-	 * Add a point to the point set.
+	 * Adds a point to the point set.
 	 * @param arg0 the x coordinate of the point
 	 * @param arg1 the y coordinate of the point
 	 */

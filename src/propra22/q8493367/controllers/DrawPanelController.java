@@ -8,6 +8,7 @@ import java.util.Random;
 import propra22.q8493367.entities.Diameter;
 import propra22.q8493367.entities.DiameterAndQuadrangleCalculator;
 import propra22.q8493367.entities.IHull;
+import propra22.q8493367.entities.ITriangleCalculator;
 import propra22.q8493367.entities.Point;
 import propra22.q8493367.entities.PointSet;
 import propra22.q8493367.entities.Quadrangle;
@@ -67,7 +68,7 @@ public class DrawPanelController implements IDrawPanelController {
 	private DiameterAndQuadrangleCalculator diameterAndQuadrangleCalulator;
 	
 	/** The calculator for the biggest triangle */
-	private DobkinTriangleCalculator triangleCalculator;
+	private ITriangleCalculator triangleCalculator;
 
 	
 	
@@ -144,7 +145,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	public DrawPanelController(PointSet pointSet, IHull convexHull, Diameter diameter, Quadrangle quadrangle, Triangle triangle,
 			TangentPair tangentPair, QuadrangleSequence quadrangleSequence, DiameterAndQuadrangleCalculator diameterAndQuadrangleCalculator, 
-			DobkinTriangleCalculator triangleCalculator, DrawPanel view) {
+			ITriangleCalculator triangleCalculator, DrawPanel view) {
 		this.pointSet = pointSet;
 		this.hull = convexHull;
 		this.diameter = diameter;
@@ -177,7 +178,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	public DrawPanelController(PointSet pointSet, IHull hull, Diameter diameter, Quadrangle quadrangle, Triangle triangle,
 			QuadrangleSequence quadrangleSequence, DiameterAndQuadrangleCalculator diameterAndQuadrangleCalculator, 
-			DobkinTriangleCalculator triangleCalculator) {
+			ITriangleCalculator triangleCalculator) {
 
 		this.pointSet = pointSet;
 		this.hull = hull;

@@ -92,7 +92,8 @@ public class DobkinTriangleCalculator implements ITriangleCalculator {
 	 * @param nextBTriangle the next B triangle
 	 * @param nextCTriangle the next C triangle
 	 */
-	private void setA(IHullIterator aIt, Triangle baseTriangle, Triangle nextBTriangle, Triangle nextCTriangle) {
+	private void setA(IHullIterator aIt, Triangle baseTriangle, 
+			Triangle nextBTriangle, Triangle nextCTriangle) {
 		baseTriangle.setA(aIt.getPoint());
 		nextBTriangle.setA(aIt.getPoint());
 		nextCTriangle.setA(aIt.getPoint());
@@ -107,7 +108,8 @@ public class DobkinTriangleCalculator implements ITriangleCalculator {
 	 * @param nextBTriangle the next B triangle
 	 * @param nextCTriangle the next C triangle
 	 */
-	private void setB(IHullIterator bIt, Triangle baseTriangle, Triangle nextBTriangle, Triangle nextCTriangle) {
+	private void setB(IHullIterator bIt, Triangle baseTriangle, 
+			Triangle nextBTriangle, Triangle nextCTriangle) {
 		baseTriangle.setB(bIt.getPoint());
 		nextBTriangle.setB(bIt.getNextPoint());
 		nextCTriangle.setB(bIt.getPoint());
@@ -122,7 +124,8 @@ public class DobkinTriangleCalculator implements ITriangleCalculator {
 	 * @param nextBTriangle the next B triangle
 	 * @param nextCTriangle the next C triangle
 	 */
-	private void setC(IHullIterator cIt, Triangle baseTriangle, Triangle nextBTriangle, Triangle nextCTriangle) {
+	private void setC(IHullIterator cIt, Triangle baseTriangle, 
+			Triangle nextBTriangle, Triangle nextCTriangle) {
 		baseTriangle.setC(cIt.getPoint());
 		nextBTriangle.setC(cIt.getPoint());
 		nextCTriangle.setC(cIt.getNextPoint());
