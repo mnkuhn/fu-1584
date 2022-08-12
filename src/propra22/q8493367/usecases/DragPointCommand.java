@@ -23,7 +23,7 @@ public class DragPointCommand implements ICommand {
 	/** The y coordinate after dragging minus the y coordinate before dragging */
 	private int dy;
 	
-	/** Point which is dragged */
+	/** The point which is dragged */
 	private Point draggedPoint;
 	
 	
@@ -62,7 +62,7 @@ public class DragPointCommand implements ICommand {
 	
 	
 	/**
-	 * Execute the command.
+	 * Executes the command.
 	 */
 	@Override
 	public void execute() {
@@ -75,7 +75,7 @@ public class DragPointCommand implements ICommand {
 	}
 
 	/**
-	 * Unexecute the command
+	 * Unexecutes the command
 	 */
 	@Override
 	public void unexecute() {

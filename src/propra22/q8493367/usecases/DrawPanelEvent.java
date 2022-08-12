@@ -12,14 +12,14 @@ public class DrawPanelEvent {
 	/** The source of the draw panel event. */
     private Object source;
 	
-	/** The x coordinate of the mouse pointer in the model coordinate system. */
+	/** The x coordinate of the mouse pointer in the coordinate system of the model. */
 	private int mouseX;
 	
-	/**  The y coordinate of the mouse pointer in the model coordinate system.. */
+	/**  The y coordinate of the mouse pointer in the coordinate system of the model. */
 	private int mouseY;
 	 
 	
-	/** The total scale which is the product of the the panel scale. Theses are 
+	/** The total scale which is the product of the scale and the panel scale. Theses are 
 	 * attributes of the draw panel. They are needed to calculate distances in
 	 * the coordinate system of the model.
 	 */
@@ -64,18 +64,18 @@ public class DrawPanelEvent {
 	}
 
 	/**
-	 * Returns the x coordinate of the mouse.
+	 * Returns the x coordinate of the mouse pointer in the model coordinate system.
 	 *
-	 * @return the x coordinate of the mouse
+	 * @return the x coordinate of the mouse pointer in the model coordinate system.
 	 */
 	public int getMouseX() {
 		return mouseX;
 	}
 
 	/**
-	 * Returns the y coordinate of the mouse.
+	 * Returns the y coordinate of the mouse pointer in the model coordinate system.
 	 *
-	 * @return the y coordinate of the mouse
+	 * @return the y coordinate of the mouse pointer in the model coordinate system.
 	 */
 	public int getMouseY() {
 		return mouseY;
@@ -83,8 +83,9 @@ public class DrawPanelEvent {
      
 	/**
 	 * Returns the total scale which is the product of the scale
-	 * and the panel scale. It is are needed to calculate distances in the 
-	 * coordinate system of the model.
+	 * and the panel scale. This value is needed to transfer distances from
+	 * the coordinate system of the view into the coordinate system of the
+	 * model.
 	 *
 	 * @return the total scale
 	 */

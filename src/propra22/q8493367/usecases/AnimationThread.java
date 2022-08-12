@@ -19,10 +19,10 @@ public class AnimationThread extends Thread {
 	 */
 	private boolean isRunning = true;
 	
-	/** The tangent pair. */
+	/** The tangent pair of the animation. */
 	private TangentPair tangentPair;
 	
-	/** The view. */
+	/** The draw panel. */
 	private IDrawPanel view;
 	
 	/** The duration of the sleep

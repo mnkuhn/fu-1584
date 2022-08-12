@@ -63,7 +63,7 @@ public class CommandManager {
 	/**
 	 * Removes the all commands from the commands list whose index is greater 
 	 * than the command index. This method is used when one command or
-	 * more than one commands have been undone an a new command is executed.
+	 * more than one command have been undone an a new command is executed.
 	 */
 	private void removeAllComandsAfterCommandIndex() {
 		for (int i = commandList.size() - 1; i > commandIndex; i--) {

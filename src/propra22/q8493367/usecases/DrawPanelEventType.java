@@ -7,13 +7,13 @@ public enum DrawPanelEventType {
 		
 	/** Insert a point into the point set. */
 	INSERT_POINT, 
-	/** Delete a point. */
+	/** Delete a point from the point set. */
 	DELETE_POINT, 
 	/** Dragging a point is initialized. */
 	DRAG_POINT_INITIALIZED, 
-	/** The point is dragged. */
+	/** A point is dragged. */
 	DRAG_POINT, 
-	/** Dragging of the point has ended. */
+	/** Dragging of a point has ended. */
 	DRAG_POINT_ENDED, 
 	/** The panel is painted. */
 	PAINT, 
