@@ -60,7 +60,7 @@ Während die Animation läuft, werden die beiden Punkte des Antipodenpaares durc
 #### Bearbeiten der Punktmenge
 
 ##### Punkt einfügen
-Bewegen Sie den Mauszeiger auf der Zeichenfläche an die gewünschte Stelle. In der Statusleiste werden nach dem Label mit der Anschrift "Maus: " die Koordinaten des Mauszeigers angezeigt. Sie können den Bereich, in welchen Sie einen Punkt eintragen können, durch [Verschieben](#zeichenfläche-verschieben) oder [Zoomen](#ausschnitt-der-zeichenfläche-vergössern-oder-verkleinern) verändern. Um den Punkt einzutragen, drücken Sie die linke Maustaste.
+Bewegen Sie den Mauszeiger auf der Zeichenfläche an die gewünschte Stelle. In der Statusleiste werden nach dem Label mit der Anschrift "Maus: " die Koordinaten des Mauszeigers angezeigt. Sie können den Bereich, in welchen Sie einen Punkt eintragen können, durch [Verschieben](#zeichenfläche-verschieben) oder [Zoomen](#ausschnitt-der-zeichenfläche-vergrössern-oder-verkleinern) verändern. Um den Punkt einzutragen, drücken Sie die linke Maustaste.
 
 ##### Punkt löschen
 Wählen Sie den Punkt, indem Sie den Mauszeiger auf bzw. in die Nähe des zu löschenden Punktes bewegen. Sobald der Punkt gewählt ist, wird er von einem schwarzen Quadrat, welches den Punkt umgibt, markiert. Die Koordinaten des gewählten Punktes werden in der Statusleiste nach dem Label "Gewählter Punkt: " angezeigt. Drücken Sie nun die rechte Maustaste, um den Punkt zu löschen.
