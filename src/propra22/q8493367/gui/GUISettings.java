@@ -84,4 +84,13 @@ public class GUISettings {
 	 *  Top, left, bottom and right have this one margin.
 	 */
 	public static final int margin = 2 * GUISettings.radius;
+    
+	/**
+	 * The difference between the maximum x and the minimum x
+	 * coordinate and the maximum y and the minimum y coordinate 
+	 * of the view translated into the coordinate system of the model
+	 * can be this value at minimum. It sets a limit to the 
+	 * zoom in functionality.
+	 */
+	public static final double minimumModelRange = 8;
 }

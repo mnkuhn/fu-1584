@@ -279,7 +279,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					// panel drag
 					double tmpMouseOffsetX = ((double)e.getX() - initialDragX)/panelScale;
 					double tmpMouseOffsetY = -((double)e.getY() - initialDragY)/panelScale;
-					if(OffsetsAndScalesAreValid(innerOffsetX, innerOffsetY, 
+					if(offsetsAndScalesAreValid(innerOffsetX, innerOffsetY, 
 							outerOffsetX, outerOffsetX, 
 							tmpMouseOffsetX, tmpMouseOffsetY, 
 							scale, panelScale)) {
@@ -317,16 +317,13 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					double tmpOuterOffsetY = (((double)getHeight() - 1d - (double)e.getY())/panelScale)*(1 - d) + outerOffsetY*d;
 					
 					double tmpScale = scale * d;
-					if(OffsetsAndScalesAreValid(innerOffsetX, innerOffsetY, 
+					if(offsetsAndScalesAreValid(innerOffsetX, innerOffsetY, 
 							tmpOuterOffsetX, tmpOuterOffsetY, 
 							mouseOffsetX, mouseOffsetY, 
 							tmpScale, panelScale)) {
-						outerOffsetX = tmpOuterOffsetX;
-						outerOffsetY = tmpOuterOffsetY;
-						scale = tmpScale;
-					}
-					else {
-						// TODO Message on status bar
+							outerOffsetX = tmpOuterOffsetX;
+							outerOffsetY = tmpOuterOffsetY;
+							scale = tmpScale;
 					}
 					update();
 				}
@@ -347,8 +344,21 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 					referenceHeight = ((JPanel)e.getSource()).getHeight();
 				}
 				else {
-					panelScale = Math.min((double) getWidth() / (double) referenceWidth,
+					double tmpPanelScale = Math.min((double) getWidth() / (double) referenceWidth,
 							(double) getHeight() / (double) referenceHeight);
+					if(offsetsAndScalesAreValid(innerOffsetX, innerOffsetY,
+							outerOffsetX, outerOffsetY,
+							mouseOffsetX, mouseOffsetY,
+							scale, tmpPanelScale)) {
+						panelScale = tmpPanelScale;
+					}
+					else {
+		                // panel scale correction
+		
+						double xPanelScale = (getWidth() -1)/((GUISettings.minimumModelRange + 1)*scale);
+						double yPanelScale = (getHeight() -1)/((GUISettings.minimumModelRange + 1)*scale);
+						panelScale = Math.min(xPanelScale, yPanelScale);
+					}
 				}
 				update();
 			}
@@ -726,15 +736,11 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			double tmpInnerOffsetY = (double)getHeight()/(2 * tmpScale * panelScale) - ((double)pointSet.getMinY() + (double)pointSet.getMaxY())/2;
 			
 			// Check scale and inner offsets
-			if(OffsetsAndScalesAreValid(tmpInnerOffsetX, tmpInnerOffsetY, outerOffsetX, outerOffsetY, mouseOffsetX, mouseOffsetY, tmpScale, panelScale)) {
+			if(offsetsAndScalesAreValid(tmpInnerOffsetX, tmpInnerOffsetY, outerOffsetX, outerOffsetY, mouseOffsetX, mouseOffsetY, tmpScale, panelScale)) {
 				scale = tmpScale;
 				innerOffsetX = tmpInnerOffsetX;
 				innerOffsetY = tmpInnerOffsetY;
 			}
-			else {
-				// TODO Display information in the status bar
-			}
-			
 		}
 		
 		repaint();
@@ -892,7 +898,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * @return true, if the these parameters do not cause overflow in the model
 	 * and in the view and if the minimum distances are guaranteed. False otherwise.
 	 */
-	private boolean OffsetsAndScalesAreValid(
+	private boolean offsetsAndScalesAreValid(
 			double innerOffsetX, double innerOffsetY,
 			double outerOffsetX, double outerOffsetY,
 			double mouseOffsetX, double mouseOffsetY, 
@@ -919,10 +925,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 		double biggestModelY = translateYFromViewToModel(0, innerOffsetY,
 				outerOffsetY, mouseOffsetY, scale, panelScale);
 		
-		//Check for minimal range in model.
 		double xModelRange = biggestModelX - smallestModelX;
 		double yModelRange = biggestModelY - smallestModelY;
-		
+	
 		
 		
 		if(     smallestViewX >= Integer.MIN_VALUE 	&&
@@ -932,9 +937,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 				smallestModelX >= Integer.MIN_VALUE	&&
 				smallestModelY >= Integer.MIN_VALUE &&
 				biggestModelX <= Integer.MAX_VALUE 	&&
-				biggestModelY <= Integer.MAX_VALUE 	&&
-				xModelRange >= 10 					&&
-				yModelRange >= 10
+				biggestModelY <= Integer.MAX_VALUE  &&
+				xModelRange > GUISettings.minimumModelRange &&
+				yModelRange > GUISettings.minimumModelRange
 				) {
 		
 			return true;
@@ -943,6 +948,8 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			return false;
 		}
 	}
+	
+	
 	
 	@Override
 	public void setConvexHullIsShown(boolean b) {

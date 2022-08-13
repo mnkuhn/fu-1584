@@ -433,13 +433,18 @@ public class DrawPanelController implements IDrawPanelController {
 		// There must be some space for the points
 		if (maxX - minX > 0 && maxY - minY > 0) {
 			for (i = 0; i < number; i++) {
-                //number * 10 attempts
+                //number * 10 attempts to insert a point into the space available
 				Point point = tryPoint(number * 10, minX, minY, maxX, maxY, random);
 				if (point == null) {
 					break;
 				}
 				points.add(point);
 				pointSet.addPoint(point);
+				
+				/* Necessary because we need a sorted list for the hasPoint() method
+				which is used in the tryPoint() method.
+				*/
+				pointSet.lexSort();
 			}
 		}
 		
