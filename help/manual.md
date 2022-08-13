@@ -19,7 +19,7 @@
 Dieses Programm berechnet die konvexe Hülle einer Menge von Punkten. Punkte können aus einer Datei [geladen](#datei-öffnen) werden, durch eine [Zufallsfunktion](#zufallspunkte-einfügen) erzeugt, oder von Hand auf der grafischen Benutzeroberfläche [eingetragen](#punkt-einfügen) werden. Die Punktemenge bzw. die Funktionen zum [Bearbeiten der Punktmenge](#bearbeiten-der-punktmenge) und das [Einlesen von Dateien](#datei-öffnen) sind so ausgelegt, dass die Punktmenge immer nur aus Punkten mit verschiedenen Koordinaten bestehen kann. Punkte der Punktmenge haben also im beliebigen paarweisen Vergleich immer verschiedene Koordinaten.
 Neben der [konvexen Hülle](#konvexe-hülle) kann das Programm den [Durchmesser](#durchmesser), das [grösste Viereck](#grösstes-viereck) der Punktmenge, das [grösste Dreieck](#grösstes-dreieck) und eine [Animation](#animation) von einem Tangentenpaar anzeigen.
 Das Programm verfügt über eine [Undo-](#befehl-rückgängig-machen) und [Redo-Funktion](#rückgängig-gemachten-befehl-wiederherstellen).
-Die [grafische Benutzeroberfläche](#die-grafische-benutzeroberfläche) bietet die Möglichkeit, die Darstellung zu [zentrieren](#darstellung-zentrieren), zu [verschieben](#zeichenfläche-verschieben) und durch einen Zoom zu [vergrössern](#ausschnitt-der-zeichenfläche-vergössern-oder-verkleinern) bzw. zu [verkleinern](#ausschnitt-der-zeichenfläche-vergössern-oder-verkleinern).
+Die [grafische Benutzeroberfläche](#die-grafische-benutzeroberfläche) bietet die Möglichkeit, die Darstellung zu [zentrieren](#darstellung-zentrieren), zu [verschieben](#zeichenfläche-verschieben) und durch einen [Zoom](#ausschnitt-der-zeichenfläche-vergrössern-oder-verkleinern) zu vergrössern bzw. zu verkleinern.
 
 &nbsp;
 &nbsp;
@@ -31,7 +31,7 @@ Die grafische Benutzeroberfläche besteht aus der Menüleiste, der Zeichenfläch
 &nbsp;
 
 ### Die Zeichenfläche
-Die Zeichenfläche stellt die Punktmenge, die konvexe Hülle, den Durchmesser und das grösste Viereck dar. Sie dient ebenfalls zur [Bearbeitung der Punktmenge](#bearbeiten-der-punktmenge) durch Benutzereingaben.
+Die Zeichenfläche stellt die Punktmenge, die konvexe Hülle, den Durchmesser und das grösste Viereck dar. Sie dient ebenfalls zur [Bearbeitung der Punktmenge](#bearbeiten-der-punktmenge) durch Benutzereingaben. Das Hauptfenster zeigt nur den sichtbaren Bereich der Zeichenfläche. Durch [Verschieben](#zeichenfläche-verschieben) bzw. durch [Hinein- bzw. Hinauszoomen](#ausschnitt-der-zeichenfläche-vergrössern-oder-verkleinern) kann der sichtbare Bereich verändert werden.
 
 #### Darstellung der Elemente
 
@@ -60,7 +60,7 @@ Während die Animation läuft, werden die beiden Punkte des Antipodenpaares durc
 #### Bearbeiten der Punktmenge
 
 ##### Punkt einfügen
-Bewegen Sie den Mauszeiger auf der Zeichenfläche an die gewünschte Stelle. In der Statusleiste werden nach dem Label mit der Anschrift "Maus: " die Koordinaten des Mauszeigers angezeigt. Sie können den Bereich, in welchen Sie einen Punkt eintragen können, durch [verschieben](#zeichenfläche-verschieben) oder [Zoomen](#ausschnitt-der-zeichenfläche-vergössern-oder-verkleinern) verändern. Um den Punkt einzutragen, drücken Sie die linke Maustaste.
+Bewegen Sie den Mauszeiger auf der Zeichenfläche an die gewünschte Stelle. In der Statusleiste werden nach dem Label mit der Anschrift "Maus: " die Koordinaten des Mauszeigers angezeigt. Sie können den Bereich, in welchen Sie einen Punkt eintragen können, durch [Verschieben](#zeichenfläche-verschieben) oder [Zoomen](#ausschnitt-der-zeichenfläche-vergössern-oder-verkleinern) verändern. Um den Punkt einzutragen, drücken Sie die linke Maustaste.
 
 ##### Punkt löschen
 Wählen Sie den Punkt, indem Sie den Mauszeiger auf bzw. in die Nähe des zu löschenden Punktes bewegen. Sobald der Punkt gewählt ist, wird er von einem schwarzen Quadrat, welches den Punkt umgibt, markiert. Die Koordinaten des gewählten Punktes werden in der Statusleiste nach dem Label "Gewählter Punkt: " angezeigt. Drücken Sie nun die rechte Maustaste, um den Punkt zu löschen.
@@ -68,6 +68,8 @@ Wählen Sie den Punkt, indem Sie den Mauszeiger auf bzw. in die Nähe des zu lö
 ##### Punkt verschieben
 Bewegen Sie den Mauszeiger auf bzw. in die Nähe des Punktes, welchen Sie verschieben möchten. Sobald der Punkt gewählt ist, wird er von einem schwarzen Quadrat, welches den Punkt umgibt, markiert. Drücken Sie nun `Alt` und die linke Maustaste in dieser Reihenfolge. Nun können Sie den gewählten Punkt verschieben. Bewegen Sie den Punkt an die gewünschte Stelle und lassen Sie dann die Taste `Alt` und die linke Maustaste los (die Reihenfolge spielt keine Rolle). Die Koordinaten des gewählten Punktes werden vor und während dem Verschieben in der Statusleiste nach dem Label "Gewählter Punkt: " angezeigt.
 Befindet sich an der Stelle, auf welche der gewählte Punkt verschoben wird, schon ein anderer Punkt, so wird dieser Punkt gelöscht. Die Anzahl der Punkte - angezeigt nach dem Label "Anzahl Punkte: " - reduziert sich dann um 1. Wird der Befehl [rückgängig gemacht](#befehl-rückgängig-machen), so wird der verschobene Punkt wieder an seinem ursprünglichen Ort eingetragen und ein allfälliger gelöschter Punkt wird wieder hinzugefügt.
+
+Eine weitere Möglichkeit, die Punkmenge zu bearbeiten, bietet das Bearbeiten-Menü. Mit Hilfe dieses Menüs können Sie [zufällig erzeugte Punkte in den sichtbaren Bereich der Zeichenfläche einfügen](#zufällig-erzeugte-punkte-einfügen).
 
 
 &nbsp;
@@ -77,7 +79,7 @@ Befindet sich an der Stelle, auf welche der gewählte Punkt verschoben wird, sch
 ##### Zeichenfläche verschieben
 Drücken Sie `Ctrl` und die linke Maustaste in dieser Reihenfolge. Nun können Sie die Zeichenfläche durch Bewegen der Maus verschieben.
 
-##### Ausschnitt der Zeichenfläche vergössern oder verkleinern
+##### Ausschnitt der Zeichenfläche vergrössern oder verkleinern
 Drücken Sie `Ctrl`. Nun können Sie durch Drehen des Mausrades je nach Drehrichtung hinein- bzw. hinauszoomen.
 
 &nbsp;
