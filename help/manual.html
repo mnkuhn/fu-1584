@@ -223,23 +223,21 @@ Benutzereingaben.</p>
 <h5 id="punkte">Punkte</h5>
 <p>Punkte werden schwarz gefüllte Kreise dargestellt.</p>
 <h5 id="konvexe-hülle">Konvexe Hülle</h5>
-<p>Die konvexe Hülle erschient als ein rotes, konvexes Polygon. Konkret
+<p>Die konvexe Hülle erscheint als ein rotes, konvexes Polygon. Konkret
 werden zwei Punkte der konvexen Hülle durch eine rote Gerade verbunden
 und alle Punkte, die durch eine rote Gerade verbunden sind, gehören zur
-konvexen Hülle. Die Konvexe Hülle kann auch aus nur einem Punkt oder
-einer Geraden bestehen, falls die entsprechende Punktmenge nur aus einem
-bzw. aus zwei Punkten besteht.</p>
+konvexen Hülle. Die Konvexe Hülle kann aus nur einem Punkt oder einer
+Geraden bestehen, falls die entsprechende Punktmenge nur aus einem bzw.
+aus zwei Punkten besteht.</p>
 <h5 id="durchmesser">Durchmesser</h5>
 <p>Der Durchmesser wird durch eine blaue Gerade angezeigt. Er kann auch
 nur als Punkt dargestellt werden, falls die Punktmenge nur einen Punkt
-enthält. Er fällt dann mit diesem Punkt zusammen und ist nicht
-sichtbar.</p>
+enthält.</p>
 <h5 id="grösstes-viereck">Grösstes Viereck</h5>
 <p>Das grösste Viereck wird in einem matten grün dargestellt. Es kann
 auch nur als Punkt dargestellt werden, falls alle vier Punkte des
 Vierecks die gleichen Koordinaten haben. Dieser Fall tritt ein, falls
-die Punkmenge nur einen Punkt enthält. Das Viereck fällt dann mit diesem
-Punkt zusammen und ist nicht sichtbar. Es kann als Gerade dargestellt
+die Punkmenge nur einen Punkt enthält. Es kann als Gerade dargestellt
 sein, falls jeweils zwei verschiedene Paare von Punkten die gleichen
 Koordinaten haben und es kann als Dreieck erscheinen, falls genau ein
 paar von Punkten des Vierecks die gleichen Koordinaten besitzt.</p>
@@ -259,16 +257,16 @@ alt="Animation" /></p>
 <p> </p>
 <h4 id="bearbeiten-der-punktmenge">Bearbeiten der Punktmenge</h4>
 <h5 id="punkt-einfügen">Punkt einfügen</h5>
-<p>Bewegen Sie den Mauszeiger auf der Zeichenfläche auf die gewünschte
+<p>Bewegen Sie den Mauszeiger auf der Zeichenfläche an die gewünschte
 Stelle. In der Statusleiste werden nach dem Label mit der Anschrift
-“Maus:” die Koordinaten der Maus angezeigt. Sie können den Bereich, in
-welchen Sie einen Punkt eintragen können, durch <a
+“Maus:” die Koordinaten des Mauszeigers angezeigt. Sie können den
+Bereich, in welchen Sie einen Punkt eintragen können, durch <a
 href="#zeichenfläche-verschieben">verschieben</a> oder <a
 href="#ausschnitt-der-zeichenfläche-vergössern-oder-verkleinern">Zoomen</a>
 verändern. Um den Punkt einzutragen, drücken Sie die linke
 Maustaste.</p>
 <h5 id="punkt-löschen">Punkt löschen</h5>
-<p>Wählen Sie den Punkt, indem sie den Mauszeiger auf bzw. in die Nähe
+<p>Wählen Sie den Punkt, indem Sie den Mauszeiger auf bzw. in die Nähe
 des zu löschenden Punktes bewegen. Sobald der Punkt gewählt ist, wird er
 von einem schwarzen Quadrat, welches den Punkt umgibt, markiert. Die
 Koordinaten des gewählten Punktes werden in der Statusleiste nach dem
@@ -285,16 +283,12 @@ linke Maustaste los (die Reihenfolge spielt keine Rolle). Die
 Koordinaten des gewählten Punktes werden vor und während dem Verschieben
 in der Statusleiste nach dem Label “Gewählter Punkt:” angezeigt.
 Befindet sich an der Stelle, auf welche der gewählte Punkt verschoben
-wird schon ein Punkt, so wird dieser Punkt gelöscht. Die Anzahl der
-Punkte - angezeigt nach dem Label “Anzahl Punkte:” - reduziert sich dann
-um 1. Wird der Befehl <a href="#befehl-rückgängig-machen">rückgängig
-gemacht</a>, so wird der Punkt an seiner ursprünglichen Stelle
-eingetragen und ein allfälliger gelöschter Punkt wird der wieder
-hinzugefügt.</p>
-<h5 id="zufallspunkte-einfügen">Zufallspunkte einfügen</h5>
-<p>Sie können 10, 50, 100, 500 oder 1000 Zufallspunkte in den sichtbaren
-Bereich der Zeichenfläche einfügen. Wählen Sie <em>Bearbeiten</em> und
-dann den entsprechenden Eintrag.</p>
+wird, schon ein anderer Punkt, so wird dieser Punkt gelöscht. Die Anzahl
+der Punkte - angezeigt nach dem Label “Anzahl Punkte:” - reduziert sich
+dann um 1. Wird der Befehl <a
+href="#befehl-rückgängig-machen">rückgängig gemacht</a>, so wird der
+verschobene Punkt wieder an seinem ursprünglichen Ort eingetragen und
+ein allfälliger gelöschter Punkt wird wieder hinzugefügt.</p>
 <p> </p>
 <h4 id="ändern-der-darstellung">Ändern der Darstellung</h4>
 <h5 id="zeichenfläche-verschieben">Zeichenfläche verschieben</h5>
@@ -334,14 +328,14 @@ abgespeichert werden soll.</p>
 beendet. Falls Änderungen an der Punktmenge vorgenommen wurden, werden
 Sie zuvor gefragt, ob die bestehende Punktmenge in einer Datei
 gespeichert werden soll. Sie können das Programm ebenfalls beenden,
-indem sie auf das Kreuz in der oberen rechten Ecke des Hauptfensters
+indem Sie auf das Kreuz in der oberen rechten Ecke des Hauptfensters
 klicken.</p>
 <p> </p>
 <h4 id="das-bearbeiten-menü">Das Bearbeiten-Menü</h4>
 <h5 id="befehl-rückgängig-machen">Befehl rückgängig machen</h5>
 <p>Wählen Sie <em>Bearbeiten</em> → <em>Rückgängig</em>. Der
 entsprechende Menü-Eintrag wird matt dargestellt, falls es keine Befehle
-gibt, die Rückgängig gemacht werden können.</p>
+gibt, die rückgängig gemacht werden können.</p>
 <h5 id="rückgängig-gemachten-befehl-wiederherstellen">Rückgängig
 gemachten Befehl wiederherstellen</h5>
 <p>Wählen Sie <em>Bearbeiten</em> → <em>Wiederherstellen</em>. Der
@@ -354,8 +348,9 @@ Zufallsfunktion erzeugen. Diese Funktion sorgt dafür, dass die Punkte in
 den sichtbaren Bereich der Zeichenfläche eingetragen werden. Wählen Sie
 dazu im Menü <em>Bearbeiten</em> den entsprechenden Eintrag. Falls es
 der sichtbare Bereich der Zeichenfläche nicht zulässt, dass eine gewisse
-Anzahl an zufällig erzeugten Punkten eingetragen wird, weil er zu klein
-ist, so werden keine Punkte eingetragen.</p>
+Anzahl an zufällig erzeugten Punkten eingetragen wird weil er zu klein
+ist oder weil sich dort schon zu viele Punkte befinden, so wird der
+Befehl ignoriert.</p>
 <p> </p>
 <h4 id="das-ansicht-menü">Das Ansicht-Menü</h4>
 <h5 id="konturpolygon-anzeigen">Konturpolygon anzeigen</h5>

@@ -39,13 +39,13 @@ Die Zeichenfläche stellt die Punktmenge, die konvexe Hülle, den Durchmesser un
 Punkte werden schwarz gefüllte Kreise dargestellt.
 
 ##### Konvexe Hülle
-Die konvexe Hülle erschient als ein rotes, konvexes Polygon. Konkret werden zwei Punkte der konvexen Hülle durch eine rote Gerade verbunden und alle Punkte, die durch eine rote Gerade verbunden sind, gehören zur konvexen Hülle. Die Konvexe Hülle kann auch aus nur einem Punkt oder einer Geraden bestehen, falls die entsprechende Punktmenge nur aus einem bzw. aus zwei Punkten besteht.
+Die konvexe Hülle erscheint als ein rotes, konvexes Polygon. Konkret werden zwei Punkte der konvexen Hülle durch eine rote Gerade verbunden und alle Punkte, die durch eine rote Gerade verbunden sind, gehören zur konvexen Hülle. Die Konvexe Hülle kann aus nur einem Punkt oder einer Geraden bestehen, falls die entsprechende Punktmenge nur aus einem bzw. aus zwei Punkten besteht.
 
 ##### Durchmesser
-Der Durchmesser wird durch eine blaue Gerade angezeigt. Er kann auch nur als Punkt dargestellt werden, falls die Punktmenge nur einen Punkt enthält. Er fällt dann mit diesem Punkt zusammen und ist nicht sichtbar.
+Der Durchmesser wird durch eine blaue Gerade angezeigt. Er kann auch nur als Punkt dargestellt werden, falls die Punktmenge nur einen Punkt enthält.
 
 ##### Grösstes Viereck
-Das grösste Viereck wird in einem matten grün dargestellt. Es kann auch nur als Punkt dargestellt werden, falls alle vier Punkte des Vierecks die gleichen Koordinaten haben. Dieser Fall tritt ein, falls die Punkmenge nur einen Punkt enthält. Das Viereck fällt dann mit diesem Punkt zusammen und ist nicht sichtbar. Es kann als Gerade dargestellt sein, falls jeweils zwei verschiedene Paare von Punkten die gleichen Koordinaten haben und es kann als Dreieck erscheinen, falls genau ein paar von Punkten des Vierecks die gleichen Koordinaten besitzt.
+Das grösste Viereck wird in einem matten grün dargestellt. Es kann auch nur als Punkt dargestellt werden, falls alle vier Punkte des Vierecks die gleichen Koordinaten haben. Dieser Fall tritt ein, falls die Punkmenge nur einen Punkt enthält. Es kann als Gerade dargestellt sein, falls jeweils zwei verschiedene Paare von Punkten die gleichen Koordinaten haben und es kann als Dreieck erscheinen, falls genau ein paar von Punkten des Vierecks die gleichen Koordinaten besitzt.
 
 ##### Grösstes Dreieck
 Das grösste Dreieck wird in einem hellen blau dargestellt. Wie beim grössten Viereck kann es auch aus einem Punkt bestehen, falls alle drei Punkte die gleichen Koordinaten haben. Es kann aus einer Geraden bestehen, falls genau zwei Punkte die gleichen Koordinaten haben.
@@ -60,17 +60,15 @@ Während die Animation läuft, werden die beiden Punkte des Antipodenpaares durc
 #### Bearbeiten der Punktmenge
 
 ##### Punkt einfügen
-Bewegen Sie den Mauszeiger auf der Zeichenfläche auf die gewünschte Stelle. In der Statusleiste werden nach dem Label mit der Anschrift "Maus: " die Koordinaten der Maus angezeigt. Sie können den Bereich, in welchen Sie einen Punkt eintragen können, durch [verschieben](#zeichenfläche-verschieben) oder [Zoomen](#ausschnitt-der-zeichenfläche-vergössern-oder-verkleinern) verändern. Um den Punkt einzutragen, drücken Sie die linke Maustaste.
+Bewegen Sie den Mauszeiger auf der Zeichenfläche an die gewünschte Stelle. In der Statusleiste werden nach dem Label mit der Anschrift "Maus: " die Koordinaten des Mauszeigers angezeigt. Sie können den Bereich, in welchen Sie einen Punkt eintragen können, durch [verschieben](#zeichenfläche-verschieben) oder [Zoomen](#ausschnitt-der-zeichenfläche-vergössern-oder-verkleinern) verändern. Um den Punkt einzutragen, drücken Sie die linke Maustaste.
 
 ##### Punkt löschen
-Wählen Sie den Punkt, indem sie den Mauszeiger auf bzw. in die Nähe des zu löschenden Punktes bewegen. Sobald der Punkt gewählt ist, wird er von einem schwarzen Quadrat, welches den Punkt umgibt, markiert. Die Koordinaten des gewählten Punktes werden in der Statusleiste nach dem Label "Gewählter Punkt: " angezeigt. Drücken Sie nun die rechte Maustaste, um den Punkt zu löschen.
+Wählen Sie den Punkt, indem Sie den Mauszeiger auf bzw. in die Nähe des zu löschenden Punktes bewegen. Sobald der Punkt gewählt ist, wird er von einem schwarzen Quadrat, welches den Punkt umgibt, markiert. Die Koordinaten des gewählten Punktes werden in der Statusleiste nach dem Label "Gewählter Punkt: " angezeigt. Drücken Sie nun die rechte Maustaste, um den Punkt zu löschen.
 
 ##### Punkt verschieben
 Bewegen Sie den Mauszeiger auf bzw. in die Nähe des Punktes, welchen Sie verschieben möchten. Sobald der Punkt gewählt ist, wird er von einem schwarzen Quadrat, welches den Punkt umgibt, markiert. Drücken Sie nun `Alt` und die linke Maustaste in dieser Reihenfolge. Nun können Sie den gewählten Punkt verschieben. Bewegen Sie den Punkt an die gewünschte Stelle und lassen Sie dann die Taste `Alt` und die linke Maustaste los (die Reihenfolge spielt keine Rolle). Die Koordinaten des gewählten Punktes werden vor und während dem Verschieben in der Statusleiste nach dem Label "Gewählter Punkt: " angezeigt.
-Befindet sich an der Stelle, auf welche der gewählte Punkt verschoben wird schon ein Punkt, so wird dieser Punkt gelöscht. Die Anzahl der Punkte - angezeigt nach dem Label "Anzahl Punkte: " - reduziert sich dann um 1. Wird der Befehl [rückgängig gemacht](#befehl-rückgängig-machen), so wird der Punkt an seiner ursprünglichen Stelle eingetragen und ein allfälliger gelöschter Punkt wird der  wieder hinzugefügt.
+Befindet sich an der Stelle, auf welche der gewählte Punkt verschoben wird, schon ein anderer Punkt, so wird dieser Punkt gelöscht. Die Anzahl der Punkte - angezeigt nach dem Label "Anzahl Punkte: " - reduziert sich dann um 1. Wird der Befehl [rückgängig gemacht](#befehl-rückgängig-machen), so wird der verschobene Punkt wieder an seinem ursprünglichen Ort eingetragen und ein allfälliger gelöschter Punkt wird wieder hinzugefügt.
 
-##### Zufallspunkte einfügen
-Sie können 10, 50, 100, 500 oder 1000 Zufallspunkte in den sichtbaren Bereich der Zeichenfläche einfügen. Wählen Sie *Bearbeiten* und dann den entsprechenden Eintrag.
 
 &nbsp;
 
@@ -100,20 +98,20 @@ Falls Sie die Punktmenge in einer neuen Datei speichern möchten, wählen Sie *D
 
 ##### Programm Beenden
 Wählen Sie *Datei* → *Beenden*. Das Programm wird beendet. Falls Änderungen an der Punktmenge vorgenommen wurden, werden Sie zuvor gefragt, ob die bestehende Punktmenge in einer Datei gespeichert werden soll.
-Sie können das Programm ebenfalls beenden, indem sie auf das Kreuz in der oberen rechten Ecke des Hauptfensters klicken.
+Sie können das Programm ebenfalls beenden, indem Sie auf das Kreuz in der oberen rechten Ecke des Hauptfensters klicken.
 
 &nbsp;
 
 #### Das Bearbeiten-Menü
 
 ##### Befehl rückgängig machen
-Wählen Sie *Bearbeiten*  → *Rückgängig*. Der entsprechende Menü-Eintrag wird matt dargestellt, falls es keine Befehle gibt, die Rückgängig gemacht werden können.
+Wählen Sie *Bearbeiten*  → *Rückgängig*. Der entsprechende Menü-Eintrag wird matt dargestellt, falls es keine Befehle gibt, die rückgängig gemacht werden können.
 
 ##### Rückgängig gemachten Befehl wiederherstellen
 Wählen Sie *Bearbeiten*  → *Wiederherstellen*. Der entsprechende Menü-Eintrag wird matt dargestellt, falls es keine Befehle gibt, die wiederhergestellt werden können.
 
 ##### Zufällig erzeugte Punkte einfügen
-Sie können 10, 50, 100, 500 oder 1000 Punkte mit Hilfe einer Zufallsfunktion erzeugen. Diese Funktion sorgt dafür, dass die Punkte in den sichtbaren Bereich der Zeichenfläche eingetragen werden. Wählen Sie dazu im Menü *Bearbeiten* den entsprechenden Eintrag. Falls es der sichtbare Bereich der Zeichenfläche nicht zulässt, dass eine gewisse Anzahl an zufällig erzeugten Punkten eingetragen wird, weil er zu klein ist, so werden keine Punkte eingetragen.
+Sie können 10, 50, 100, 500 oder 1000 Punkte mit Hilfe einer Zufallsfunktion erzeugen. Diese Funktion sorgt dafür, dass die Punkte in den sichtbaren Bereich der Zeichenfläche eingetragen werden. Wählen Sie dazu im Menü *Bearbeiten* den entsprechenden Eintrag. Falls es der sichtbare Bereich der Zeichenfläche nicht zulässt, dass eine gewisse Anzahl an zufällig erzeugten Punkten eingetragen wird weil er zu klein ist oder weil sich dort schon zu viele Punkte befinden, so wird der Befehl ignoriert.
 
 &nbsp;
 
