@@ -1,7 +1,7 @@
 package propra22.q8493367.entities;
 
 /**
- * An iterator for the hull, which allows the programmer to traverse the points of the 
+ * An Interface for an iterator, which allows the programmer to traverse the points of the 
  * hull in both directions. In this application a hull is either the contour polygon
  * or the convex hull.
  */

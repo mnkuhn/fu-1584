@@ -5,7 +5,7 @@ import propra22.q8493367.entities.Quadrangle;
 
 
 /**
- * The interface for the draw panel controller. The draw
+ * The Interface for the draw panel controller. The draw
  * panel controller handles the updates for the model
  * and the view based on various events.
  *

@@ -3,7 +3,7 @@ package propra22.q8493367.util;
 import propra22.q8493367.entities.Point;
 
 /**
- * An interface for a parser. It provides a method
+ * An Interface for a parser. It declares a method
  * for parsing a string.
  */
 public interface IParser {

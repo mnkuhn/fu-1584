@@ -3,8 +3,8 @@ package propra22.q8493367.gui;
 import propra22.q8493367.usecases.DrawPanelEvent;
 
 /**
- * The listener interface for receiving drawPanel events
- * produced by the user by changing the point set or moving 
+ * The listener Interface for receiving drawPanel events
+ * produced by the user by inserting, deleting or dragging points or by moving 
  * the mouse.
  *
  */

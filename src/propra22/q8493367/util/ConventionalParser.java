@@ -4,6 +4,8 @@ import propra22.q8493367.entities.Point;
 
 /**
  * A Parser which can extract a point from a string.
+ * It checks every single character of the String
+ * by moving from left tto right.
  */
 public class ConventionalParser implements IParser {
 	

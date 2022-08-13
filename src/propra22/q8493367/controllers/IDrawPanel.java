@@ -5,7 +5,7 @@ import propra22.q8493367.gui.IDrawPanelListener;
 
 /**
  * 
- * The interface for the draw panel. The draw panel is responsible
+ * The Interface for the draw panel. The draw panel is responsible
  * for displaying the points of the point set, the convex hull, the 
  * diameter, the quadrangle, the triangle and the animation. 
  *
