@@ -1,4 +1,4 @@
-package propra22.q8493367.controllers;
+package propra22.q8493367.gui;
 
 import propra22.q8493367.usecases.CommandEvent;
 import propra22.q8493367.usecases.FileEvent;

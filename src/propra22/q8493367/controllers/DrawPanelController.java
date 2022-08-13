@@ -15,7 +15,6 @@ import propra22.q8493367.entities.Quadrangle;
 import propra22.q8493367.entities.QuadrangleSequence;
 import propra22.q8493367.entities.TangentPair;
 import propra22.q8493367.entities.Triangle;
-import propra22.q8493367.entities.DobkinTriangleCalculator;
 import propra22.q8493367.gui.DrawPanel;
 import propra22.q8493367.gui.GUISettings;
 import propra22.q8493367.main.CHGO_8493367_Kuhn_Manuel;

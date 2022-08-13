@@ -6,11 +6,11 @@ import propra22.interfaces.IHullCalculator;
 import propra22.q8493367.controllers.DrawPanelController;
 import propra22.q8493367.controllers.IDrawPanelControllerObserver;
 import propra22.q8493367.controllers.IFileManager;
-import propra22.q8493367.controllers.IMainWindowListener;
 import propra22.q8493367.controllers.MainWindowController;
 import propra22.q8493367.controllers.StatusBarController;
 import propra22.q8493367.entities.Diameter;
 import propra22.q8493367.entities.DiameterAndQuadrangleCalculator;
+import propra22.q8493367.entities.DittmarTriangleCalculator;
 import propra22.q8493367.entities.ArrayListHull;
 import propra22.q8493367.entities.IHull;
 import propra22.q8493367.entities.ITriangleCalculator;
@@ -19,12 +19,12 @@ import propra22.q8493367.entities.Quadrangle;
 import propra22.q8493367.entities.QuadrangleSequence;
 import propra22.q8493367.entities.TangentPair;
 import propra22.q8493367.entities.Triangle;
-import propra22.q8493367.entities.DobkinTriangleCalculator;
 import propra22.q8493367.gui.DrawPanel;
 import propra22.q8493367.gui.DrawPanelListener;
 import propra22.q8493367.gui.FileManager;
 import propra22.q8493367.gui.GUISettings;
 import propra22.q8493367.gui.IDrawPanelListener;
+import propra22.q8493367.gui.IMainWindowListener;
 import propra22.q8493367.gui.MainWindow;
 import propra22.q8493367.gui.StatusBar;
 import propra22.q8493367.usecases.FileSettings;
@@ -66,7 +66,7 @@ public class CHGO_8493367_Kuhn_Manuel {
 		Draw panel, draw panel listener and controller of the draw panel
 		*/
 		DiameterAndQuadrangleCalculator diameterAndQuadrangleCalculator = new DiameterAndQuadrangleCalculator(hull);
-		ITriangleCalculator triangleCalculator = new DobkinTriangleCalculator(hull);
+		ITriangleCalculator triangleCalculator = new DittmarTriangleCalculator(hull);
 		DrawPanel drawPanel = new DrawPanel(pointSet, hull, diameter, quadrangle, triangle, tangentPair, quadrangleSequence);
 		DrawPanelController drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, triangle, 
 				tangentPair, quadrangleSequence, diameterAndQuadrangleCalculator, triangleCalculator,  drawPanel);

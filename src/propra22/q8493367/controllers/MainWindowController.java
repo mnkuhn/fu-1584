@@ -1,5 +1,6 @@
 package propra22.q8493367.controllers;
 
+import propra22.q8493367.gui.IMainWindowListener;
 import propra22.q8493367.gui.MainWindow;
 import propra22.q8493367.usecases.CommandEvent;
 import propra22.q8493367.usecases.CommandEventType;

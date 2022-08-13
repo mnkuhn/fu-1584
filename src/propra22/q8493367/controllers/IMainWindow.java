@@ -1,5 +1,7 @@
 package propra22.q8493367.controllers;
 
+import propra22.q8493367.gui.IMainWindowListener;
+
 /**
  * The interface for a main window. It provides methods 
  * for setting the main window listener and for enabling or 

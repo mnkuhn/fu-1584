@@ -21,7 +21,6 @@ import javax.swing.event.MenuEvent;
 
 import propra22.q8493367.controllers.IDrawPanel;
 import propra22.q8493367.controllers.IMainWindow;
-import propra22.q8493367.controllers.IMainWindowListener;
 import propra22.q8493367.entities.Point;
 import propra22.q8493367.usecases.CommandEvent;
 import propra22.q8493367.usecases.CommandEventType;

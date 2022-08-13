@@ -54,7 +54,7 @@ public class AnimationThread extends Thread {
 	 */
 	private void setDuration() {
 		float t = -.0019f*tangentPair.getNumberOfAntipodalPairs() + 20f;
-		duration = t < 0 ? 1 : (int)t;
+		duration = t <= 0 ? 1 : (int)t;
 	}
 	
 	
