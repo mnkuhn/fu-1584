@@ -331,7 +331,7 @@ public class ArrayListHull extends ListHull {
 				int base = 0;
 				int tip = 2;
 				while(tip < size) {
-					/*tip lies on side of the line base - base + 1 which is facing 
+					/*tip lies on side of the line base--base + 1 which is facing 
 					 * towards the contour polygon
 					 */
 					if(signedTriangleArea(base, tip, contourType)  > 0){
@@ -339,7 +339,7 @@ public class ArrayListHull extends ListHull {
 						tip++;	
 					}
 					else {
-						/*tip lies on side of the line base - base + 1 which is facing 
+						/*tip lies on side of the line base--base + 1 which is facing 
 						 * away from the contour polygon
 						 */
 						if(base > 0) {
