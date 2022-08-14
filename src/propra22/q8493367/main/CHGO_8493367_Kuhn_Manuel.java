@@ -4,6 +4,7 @@ import javax.swing.SwingUtilities;
 
 import propra22.interfaces.IHullCalculator;
 import propra22.q8493367.controllers.DrawPanelController;
+import propra22.q8493367.controllers.IDrawPanelController;
 import propra22.q8493367.controllers.IDrawPanelControllerObserver;
 import propra22.q8493367.controllers.IFileManager;
 import propra22.q8493367.controllers.MainWindowController;
@@ -68,7 +69,7 @@ public class CHGO_8493367_Kuhn_Manuel {
 		DiameterAndQuadrangleCalculator diameterAndQuadrangleCalculator = new DiameterAndQuadrangleCalculator(hull);
 		ITriangleCalculator triangleCalculator = new DittmarTriangleCalculator(hull);
 		DrawPanel drawPanel = new DrawPanel(pointSet, hull, diameter, quadrangle, triangle, tangentPair, quadrangleSequence);
-		DrawPanelController drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, triangle, 
+		IDrawPanelController drawPanelController = new DrawPanelController(pointSet, hull, diameter, quadrangle, triangle, 
 				tangentPair, quadrangleSequence, diameterAndQuadrangleCalculator, triangleCalculator,  drawPanel);
 		IDrawPanelListener drawPanelListener = new DrawPanelListener(drawPanelController);
 		drawPanel.setDrawPanelListener(drawPanelListener);

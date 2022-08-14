@@ -89,7 +89,13 @@ public interface IDrawPanelController {
 	 * @param x the x coordinate of the point
 	 * @param y the y coordinate of the point
 	 */
-	void insertPointToPointSetByFileInput(int x, int y);
+	void insertPointToPointSetCheckedWithSorting(int x, int y);
+	
+	/**
+	 * Sorts the points of the point set
+	 * and removes duplicates.
+	 */
+	void sortAndCheckPointsAfterFileInput();
 	
 	
 	/**
@@ -334,5 +340,8 @@ public interface IDrawPanelController {
 	 * Centers the representation on the draw panel.
 	 */
 	public void centerView();
+
+
+	
 
 }

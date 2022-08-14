@@ -81,7 +81,7 @@ public class DragPointCommand implements ICommand {
 	public void unexecute() {
 		draggedPoint.translate(-dx, -dy);	
 		if(deletedPoint != null) {
-			pointSet.addPoint(deletedPoint);
+			pointSet.addCheckedWithSorting(deletedPoint);
 		}
 	}
 }

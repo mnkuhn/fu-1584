@@ -35,7 +35,8 @@ public class InsertPointCommand implements ICommand {
 	 */
 	@Override
 	public void execute() {
-		pointSet.addPoint(point);
+		// No check necessary to stay independent
+		pointSet.addCheckedWithSorting(point);
 		
 	}
 

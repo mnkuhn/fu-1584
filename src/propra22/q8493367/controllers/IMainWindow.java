@@ -3,11 +3,10 @@ package propra22.q8493367.controllers;
 import propra22.q8493367.gui.IMainWindowListener;
 
 /**
- * The Interface for a main window. It provides methods 
+ * The Interface for the main window. It declares methods 
  * for setting the main window listener and for enabling or 
  * disabling various functionalities of the menus 
- * of the menu bar or for selecting or deselecting
- * some checkboxes in the menus of the menu bar. 
+ * of the menu bar.
  * 
  */
 public interface IMainWindow {

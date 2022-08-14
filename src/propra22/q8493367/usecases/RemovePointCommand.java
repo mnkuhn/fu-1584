@@ -43,6 +43,6 @@ public class RemovePointCommand implements ICommand {
 	 */
 	@Override
 	public void unexecute() {
-		pointSet.addPoint(point);	
+		pointSet.addCheckedWithSorting(point);	
 	}
 }

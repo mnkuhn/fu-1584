@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import propra22.interfaces.IHullCalculator;
 import propra22.q8493367.controllers.DrawPanelController;
+import propra22.q8493367.controllers.IDrawPanelController;
 import propra22.q8493367.entities.Diameter;
 import propra22.q8493367.entities.DiameterAndQuadrangleCalculator;
 import propra22.q8493367.entities.DittmarTriangleCalculator;
@@ -44,7 +45,7 @@ public class HullCalculator implements IHullCalculator{
 	private Triangle triangle;
 	
 	/** The draw panel controller. */
-	private DrawPanelController drawPanelController;
+	private IDrawPanelController drawPanelController;
 	
 	/** The file manager. */
 	private FileManager fileManager;
@@ -54,7 +55,7 @@ public class HullCalculator implements IHullCalculator{
 	
 	/**
 	 * Instantiates a new hull calculator by creating the entities and 
-	 * caclulators. The draw panel controller has a specific role because
+	 * calculators. The draw panel controller has a specific role because
 	 * it only coordinates the calculations. It does not handle any events
 	 * from the draw panel since the draw panel is null internally.
 	 */
@@ -81,7 +82,7 @@ public class HullCalculator implements IHullCalculator{
 	 */
 	@Override
 	public void addPoint(int arg0, int arg1) { 
-		drawPanelController.insertPointToPointSetByFileInput(arg0, arg1);	
+		drawPanelController.insertPointToPointSetCheckedWithSorting(arg0, arg1);	
 	}
     
 	/**
@@ -93,7 +94,7 @@ public class HullCalculator implements IHullCalculator{
 	@Override
 	public void addPointsFromArray(int[][] arg0) {
 		for(int i = 0; i < arg0.length; i++) {
-			drawPanelController.insertPointToPointSetByFileInput(arg0[i][0], arg0[i][1]);
+			drawPanelController.insertPointToPointSetCheckedWithSorting(arg0[i][0], arg0[i][1]);
 		}
 	}
     

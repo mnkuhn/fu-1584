@@ -55,11 +55,16 @@ public class DrawPanelController implements IDrawPanelController {
 	/** The biggest triangle */
 	private Triangle triangle;
 	
-	/** The pair of tangents used by the animation. */
+	/** The pair of tangents as used by the animation. */
 	private TangentPair tangentPair;
 	
 	/** The quadrangle sequence as used by the animation. */
 	private QuadrangleSequence quadrangleSequence;
+	
+	/** 
+	 * The closest point to the mouse pointer within a certain radius.
+	 * */
+	private Point selected = null;
 	
 	
     // Calculation
@@ -77,26 +82,23 @@ public class DrawPanelController implements IDrawPanelController {
 	
 	
 	
-	// Dragging points
-	/**  The point which is selected for dragging. */
-	private Point selected = null;
-
-	/**  The previous x coordinate of the mouse. */
+	// Dragging a point
+	/**  The previous x coordinate of the mouse pointer as used for dragging a point. */
 	private int previousMouseX;
 
-	/**  The previous y coordinate of the mouse. */
+	/**  The previous y coordinate of the mouse pointer as used for dragging a point. */
 	private int previousMouseY;
 
-	/** The x coordinate of the mouse when the dragging started. */
+	/** The x coordinate of the mouse pointer when the dragging starts. */
 	private int startMouseX;
 
-	/**  The y coordinate of the mouse when the dragging ended. */
+	/**  The y coordinate of the mouse pointer when the dragging starts. */
 	private int startMouseY;
 
 	
 	
 	// Commands
-	/**  The command manager is responible for the undo and redo
+	/**  The command manager is responsible for the undo and redo
 	 * functionality. 
 	 * */
 	private CommandManager commandManager = new CommandManager();
@@ -190,6 +192,24 @@ public class DrawPanelController implements IDrawPanelController {
 		this.diameterAndQuadrangleCalulator = diameterAndQuadrangleCalculator;
 		this.triangleCalculator = triangleCalculator;
 	}
+	
+	/**
+	 * Adds a point into the point set if
+	 * the point is not already in the point set.
+	 */
+	
+	@Override
+	public void insertPointToPointSetCheckedWithSorting(int x, int y) {
+		pointSet.addCheckedWithSorting(new Point(x, y));
+		
+	}
+    
+	
+	@Override
+	public void sortAndCheckPointsAfterFileInput() {
+		pointSet.sortAndCheckAfterFileInput();
+		
+	}
 
 	/**
 	 * Determines if a point is within a certain radius to the mouse pointer. All
@@ -200,7 +220,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 * @param mouseY the y coordinate of the mouse pointer.
 	 * @param metric the metric, which is used to determine the distance.
 	 * @param radius the radius which is compared with the distance.
-	 * @return true, the point is within the given radius of the mouse pointer,
+	 * @return true, if the point is within the given radius of the mouse pointer,
 	 * false otherwise.
 	 */
 	private boolean pointIsWithinMouseRadius(Point point, int mouseX, int mouseY, 
@@ -257,15 +277,10 @@ public class DrawPanelController implements IDrawPanelController {
 	 */
 	@Override
 	public void updateModel() {
+	
 		long start = System.currentTimeMillis();
-		pointSet.lexSort();
-		long end = System.currentTimeMillis();
-		if(CHGO_8493367_Kuhn_Manuel.showConsoleOutput)
-			System.out.println("Punktmenge sortieren: " + (end - start) + " ms");
-
-		start = end;
 		hull.set(pointSet);
-		end = System.currentTimeMillis();
+		long end = System.currentTimeMillis();
 		if(CHGO_8493367_Kuhn_Manuel.showConsoleOutput)
 			System.out.println("Konturpolygon berechnen: " + (end - start) + " ms");
 
@@ -433,18 +448,22 @@ public class DrawPanelController implements IDrawPanelController {
 		// There must be some space for the points
 		if (maxX - minX > 0 && maxY - minY > 0) {
 			for (i = 0; i < number; i++) {
-                //number * 10 attempts to insert a point into the space available
+                //number * 10 attempts to find a point which is not already in the point set
 				Point point = tryPoint(number * 10, minX, minY, maxX, maxY, random);
+				
+				// All attempts have failed
 				if (point == null) {
 					break;
 				}
+				// Add the point to the list for the command
 				points.add(point);
-				pointSet.addPoint(point);
 				
-				/* Necessary because we need a sorted list for the hasPoint() method
-				which is used in the tryPoint() method.
-				*/
-				pointSet.lexSort();
+				/*
+				 * We know for sure that this point is not in the the point set. So we can add it
+				 * without checking again.
+				 */
+				pointSet.addUncheckedWithSorting(point);
+				
 			}
 		}
 		
@@ -452,7 +471,9 @@ public class DrawPanelController implements IDrawPanelController {
 		{
 			ICommand insertRandomPointsCommand = new InsertRandomPointsCommand(points, pointSet);
 			commandManager.add(insertRandomPointsCommand);
-			// No execution needed since points are already in the point set.
+			
+		
+			// No execution of the command needed since points are already in the point set. 
 			pointSet.setHasChanged(true);
 			
 			updateModel();
@@ -471,10 +492,10 @@ public class DrawPanelController implements IDrawPanelController {
 	 * All coordinates refer to the coordinate system of the model.
 	 *
 	 * @param numberOfAttempts the number of attempts to find that point.
-	 * @param minX the smallest possible x coordinate without the additional margin which is added.
-	 * @param minY the smallest possible y coordinate without the margin which is added.
-	 * @param maxX the largest possible x coordinate without the margin which is subtracted.
-	 * @param maxY the largest possible y coordinate without the margin which is subtracted.
+	 * @param minX the smallest possible x coordinate
+	 * @param minY the smallest possible y coordinate 
+	 * @param maxX the biggest possible x coordinate 
+	 * @param maxY the biggest possible y coordinate
 	 * @param random the generator which generates the random points.
 	 * @return the point that was generated. Null if no point could be generated.
 	 */
@@ -497,9 +518,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 * {@inheritDoc}
 	 * If there is  already another point in the point set with the same coordinates, 
 	 * the point is not inserted and no command is inserted into the command list.
-	 * If the point can be inserted into the point list and the command can be inserted
-	 * into the command list, the model and the view are updated afterwards. The coordinates
-	 * refer to the coordinate system of the model.
+	 * The coordinates refer to the coordinate system of the model.
 	 *
 	 * @param x the x coordinate of the point
 	 * @param y the y coordinate of the point
@@ -527,19 +546,7 @@ public class DrawPanelController implements IDrawPanelController {
 		}	
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * There is no update of the model after the insertion of the point 
-	 * into the point set.
-	 * The coordinates refer to the coordinate system of the model.
-	 *
-	 * @param x the x coordinate of the point
-	 * @param y the y coordinate of the point
-	 */
-	@Override
-	public void insertPointToPointSetByFileInput(int x, int y) {
-		pointSet.addPoint(new Point(x, y));
-	}
+	
 
 	
 	/**
@@ -574,8 +581,7 @@ public class DrawPanelController implements IDrawPanelController {
 	
 	/**
 	 * Initializes a point drag. It sets the mouse pointer coordinates
-	 * of the starting position in the coordinate system of the model.
-	 * It also sets the previous mouse pointer position which in the moment of 
+	 * of the starting position. It also sets the previous mouse pointer position which in the moment of 
 	 * starting the drag has the same coordinates as the starting position.
 	 * The coordinates refer to the coordinate system of the model.
 	 *
@@ -622,11 +628,9 @@ public class DrawPanelController implements IDrawPanelController {
 	
 	/**
 	 * Terminates a point drag.
-	 * This method creates a command which gets the difference of the 
-	 * current mouse pointer position and the starting position of 
-	 * the mouse pointer. The command put into the command list
+	 * The command is added to the command list
 	 * without being executed, because the point has already its new 
-	 * coordinates. If another point with the same coordinates as the 
+	 * position. If another point with the same coordinates as the 
 	 * dragged point exists in the poinst set, this point is removed
 	 * from the point set and kept in the command for the purpose
 	 * of restoring it in the point set if the command is undone.
@@ -660,7 +664,7 @@ public class DrawPanelController implements IDrawPanelController {
 			}
             
 			// Inserts the dragged point again
-			pointSet.addPoint(selected);
+			pointSet.addCheckedWithSorting(selected);
 
 			// Create command and put it into the command list
 			ICommand dragPointCommand = new DragPointCommand(dx, dy, selected, removedPoint, pointSet);
@@ -795,8 +799,7 @@ public class DrawPanelController implements IDrawPanelController {
 	/**
 	 * Sets the selected point.
 	 *
-	 * @param totalScale needed to calculate distances in
-	 * the model. We need it to determine the selected point because the mouse radius refers to 
+	 * @param totalScale needed to determine the selected point because the mouse radius refers to 
 	 * the coordinate system of the view. {@link GUISettings#mouseRadius}
 	 */
 	private void setSelectedPoint(double totalScale) {
@@ -841,9 +844,10 @@ public class DrawPanelController implements IDrawPanelController {
 	 * {@inheritDoc}
 	 *
 	 * This method updates the position of the mouse pointer, sets the selected point and 
-	 * updates all observers i.e. the controller of the status bar.
-	 * @param mouseX the x coordinate of the mouse pointer in the coordinate system of the model.
-	 * @param mouseY the y coordinate of the mouse pointer in the coordinate system of the model.
+	 * updates all observers i.e. the controller of the status bar. The coordinates refer to the 
+	 * coordinate system of the model.
+	 * @param mouseX the x coordinate of the mouse pointer.
+	 * @param mouseY the y coordinate of the mouse pointer.
 	 * @param totalScale needed for calculating distances
 	 * in the coordinate system of the model, because the mouse radius refers to the 
 	 * coordinate system of the view.
@@ -917,7 +921,7 @@ public class DrawPanelController implements IDrawPanelController {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * Creates a new animaton thread if necessary, or terminates 
+	 * Creates a new animation thread if necessary, or terminates 
 	 * a running animation thread, if the argument is false.
 	 *
 	 * @param animationRequested true if the animation is to
@@ -927,7 +931,7 @@ public class DrawPanelController implements IDrawPanelController {
 	public void setShowAnimation(boolean animationRequested) {
 		view.setShowAnimation(animationRequested);
 		if(animationRequested == true) {
-			if(animationThread == null || (animationThread != null && !animationThread.isAlive())) {
+			if(animationThread == null || !animationThread.isAlive()) {
 				if(!hull.isEmpty()) {
 					tangentPair.fitToAngle();
 					animationThread = new AnimationThread(tangentPair, view);
@@ -957,4 +961,6 @@ public class DrawPanelController implements IDrawPanelController {
 			}
 		}
 	}
+    
+	
 }

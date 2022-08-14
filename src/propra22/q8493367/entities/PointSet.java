@@ -3,6 +3,7 @@ package propra22.q8493367.entities;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 
@@ -50,18 +51,63 @@ public class PointSet {
 	
 	
 	/**
-	 * Adds a point to the point set.
+	 * Adds a point to the point set only if there 
+	 * is no point with the same coordinates in 
+	 * the point set. The point set is sorted 
+	 * afterwards.
 	 *
 	 * @param point  the point which is added to the point set.
 	 * 
 	 */
-	public void addPoint(Point point) {
+	public void addCheckedWithSorting(Point point) {
 		if(!(hasPoint(point) >= 0)) {
 			points.add(point);
+			lexSort();
+			checkForNewBounds(point);
+			hasChanged = true;
 		}
+		
+	}
+	
+	/**
+	 * Adds a point to the point
+	 * set without checking, if the point 
+	 * is already in the point set. We only use
+	 * this method for inserting a randomly 
+	 * generated point, because we know already
+	 * that this point is not in the point set.
+	 * @param point
+	 */
+	public void addUncheckedWithSorting(Point point) {
+		points.add(point);
+		lexSort();
 		checkForNewBounds(point);
 		hasChanged = true;
+		
 	}
+	
+	
+	/**
+	 * Adds a point to the point set without checking 
+	 * for duplicates and without sorting. This method
+	 * is only used when reading points from a file 
+	 * into the point set. By all means sorting and checking 
+	 * has to be done after this method has been called.
+	 * {@link PointSet#sortAndCheckAfterFileInput()}
+	 * @param point the point to be inserted
+	 */
+	public void addUncheckedWithoutSorting(Point point) {
+		points.add(point);
+		checkForNewBounds(point);
+	}
+	
+	/**
+	 * This method sorts the point list and removes the duplicates.
+	 * @see <a href="https://stackoverflow.com/questions/54671799/how-to-sort-and-eliminate-the-duplicates-from-arraylist">Java Dcoumentation</a>
+	 */
+	public void sortAndCheckAfterFileInput() {
+		points = points.stream().sorted().distinct().collect(Collectors.toList());		
+	}	
 
 	/**
 	 * Checks for new minimum and maximum coordinates, 
@@ -126,6 +172,8 @@ public class PointSet {
 			Collections.sort(points);
 		}
 	}
+	
+	
 
 	
 	/**
@@ -279,5 +327,7 @@ public class PointSet {
 	public int size() {
 		return points.size();
 	}
+
+
 	
 }

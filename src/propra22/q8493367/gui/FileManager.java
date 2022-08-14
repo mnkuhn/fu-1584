@@ -250,10 +250,11 @@ public class FileManager implements IFileManager {
 			while ((line = reader.readLine()) != null) {
 				Point point = parser.parseLine(line);
 				if (point != null) {
-					pointSet.addPoint(point);
+					pointSet.addUncheckedWithoutSorting(point);
 				}
 			}
 			reader.close();
+			pointSet.sortAndCheckAfterFileInput();
 			pointSet.setHasChanged(true);
 			filePath = file.getAbsolutePath();
 			long end = System.currentTimeMillis();

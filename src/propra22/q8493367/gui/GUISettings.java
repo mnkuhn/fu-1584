@@ -57,12 +57,12 @@ public class GUISettings {
 	
 	
 	// Distances and ratios
-	/**  The radius of a point in the view. */
+	/**  The radius of a point in the view coordinate system. */
 	public static final int radius = 3;
 
 	/**
-	 * The maximum distance in pixels in the view a point needs to have from the
-	 * mouse pointr to be selected.
+	 * The maximum distance in the view coordinate system 
+	 * a point needs to have from the mouse pointer to be selected.
 	 */
 	public static final int mouseRadius = 16;
 
@@ -89,7 +89,7 @@ public class GUISettings {
 	 * The difference between the maximum x and the minimum x
 	 * coordinate and the maximum y and the minimum y coordinate 
 	 * of the view translated into the coordinate system of the model
-	 * can be this value at minimum. It sets a limit to the 
+	 * can can not be smaller or equal this value. It sets a limit to the 
 	 * zoom in functionality.
 	 */
 	public static final double minimumModelRange = 8;

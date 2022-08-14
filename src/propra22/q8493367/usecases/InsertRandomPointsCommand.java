@@ -42,7 +42,8 @@ public class InsertRandomPointsCommand implements ICommand {
 	@Override
 	public void execute() {
 		for(Point point : randomPoints) {
-			pointSet.addPoint(point);
+			// No check necessary but we keep it to stay independent
+			pointSet.addCheckedWithSorting(point);
 		}	
 	}
 

@@ -110,9 +110,11 @@ public class Point implements Comparable<Point> {
 	 * @return true, if the two points have the same coordinates,
 	 * false otherwise.
 	 */
-	public boolean equals(Point p) {
-		return (this.x == p.getX()) && (this.y == p.getY());
+	@Override
+	public boolean equals(Object p) {
+		return (this.x == ((Point)p).getX()) && (this.y == ((Point)p).getY());
 	}
+	
 	
 	
 	/**
