@@ -331,17 +331,24 @@ public class ArrayListHull extends ListHull {
 				int base = 0;
 				int tip = 2;
 				while(tip < size) {
+					/*tip lies on side of the line base - base + 1 which is facing 
+					 * towards the convex hull
+					 */
 					if(signedTriangleArea(base, tip, contourType)  > 0){
 						base++;
 						tip++;	
 					}
 					else {
+						/*tip lies on side of the line base - base + 1 which is facing 
+						 * away from the convex hull
+						 */
 						if(base > 0) {
 							removePointFromContour(base + 1, contourType);
 							size--;
 							base--;
 							tip--;
 							if(tip < size) {
+								// Stepping backwards
 								while(base > 0 && signedTriangleArea(base, tip, contourType) < 0) {
 									removePointFromContour(base + 1, contourType);
 									size--;
@@ -350,7 +357,7 @@ public class ArrayListHull extends ListHull {
 								}
 							}
 						}
-						//base == 0
+						// Stepping backwards not possible
 						else {
 							removePointFromContour(base + 1, contourType);
 							size--;
