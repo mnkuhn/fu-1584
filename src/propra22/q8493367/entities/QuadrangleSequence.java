@@ -197,9 +197,17 @@ public class QuadrangleSequence {
 	
 	/** 
 	 * Goes to the pevious quadrangle in the quadrangle sequence.
+	 * @return returns 1 if the round starts again
 	 */
-	public void previous() {
+	public int previous() {
+		int lastIndex = index;
 		index = Math.floorMod(index - 1, quadrangles.size());	
+		if(index > lastIndex) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
 	}
 	
 	/**
@@ -267,7 +275,7 @@ public class QuadrangleSequence {
 		/*We only need to go for a half turn and we only need to check for the 
 		* distance A to C in every quadrangle.
 		*/
-		for(int i = 1; i < quadrangles.size()/2 + 1; i++) {
+		for(int i = 1; i < quadrangles.size(); i++) {
 			tmpDiameter = new Diameter(quadrangles.get(i).getA(), quadrangles.get(i).getC());
 			if(tmpDiameter.length() > maxDiameter.length()) {
 				maxDiameter.copy(tmpDiameter);

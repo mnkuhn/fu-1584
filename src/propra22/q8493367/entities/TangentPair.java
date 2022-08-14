@@ -73,6 +73,8 @@ public class TangentPair {
 	}
 	
 	
+	
+	
 	/**
 	 * Returns true, if for the next angle the tangent characteristics of
 	 * both tangents are ensured. Returns false otherwise. Returns false
@@ -206,6 +208,9 @@ public class TangentPair {
 		}
 		
 		
+		
+
+
 		/**
 	     *
 		 * Calculates the smallest possible angle
