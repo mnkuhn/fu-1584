@@ -6,6 +6,7 @@ package propra22.q8493367.entities;
  * The Class TriangleCalculator calculates
  * the biggest triangle of a convex hull.
  * It implements the algorithm of Dobkin and Snyder.
+ * @see <a href="https://sirenard.github.io/maximalTriangulationArt/report.pdf">Description of the algorithm on page 2</a>
  * 
  */
 public class DobkinTriangleCalculator implements ITriangleCalculator {

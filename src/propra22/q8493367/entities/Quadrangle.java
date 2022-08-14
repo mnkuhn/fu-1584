@@ -3,8 +3,8 @@ package propra22.q8493367.entities;
 /**
  * The Class Quadrangle represents a quadrangle. It provides getters and
  * setters for the four points of the quadrangle and a method
- * which returns twice the area of the quadrangel. This method is 
- * only used for comparison purposes.
+ * which returns twice the area of the quadrangle. The last 
+ * method is only used for comparison purposes.
  */
 public class Quadrangle {
      

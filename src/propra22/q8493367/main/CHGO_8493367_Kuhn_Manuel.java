@@ -48,8 +48,9 @@ public class CHGO_8493367_Kuhn_Manuel {
 	 *  and the quadrangle are written to the console.
 	 *  */
 	public static final boolean showConsoleOutput = false;
+	
 	/**
-	 * Creates the entities and calculators, GUI elements and their controllers.
+	 * Creates the entities, GUI elements and their controllers.
 	 */
 	private static void createAndShowGUI() {
 		
@@ -62,10 +63,10 @@ public class CHGO_8493367_Kuhn_Manuel {
 		Triangle triangle = new Triangle();
 		TangentPair tangentPair = new TangentPair(quadrangleSequence);
 		
-		/*
-		Calculators for diameter and quadrangle (one calculator for both) and triangle
-		Draw panel, draw panel listener and controller of the draw panel
-		*/
+		
+		/* Calculator for diameter, quadrangle and quadrangle sequence
+		Calculator for the triangle
+		Draw panel, draw panel listener and controller for the draw panel */
 		DiameterAndQuadrangleCalculator diameterAndQuadrangleCalculator = new DiameterAndQuadrangleCalculator(hull);
 		ITriangleCalculator triangleCalculator = new DittmarTriangleCalculator(hull);
 		DrawPanel drawPanel = new DrawPanel(pointSet, hull, diameter, quadrangle, triangle, tangentPair, quadrangleSequence);

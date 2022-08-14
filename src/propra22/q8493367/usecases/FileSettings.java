@@ -13,6 +13,6 @@ public class FileSettings {
 	/** The default file path for the manual. */
 	public static final String defaultManualPath = "help/manual.html";
 	
-	/** The name of the default file parser */
+	/** The name of the default file parser. It can be "CONVENTIONAL" or "REGEX" */
 	public static final String defaultParserName = "CONVENTIONAL";
 }

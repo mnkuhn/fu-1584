@@ -86,9 +86,6 @@ public class DittmarTriangleCalculator implements ITriangleCalculator {
 				
 			triangle.copy(biggestTriangle);		
 		}
-	    	
-	    	
-	    
-		
+
 	}
 }

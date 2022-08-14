@@ -208,8 +208,12 @@ public class TangentPair {
 		
 		/**
 	     *
-		 * Calculates the angle of the tangent if it
-		 * touches the contact point and the next hull point.
+		 * Calculates the smallest possible angle
+		 * for the current contact point. To make
+		 * the angle as small as possible the tangent
+		 * has to touch the next hull point. It is the 
+		 * next hull point because the tangent turns
+		 * counterclockwise.
 		 *
 		 * @return the angle in radians.
 		 */
@@ -241,8 +245,8 @@ public class TangentPair {
 		
         /**
          * Returns true if for the next angle (angle + delta)
-         * the characteristic of a tangent is maintained. Returns
-         * false if the tangent 'cuts' the convex hull.
+         * the tangent maintains its tangent characteristics. 
+         * Returns false if the tangent 'cuts' the convex hull.
          *
          * @return True, if the next angle is still maintaining the 
          * characteristic of the tangent described above.
@@ -322,6 +326,8 @@ public class TangentPair {
 		
 		/**
 		 * Returns end point A of the tangent for the next angle (angle + delta).
+		 * We might use this function if the tangents are supposed 
+		 * to turn clockwise.
 		 *
 		 * @param delta the delta, by which the angle is increased.
 		 * @return the end point A

@@ -254,7 +254,7 @@ public class FileManager implements IFileManager {
 				}
 			}
 			reader.close();
-			pointSet.sortAndCheckAfterFileInput();
+			pointSet.sortAndCheck();
 			pointSet.setHasChanged(true);
 			filePath = file.getAbsolutePath();
 			long end = System.currentTimeMillis();

@@ -4,7 +4,7 @@ package propra22.q8493367.controllers;
 
 /**
  * The Interface for the status bar. It provides methods
- * to display status information in the status bar. With these methods
+ * for showing status information in the status bar. With these methods
  * the number of points in the point set, the coordinates of the 
  * mouse pointer over the draw panel and the coordinates of the selected point 
  * can be displayed.

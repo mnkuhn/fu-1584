@@ -206,8 +206,8 @@ public class DrawPanelController implements IDrawPanelController {
     
 	
 	@Override
-	public void sortAndCheckPointsAfterFileInput() {
-		pointSet.sortAndCheckAfterFileInput();
+	public void sortAndCheckPoints() {
+		pointSet.sortAndCheck();
 		
 	}
 
@@ -556,9 +556,9 @@ public class DrawPanelController implements IDrawPanelController {
 	 *
 	 * @param mouseX the x coordinate of the mouse.
 	 * @param mouseY the y coordinate of the mouse.
-	 * @param totalScale needed for calculating distances
-	 * in the coordinate system of the model, because the mouse radius refers to the 
-	 * coordinate system of the view.
+	 * @param totalScale needed for the translation of distances from the model 
+	 * coordinate system into the view coordinate system. It is the scale of the representation in
+	 * the draw panel.
 	 * 
 	 */
 	@Override
@@ -770,7 +770,7 @@ public class DrawPanelController implements IDrawPanelController {
 	 * moving clockwise along the hull. We refer to a standard cartesian coordinate system.
 	 */
 	@Override
-	public int[][] hullAsArray() {
+	public int[][] getHullAsArray() {
 		return hull.toArray();
 	}
 	
@@ -799,7 +799,10 @@ public class DrawPanelController implements IDrawPanelController {
 	/**
 	 * Sets the selected point.
 	 *
-	 * @param totalScale needed to determine the selected point because the mouse radius refers to 
+	 * @param totalScale  needed for the translation of distances from the model 
+	 * coordinate system into the view coordinate system. It is the scale of the representation in
+	 * the draw panel.
+	 * In this case it is used to determine the selected point because the mouse radius refers to 
 	 * the coordinate system of the view. {@link GUISettings#mouseRadius}
 	 */
 	private void setSelectedPoint(double totalScale) {
@@ -848,9 +851,9 @@ public class DrawPanelController implements IDrawPanelController {
 	 * coordinate system of the model.
 	 * @param mouseX the x coordinate of the mouse pointer.
 	 * @param mouseY the y coordinate of the mouse pointer.
-	 * @param totalScale needed for calculating distances
-	 * in the coordinate system of the model, because the mouse radius refers to the 
-	 * coordinate system of the view.
+	 * @param totalScale needed for the translation of distances from the model 
+	 * coordinate system into the view coordinate system. It is the scale of the representation in
+	 * the draw panel.
 	 */
 	@Override
 	public void updateMouseData(int mouseX, int mouseY, double totalScale) {

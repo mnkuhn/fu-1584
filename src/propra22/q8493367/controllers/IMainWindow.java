@@ -48,8 +48,6 @@ public interface IMainWindow {
 	void showManual(String path);
 	
 	
-	
-	
 	/**
 	 * Sets the convex hull visible or invisible.
 	 * 

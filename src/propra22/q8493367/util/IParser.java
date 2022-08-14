@@ -9,7 +9,7 @@ import propra22.q8493367.entities.Point;
 public interface IParser {
 	
 	/**
-	 * Parses the string.
+	 * Extracts a point from a String.
 	 *
 	 * @param line the string which is to be parsed
 	 * @return the point which is extracted from the line

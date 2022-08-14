@@ -265,7 +265,7 @@ public class QuadrangleSequence {
 		Diameter tmpDiameter;
 		
 		/*We only need to go for a half turn and we only need to check for the 
-		* distance A to C.
+		* distance A to C in every quadrangle.
 		*/
 		for(int i = 1; i < quadrangles.size()/2 + 1; i++) {
 			tmpDiameter = new Diameter(quadrangles.get(i).getA(), quadrangles.get(i).getC());

@@ -54,10 +54,10 @@ public class HullCalculator implements IHullCalculator{
 	private QuadrangleSequence quadrangleSequence;
 	
 	/**
-	 * Instantiates a new hull calculator by creating the entities and 
-	 * calculators. The draw panel controller has a specific role because
+	 * Instantiates a new hull calculator by creating the entities and the 
+	 * draw panel controller. It has a specific role because
 	 * it only coordinates the calculations. It does not handle any events
-	 * from the draw panel since the draw panel is null internally.
+	 * from the draw panel since no GUI is involved.
 	 */
 	public HullCalculator() {
 		this.pointSet = new PointSet();
@@ -76,7 +76,7 @@ public class HullCalculator implements IHullCalculator{
 	}
 	
 	/**
-	 * Adds a point to the point set.
+	 * Adds a point into the point set.
 	 * @param arg0 the x coordinate of the point
 	 * @param arg1 the y coordinate of the point
 	 */
@@ -87,9 +87,8 @@ public class HullCalculator implements IHullCalculator{
     
 	/**
 	 * Adds points from an array of integers into the point set.
-	 * @param arg0 n x 2 the array of the points, where arg0[m][0] is the 
-	 * x coordinate of the m-th point and arg[m][1] is the y coordinate 
-	 * of the m-th point.
+	 * @param arg0 n x 2 the array of the points, where the inner
+	 * array contains the x and the y coordinate of the point.
 	 */
 	@Override
 	public void addPointsFromArray(int[][] arg0) {
@@ -120,22 +119,20 @@ public class HullCalculator implements IHullCalculator{
     
 	/**
 	 * Returns the convex hull as an n x 2 integer array where
-	 * the x coordinate of a point is the first element 
-	 * and the y coordinate is the second element of the inner 
-	 * array.
+	 * the inner array contains the x and the y coordinate
+	 * of one of the n points.
 	 * @return the array with the coordinates of the  
 	 * points of the convex hull.
 	 */
 	@Override
 	public int[][] getConvexHull() {
-		return drawPanelController.hullAsArray();
+		return drawPanelController.getHullAsArray();
 	}
 	
 	/**
 	 * Returns the diameter as an 2 x 2 integer array where
-	 * the x coordinate of a point is the first element 
-	 * and the y coordinate is the second element of the inner 
-	 * array.
+	 * the inner array contains the x and the y coordinate
+	 * of one of the two points.
 	 * @return the array with the coordinates of the two points of 
 	 * the diameter.
 	 */
@@ -188,11 +185,10 @@ public class HullCalculator implements IHullCalculator{
     
 	/**
 	 * Returns the biggest quadrangle as an 4 x 2 integer 
-	 * array where the x coordinate of a point is the first 
-	 * element and the y coordinate is the second element 
-	 * of the inner array.
+	 * array where the inner array contains the 
+	 * x and the y coordinate of one of the four points.
 	 * @return the array with the coordinates of the points 
-	 * of the quadrangle
+	 * of the quadrangle.
 	 */
 	@Override
 	public int[][] getQuadrangle() {
@@ -210,12 +206,9 @@ public class HullCalculator implements IHullCalculator{
     
 	/**
 	 * Returns the biggest triangle as an
-	 * 3 x 2 integer array where the x 
-	 * coordinate of a point is the first 
-	 * element and the y coordinate is the 
-	 * second element of the inner array.
-	 * @return the array with the coordinates of
-	 * the points of the biggest triangle.
+	 * 3 x 2 integer array the inner array 
+	 * contains the x  and the y coordinate 
+	 * of one of the three points.
 	 */
 	@Override
 	public int[][] getTriangle() {

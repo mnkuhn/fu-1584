@@ -39,7 +39,7 @@ public class MainWindow extends JFrame implements IMainWindow {
 	
 	/**
 	 * The Constant serialVersionUID which is used to check 
-	 * if a serialized object corresponds to the right version.
+	 * if a serialized object has the right version.
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -128,20 +128,6 @@ public class MainWindow extends JFrame implements IMainWindow {
 		
 		
 	}
-
-   
-	
-	@Override
-	public void setUndoEnabled(boolean b) {
-		undoItem.setEnabled(b);
-	}
-	
-	
-	@Override
-	public void setRedoEnabled(boolean b) {
-		redoItem.setEnabled(b);
-	}
-	
 
 	
 	/**
@@ -406,6 +392,19 @@ public class MainWindow extends JFrame implements IMainWindow {
 		helpMenu.add(manualItem);
 		menuBar.add(helpMenu);
 	}
+	
+
+	@Override
+	public void setUndoEnabled(boolean b) {
+		undoItem.setEnabled(b);
+	}
+	
+	
+	@Override
+	public void setRedoEnabled(boolean b) {
+		redoItem.setEnabled(b);
+	}
+	
 	
 	
 	@Override

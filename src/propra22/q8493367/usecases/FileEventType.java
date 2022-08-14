@@ -7,13 +7,17 @@ package propra22.q8493367.usecases;
  */
 public enum FileEventType {
 	
-	/** Create a new draw panel model*/
+	/** Create a new draw panel and remove 
+	 * all points from the point set
+	 */
 	NEW, 
-	/** Load the points from the file into the draw panel model*/
+	/** Load the points from the file into the point set*/
 	OPEN, 
-	/** Save the draw panel model to a file*/
+	/** Save points of the point set to a file*/
 	SAVE, 
-	/** Save the draw panel model to a file */
+	/** Save the points of the point 
+	 * set to a new file 
+	 */
 	SAVE_AS, 
 	/** Exit the application */
 	EXIT;

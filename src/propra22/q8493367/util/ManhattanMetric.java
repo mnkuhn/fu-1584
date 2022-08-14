@@ -1,8 +1,7 @@
 package propra22.q8493367.util;
 
 /**
- * The Class ManhattanMetric implements 
- * a manhattan metric also known as taxicab geometry.
+ * The Class ManhattanMetric implements a manhattan metric also known as taxicab geometry.
  * @see <a href="https://en.wikipedia.org/wiki/Taxicab_geometry">Taxicab geometry</a>
  */
 public class ManhattanMetric implements IMetric {

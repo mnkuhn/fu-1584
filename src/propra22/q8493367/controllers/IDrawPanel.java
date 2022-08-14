@@ -120,7 +120,7 @@ public interface IDrawPanel  {
 	void center();
 
 	/**
-	 * Gets a new point with the translated coordinates from 
+	 * Returns a new point with the translated coordinates from 
 	 * the point p. The coordinates are translated from the 
 	 * view coordinate system to the model coordinate system.
 	 *

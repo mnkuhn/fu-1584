@@ -30,9 +30,7 @@ public class InsertPointCommand implements ICommand {
 	      this.pointSet = pointSet;
 	}
 	
-	/**
-	 * Executes the insert point command.
-	 */
+	
 	@Override
 	public void execute() {
 		// No check necessary to stay independent
@@ -40,9 +38,7 @@ public class InsertPointCommand implements ICommand {
 		
 	}
 
-	/**
-	 * Unexecutes the insert point command.
-	 */
+	
 	@Override
 	public void unexecute() {
 		pointSet.removePoint(point);	

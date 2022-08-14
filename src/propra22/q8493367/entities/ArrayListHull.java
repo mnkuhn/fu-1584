@@ -5,8 +5,11 @@ import java.util.List;
 
 
 /**
- * The Class Hull represents a contour polygon or a convex hull.
- * The underlying data structure is an array list of points.
+ * The Class ArrayListHull represents a contour polygon 
+ * or a convex hull. The underlying data structure is an 
+ * array list of points. It provides a method which 
+ * returns a HullIterator for cyclic reading.
+ * 
  */
 public class ArrayListHull extends ListHull {
 	
@@ -103,8 +106,10 @@ public class ArrayListHull extends ListHull {
 		 * Instantiates a new hull iterator.
 		 *
 		 * @param type represents the type of the iterator.
-		 * 0 stands for the iterator starting on the left most point
-		 * 1 stands for the iterator starting on the right most point
+		 * 0 stands for the iterator starting on the left most point 
+		 * of the convex hull.
+		 * 1 stands for the iterator starting on the right most point 
+		 * of the convex hull.
 		 */
 		private HullIterator(int type) {
 			if(type == 0) {
@@ -131,7 +136,7 @@ public class ArrayListHull extends ListHull {
 
 		/**
 		 * Returns the next point with respect to the current iterator position,
-		 * moving clockwise in standard cartesian coordinate system.
+		 * moving clockwise in a standard cartesian coordinate system.
 		 *
 		 * @return the next point
 		 */
@@ -315,8 +320,7 @@ public class ArrayListHull extends ListHull {
     /** 
      * Another version of the cleanContour method. It works without
      * iterators and was about 2ms faster than the method in the inheriting
-     * class in a test row of 50 times all the 26 tests (146.16 ms average 
-     * versus 144,14 ms average).
+     * class in a test row of 50 times all the 26 tests.
      *  
      */
 	protected void cleanContour(ContourType contourType) {
@@ -327,15 +331,11 @@ public class ArrayListHull extends ListHull {
 				int base = 0;
 				int tip = 2;
 				while(tip < size) {
-					//next is on the inner side of the line through base and base + 1
 					if(signedTriangleArea(base, tip, contourType)  > 0){
 						base++;
 						tip++;	
 					}
 					else {
-						/* next is on the outer side of the line through base and base + 1 or 
-						 * next is exactly on the line through base and base + 1
-						 */
 						if(base > 0) {
 							removePointFromContour(base + 1, contourType);
 							size--;

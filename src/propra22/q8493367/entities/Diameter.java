@@ -2,7 +2,8 @@ package propra22.q8493367.entities;
 
 /**
  * The Class Diameter represents the diameter of the convex hull
- * which is a pair of the two points of the hull with maximum distance.
+ * which is a pair of two points A and B of the hull. There is no other
+ * pair with bigger distance between the points of the pair.
  */
 public class Diameter {
 	
@@ -35,7 +36,7 @@ public class Diameter {
 	
 	
 	/**
-	 * Returns the first point of the diameter.
+	 * Returns the the point A.
 	 *
 	 * @return the point A
 	 */
@@ -44,7 +45,7 @@ public class Diameter {
 	}
 	
 	/**
-	 * Returns the second point of the diameter.
+	 * Returns the point B.
 	 *
 	 * @return the point b
 	 */
@@ -53,7 +54,7 @@ public class Diameter {
 	}
     
 	/**
-	 * Sets the first point of the diameter.
+	 * Sets the the point A.
 	 *
 	 * @param a the point a
 	 */
@@ -63,7 +64,7 @@ public class Diameter {
 	}
     
 	/**
-	 * Sets the second point of the diameter.
+	 * Sets the point B.
 	 *
 	 * @param b  the point b
 	 */
@@ -87,11 +88,8 @@ public class Diameter {
 	 * Returns the Diameter as an 2x2 array of integers.
 	 *
 	 * @return the 2x2 array, containing the coordinates of the 
-	 * two end points of the diameter:
-	 * [0][0] - the first end points x coordinate.
-	 * [0][1] - the first end points y coordinate.
-	 * [1][0] - the second end points x coordinate.
-	 * [1][1] - the second end points y coordinate.
+	 * two end points of the diameter. The inner array contains 
+	 * the x and the y coordinate of the point.
 	 */
 	public int[][] asArray(){
 		int[][] diameterArr = new int[2][2];

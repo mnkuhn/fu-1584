@@ -5,10 +5,15 @@ package propra22.q8493367.usecases;
  * to describe an event invoked by user input
  * to insert a certain number of randomly 
  * generated points into the point set.
+ * All coordinates refer to the 
+ * coordinate system of the model.
  */
 public class RandomPointsEvent {
 	
-	/** The type of  the random points event.*/
+	/** The type of  the random points event In this 
+	 * application it tells, how many points
+	 * are to be inserted.
+	 */
 	private final RandomPointsEventType type;
 	
 	/** The minimum x coordinate for the randomly 

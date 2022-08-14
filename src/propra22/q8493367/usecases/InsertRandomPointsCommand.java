@@ -16,7 +16,7 @@ import propra22.q8493367.entities.PointSet;
 
 public class InsertRandomPointsCommand implements ICommand {
 
-	/** The inserted points. */
+	/** The randomly generated points. */
 	private List<Point> randomPoints;
 	
 	/** The point set in which the points are inserted. */
@@ -35,21 +35,16 @@ public class InsertRandomPointsCommand implements ICommand {
 		this.pointSet = pointSet;
 	}
     
-	
-	/**
-	 * Executes the command.
-	 */
 	@Override
 	public void execute() {
 		for(Point point : randomPoints) {
-			// No check necessary but we keep it to stay independent
+			/**No check for duplicate points necessary but we keep it to stay 
+			 * independent */
 			pointSet.addCheckedWithSorting(point);
 		}	
 	}
 
-	/**
-	 * Unexecutes the command.
-	 */
+
 	@Override
 	public void unexecute() {
 		for(Point point : randomPoints) {

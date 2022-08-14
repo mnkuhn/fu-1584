@@ -85,7 +85,7 @@ public class ViewEvent  {
 	}
 
 	/**
-	 *Returns true, if the triangle is to be shown. 
+	 * Returns true, if the triangle is to be shown. 
 	 * Returns false otherwise.
 	 *
 	 * @return true, if the triangle is to be shown, false otherwise.

@@ -4,7 +4,7 @@ package propra22.q8493367.entities;
 
 /**
  * The Class Point represents a point in a cartesian 
- * coordinate system. It implements the interface Comparable &lt; Point &gt;
+ * coordinate system. It implements the Interface Comparable &lt;Point&gt;
  * so we can construct a lexicographic order over a set
  * of points.
  */
@@ -68,8 +68,8 @@ public class Point implements Comparable<Point> {
 	
     
 	/**
-	 * Implements the compareTo method of the Comparable &lt; Point &gt;
-	 * interface. In this application, a lexicographical order 
+	 * Implements the compareTo method of the Comparable &lt;Point&gt;
+	 * Interface. In this application, a lexicographical order 
 	 * is implemented.
 	 *
 	 * @param p the point to which the comparison refers.

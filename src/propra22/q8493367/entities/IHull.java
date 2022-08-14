@@ -34,9 +34,8 @@ public interface IHull {
 	
 	/**
 	 * Returns all points as an array with n rows and 2 columns 
-	 * where n is the number of points in the hull and
-	 * the two integers in each row represent the x coordinate and the
-	 * y coordinate of a point.
+	 * where n is the number of points. The inner array contains
+	 * the x and the y coordinate of the point.
 	 *
 	 * @return the int array of the points following the points of the 
 	 * hull clockwise.

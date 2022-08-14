@@ -4,7 +4,7 @@ package propra22.q8493367.util;
  * 
  * A factory for parsers.
  * 
- *  @see <a href="https://www.youtube.com/watch?v=EcFVTgRHJLM&t=834s">youtube: factory pattern</a>
+ *  @see <a href="https://www.youtube.com/watch?v=EcFVTgRHJLM&t=834s">The factory pattern explainded on youtube</a>
  *
  */
 

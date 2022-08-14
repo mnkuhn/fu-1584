@@ -29,18 +29,12 @@ public class RemovePointCommand implements ICommand {
 	      this.pointSet = pointSet;
 	}
 	
-	/**
-	 * Executes the command
-	 */
 	@Override
 	public void execute() {
 		pointSet.removePoint(point);
 		
 	}
 
-	/**
-	 * Unexecutes the command.
-	 */
 	@Override
 	public void unexecute() {
 		pointSet.addCheckedWithSorting(point);	

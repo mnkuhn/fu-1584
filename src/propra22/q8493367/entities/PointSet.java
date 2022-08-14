@@ -76,7 +76,7 @@ public class PointSet {
 	 * this method for inserting a randomly 
 	 * generated point, because we know already
 	 * that this point is not in the point set.
-	 * @param point
+	 * @param point the point to be inserted
 	 */
 	public void addUncheckedWithSorting(Point point) {
 		points.add(point);
@@ -93,7 +93,7 @@ public class PointSet {
 	 * is only used when reading points from a file 
 	 * into the point set. By all means sorting and checking 
 	 * has to be done after this method has been called.
-	 * {@link PointSet#sortAndCheckAfterFileInput()}
+	 * {@link PointSet#sortAndCheck()}
 	 * @param point the point to be inserted
 	 */
 	public void addUncheckedWithoutSorting(Point point) {
@@ -103,9 +103,9 @@ public class PointSet {
 	
 	/**
 	 * This method sorts the point list and removes the duplicates.
-	 * @see <a href="https://stackoverflow.com/questions/54671799/how-to-sort-and-eliminate-the-duplicates-from-arraylist">Java Dcoumentation</a>
+	 * @see <a href="https://stackoverflow.com/questions/54671799/how-to-sort-and-eliminate-the-duplicates-from-arraylist">stackoverflow</a>
 	 */
-	public void sortAndCheckAfterFileInput() {
+	public void sortAndCheck() {
 		points = points.stream().sorted().distinct().collect(Collectors.toList());		
 	}	
 
@@ -180,7 +180,7 @@ public class PointSet {
 	 * Returns the index of the point, if the point
 	 * list contains the point. If the point list
 	 * does not contain the point, a negative
-	 * number is returned.
+	 * value is returned.
 	 *
 	 * @param point the point whose presence in this list is to be tested
 	 * @return the index of the point in the list, if it exists, a
@@ -249,7 +249,7 @@ public class PointSet {
     /**
 	 * Tests if the point set has changed. Returns true, if the point set 
 	 * has changed since the last time the corresponding value was set to false with
-	 * {@link #setHasChanged(boolean b)}.
+	 * {@link PointSet#setHasChanged(boolean b)}.
 	 *
 	 * @return true, if the point set has changed since
 	 * the last time the corresponding value was set to false.

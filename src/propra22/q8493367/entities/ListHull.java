@@ -7,7 +7,10 @@ import java.util.ListIterator;
 /**
  * The Class ListHull is an abstract class for a hull
  * based on a List data structure. It implements
- * the IHull interfaces.
+ * the IHull interfaces. In this class the method
+ * which calculates the contour polygon from the convex
+ * hull and the method which calculates the convex hull
+ * from the contour polygon are already implemented.
  */
 public abstract class ListHull implements IHull{
 	
@@ -290,8 +293,8 @@ public abstract class ListHull implements IHull{
 					it.previous();
 
 					/*
-					 * tip is on the outer  side of the line through baseA and baseB or on the 
-					 * line through baseA and baseB
+					 * tip is on the outer convex hull side of the line through baseA and baseB or on the 
+					 * line through baseA and baseB.
 					*/
 					if ((contourType.getSign() * Point.signedTriangleArea(baseA, baseB, tip) <= 0)) {
 						

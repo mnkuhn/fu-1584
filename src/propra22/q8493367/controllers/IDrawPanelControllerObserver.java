@@ -4,7 +4,7 @@ package propra22.q8493367.controllers;
 
 /**
  * The Interface for the observer of a draw panel controller. It provides 
- * one update method. In this application, the observer pattern is used to 
+ * an update method. In this application, the observer pattern is used to 
  * notify the controller of the status bar.
  * 
  * @see <a href="https://www.youtube.com/watch?v=_BpmfnqjgzQ&t=662s">Explanation for the observer pattern on youtube</a>

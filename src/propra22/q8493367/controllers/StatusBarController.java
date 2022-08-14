@@ -1,9 +1,8 @@
 package propra22.q8493367.controllers;
 
 /**
- * The controller for the status bar. It implements the method update
- * which updates the status bar. The updates method gets the informations
- * displayed on he status bar as arguments.
+ * The controller for the status bar. It implements the update method
+ * which sets the informations on the status bar.
  */
 public class StatusBarController implements IDrawPanelControllerObserver{
 	

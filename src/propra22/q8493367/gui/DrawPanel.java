@@ -39,9 +39,9 @@ import propra22.q8493367.usecases.DrawPanelEventType;
  * also provides a panning and a zoom functionality.
  * 
  *
- * @see <a href="https://stackoverflow.com/questions/13155382/jscrollpane-zoom-relative-to-mouse-position">stackoverflow.com</a>
- * @see <a href="https://stackoverflow.com/questions/13155382/jscrollpane-zoom-relative-to-mouse-position">youtube.com</a>
- * @see <a href="https://medium.com/@benjamin.botto/zooming-at-the-mouse-coordinates-with-affine-transformations-86e7312fd50b">medium.com</a>
+ * @see <a href="https://stackoverflow.com/questions/13155382/jscrollpane-zoom-relative-to-mouse-position">Zoom on stackoverflow.com</a>
+ * @see <a href="https://stackoverflow.com/questions/13155382/jscrollpane-zoom-relative-to-mouse-position">Zoom on youtube.com</a>
+ * @see <a href="https://medium.com/@benjamin.botto/zooming-at-the-mouse-coordinates-with-affine-transformations-86e7312fd50b">Zoom on medium.com</a>
  * 
  */
 public class DrawPanel extends JPanel implements IDrawPanel {
@@ -99,55 +99,62 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	/** The scale for the mouse centered zoom. */
 	private double scale = 1.0f;
 	
-	/** The scale of the draw panel. This
+	/** 
+	 * The scale of the draw panel. This
 	 * scale is used to adapt the size of the 
-	 * content of the draw panel, when its size
-	 * is changed by the user.
+	 * content of the draw panel, when the size
+	 * of the draw panel is changed by the user.
 	 */
 	private double panelScale = 1d;
 	
-	/** The scale factor. This factor increases or decreases the 
-	 * scale value depending on the number of mouse wheel rotations
-	 */
+	
+	 /** The scale factor. This factor increases or decreases the 
+	 * scale value depending on the number of mouse wheel rotations */
 	private final double scaleFactor = 1.08d;
 	
 	/** The x coordinate of the mouse when dragging starts. Used for
-	 * the panning functionality.*/
+	 * the panning functionality. */
 	private double initialDragX = 0;
 	
 	/** The y coordinate of the mouse when dragging starts. Used for
 	 * the panning functionality.*/
 	private double initialDragY = 0;
 
-	/**  The x coordinate of the mouse minus initialDragX. Used for
-	 * the panning functionality.
+	/**  The x coordinate of the mouse minus initial x coordinate {@link #initialDragX}. 
+	 * Used for the panning functionality.
 	 * */
 	private double mouseOffsetX = 0;
 	
-	/**  The y coordinate of the mouse minus initialDragY. Used for
-	 * the panning functionality.
+	/**  The y coordinate of the mouse minus initial y coordinate {@link #initialDragY}. 
+	 * Used for the panning functionality.
 	 */
 	private double mouseOffsetY = 0;
     
-	/** The outerOffsetX which is used for zooming and dragging
-	 * the panel.
+	/** The outer offset of the x coordinate of the translation methods 
+	 * {@link #translateXFromModelToView(int, double, double, double, double, double)} and
+	 * {@link #translateXFromViewToModel(int, double, double, double, double, double)}
+	 * which map from the model to the view and vice versa.
 	 */
 	private double outerOffsetX = 0;
 	
-	/** The outerOffsetY which is used for zooming and dragging
-	 * the panel.
+	/** The outer offset of the y coordinate of the translation methods 
+	 * {@link #translateYFromModelToView(int, double, double, double, double, double)} and
+	 * {@link #translateYFromViewToModel(int, double, double, double, double, double)}
+	 * which map from the model to the view and vice versa.
 	 */
 	private double outerOffsetY = 0;
 
-	/** The innerOffsetX is used to
-	 * center the representation on the 
-	 * draw panel with respect to the x coordinates.
+	/** The inner offset of the x coordinate of the translation methods 
+	 * {@link #translateXFromModelToView(int, double, double, double, double, double)} and
+	 * {@link #translateXFromViewToModel(int, double, double, double, double, double)}
+	 * which map from the model to the view and vice versa.
 	 */
 	private double innerOffsetX = 0;
 	
-	/** The innerOffsetY is used to center
-	 * the representation on the draw panel 
-	 * with respect to the y coordinates.
+	/** The inner offset of the y coordinate of the translation methods 
+	 * {@link #translateYFromModelToView(int, double, double, double, double, double)} and
+	 * {@link #translateYFromViewToModel(int, double, double, double, double, double)}
+	 * which map from the model to the view and vice versa.
 	 */
 	private double innerOffsetY = 0;
 	
@@ -716,6 +723,7 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 			// find the scale
 			double xRange = (((double)pointSet.getMaxX() - (double)pointSet.getMinX()) * panelScale);
 			double yRange = (((double)pointSet.getMaxY() - (double)pointSet.getMinY()) * panelScale);
+			
 			if(xRange != 0 && yRange != 0) {
 				 double xScale = ((double)getWidth() - 2 * (double)GUISettings.margin)/(double)xRange;
 				 double yScale = ((double)getHeight() - 2 * (double)GUISettings.margin)/(double)yRange;
@@ -808,9 +816,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * coordinate system.
 	 *
 	 * @param x the x coordinate from the coordinate system in the model.
-	 * @param innerOffsetX the inner offset of the projection. {@link DrawPanel#innerOffsetX}
-	 * @param outerOffsetX the outer offset of the projection. {@link DrawPanel#outerOffsetX}
-	 * @param mouseOffsetX the mouse offset of the projection. {@link DrawPanel#mouseOffsetX }
+	 * @param innerOffsetX the inner offset of the x coordinate of the projection. {@link DrawPanel#innerOffsetX}
+	 * @param outerOffsetX the outer offset of the x coordinate of the projection. {@link DrawPanel#outerOffsetX}
+	 * @param mouseOffsetX the mouse offset of the x coordinate of the projection. {@link DrawPanel#mouseOffsetX }
 	 * @param scale the scale value of the projection. {@link DrawPanel#scale}
 	 * @param panelScale the panel scale value of the projection. {@link DrawPanel#panelScale}
 	 * @return the x coordinate from the coordinate system in the view.
@@ -825,9 +833,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * coordinate system.
 	 *
 	 * @param x the x coordinate from the coordinate system in the view.
-	 * @param innerOffsetX the inner offset value of the projection. {@link DrawPanel#innerOffsetX}
-	 * @param outerOffsetX the outer offset value of the projection. {@link DrawPanel#outerOffsetX}
-	 * @param mouseOffsetX the mouse offset value of the projection. {@link DrawPanel#mouseOffsetX}
+	 * @param innerOffsetX the inner offset of the x coordinate of the projection. {@link DrawPanel#innerOffsetX}
+	 * @param outerOffsetX the outer offset of the x coordinate of the projection. {@link DrawPanel#outerOffsetX}
+	 * @param mouseOffsetX the mouse offset of the x coordinate of the projection. {@link DrawPanel#mouseOffsetX}
 	 * @param scale the scale value of the projection. {@link DrawPanel#scale}
 	 * @param panelScale the panel scale value of the projection. {@link DrawPanel#panelScale}
 	 * @return the x coordinate from the coordinate system of the model.
@@ -842,9 +850,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * coordinate system.
 	 *
 	 * @param y the y coordinate from the coordinate system of the model.
-	 * @param innerOffsetY the inner offset value of the projection. {@link DrawPanel#innerOffsetY}
-	 * @param outerOffsetY the outer offset value of the projection. {@link DrawPanel#outerOffsetY}
-	 * @param mouseOffsetY the mouse offset value of the projection. {@link DrawPanel#mouseOffsetY}
+	 * @param innerOffsetY the inner offset of the y coordinate of the projection. {@link DrawPanel#innerOffsetY}
+	 * @param outerOffsetY the outer offset of the y coordinate of the projection. {@link DrawPanel#outerOffsetY}
+	 * @param mouseOffsetY the mouse offset of the y coordinate of the projection. {@link DrawPanel#mouseOffsetY}
 	 * @param scale the scale value of this projection. {@link DrawPanel#scale}
 	 * @param panelScale the panel scale value of the projection. {@link DrawPanel#panelScale}
 	 * @return the y coordinate from the coordinate system of the view.
@@ -861,9 +869,9 @@ public class DrawPanel extends JPanel implements IDrawPanel {
 	 * coordinate system.
 	 *
 	 * @param y the y coordinate from the view coordinate system.
-	 * @param innerOffsetY the inner offset value of the projection. {@link DrawPanel#innerOffsetY}
-	 * @param outerOffsetY the outer offset value of the projection. {@link DrawPanel#outerOffsetY}
-	 * @param mouseOffsetY the mouse offset value of the projection. {@link DrawPanel#mouseOffsetY}
+	 * @param innerOffsetY the inner offset of the y coordinate of the projection. {@link DrawPanel#innerOffsetY}
+	 * @param outerOffsetY the outer offset of the y coordinate of the projection. {@link DrawPanel#outerOffsetY}
+	 * @param mouseOffsetY the mouse offset of the y coordinate of the projection. {@link DrawPanel#mouseOffsetY}
 	 * @param scale the scale value of  the projection. {@link DrawPanel#scale}
 	 * @param panelScale the panel scale value of the projection. {@link DrawPanel#panelScale}
 	 * @return the y coordinate from the model coordinate system.

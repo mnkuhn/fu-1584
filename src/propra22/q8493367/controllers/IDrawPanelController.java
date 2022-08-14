@@ -13,10 +13,10 @@ import propra22.q8493367.entities.Quadrangle;
 public interface IDrawPanelController {
 	
 	/**
-	 * Returns true, if the point set does not contain a point.
+	 * Returns true, if the point set does not contain any point.
 	 * Returns false otherwise.
 	 *
-	 * @return true, if the point set does not contain a point, 
+	 * @return true, if the point set does not contain any point, 
 	 * false otherwise.
 	 */
 	public boolean pointSetIsEmpty();
@@ -84,7 +84,11 @@ public interface IDrawPanelController {
 	
 	
 	/**
-	 * Inserts point to point set from file input.
+	 * Inserts a point to the point set 
+	 * but does not create a command. The point is 
+	 * only inserted if there is no other point 
+	 * with the same coordinates in the point set. If 
+	 * a point was inserted, the point set is sorted afterwards.
 	 *
 	 * @param x the x coordinate of the point
 	 * @param y the y coordinate of the point
@@ -95,18 +99,18 @@ public interface IDrawPanelController {
 	 * Sorts the points of the point set
 	 * and removes duplicates.
 	 */
-	void sortAndCheckPointsAfterFileInput();
+	void sortAndCheckPoints();
 	
 	
 	/**
 	 * Deletes a point from the point set as result of an action
-	 * by the user.
+	 * by the user and creates the corresponding command.
 	 *
 	 * @param mouseX the x coordinate of the mouse.
 	 * @param mouseY the y coordinate of the mouse.
-	 * @param totalScale the total scale needed for the transformation
-	 * of distances from the coordinate system of the view to the 
-	 * coordinate system of the model.
+	 * @param totalScale needed for the translation of distances from the model 
+	 * coordinate system into the view coordinate system. It is the scale of the representation in
+	 * the draw panel.
 	 */
 	void deletePointFromPointSetByCommand(int mouseX, int mouseY, double totalScale);
 
@@ -234,7 +238,8 @@ public interface IDrawPanelController {
 
 	/**
 	 * Tries to insert a certain number of randomly generated points into the visible area
-	 * of the draw panel.
+	 * of the draw panel. This can fail if the visible area does not 
+	 * provide enough space.
 	 *
 	 * @param number the number of random points to be inserted into the point set.
 	 * @param minX the minimum x coordinate which the points are allowed to have
@@ -280,20 +285,22 @@ public interface IDrawPanelController {
 
 
     /**
-     * Updates the mouse data.
+     * Updates the coordinates of the mouse pointer. The
+     * coordinates refer to the coordinate system of
+     * the model.
      *
-     * @param mouseX the x coordinate of the mouse.
-     * @param mouseY the y coordinate of the mouse.
-     * @param totalScale the the total scale needed for the transformation
-	 * of distances from the coordinate system of the view to the 
-	 * coordinate system of the model.
+     * @param mouseX the x coordinate of the mouse pointer.
+     * @param mouseY the y coordinate of the mouse pointer.
+     * @param totalScale needed for the translation of distances from the model 
+	 * coordinate system into the view coordinate system. It is the scale of the representation in
+	 * the draw panel.
      */
     public void updateMouseData(int mouseX, int mouseY, double totalScale);
 	
 
     /**
 	 * Sets the state of the mouse. b is true if the mouse pointer is 
-	 * located over the draw panel. b is false, if the mouse pointer 
+	 * located over the draw panel. It is false, if the mouse pointer 
 	 * is not located over the draw panel.
 	 *
 	 * @param b true, if the mouse is located over the draw panel. 
@@ -334,7 +341,7 @@ public interface IDrawPanelController {
 	 * 
 	 * @return the array of integers.
 	 */
-	int[][] hullAsArray();
+	int[][] getHullAsArray();
 	
 	/**
 	 * Centers the representation on the draw panel.

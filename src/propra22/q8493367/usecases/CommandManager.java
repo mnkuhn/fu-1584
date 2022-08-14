@@ -9,7 +9,7 @@ import java.util.List;
  * for handling the commands for the redo
  * and undo functionality of the GUI.
  * 
- * @see <a href="https://www.youtube.com/watch?v=9qA5kw8dcSU">youtube</a>
+ * @see <a href="https://www.youtube.com/watch?v=9qA5kw8dcSU">Explanation of the command pattern on youtube</a>
  */
 public class CommandManager {
 

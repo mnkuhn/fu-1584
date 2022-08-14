@@ -1,5 +1,6 @@
 package propra22.q8493367.usecases;
 
+
 /**
  * The Class DrawPanelEvent specifies all events which are generated 
  * by the user on the draw panel.
@@ -32,8 +33,9 @@ public class DrawPanelEvent {
 	 * @param source  the source object of the draw panel event
 	 * @param mouseX  the x coordinate of the mouse pointer in the model coordinate system.
 	 * @param mouseY  the y coordinate of the mouse pointer in the model coordinate system.
-	 * @param totalScale the product of scale and panel scale. This parameter is needed for
-	 * the calculation of distances in the model coordinate system.
+	 * @param totalScale needed for the translation of distances from the model 
+	 * coordinate system into the view coordinate system. It is the scale of the representation in
+	 * the draw panel.
 	 */
 	public DrawPanelEvent(DrawPanelEventType type, Object source, int mouseX, int mouseY, double totalScale) {
 		this.type = type;
