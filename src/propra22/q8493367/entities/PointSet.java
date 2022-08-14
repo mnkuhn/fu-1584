@@ -23,17 +23,6 @@ public class PointSet {
 	 */
 	private boolean hasChanged = false;
 	
-	/** The minimum x coordinate of all the points in the point set.*/
-	private int minX = 0;
-	
-	/** The maximum x coordinate of all the points in the point set.*/
-	private int maxX = 0;
-	
-	/** The minimum y coordinate of all the points in the point set.*/
-	private int minY = 0;
-	
-	/** The maximum y coordinate of all the points in the point set.*/
-	private int maxY = 0;
 	
 	
 	/**
@@ -63,7 +52,6 @@ public class PointSet {
 		if(!(hasPoint(point) >= 0)) {
 			points.add(point);
 			lexSort();
-			checkForNewBounds(point);
 			hasChanged = true;
 		}
 		
@@ -81,7 +69,6 @@ public class PointSet {
 	public void addUncheckedWithSorting(Point point) {
 		points.add(point);
 		lexSort();
-		checkForNewBounds(point);
 		hasChanged = true;
 		
 	}
@@ -98,7 +85,6 @@ public class PointSet {
 	 */
 	public void addUncheckedWithoutSorting(Point point) {
 		points.add(point);
-		checkForNewBounds(point);
 	}
 	
 	/**
@@ -109,29 +95,7 @@ public class PointSet {
 		points = points.stream().sorted().distinct().collect(Collectors.toList());		
 	}	
 
-	/**
-	 * Checks for new minimum and maximum coordinates, 
-	 * after a new point was added to the point set.
-	 *
-	 * @param point the point which is added to the point set.
-	 */
-	private void checkForNewBounds(Point point) {
-		
-	    if(points.size() == 1) {
-			maxX = point.getX();
-			minX = point.getX();
-			maxY = point.getY();
-			minY = point.getY();
-		}
-		else if(points.size() > 1) {
-			int tempX = point.getX();
-			int tempY = point.getY();
-			if(tempX > maxX) {maxX = tempX;}
-			if(tempX < minX) {minX = tempX;}
-			if(tempY > maxY) {maxY = tempY;}
-			if(tempY < minY) {minY = tempY;}
-		}
-	}
+	
 	
 	
 	/**
@@ -273,48 +237,81 @@ public class PointSet {
 	
 	/**
 	 * Returns the minimum x coordinate of all the points
-	 * in the point set.
+	 * in the point set. Returns 0 if the 
+	 * point set is empty.
 	 *
 	 * @return the minimum x coordinate of all the points
 	 * in the point set.
 	 */
 	public int getMinX() {
-		return minX;
+		if(!points.isEmpty()) {
+			return points.get(0).getX();
+		}
+		return 0;
+		
 	}
 
 	
 	/**
 	 * Returns the maximum x coordinate of all the points
-	 * in the point set.
+	 * in the point set. Returns 0 if the 
+	 * point set is empty.
 	 *
 	 * @return the maximum x coordinate of all the points
 	 * in the point set.
 	 */
 	public int getMaxX() {
-		return maxX;
+		
+		if(!points.isEmpty()) {
+			return points.get(points.size() - 1).getX();
+		}
+		return 0;
+		
 	}
 
 	
 	/**
 	 * Returns the minimum y coordinate of all the points
-	 * in the point set.
+	 * in the point set. Returns 0 if the 
+	 * point set is empty.
 	 *
 	 * @return the minimum y coordinate.
 	 */
 	public int getMinY() {
-		return minY;
+		if(!points.isEmpty()) {
+			int min = points.get(0).getY();
+			for(Point p : points) {
+				if(p.getY() < min) {
+					min = p.getY();
+				}
+			}
+			return min;
+		}
+	
+		return 0;
 	}
 
 	
 	/**
 	 * Returns the maximum y coordinate of all the points
-	 * in the point set.
+	 * in the point set. Returns 0 if the 
+	 * point set is empty.
 	 *
 	 * @return the maximum y coordinate of all the points
 	 * in the point set.
 	 */
 	public int getMaxY() {
-		return maxY;
+		if(!points.isEmpty()) {
+			int max = points.get(0).getY();
+			for(Point p : points) {
+				if(p.getY() > max) {
+					max = p.getY();
+				}
+			}
+			return max;
+		}
+	
+		return 0;
 	}
 
 	
