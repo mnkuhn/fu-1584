@@ -332,7 +332,7 @@ public class ArrayListHull extends ListHull {
 				int tip = 2;
 				while(tip < size) {
 					/*tip lies on side of the line base - base + 1 which is facing 
-					 * towards the convex hull
+					 * towards the contour polygon
 					 */
 					if(signedTriangleArea(base, tip, contourType)  > 0){
 						base++;
@@ -340,7 +340,7 @@ public class ArrayListHull extends ListHull {
 					}
 					else {
 						/*tip lies on side of the line base - base + 1 which is facing 
-						 * away from the convex hull
+						 * away from the contour polygon
 						 */
 						if(base > 0) {
 							removePointFromContour(base + 1, contourType);
