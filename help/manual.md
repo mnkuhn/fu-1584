@@ -25,7 +25,7 @@ Die [grafische Benutzeroberfläche](#die-grafische-benutzeroberfläche) bietet d
 &nbsp;
 
 ## Die grafische Benutzeroberfläche
-Die grafische Benutzeroberfläche besteht aus der Menüleiste, der Zeichenfläche und der Statusleiste, so wie in der Abbildung dargestellt.
+Die grafische Benutzeroberfläche besteht aus der Menüleiste, dem sichtbaren Bereich der Zeichenfläche und der Statusleiste, so wie in der Abbildung dargestellt.
 ![GUI_allg.png](images/GUI_general.png)
 
 &nbsp;
@@ -36,10 +36,10 @@ Die Zeichenfläche stellt die Punktmenge, die konvexe Hülle, den Durchmesser un
 #### Darstellung der Elemente
 
 ##### Punkte
-Punkte werden schwarz gefüllte Kreise dargestellt.
+Punkte werden als schwarz gefüllte Kreise dargestellt.
 
 ##### Konvexe Hülle
-Die konvexe Hülle erscheint als ein rotes, konvexes Polygon. Konkret werden zwei Punkte der konvexen Hülle durch eine rote Gerade verbunden und alle Punkte, die durch eine rote Gerade verbunden sind, gehören zur konvexen Hülle. Die Konvexe Hülle kann aus nur einem Punkt oder einer Geraden bestehen, falls die entsprechende Punktmenge nur aus einem bzw. aus zwei Punkten besteht.
+Die konvexe Hülle wird durch ein aus roten Geraden bestehenden Polygon angezeigt. Die Punkte, welche mit einer roten Geraden verbunden sind, bilden die konvexe Hülle. Die Konvexe Hülle kann aus nur einem Punkt oder einer Geraden bestehen, falls die entsprechende Punktmenge nur aus einem bzw. aus zwei Punkten besteht.
 
 ##### Durchmesser
 Der Durchmesser wird durch eine blaue Gerade angezeigt. Er kann auch nur als Punkt dargestellt werden, falls die Punktmenge nur einen Punkt enthält.
@@ -67,7 +67,7 @@ Wählen Sie den Punkt, indem Sie den Mauszeiger auf bzw. in die Nähe des zu lö
 
 ##### Punkt verschieben
 Bewegen Sie den Mauszeiger auf bzw. in die Nähe des Punktes, welchen Sie verschieben möchten. Sobald der Punkt gewählt ist, wird er von einem schwarzen Quadrat, welches den Punkt umgibt, markiert. Drücken Sie nun `Alt` und die linke Maustaste in dieser Reihenfolge. Nun können Sie den gewählten Punkt verschieben. Bewegen Sie den Punkt an die gewünschte Stelle und lassen Sie dann die Taste `Alt` und die linke Maustaste los (die Reihenfolge spielt keine Rolle). Die Koordinaten des gewählten Punktes werden vor und während dem Verschieben in der Statusleiste nach dem Label "Gewählter Punkt: " angezeigt.
-Befindet sich an der Stelle, auf welche der gewählte Punkt verschoben wird, schon ein anderer Punkt, so wird dieser Punkt gelöscht. Die Anzahl der Punkte - angezeigt nach dem Label "Anzahl Punkte: " - reduziert sich dann um 1. Wird der Befehl [rückgängig gemacht](#befehl-rückgängig-machen), so wird der verschobene Punkt wieder an seinem ursprünglichen Ort eingetragen und ein allfälliger gelöschter Punkt wird wieder hinzugefügt.
+Befindet sich an der Stelle, auf welche der gewählte Punkt verschoben wird, schon ein anderer Punkt, so wird dieser Punkt gelöscht. Die Anzahl der Punkte - angezeigt nach dem Label "Anzahl Punkte: " - reduziert sich dann um 1. Wird der Befehl [rückgängig gemacht](#befehl-rückgängig-machen), so wird der verschobene Punkt wieder an seinem ursprünglichen Ort bewegt und ein allfälliger gelöschter Punkt wird wieder hinzugefügt.
 
 Eine weitere Möglichkeit, die Punkmenge zu bearbeiten, bietet das Bearbeiten-Menü. Mit Hilfe dieses Menüs können Sie [zufällig erzeugte Punkte in den sichtbaren Bereich der Zeichenfläche einfügen](#zufällig-erzeugte-punkte-einfügen).
 
@@ -90,16 +90,16 @@ Drücken Sie `Ctrl`. Nun können Sie durch Drehen des Mausrades je nach Drehrich
 #### Das Datei-Menü
 
 ##### Neue Zeichenfläche erzeugen
-Wählen Sie *Datei* → *Neu*. Falls Änderungen an der Punktmenge vorgenommen wurden, werden Sie zuvor gefragt, ob die bestehende Punktmenge in einer Datei gespeichert werden soll.
+Wählen Sie *Datei* → *Neu*. Falls zuvor Änderungen an der Punktmenge vorgenommen wurden, werden Sie gefragt, ob die bestehende Punktmenge in einer Datei gespeichert werden soll.
 
 ##### Datei öffnen
-Wählen Sie *Datei* → *Öffnen*. Nun können Sie die gewünschte Datei auswählen und öffnen. Falls Änderungen an der Punktmenge vorgenommen wurden, werden Sie zuvor gefragt, ob die bestehende Punktmenge in einer Datei gespeichert werden soll. Die Punktmenge der Datei wird nach dem öffnen zentriert dargestellt, falls es intern nicht zu einem Überlauf kommen kann. Ansonsten wird die Punktmenge nicht zentriert dargestellt.
+Wählen Sie *Datei* → *Öffnen*. Nun können Sie die gewünschte Datei auswählen und öffnen. Falls zuvor Änderungen an der Punktmenge vorgenommen wurden, werden Sie gefragt, ob die bestehende Punktmenge in einer Datei gespeichert werden soll. Die Punktmenge der Datei wird nach dem öffnen zentriert dargestellt, falls es intern nicht zu einem Überlauf kommen kann. Ansonsten wird die Punktmenge nicht zentriert dargestellt.
 
 ##### Datei speichern
 Falls Sie die Punktmenge in einer neuen Datei speichern möchten, wählen Sie *Datei*  →  *Speichern unter*. Nun können Sie einen Dateinamen eingeben und die Punktmenge unter diesem Dateinamen in einer Datei ablegen. Wählen Sie *Datei* →  *Speichern*, falls Sie zuvor die Punktmenge mit *Datei* → *Öffnen* geladen haben und die geänderte Punktmenge in der schon geöffneten Datei abgespeichert werden soll.
 
 ##### Programm Beenden
-Wählen Sie *Datei* → *Beenden*. Das Programm wird beendet. Falls Änderungen an der Punktmenge vorgenommen wurden, werden Sie zuvor gefragt, ob die bestehende Punktmenge in einer Datei gespeichert werden soll.
+Wählen Sie *Datei* → *Beenden*. Das Programm wird beendet. Falls zuvor Änderungen an der Punktmenge vorgenommen wurden, werden Sie gefragt, ob die bestehende Punktmenge in einer Datei gespeichert werden soll.
 Sie können das Programm ebenfalls beenden, indem Sie auf das Kreuz in der oberen rechten Ecke des Hauptfensters klicken.
 
 &nbsp;
@@ -113,7 +113,7 @@ Wählen Sie *Bearbeiten*  → *Rückgängig*. Der entsprechende Menü-Eintrag wi
 Wählen Sie *Bearbeiten*  → *Wiederherstellen*. Der entsprechende Menü-Eintrag wird matt dargestellt, falls es keine Befehle gibt, die wiederhergestellt werden können.
 
 ##### Zufällig erzeugte Punkte einfügen
-Sie können 10, 50, 100, 500 oder 1000 Punkte mit Hilfe einer Zufallsfunktion erzeugen. Diese Funktion sorgt dafür, dass die Punkte in den sichtbaren Bereich der Zeichenfläche eingetragen werden. Wählen Sie dazu im Menü *Bearbeiten* den entsprechenden Eintrag. Falls es der sichtbare Bereich der Zeichenfläche nicht zulässt, dass eine gewisse Anzahl an zufällig erzeugten Punkten eingetragen wird weil er zu klein ist oder weil sich dort schon zu viele Punkte befinden, so wird der Befehl ignoriert.
+Sie können 10, 50, 100, 500 oder 1000 Punkte mit Hilfe einer Zufallsfunktion erzeugen. Diese Funktion sorgt dafür, dass die Punkte in den sichtbaren Bereich der Zeichenfläche eingetragen werden. Wählen Sie dazu im Menü *Bearbeiten* den entsprechenden Eintrag. Falls es der sichtbare Bereich der Zeichenfläche nicht zulässt, dass eine gewisse Anzahl an zufällig erzeugten Punkten eingetragen wird weil er zu klein ist oder weil sich dort schon zu viele Punkte befinden, wird der Befehl ignoriert.
 
 &nbsp;
 

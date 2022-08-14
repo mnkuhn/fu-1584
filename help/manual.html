@@ -209,9 +209,10 @@ zu vergrössern bzw. zu verkleinern.</p>
 <p>   </p>
 <h2 id="die-grafische-benutzeroberfläche">Die grafische
 Benutzeroberfläche</h2>
-<p>Die grafische Benutzeroberfläche besteht aus der Menüleiste, der
-Zeichenfläche und der Statusleiste, so wie in der Abbildung dargestellt.
-<img src="images/GUI_general.png" alt="GUI_allg.png" /></p>
+<p>Die grafische Benutzeroberfläche besteht aus der Menüleiste, dem
+sichtbaren Bereich der Zeichenfläche und der Statusleiste, so wie in der
+Abbildung dargestellt. <img src="images/GUI_general.png"
+alt="GUI_allg.png" /></p>
 <p> </p>
 <h3 id="die-zeichenfläche">Die Zeichenfläche</h3>
 <p>Die Zeichenfläche stellt die Punktmenge, die konvexe Hülle, den
@@ -224,14 +225,13 @@ href="#ausschnitt-der-zeichenfläche-vergrössern-oder-verkleinern">Hinein-
 bzw. Hinauszoomen</a> kann der sichtbare Bereich verändert werden.</p>
 <h4 id="darstellung-der-elemente">Darstellung der Elemente</h4>
 <h5 id="punkte">Punkte</h5>
-<p>Punkte werden schwarz gefüllte Kreise dargestellt.</p>
+<p>Punkte werden als schwarz gefüllte Kreise dargestellt.</p>
 <h5 id="konvexe-hülle">Konvexe Hülle</h5>
-<p>Die konvexe Hülle erscheint als ein rotes, konvexes Polygon. Konkret
-werden zwei Punkte der konvexen Hülle durch eine rote Gerade verbunden
-und alle Punkte, die durch eine rote Gerade verbunden sind, gehören zur
-konvexen Hülle. Die Konvexe Hülle kann aus nur einem Punkt oder einer
-Geraden bestehen, falls die entsprechende Punktmenge nur aus einem bzw.
-aus zwei Punkten besteht.</p>
+<p>Die konvexe Hülle wird durch ein aus roten Geraden bestehenden
+Polygon angezeigt. Die Punkte, welche mit einer roten Geraden verbunden
+sind, bilden die konvexe Hülle. Die Konvexe Hülle kann aus nur einem
+Punkt oder einer Geraden bestehen, falls die entsprechende Punktmenge
+nur aus einem bzw. aus zwei Punkten besteht.</p>
 <h5 id="durchmesser">Durchmesser</h5>
 <p>Der Durchmesser wird durch eine blaue Gerade angezeigt. Er kann auch
 nur als Punkt dargestellt werden, falls die Punktmenge nur einen Punkt
@@ -290,8 +290,8 @@ wird, schon ein anderer Punkt, so wird dieser Punkt gelöscht. Die Anzahl
 der Punkte - angezeigt nach dem Label “Anzahl Punkte:” - reduziert sich
 dann um 1. Wird der Befehl <a
 href="#befehl-rückgängig-machen">rückgängig gemacht</a>, so wird der
-verschobene Punkt wieder an seinem ursprünglichen Ort eingetragen und
-ein allfälliger gelöschter Punkt wird wieder hinzugefügt.</p>
+verschobene Punkt wieder an seinem ursprünglichen Ort bewegt und ein
+allfälliger gelöschter Punkt wird wieder hinzugefügt.</p>
 <p>Eine weitere Möglichkeit, die Punkmenge zu bearbeiten, bietet das
 Bearbeiten-Menü. Mit Hilfe dieses Menüs können Sie <a
 href="#zufällig-erzeugte-punkte-einfügen">zufällig erzeugte Punkte in
@@ -311,17 +311,17 @@ Mausrades je nach Drehrichtung hinein- bzw. hinauszoomen.</p>
 <h3 id="die-menüleiste">Die Menüleiste</h3>
 <h4 id="das-datei-menü">Das Datei-Menü</h4>
 <h5 id="neue-zeichenfläche-erzeugen">Neue Zeichenfläche erzeugen</h5>
-<p>Wählen Sie <em>Datei</em> → <em>Neu</em>. Falls Änderungen an der
-Punktmenge vorgenommen wurden, werden Sie zuvor gefragt, ob die
-bestehende Punktmenge in einer Datei gespeichert werden soll.</p>
+<p>Wählen Sie <em>Datei</em> → <em>Neu</em>. Falls zuvor Änderungen an
+der Punktmenge vorgenommen wurden, werden Sie gefragt, ob die bestehende
+Punktmenge in einer Datei gespeichert werden soll.</p>
 <h5 id="datei-öffnen">Datei öffnen</h5>
 <p>Wählen Sie <em>Datei</em> → <em>Öffnen</em>. Nun können Sie die
-gewünschte Datei auswählen und öffnen. Falls Änderungen an der
-Punktmenge vorgenommen wurden, werden Sie zuvor gefragt, ob die
-bestehende Punktmenge in einer Datei gespeichert werden soll. Die
-Punktmenge der Datei wird nach dem öffnen zentriert dargestellt, falls
-es intern nicht zu einem Überlauf kommen kann. Ansonsten wird die
-Punktmenge nicht zentriert dargestellt.</p>
+gewünschte Datei auswählen und öffnen. Falls zuvor Änderungen an der
+Punktmenge vorgenommen wurden, werden Sie gefragt, ob die bestehende
+Punktmenge in einer Datei gespeichert werden soll. Die Punktmenge der
+Datei wird nach dem öffnen zentriert dargestellt, falls es intern nicht
+zu einem Überlauf kommen kann. Ansonsten wird die Punktmenge nicht
+zentriert dargestellt.</p>
 <h5 id="datei-speichern">Datei speichern</h5>
 <p>Falls Sie die Punktmenge in einer neuen Datei speichern möchten,
 wählen Sie <em>Datei</em> → <em>Speichern unter</em>. Nun können Sie
@@ -332,8 +332,8 @@ geladen haben und die geänderte Punktmenge in der schon geöffneten Datei
 abgespeichert werden soll.</p>
 <h5 id="programm-beenden">Programm Beenden</h5>
 <p>Wählen Sie <em>Datei</em> → <em>Beenden</em>. Das Programm wird
-beendet. Falls Änderungen an der Punktmenge vorgenommen wurden, werden
-Sie zuvor gefragt, ob die bestehende Punktmenge in einer Datei
+beendet. Falls zuvor Änderungen an der Punktmenge vorgenommen wurden,
+werden Sie gefragt, ob die bestehende Punktmenge in einer Datei
 gespeichert werden soll. Sie können das Programm ebenfalls beenden,
 indem Sie auf das Kreuz in der oberen rechten Ecke des Hauptfensters
 klicken.</p>
@@ -356,8 +356,8 @@ den sichtbaren Bereich der Zeichenfläche eingetragen werden. Wählen Sie
 dazu im Menü <em>Bearbeiten</em> den entsprechenden Eintrag. Falls es
 der sichtbare Bereich der Zeichenfläche nicht zulässt, dass eine gewisse
 Anzahl an zufällig erzeugten Punkten eingetragen wird weil er zu klein
-ist oder weil sich dort schon zu viele Punkte befinden, so wird der
-Befehl ignoriert.</p>
+ist oder weil sich dort schon zu viele Punkte befinden, wird der Befehl
+ignoriert.</p>
 <p> </p>
 <h4 id="das-ansicht-menü">Das Ansicht-Menü</h4>
 <h5 id="konturpolygon-anzeigen">Konturpolygon anzeigen</h5>
