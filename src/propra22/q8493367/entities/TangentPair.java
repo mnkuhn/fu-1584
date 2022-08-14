@@ -169,6 +169,9 @@ public class TangentPair {
 	 */
 	private void increaseAngle() {
 		angle += delta;
+		if(angle > 2 * Math.PI) {
+			angle = angle - 2 * Math.PI;
+		}
 	}
 	
 	
