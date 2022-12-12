@@ -3,3 +3,10 @@ bin
 *.jar
 doc
 .svn
+.settings/
+FU_Kuhn_Manuel.iml
+.idea
+target/
+.classpath
+
+

@@ -27,8 +27,6 @@ import gui.IDrawPanelListener;
 import gui.IMainWindowListener;
 import gui.MainWindow;
 import gui.StatusBar;
-import propra22.interfaces.IHullCalculator;
-import propra22.tester.Tester;
 import usecases.FileSettings;
 import util.IParser;
 import util.ParserFactory;
@@ -98,18 +96,13 @@ public class Main {
 	 *
 	 * @param args the command line arguments
 	 */
-	public static  void main(String[] args) {
-		if(args.length > 0  && "-t".equals(args[0])) {
-        	IHullCalculator calculator = new HullCalculator();
-        	Tester tester = new Tester(args, calculator);
-        	System.out.println(tester.test());
-        }
-        else {
-        	SwingUtilities.invokeLater(new Runnable() {
-		      public void run() {
-		        createAndShowGUI();
-		      }
-        	}); 	
-        }
+	public static void main(String[] args) {
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				createAndShowGUI();
+			}
+		});
+
 	}
 }
