@@ -1,12 +1,10 @@
 bin
 *.class
 *.jar
-doc
+doc/
 .svn
 .settings/
 FU_Kuhn_Manuel.iml
 .idea
 target/
 .classpath
-
-
