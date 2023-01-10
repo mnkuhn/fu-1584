@@ -12,7 +12,7 @@ import java.awt.Color;
 public class GUISettings {
 	
 	/**  The title of the application. */
-	public static final String title = new String("Convex Hull Calculator - Manuel Kuhn - 8493367");
+	public static final String title = new String("Convex Hull Calculator");
 	
 	//Colors
 	/**  The color used for the convex hull. */
